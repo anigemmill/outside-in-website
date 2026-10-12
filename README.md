@@ -155,7 +155,7 @@ Reduced-motion users see the finished logo with no movement. Timings are in the 
 
 Supporting tokens: Purple Ink `#4F3ACB` (links, 7.5:1 on white), Red Ink `#B8320D` (small red text), Lilac `#E6E0FC` (hover fills), Ink Soft `#4B4556` (secondary text), Ink Deep `#1F1A29` (Inside view).
 
-**The colour-cycling hero.** The homepage hero flips to the next pair every few seconds, at the moment the logo's slices snap whole, so the change feels cut-in. The pairs are set in `src/pages/index.astro` (`.hero[data-pair='0']` to `'3'`); the interval is in `src/scripts/site.ts`. It pauses when the hero is off screen, while someone is moving over the mark, and for reduced-motion users.
+**The colour-cycling hero.** The homepage hero flips to the next pair every 1.6 seconds with a near-instant cut, at the moment the logo's slices snap whole, so the change feels cut-in. The pairs are set in `src/pages/index.astro` (`.hero[data-pair='0']` to `'3'`); the interval is in `src/scripts/site.ts`. It pauses when the hero is off screen, while someone is moving over the mark, and for reduced-motion users.
 
 **Contrast.** Ink reads on all four colours (4.6:1 or more) and is used for every piece of text on colour. The colour pairs themselves are 2 to 3:1, so they are only for the logo and big colour fields, never for text.
 

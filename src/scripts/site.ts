@@ -12,7 +12,7 @@ function setView(view: 'outside' | 'inside', persist = true) {
     btn.setAttribute('aria-checked', String(view === 'inside'));
   });
   const meta = document.querySelector('meta[name="theme-color"]');
-  meta?.setAttribute('content', view === 'inside' ? '#132e1a' : '#ebeae4');
+  meta?.setAttribute('content', view === 'inside' ? '#2e1025' : '#bdeba5');
   if (persist) {
     try { localStorage.setItem('oi-view', view); } catch { /* storage unavailable: fine */ }
   }
@@ -97,17 +97,22 @@ if ('IntersectionObserver' in window && !reduceMotion.matches) {
   slices.forEach((s) => s.classList.add('is-open'));
 }
 
-/* ---------- Interactive logo (hero): the slice follows the pointer ---------- */
+/* ---------- Interactive logo (hero) ----------
+   1. Plays the intro (CSS), then hands control to the pointer.
+   2. The slice follows the pointer across the hero.
+   3. While idle and on screen, it gives a short "blink" every few seconds. */
 document.querySelectorAll<SVGSVGElement>('[data-logo="interactive"]').forEach((logo) => {
   const zone = logo.closest<HTMLElement>('[data-logo-zone]') ?? logo.parentElement!;
-  // Let the opening animation finish before handing control to the pointer.
-  const release = () => logo.classList.remove('oi-logo--load');
+  let introDone = false;
+  const release = () => { if (!introDone) { introDone = true; logo.classList.remove('oi-logo--load'); } };
   logo.querySelector('.oi-slice--i')?.addEventListener('animationend', release, { once: true });
-  setTimeout(release, 1600);
+  setTimeout(release, 2200);
   if (reduceMotion.matches) return;
-  const fine = window.matchMedia('(pointer: fine)').matches;
+
   let raf = 0;
+  let lastMove = 0;
   const update = (clientX: number) => {
+    lastMove = Date.now();
     cancelAnimationFrame(raf);
     raf = requestAnimationFrame(() => {
       const r = zone.getBoundingClientRect();
@@ -117,13 +122,26 @@ document.querySelectorAll<SVGSVGElement>('[data-logo="interactive"]').forEach((l
     });
   };
   const reset = () => logo.style.setProperty('--oi-k', '1');
-  if (fine) {
+  if (window.matchMedia('(pointer: fine)').matches) {
     zone.addEventListener('pointermove', (e) => update(e.clientX));
     zone.addEventListener('pointerleave', reset);
   } else {
     zone.addEventListener('touchmove', (e) => update(e.touches[0].clientX), { passive: true });
     zone.addEventListener('touchend', reset);
   }
+
+  // Idle pulse, only while visible and nobody is steering it.
+  let visible = true;
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(([en]) => { visible = en.isIntersecting; }).observe(logo);
+  }
+  const pulse = () => {
+    if (!introDone || !visible || document.hidden || Date.now() - lastMove < 3000) return;
+    logo.style.setProperty('--oi-k', '1');
+    logo.classList.add('oi-logo--pulse');
+    logo.querySelector('.oi-slice--i')?.addEventListener('animationend', () => logo.classList.remove('oi-logo--pulse'), { once: true });
+  };
+  window.setInterval(pulse, 6000);
 });
 
 export {};

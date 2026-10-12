@@ -63,10 +63,10 @@ const next = [
   .contact__h { margin-bottom: 1.5rem; }
   .contact__side { display: grid; gap: 1rem; }
   .contact__card { display: grid; gap: 0.75rem; justify-items: start; padding: 1.5rem; border: 1px solid var(--line); border-radius: var(--radius); }
-  .contact__card--call { background: var(--ink); color: var(--cream); border-color: var(--ink); }
-  .contact__card--call .eyebrow { color: rgba(235,234,228,.7); }
-  :root[data-view='inside'] .contact__card--call { background: var(--cream); color: var(--ink); }
-  :root[data-view='inside'] .contact__card--call .eyebrow { color: var(--ash); }
+  .contact__card--call { background: var(--plum); color: var(--mint); border-color: var(--plum); --fill: var(--lilac); }
+  .contact__card--call .eyebrow { color: var(--lilac); --accent: var(--lilac); }
+  :root[data-view='inside'] .contact__card--call { background: var(--mint); color: var(--plum); }
+  :root[data-view='inside'] .contact__card--call .eyebrow { color: var(--plum-soft); --accent: var(--plum); }
   .contact__email { font-family: var(--font-display); font-weight: 600; font-size: var(--step-1); overflow-wrap: anywhere; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
   .contact__email:hover { color: var(--link); }
   .next-steps { display: grid; gap: 1rem; padding: 0; }

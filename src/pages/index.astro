@@ -6,6 +6,7 @@ import SliceText from '../components/SliceText.astro';
 import Note from '../components/Note.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import BookingLink from '../components/BookingLink.astro';
+import Stickers from '../components/Stickers.astro';
 import { services } from '../data/services';
 import { home } from '../data/home';
 import { site } from '../config/site';
@@ -35,8 +36,11 @@ const hasConcepts = featured.some((p) => p.data.status === 'concept');
         </Note>
       </div>
       <div class="hero__mark">
-        <Logo id="oi-hero" animate="load" interactive decorative class="hero__logo" />
-        <p class="hero__hint mono" aria-hidden="true"><span class="hint-fine">Move across the mark</span><span class="hint-touch">Drag across the mark</span>. The slice is the idea: same business, shifted view.</p>
+        <div class="hero__stage">
+          <Logo id="oi-hero" animate="load" interactive decorative class="hero__logo" />
+          <Stickers />
+        </div>
+        <p class="hero__hint mono" aria-hidden="true"><span class="hint-fine">Move across the mark, drag the stickers</span><span class="hint-touch">Drag across the mark, move the stickers</span>. The slice is the idea: same business, shifted view.</p>
       </div>
     </div>
   </section>
@@ -182,26 +186,28 @@ const hasConcepts = featured.some((p) => p.data.status === 'concept');
   .hero__line { display: block; }
   .hero__lede { max-width: 44ch; }
   .hero__mark { display: grid; gap: 1rem; justify-items: center; cursor: ew-resize; touch-action: pan-y; }
-  :global(.hero__logo) { width: min(100%, 560px); color: var(--fg); }
+  .hero__stage { position: relative; width: min(100%, 560px); padding-block: 14%; }
+  :global(.hero__logo) { width: 100%; color: var(--fg); }
   .hero__hint { color: var(--muted); max-width: 34ch; text-align: center; font-size: 0.75rem; }
   .hint-touch { display: none; }
   @media (pointer: coarse) { .hint-touch { display: inline; } .hint-fine { display: none; } }
   @media (max-width: 860px) {
     .hero__grid { grid-template-columns: 1fr; }
     .hero__mark { order: -1; justify-items: start; }
-    :global(.hero__logo) { width: min(62%, 280px); }
+    .hero__stage { width: min(68%, 300px); padding-block: 9% 11%; }
+    .hero__hint { display: none; }
     .hero__hint { text-align: left; }
   }
 
   /* Ticker */
-  .ticker { background: var(--cobalt); color: var(--lime); overflow: hidden; padding-block: 1.1rem; }
-  :root[data-view='inside'] .ticker { background: var(--pink); color: var(--ink); }
+  .ticker { background: var(--plum); color: var(--mint); overflow: hidden; padding-block: 1.1rem; }
+  :root[data-view='inside'] .ticker { background: var(--lilac); color: var(--plum); }
   .ticker__track { display: flex; width: max-content; animation: ticker 48s linear infinite; }
   .ticker:hover .ticker__track { animation-play-state: paused; }
   .ticker__list { display: flex; gap: 0; padding: 0; }
   .ticker__list li { white-space: nowrap; font-family: var(--font-display); font-weight: 700; font-size: var(--step-1); padding-inline: 1.4rem; display: flex; align-items: center; gap: 2.8rem; }
-  .ticker__list li::after { content: ''; width: 0.9rem; height: 0.32rem; background: var(--ink); box-shadow: 0.42rem 0 0 var(--ink); transform: translateX(0.7rem); }
-  :root[data-view='inside'] .ticker__list li::after { background: var(--ink); box-shadow: 0.42rem 0 0 var(--ink); }
+  .ticker__list li::after { content: ''; width: 0.9rem; height: 0.32rem; background: var(--lilac); box-shadow: 0.42rem 0 0 var(--lilac); transform: translateX(0.7rem); }
+  :root[data-view='inside'] .ticker__list li::after { background: var(--plum); box-shadow: 0.42rem 0 0 var(--plum); }
   @keyframes ticker { to { transform: translateX(-50%); } }
   @media (prefers-reduced-motion: reduce) {
     .ticker__track { animation: none; width: auto; flex-wrap: wrap; }
@@ -216,8 +222,8 @@ const hasConcepts = featured.some((p) => p.data.status === 'concept');
 
   /* Capabilities */
   .axis { display: flex; align-items: center; gap: 1rem; font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; }
-  .axis__line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--cobalt), var(--vermilion), var(--forest)); height: 3px; position: relative; }
-  :root[data-view='inside'] .axis__line { background: linear-gradient(90deg, var(--lime), var(--vermilion), var(--pink)); }
+  .axis__line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--sage), var(--mauve), var(--plum)); height: 3px; position: relative; }
+  :root[data-view='inside'] .axis__line { background: linear-gradient(90deg, var(--mint), var(--lilac), var(--mauve)); }
   .caps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--line); counter-reset: none; padding: 0; }
   .cap { border-bottom: 1px solid var(--line); }
   .cap + .cap { border-left: 1px solid var(--line); }
@@ -226,11 +232,10 @@ const hasConcepts = featured.some((p) => p.data.status === 'concept');
   .cap__name { font-size: var(--step-3); letter-spacing: -0.03em; }
   .cap__short { max-width: 32ch; }
   .cap__more { color: var(--link); margin-top: 0.5rem; }
-  .cap--design-creative .cap__link:hover { background: var(--cobalt); color: var(--ink); }
-  .cap--design-creative .cap__link:hover .cap__name { color: var(--lime); }
-  .cap--marketing-growth .cap__link:hover { background: var(--vermilion); color: var(--ink); }
-  .cap--ai-systems .cap__link:hover { background: var(--forest); color: var(--cream); }
-  .cap--ai-systems .cap__link:hover .cap__name { color: var(--pink); }
+  .cap--design-creative .cap__link:hover { background: var(--mint-light); color: var(--plum); }
+  .cap--marketing-growth .cap__link:hover { background: var(--lilac); color: var(--plum); }
+  .cap--ai-systems .cap__link:hover { background: var(--plum); color: var(--mint); }
+  .cap--ai-systems .cap__link:hover .cap__name { color: var(--lilac); }
   .cap__link:hover .cap__num, .cap__link:hover .cap__more { color: inherit; }
   @media (max-width: 860px) {
     .caps { grid-template-columns: 1fr; }
@@ -247,18 +252,18 @@ const hasConcepts = featured.some((p) => p.data.status === 'concept');
   @media (max-width: 860px) { .work-grid > :global(*) { grid-column: 1 / -1 !important; margin-top: 0 !important; } }
 
   /* Joins */
-  .joins { background: var(--forest); color: var(--cream); --muted: var(--cream); --line: rgba(235, 234, 228, 0.28); --link: var(--cream); --accent: var(--pink); }
-  .joins h2 { color: var(--pink); }
-  :root[data-view='inside'] .joins { background: var(--forest-mid); }
-  .joins .eyebrow { color: var(--cream); }
+  .joins { background: var(--plum); color: var(--mint); --fg: var(--mint); --muted: var(--lilac); --line: rgba(189, 235, 165, 0.25); --link: var(--mint); --accent: var(--lilac); }
+  .joins h2 { color: var(--lilac); }
+  :root[data-view='inside'] .joins { background: var(--plum); }
+  .joins .eyebrow { color: var(--lilac); }
   .scenario { border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(1.25rem, 3vw, 2.5rem); }
   .scenario__brief { font-family: var(--font-display); font-weight: 600; font-size: var(--step-2); line-height: 1.15; letter-spacing: -0.02em; max-width: 30ch; margin-bottom: 2rem; }
-  .scenario__brief .mono { display: block; font-weight: 400; color: var(--cream); margin-bottom: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; }
+  .scenario__brief .mono { display: block; font-weight: 400; color: var(--lilac); margin-bottom: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; }
   .scenario__steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gutter); padding: 0; }
-  .scenario__steps li { border-top: 2px solid var(--cream); padding-top: 1rem; display: grid; gap: 0.5rem; align-content: start; }
-  .scenario__steps li:first-child { border-color: var(--lime); }
-  .scenario__steps li:last-child { border-color: var(--pink); }
-  .scenario__layer { color: var(--cream); text-transform: uppercase; letter-spacing: 0.06em; }
+  .scenario__steps li { border-top: 2px solid var(--mint); padding-top: 1rem; display: grid; gap: 0.5rem; align-content: start; }
+  .scenario__steps li:first-child { border-color: var(--lilac); }
+  .scenario__steps li:last-child { border-color: var(--sage); }
+  .scenario__layer { color: var(--lilac); text-transform: uppercase; letter-spacing: 0.06em; }
   .scenario__close { margin-top: 2rem; max-width: 60ch; }
   @media (max-width: 860px) { .scenario__steps { grid-template-columns: 1fr; } }
 
@@ -270,18 +275,11 @@ const hasConcepts = featured.some((p) => p.data.status === 'concept');
   @media (max-width: 760px) { .beliefs { grid-template-columns: 1fr; } }
 
   /* Flip */
-  .flip { background: var(--pink); color: var(--ink); --accent-fg: var(--ink); }
-  :root[data-view='inside'] .flip { background: var(--lime); color: var(--ink); }
-  .flip .eyebrow { color: var(--ink); }
-  .flip .eyebrow::before { background: var(--ink); box-shadow: 0.42em 0 0 var(--ink); }
-  .flip__inner { display: grid; grid-template-columns: 1.4fr 1fr; gap: var(--gutter); align-items: end; }
+  .flip { background: var(--lilac); color: var(--plum); --fg: var(--plum); --bg: var(--lilac); --accent: var(--plum); --fill: var(--mint); --fill-fg: var(--plum); --muted: var(--plum-soft); }
+  :root[data-view='inside'] .flip { background: var(--mint); --bg: var(--mint); --fill: var(--lilac); }
+  .flip .eyebrow { color: var(--plum); }
+    .flip__inner { display: grid; grid-template-columns: 1.4fr 1fr; gap: var(--gutter); align-items: end; }
   .flip__inner > div:first-child { display: grid; gap: 1rem; }
-  .flip .btn--accent { --btn-bg: var(--ink); --btn-fg: var(--cream); }
-  .flip .btn--accent::before { background: var(--lime); opacity: 1; top: 0; height: 100%; }
-  .flip .btn--accent:hover { color: var(--ink); }
-  .flip .btn--ghost { --btn-fg: var(--ink); border-color: var(--ink); }
-  .flip .btn--ghost::before { background: var(--ink); }
-  .flip .btn--ghost:hover { color: var(--cream); }
   .flip__label-in { display: none; }
   :root[data-view='inside'] .flip__label-in { display: inline; }
   :root[data-view='inside'] .flip__label-out { display: none; }

@@ -9,34 +9,33 @@
 
 :root {
   /* Palette ------------------------------------------------------------
-     Three pairings, one per discipline, plus the logo's ink:
-       Cobalt + Lime     Design & Creative  (the outside)
-       Cream + Vermilion Marketing & Growth (between), and the site's base
-       Forest + Pink     AI & Systems       (the inside), and the Inside view
-     Each pairing is about 3:1, so the coloured-on-colour combinations are for
-     large type and colour fields. Small text uses ink or cream (see README). */
-  --ink: #121110;            /* the logo's black */
-  --cream: #ebeae4;          /* base background */
-  --stone: #dddbd2;          /* quiet surface on cream */
-  --ash: #55534d;            /* secondary text on cream */
-  --vermilion: #da613d;      /* dominant accent; ink on vermilion 5.2:1 */
-  --vermilion-ink: #a8441f;  /* vermilion for small text and links on cream (5:1) */
-  --cobalt: #3d7fd3;         /* ink on cobalt 4.7:1 */
-  --lime: #e0e66b;           /* on cobalt (large), on ink, or as a fill */
-  --forest: #31733f;         /* cream on forest 4.8:1 */
-  --forest-deep: #132e1a;    /* Inside view background */
-  --forest-mid: #1e4727;     /* Inside view surfaces */
-  --pink: #e5b5cd;           /* on forest (large), on ink, or as a fill */
+     A two-colour system, mint and plum, with three supporting tones:
+       Mint   Design & Creative (the outside) and the site's base
+       Lilac  Marketing & Growth (between); also pills and hover fills
+       Plum   AI & Systems (the inside), all text, and the logo
+     Plum on mint is 10:1 and plum on lilac 8:1, so text works on every surface.
+     Sage and mauve are decorative or large-type only (about 3:1 on mint). */
+  --plum: #4a1c3c;           /* text, logo, primary buttons */
+  --plum-deep: #2e1025;      /* Inside view background */
+  --plum-soft: #6b4a63;      /* secondary text on mint (5.6:1) and lilac (4.6:1) */
+  --mint: #bdeba5;           /* base background */
+  --mint-light: #d8f4c8;     /* lighter mint for hovers and quiet surfaces */
+  --lilac: #d2c4dc;          /* pills, fills, Marketing & Growth */
+  --sage: #6f8269;           /* decorative accent */
+  --mauve: #8d6e86;          /* decorative accent: the headline slice */
+  --ink: #121110;            /* the original logo black, kept for exported files */
 
   /* Roles (swapped by the Inside view) */
-  --bg: var(--cream);
-  --fg: var(--ink);
-  --muted: var(--ash);
-  --surface: var(--stone);
-  --line: color-mix(in srgb, var(--fg) 16%, transparent);
-  --accent: var(--vermilion);
-  --accent-fg: var(--ink);
-  --link: var(--vermilion-ink);
+  --bg: var(--mint);
+  --fg: var(--plum);
+  --muted: var(--plum-soft);
+  --surface: var(--lilac);
+  --line: color-mix(in srgb, var(--fg) 22%, transparent);
+  --accent: var(--plum);       /* markers, underlines, numbers */
+  --fill: var(--lilac);        /* pill fills and hover sweeps */
+  --fill-fg: var(--plum);
+  --slice: var(--mauve);       /* colour of the shifted band in headlines */
+  --link: var(--plum);
 
   /* Type ------------------------------------------------------------------ */
   --font-display: 'Bricolage Grotesque Variable', 'Arial Narrow', system-ui, sans-serif;
@@ -55,7 +54,8 @@
   --gutter: clamp(1rem, 0.6rem + 2vw, 2.5rem);
   --section: clamp(4.5rem, 3rem + 7vw, 10rem);
   --max: 1440px;
-  --radius: 4px;
+  --radius: 16px;      /* panels and cards */
+  --pill: 999px;       /* buttons, tags, filters */
 
   /* Motion ------------------------------------------------------------------ */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
@@ -67,14 +67,16 @@
 
 /* The Inside view: same site, seen from the systems side. */
 :root[data-view='inside'] {
-  --bg: var(--forest-deep);
-  --fg: var(--cream);
-  --muted: #c3c9bf;
-  --surface: var(--forest-mid);
-  --line: color-mix(in srgb, var(--fg) 18%, transparent);
-  --accent: var(--pink);
-  --accent-fg: var(--ink);
-  --link: var(--lime);
+  --bg: var(--plum-deep);
+  --fg: var(--mint);
+  --muted: var(--lilac);
+  --surface: var(--plum);
+  --line: color-mix(in srgb, var(--fg) 20%, transparent);
+  --accent: var(--lilac);
+  --fill: var(--mint);
+  --fill-fg: var(--plum);
+  --slice: var(--lilac);
+  --link: var(--mint);
   color-scheme: dark;
 }
 
@@ -103,18 +105,18 @@ a { color: inherit; }
 h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; text-wrap: balance; }
 p { text-wrap: pretty; }
 ul[role='list'], ol[role='list'] { list-style: none; padding: 0; }
-::selection { background: var(--vermilion); color: var(--ink); }
+::selection { background: var(--lilac); color: var(--plum); }
 
 :focus-visible {
-  outline: 3px solid var(--vermilion);
+  outline: 3px solid var(--plum);
   outline-offset: 3px;
   border-radius: 2px;
 }
-:root[data-view='inside'] :focus-visible { outline-color: var(--lime); }
+:root[data-view='inside'] :focus-visible { outline-color: var(--mint); }
 
 .skip-link {
   position: absolute; left: var(--gutter); top: -100px; z-index: 100;
-  background: var(--ink); color: var(--cream); padding: 0.75rem 1rem; text-decoration: none;
+  background: var(--plum); color: var(--mint); padding: 0.75rem 1rem; text-decoration: none; border-radius: var(--pill);
 }
 .skip-link:focus { top: 0.75rem; }
 
@@ -177,7 +179,7 @@ ul[role='list'], ol[role='list'] { list-style: none; padding: 0; }
   -webkit-mask-image: repeating-linear-gradient(to bottom, #000 0 calc(1lh * 0.46), transparent calc(1lh * 0.46) calc(1lh * 0.57), #000 calc(1lh * 0.57) 1lh);
           mask-image: repeating-linear-gradient(to bottom, #000 0 calc(1lh * 0.46), transparent calc(1lh * 0.46) calc(1lh * 0.57), #000 calc(1lh * 0.57) 1lh);
 }
-.slice--accent { color: var(--accent); }
+.slice--accent .slice__band { color: inherit; } /* set to var(--slice) to tint the shifted band */
 .js .slice[data-slice]:not(.is-open) .slice__band { transform: translateX(0); }
 .slice:hover .slice__band { transform: translateX(calc(var(--slice-shift) * 2.2)); }
 
@@ -197,35 +199,33 @@ ul[role='list'], ol[role='list'] { list-style: none; padding: 0; }
   background: var(--bg); transition: background-color 0.5s var(--ease-out);
 }
 
-/* Buttons ----------------------------------------------------------------- */
+/* Buttons -------------------------------------------------------------------
+   Pills, as on the brochure. On hover a fill sweeps in from the left.
+   --------------------------------------------------------------------------- */
 .btn {
   --btn-bg: var(--fg);
   --btn-fg: var(--bg);
   position: relative; isolation: isolate;
   display: inline-flex; align-items: center; justify-content: center; gap: 0.7em;
-  min-height: 3.25rem; padding: 0.85rem 1.4rem;
+  min-height: 3.25rem; padding: 0.85rem 1.5rem;
   background: var(--btn-bg); color: var(--btn-fg);
-  border: 1.5px solid var(--btn-bg); border-radius: var(--radius);
+  border: 1.5px solid var(--btn-border, var(--btn-bg)); border-radius: var(--pill);
   font-family: var(--font-body); font-weight: 600; font-size: var(--step-0); line-height: 1;
   text-decoration: none; letter-spacing: -0.005em;
   overflow: hidden;
-  transition: background-color 0.3s var(--ease-out), color 0.3s var(--ease-out), border-color 0.3s var(--ease-out);
+  transition: color 0.3s var(--ease-out), border-color 0.3s var(--ease-out);
 }
-.btn::before { /* the slice that sweeps across on hover */
-  content: ''; position: absolute; z-index: -1; left: 0; right: 0; top: 34%; height: 32%;
-  background: var(--accent); transform: translateX(-101%);
+.btn::before {
+  content: ''; position: absolute; z-index: -1; inset: 0;
+  background: var(--fill); transform: translateX(-101%);
   transition: transform 0.45s var(--ease-out);
 }
 .btn:hover::before, .btn:focus-visible::before { transform: translateX(0); }
-/* Non-accent buttons fill completely, so text colour can flip cleanly. */
-.btn:not(.btn--accent)::before { top: 0; height: 100%; }
-.btn:not(.btn--accent):hover, .btn:not(.btn--accent):focus-visible { color: var(--accent-fg); }
+.btn:hover, .btn:focus-visible { color: var(--fill-fg); border-color: var(--fill-fg); }
 .btn .btn__arrow { transition: transform 0.35s var(--ease-out-back); }
 .btn:hover .btn__arrow { transform: translateX(4px); }
-.btn--accent { --btn-bg: var(--vermilion); --btn-fg: var(--ink); }
-.btn--accent::before { background: var(--ink); opacity: 0.14; }
-.btn--ghost { --btn-bg: transparent; --btn-fg: var(--fg); border-color: var(--fg); }
-.btn--ghost::before { background: var(--accent); }
+.btn--accent { --btn-bg: var(--fg); --btn-fg: var(--bg); }
+.btn--ghost { --btn-bg: transparent; --btn-fg: var(--fg); --btn-border: var(--fg); }
 
 .btn[disabled] { opacity: 0.6; cursor: progress; }
 .btn-row { display: flex; flex-wrap: wrap; gap: 0.75rem; }
@@ -234,11 +234,10 @@ ul[role='list'], ol[role='list'] { list-style: none; padding: 0; }
 .tag {
   display: inline-flex; align-items: center; gap: 0.4em;
   font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase;
-  padding: 0.35em 0.6em; border: 1px solid var(--line); border-radius: 2px; line-height: 1.1;
+  padding: 0.4em 0.75em; border: 1px solid var(--line); border-radius: var(--pill); line-height: 1.1;
 }
 .tag--concept { background: var(--fg); color: var(--bg); border-color: var(--fg); }
-.tag--client { background: var(--forest); color: var(--cream); border-color: var(--forest); }
-.tag--lime { background: var(--lime); color: var(--ink); border-color: var(--lime); }
+.tag--client { background: var(--lilac); color: var(--plum); border-color: var(--lilac); }
 
 /* Inside-view notes ------------------------------------------------------------
    Each <aside class="note"> explains why a section exists. Hidden in the Outside
@@ -249,24 +248,24 @@ ul[role='list'], ol[role='list'] { list-style: none; padding: 0; }
   display: block;
   font-family: var(--font-mono); font-size: 0.8rem; line-height: 1.5;
   color: var(--fg);
-  border: 1px dashed color-mix(in srgb, var(--pink) 75%, transparent);
-  background: color-mix(in srgb, var(--forest-mid) 85%, var(--pink) 6%);
-  padding: 0.8rem 0.9rem; border-radius: 2px;
+  border: 1px dashed color-mix(in srgb, var(--lilac) 75%, transparent);
+  background: var(--plum);
+  padding: 0.8rem 0.95rem; border-radius: 12px;
   max-width: 46ch; margin-block: 1.25rem;
   animation: note-in 0.5s var(--ease-out) both;
 }
-.note__label { display: block; color: var(--lime); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.7rem; margin-bottom: 0.3rem; }
+.note__label { display: block; color: var(--mint); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.7rem; margin-bottom: 0.3rem; }
 @keyframes note-in { from { opacity: 0; transform: translateY(6px); } }
 
 /* Blueprint grid behind everything in the Inside view */
 :root[data-view='inside'] body {
   background-image:
-    linear-gradient(color-mix(in srgb, var(--cream) 6%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in srgb, var(--cream) 6%, transparent) 1px, transparent 1px);
+    linear-gradient(color-mix(in srgb, var(--mint) 7%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--mint) 7%, transparent) 1px, transparent 1px);
   background-size: 48px 48px;
   background-position: -1px -1px;
 }
-:root[data-view='inside'] .inside-outline { outline: 1px dashed color-mix(in srgb, var(--pink) 35%, transparent); outline-offset: 6px; }
+:root[data-view='inside'] .inside-outline { outline: 1px dashed color-mix(in srgb, var(--lilac) 35%, transparent); outline-offset: 6px; }
 
 /* Reveal on scroll ---------------------------------------------------------- */
 .js [data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out); transition-delay: var(--reveal-delay, 0s); }

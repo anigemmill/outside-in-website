@@ -126,22 +126,33 @@ Create a booking page in Cal.com, Calendly or Google Calendar appointment schedu
 
 ## The brand system
 
-**Logo.** `src/components/Logo.astro` rebuilds the supplied mark as live SVG from measured geometry: a ring and a bar, each cut by one horizontal slice shifted right. Its resting state is always the exact logo. The only animation moves the two slices horizontally (from 0 to their real offsets), so the shapes are never distorted. Static files for other uses are in `public/brand/` (black and white). Regenerate with `npm run og`.
+**Logo.** `src/components/Logo.astro` rebuilds the supplied mark as live SVG from measured geometry: a ring and a bar, each cut by one horizontal slice shifted right. On screen it is plum (or mint on dark), always one colour. Black, white, plum and mint files for other uses are in `public/brand/`. Regenerate with `npm run og`.
 
-**The slice.** The logo’s cut runs through the whole site: headline text, button hovers, card hovers, rules and the eyebrow markers.
+**Logo animation.** Built only from the mark's real parts, so the resting state is always the exact logo:
+1. Intro: the top halves of the O and I drop in, the bottom halves rise, then both slices fly in from outside the frame (the left) and lock into their offsets.
+2. Hover (header and footer logo links): the slices snap back to whole, then shift out again.
+3. Hero only: the slices follow the pointer (or a finger on touch screens), and every six seconds while idle and on screen the slices give a short blink.
+Reduced-motion users see the finished logo with no movement. Timings are in the `<style>` block of `Logo.astro`; the idle interval is in `src/scripts/site.ts`.
 
-**Colour.** Three colour pairings, one per discipline, around the logo's black and white:
+**Stickers.** Draggable pill stickers around the hero mark (`src/components/Stickers.astro`), naming things the studio does. Edit words, colours and positions in the list at the top of that file. They are decorative and hidden from screen readers.
 
-| Pairing | Hex | Discipline / role |
+**The slice.** The logo’s cut runs through the whole site: headline text, card hovers, rules and the eyebrow markers.
+
+**Colour.** A two-colour system, mint and plum, with three supporting tones:
+
+| Colour | Hex | Role |
 | --- | --- | --- |
-| Cobalt + Lime | `#3D7FD3` + `#E0E66B` | Design & Creative (the outside) |
-| Cream + Vermilion | `#EBEAE4` + `#DA613D` | Marketing & Growth (between); cream is the site’s base, vermilion the main accent |
-| Forest + Pink | `#31733F` + `#E5B5CD` | AI & Systems (the inside), and the Inside view |
-| Ink | `#121110` | The logo, text, footer |
+| Mint | `#BDEBA5` | Base background; Design & Creative (the outside) |
+| Plum | `#4A1C3C` | All text, the logo, primary buttons; AI & Systems (the inside) |
+| Lilac | `#D2C4DC` | Pills, hover fills, surfaces; Marketing & Growth (between) |
+| Sage | `#6F8269` | Decorative accent, stickers |
+| Mauve | `#8D6E86` | Decorative accent, stickers |
 
-Supporting tokens: Vermilion Ink `#A8441F` (small text and links on cream), Stone `#DDDBD2` (surfaces), Ash `#55534D` (secondary text), Forest Deep `#132E1A` and Forest Mid `#1E4727` (Inside view).
+Supporting tokens: Plum Soft `#6B4A63` (secondary text), Mint Light `#D8F4C8` (hovers), Plum Deep `#2E1025` (Inside view background).
 
-**Contrast rule.** Each coloured pair (lime on cobalt, vermilion on cream, pink on forest) is about 3:1. That passes for large, bold type and colour fields only. For body text use ink on cobalt, vermilion, lime or pink (4.7:1 or more), and cream on forest (4.8:1). The logo stays monochrome: black on cream, cobalt, lime, pink and vermilion; white on ink and forest.
+**Contrast.** Plum on mint is 10:1 and plum on lilac 8:1, so body text works on both. Mint on plum (10:1) and lilac on plum (8:1) work for the dark sections. Sage and mauve are about 3:1 with mint, so use them only for fills, decoration or large bold type.
+
+**Shapes.** Buttons, tags, filters and stickers are pills (`--pill`); cards and panels use a 16px radius (`--radius`).
 
 **Type.** Bricolage Grotesque (display), Instrument Sans (body), JetBrains Mono (labels and Inside-view notes). All self-hosted; no requests to Google.
 

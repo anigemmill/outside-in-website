@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="110 128 887 522" width="887" height="522" role="img" aria-label="Outside In">
+  <defs>
+    <clipPath id="mt"><rect x="0" y="0" width="1200" height="376"/></clipPath>
+    <clipPath id="mb"><rect x="0" y="433" width="1200" height="400"/></clipPath>
+    <clipPath id="ms"><rect x="0" y="376" width="1200" height="57"/></clipPath>
+  </defs>
+  <g fill="#121110">
+    <path d="M110,387a259.5,259.5 0 1,0 519,0a259.5,259.5 0 1,0 -519,0ZM176,387a193.5,193.5 0 1,0 387,0a193.5,193.5 0 1,0 -387,0Z" fill-rule="evenodd" clip-path="url(#mt)"/>
+    <path d="M110,387a259.5,259.5 0 1,0 519,0a259.5,259.5 0 1,0 -519,0ZM176,387a193.5,193.5 0 1,0 387,0a193.5,193.5 0 1,0 -387,0Z" fill-rule="evenodd" clip-path="url(#mb)"/>
+    <g transform="translate(73 0)"><path d="M110,387a259.5,259.5 0 1,0 519,0a259.5,259.5 0 1,0 -519,0ZM176,387a193.5,193.5 0 1,0 387,0a193.5,193.5 0 1,0 -387,0Z" fill-rule="evenodd" clip-path="url(#ms)"/></g>
+    <rect x="842" y="128" width="76" height="249"/>
+    <rect x="842" y="437" width="76" height="213"/>
+    <rect x="919" y="377" width="77" height="60"/>
+  </g></svg>

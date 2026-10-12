@@ -1,0 +1,97 @@
+---
+import '../styles/global.css';
+import displayFont from '@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-wdth-normal.woff2?url';
+import bodyFont from '@fontsource-variable/instrument-sans/files/instrument-sans-latin-wdth-normal.woff2?url';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site, outstandingPlaceholders } from '../config/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  noindex?: boolean;
+  /** Extra JSON-LD objects for this page */
+  schema?: Record<string, unknown>[];
+}
+
+const { title, description = site.seo.defaultDescription, image = site.seo.ogImage, noindex = false, schema = [] } = Astro.props;
+
+const pageTitle = title ? `${title} | ${site.name}` : site.seo.defaultTitle;
+const hasDomain = Boolean(site.url);
+const canonical = hasDomain ? new URL(Astro.url.pathname, site.url + '/').href : undefined;
+const ogImage = hasDomain ? new URL(image, site.url + '/').href : image;
+// Without a confirmed domain the site asks not to be indexed (safe for previews).
+const robots = noindex || !hasDomain ? 'noindex, nofollow' : 'index, follow';
+
+const orgSchema = hasDomain
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      name: site.name,
+      url: site.url,
+      logo: new URL('/brand/outside-in-logo.svg', site.url + '/').href,
+      ...(site.email.includes('your-domain') ? {} : { email: site.email }),
+      areaServed: 'NZ',
+      sameAs: Object.values(site.social).filter(Boolean),
+    }
+  : null;
+const jsonLd = [orgSchema, ...schema].filter(Boolean);
+const todo = import.meta.env.DEV ? outstandingPlaceholders() : [];
+---
+<!doctype html>
+<html lang="en-NZ" data-view="outside">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <meta name="theme-color" content="#f4f0e8" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preload" href={displayFont} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={bodyFont} as="font" type="font/woff2" crossorigin />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content="en_NZ" />
+    {canonical && <meta property="og:url" content={canonical} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    {jsonLd.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
+
+    <script is:inline>
+      // Restore the visitor's chosen view before first paint (no flash).
+      document.documentElement.classList.add('js');
+      try {
+        if (localStorage.getItem('oi-view') === 'inside') document.documentElement.dataset.view = 'inside';
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    {todo.length > 0 && (
+      <div class="dev-banner" role="note">
+        <strong>Dev only:</strong> still to supply: {todo.join(' · ')}. Edit <code>src/config/site.ts</code> or <code>.env</code>.
+      </div>
+    )}
+    <Header />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+
+    <script>
+      import '../scripts/site';
+    </script>
+    <style>
+      .dev-banner { background: #fff3a8; color: #121110; font: 12px/1.4 ui-monospace, monospace; padding: 6px 12px; }
+      main:focus { outline: none; }
+    </style>
+  </body>
+</html>

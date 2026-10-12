@@ -1,0 +1,62 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props { project: CollectionEntry<'work'>; size?: 'large' | 'normal'; headingLevel?: 'h2' | 'h3'; priority?: boolean }
+const { project, size = 'normal', headingLevel = 'h3', priority = false } = Astro.props;
+const d = project.data;
+const H = headingLevel;
+const imgOpts = d.cover.format === 'svg' ? {} : { widths: [640, 960, 1400], sizes: size === 'large' ? '(max-width: 860px) 100vw, 60vw' : '(max-width: 860px) 100vw, 40vw' };
+---
+<article class:list={['card', `card--${size}`]} data-reveal data-categories={d.categories.join(' ')}>
+  <a class="card__link" href={`/work/${project.id}/`}>
+    <div class="card__media" style={`view-transition-name: cover-${project.id}`}>
+      <Image src={d.cover} alt="" {...imgOpts} loading={priority ? 'eager' : 'lazy'} class="card__img" />
+      <Image src={d.cover} alt="" {...imgOpts} loading={priority ? 'eager' : 'lazy'} class="card__img card__img--band" aria-hidden="true" />
+      <span class="card__cta" aria-hidden="true">View project →</span>
+    </div>
+    <div class="card__body">
+      <div class="card__meta">
+        {d.status === 'concept'
+          ? <span class="tag tag--concept">Concept</span>
+          : <span class="tag tag--client">Client work</span>}
+        <span class="mono muted">{d.type}</span>
+      </div>
+      <H class="card__title">{d.title}</H>
+      <p class="card__summary">{d.summary}</p>
+    </div>
+  </a>
+</article>
+
+<style>
+  .card__link { display: grid; gap: 1.1rem; text-decoration: none; color: inherit; }
+  .card__media {
+    position: relative; overflow: hidden; aspect-ratio: 16 / 10; background: var(--surface);
+    border-radius: var(--radius);
+  }
+  .card--large .card__media { aspect-ratio: 16 / 11; }
+  .card__img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.9s var(--ease-out); }
+  /* The slice: a band of the cover shifts right on hover, like the logo. */
+  .card__img--band {
+    position: absolute; inset: 0;
+    clip-path: inset(46% 0 42% 0);
+    transform: translateX(0);
+    transition: transform 0.6s var(--ease-out-back);
+  }
+  .card__link:hover .card__img, .card__link:focus-visible .card__img { transform: scale(1.03); }
+  .card__link:hover .card__img--band, .card__link:focus-visible .card__img--band { transform: scale(1.03) translateX(5%); }
+  .card__cta {
+    position: absolute; left: 1rem; bottom: 1rem;
+    background: var(--paper); color: var(--ink);
+    font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 0.55rem 0.75rem; border-radius: 2px;
+    transform: translateY(140%); transition: transform 0.45s var(--ease-out);
+  }
+  .card__link:hover .card__cta, .card__link:focus-visible .card__cta { transform: none; }
+  .card__meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 0.9rem; margin-bottom: 0.6rem; }
+  .card__title { font-size: var(--step-3); letter-spacing: -0.03em; }
+  .card--large .card__title { font-size: var(--step-4); }
+  .card__summary { margin-top: 0.5rem; color: var(--muted); max-width: 46ch; }
+  .card__link:hover .card__title { color: var(--accent); }
+  @media (hover: none) { .card__cta { transform: none; } }
+</style>

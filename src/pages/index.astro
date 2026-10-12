@@ -1,0 +1,286 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Logo from '../components/Logo.astro';
+import SliceText from '../components/SliceText.astro';
+import Note from '../components/Note.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import BookingLink from '../components/BookingLink.astro';
+import { services } from '../data/services';
+import { home } from '../data/home';
+import { site } from '../config/site';
+
+const featured = (await getCollection('work', (p) => p.data.featured)).sort((a, b) => a.data.order - b.data.order).slice(0, 4);
+const hasConcepts = featured.some((p) => p.data.status === 'concept');
+---
+<Base description={site.seo.defaultDescription}>
+
+  <!-- HERO ------------------------------------------------------------- -->
+  <section class="hero" data-logo-zone aria-labelledby="hero-title">
+    <div class="wrap hero__grid">
+      <div class="hero__copy">
+        <p class="eyebrow">{home.hero.eyebrow}</p>
+        <h1 id="hero-title" class="display hero__title">
+          <span class="hero__line">{home.hero.titleA}</span>
+          <span class="hero__line"><SliceText text={home.hero.titleB} accent /></span>
+        </h1>
+        <p class="lede hero__lede">{home.hero.lede}</p>
+        <div class="btn-row">
+          <BookingLink />
+          <a class="btn btn--ghost" href="/work/">See the work</a>
+        </div>
+        <Note>
+          Answers the three questions in under five seconds: what we do (creative, marketing, AI),
+          why it matters (we spot what you’re too close to see, then build it), and what to do next (two clear actions).
+        </Note>
+      </div>
+      <div class="hero__mark">
+        <Logo id="oi-hero" animate="load" interactive decorative class="hero__logo" />
+        <p class="hero__hint mono" aria-hidden="true"><span class="hint-fine">Move across the mark</span><span class="hint-touch">Drag across the mark</span>. The slice is the idea: same business, shifted view.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEM TICKER --------------------------------------------------- -->
+  <section class="ticker" aria-label="Problems we solve">
+    <div class="ticker__track">
+      {[0, 1].map((dup) => (
+        <ul class="ticker__list" role="list" aria-hidden={dup === 1 ? 'true' : undefined}>
+          {home.problems.map((p) => <li>{p}</li>)}
+        </ul>
+      ))}
+    </div>
+  </section>
+
+  <!-- CAPABILITIES ----------------------------------------------------- -->
+  <section class="section" aria-labelledby="caps-title">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">What we do</p>
+        <h2 id="caps-title" class="h-xl" data-reveal>{home.capabilities.title}</h2>
+        <p class="lede muted" data-reveal>{home.capabilities.lede}</p>
+      </div>
+      <Note>
+        Most agencies list services. This shows how they connect: from what customers see (outside)
+        to what makes the business run (inside). It positions us as one team, not three suppliers.
+      </Note>
+
+      <div class="axis" aria-hidden="true">
+        <span>Outside · what people see</span>
+        <span class="axis__line"></span>
+        <span>Inside · what makes it work</span>
+      </div>
+      <ol class="caps" role="list">
+        {services.map((s, i) => (
+          <li class={`cap cap--${s.id}`} data-reveal style={`--reveal-delay:${i * 0.1}s`}>
+            <a href={`/services/#${s.id}`} class="cap__link">
+              <span class="cap__num mono">{s.number} / {s.layer}</span>
+              <h3 class="cap__name">{s.name}</h3>
+              <p class="cap__short">{s.short}</p>
+              <span class="cap__more mono">What’s included <span aria-hidden="true">→</span></span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- SELECTED WORK ---------------------------------------------------- -->
+  <section class="section work-sec" aria-labelledby="work-title">
+    <div class="wrap">
+      <div class="section-head section-head--row">
+        <div>
+          <p class="eyebrow">Selected work</p>
+          <h2 id="work-title" class="h-xl" data-reveal>Ideas, built.</h2>
+        </div>
+        <a class="btn btn--ghost" href="/work/">All projects</a>
+      </div>
+      {hasConcepts && (
+        <p class="honesty mono">
+          <span class="tag tag--concept">Concept</span> projects are proof-of-concept work that show how we think and build.
+          They are not commissioned client work. Client projects are added with permission.
+        </p>
+      )}
+      <Note>Concepts are labelled on every card and page. Being upfront about this builds more trust than implying a client list we can’t name.</Note>
+      <div class="work-grid">
+        {featured.map((p, i) => <ProjectCard project={p} size={i === 0 || i === 3 ? 'large' : 'normal'} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT JOINS UP -------------------------------------------------- -->
+  <section class="section joins" aria-labelledby="joins-title">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">How it joins up</p>
+        <h2 id="joins-title" class="h-xl" data-reveal>{home.joins.title}</h2>
+        <p class="lede" data-reveal>{home.joins.lede}</p>
+      </div>
+      <div class="scenario" data-reveal>
+        <p class="scenario__brief"><span class="mono">Example scenario</span>{home.joins.scenario}</p>
+        <ol class="scenario__steps" role="list">
+          {home.joins.steps.map((s) => (
+            <li>
+              <span class="mono scenario__layer">{s.layer}</span>
+              <h3 class="h-sm">{s.title}</h3>
+              <p>{s.text}</p>
+            </li>
+          ))}
+        </ol>
+        <p class="scenario__close">{home.joins.close}</p>
+      </div>
+      <Note>An example, not a case study. It shows a decision-maker how the three disciplines combine around one commercial goal.</Note>
+    </div>
+  </section>
+
+  <!-- POINT OF VIEW ---------------------------------------------------- -->
+  <section class="section pov" aria-labelledby="pov-title">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">What we believe</p>
+        <h2 id="pov-title" class="h-xl" data-reveal>Four rules we work by.</h2>
+      </div>
+      <ol class="beliefs" role="list">
+        {home.beliefs.map((b, i) => (
+          <li data-reveal style={`--reveal-delay:${i * 0.08}s`}>
+            <span class="beliefs__n mono">0{i + 1}</span>
+            <h3 class="h-md">{b.title}</h3>
+            <p class="muted">{b.text}</p>
+          </li>
+        ))}
+      </ol>
+      <Note>Beliefs a client can hold us to. “AI should earn its place” matters most: it separates practical advice from hype.</Note>
+    </div>
+  </section>
+
+  <!-- PROOF OF THINKING ------------------------------------------------ -->
+  <section class="section section--tight flip" aria-labelledby="flip-title">
+    <div class="wrap flip__inner">
+      <div>
+        <p class="eyebrow">Proof of thinking</p>
+        <h2 id="flip-title" class="h-lg">{home.flip.title}</h2>
+        <p class="lede">{home.flip.text}</p>
+      </div>
+      <div class="btn-row flip__actions">
+        <button type="button" class="btn btn--accent" data-view-flip>
+          <span class="flip__label-out">Switch to Inside view</span>
+          <span class="flip__label-in">Back to Outside view</span>
+        </button>
+        <a class="btn btn--ghost" href="/work/quiet-machine/#demo">Try the AI triage demo</a>
+      </div>
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  /* Hero */
+  .hero { padding-block: clamp(3rem, 6vw, 6rem) clamp(3rem, 7vw, 7rem); position: relative; }
+  .hero__grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: var(--gutter); align-items: center; }
+  .hero__copy { display: grid; gap: 1.5rem; justify-items: start; }
+  .hero__title { display: grid; }
+  .hero__line { display: block; }
+  .hero__lede { max-width: 44ch; }
+  .hero__mark { display: grid; gap: 1rem; justify-items: center; cursor: ew-resize; touch-action: pan-y; }
+  :global(.hero__logo) { width: min(100%, 560px); color: var(--fg); }
+  .hero__hint { color: var(--muted); max-width: 34ch; text-align: center; font-size: 0.75rem; }
+  .hint-touch { display: none; }
+  @media (pointer: coarse) { .hint-touch { display: inline; } .hint-fine { display: none; } }
+  @media (max-width: 860px) {
+    .hero__grid { grid-template-columns: 1fr; }
+    .hero__mark { order: -1; justify-items: start; }
+    :global(.hero__logo) { width: min(62%, 280px); }
+    .hero__hint { text-align: left; }
+  }
+
+  /* Ticker */
+  .ticker { background: var(--ink); color: var(--paper); overflow: hidden; padding-block: 1.1rem; border-block: 1px solid var(--ink); }
+  :root[data-view='inside'] .ticker { background: var(--flare); color: var(--ink); }
+  .ticker__track { display: flex; width: max-content; animation: ticker 48s linear infinite; }
+  .ticker:hover .ticker__track { animation-play-state: paused; }
+  .ticker__list { display: flex; gap: 0; padding: 0; }
+  .ticker__list li { white-space: nowrap; font-family: var(--font-display); font-weight: 600; font-size: var(--step-1); padding-inline: 1.4rem; display: flex; align-items: center; gap: 2.8rem; }
+  .ticker__list li::after { content: ''; width: 0.9rem; height: 0.32rem; background: var(--flare); box-shadow: 0.42rem 0 0 var(--flare); transform: translateX(0.7rem); }
+  :root[data-view='inside'] .ticker__list li::after { background: var(--ink); box-shadow: 0.42rem 0 0 var(--ink); }
+  @keyframes ticker { to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) {
+    .ticker__track { animation: none; width: auto; flex-wrap: wrap; }
+    .ticker__list { flex-wrap: wrap; row-gap: 0.6rem; }
+    .ticker__list[aria-hidden] { display: none; }
+  }
+
+  /* Section heads */
+  .section-head { display: grid; gap: 1.25rem; margin-bottom: clamp(2.5rem, 5vw, 4.5rem); max-width: 60rem; }
+  .section-head--row { max-width: none; grid-template-columns: 1fr auto; align-items: end; }
+  @media (max-width: 640px) { .section-head--row { grid-template-columns: 1fr; justify-items: start; } }
+
+  /* Capabilities */
+  .axis { display: flex; align-items: center; gap: 1rem; font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; }
+  .axis__line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--flare), var(--lagoon)); position: relative; }
+  :root[data-view='inside'] .axis__line { background: linear-gradient(90deg, var(--flare), var(--mist)); }
+  .caps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--line); counter-reset: none; padding: 0; }
+  .cap { border-bottom: 1px solid var(--line); }
+  .cap + .cap { border-left: 1px solid var(--line); }
+  .cap__link { display: grid; gap: 1rem; align-content: start; height: 100%; padding: 2rem clamp(1rem, 2vw, 2rem) 2.25rem; text-decoration: none; position: relative; transition: background-color 0.4s var(--ease-out), color 0.4s var(--ease-out); }
+  .cap__num { color: var(--muted); }
+  .cap__name { font-size: var(--step-3); letter-spacing: -0.03em; }
+  .cap__short { max-width: 32ch; }
+  .cap__more { color: var(--link); margin-top: 0.5rem; }
+  .cap--design-creative .cap__link:hover { background: var(--flare); color: var(--ink); }
+  .cap--marketing-growth .cap__link:hover { background: var(--ink); color: var(--paper); }
+  .cap--ai-systems .cap__link:hover { background: var(--lagoon); color: var(--paper); }
+  .cap__link:hover .cap__num, .cap__link:hover .cap__more { color: inherit; }
+  @media (max-width: 860px) {
+    .caps { grid-template-columns: 1fr; }
+    .cap + .cap { border-left: 0; }
+  }
+
+  /* Work */
+  .honesty { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; color: var(--muted); max-width: 70ch; margin: -2rem 0 2.5rem; }
+  .work-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: clamp(2.5rem, 5vw, 5rem) var(--gutter); }
+  .work-grid > :global(:nth-child(1)) { grid-column: 1 / span 7; }
+  .work-grid > :global(:nth-child(2)) { grid-column: 9 / span 4; margin-top: clamp(4rem, 12vw, 12rem); }
+  .work-grid > :global(:nth-child(3)) { grid-column: 1 / span 5; }
+  .work-grid > :global(:nth-child(4)) { grid-column: 6 / span 7; margin-top: clamp(2rem, 6vw, 6rem); }
+  @media (max-width: 860px) { .work-grid > :global(*) { grid-column: 1 / -1 !important; margin-top: 0 !important; } }
+
+  /* Joins */
+  .joins { background: var(--lagoon); color: var(--paper); --muted: #bfd9d1; --line: rgba(244, 240, 232, 0.2); --link: #ffb199; }
+  :root[data-view='inside'] .joins { background: #0c3d36; }
+  .joins .eyebrow { color: var(--mist); }
+  .scenario { border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(1.25rem, 3vw, 2.5rem); }
+  .scenario__brief { font-family: var(--font-display); font-weight: 600; font-size: var(--step-2); line-height: 1.15; letter-spacing: -0.02em; max-width: 30ch; margin-bottom: 2rem; }
+  .scenario__brief .mono { display: block; font-weight: 400; color: var(--mist); margin-bottom: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; }
+  .scenario__steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gutter); padding: 0; }
+  .scenario__steps li { border-top: 2px solid var(--paper); padding-top: 1rem; display: grid; gap: 0.5rem; align-content: start; }
+  .scenario__steps li:first-child { border-color: var(--flare); }
+  .scenario__steps li:last-child { border-color: var(--mist); }
+  .scenario__layer { color: var(--mist); text-transform: uppercase; letter-spacing: 0.06em; }
+  .scenario__close { margin-top: 2rem; max-width: 60ch; color: var(--mist); }
+  @media (max-width: 860px) { .scenario__steps { grid-template-columns: 1fr; } }
+
+  /* Beliefs */
+  .beliefs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 var(--gutter); padding: 0; }
+  .beliefs li { display: grid; grid-template-columns: 3.5rem 1fr; gap: 0.6rem 1rem; padding-block: 2rem; border-top: 1px solid var(--line); }
+  .beliefs li > :not(.beliefs__n) { grid-column: 2; }
+  .beliefs__n { color: var(--link); padding-top: 0.4rem; grid-row: span 2; }
+  @media (max-width: 760px) { .beliefs { grid-template-columns: 1fr; } }
+
+  /* Flip */
+  .flip { background: var(--flare); color: var(--ink); }
+  :root[data-view='inside'] .flip { background: var(--paper); color: var(--ink); }
+  .flip .eyebrow { color: var(--ink); }
+  .flip .eyebrow::before { background: var(--ink); box-shadow: 0.42em 0 0 var(--ink); }
+  .flip__inner { display: grid; grid-template-columns: 1.4fr 1fr; gap: var(--gutter); align-items: end; }
+  .flip__inner > div:first-child { display: grid; gap: 1rem; }
+  .flip .btn--accent { --btn-bg: var(--ink); --btn-fg: var(--paper); }
+  .flip .btn--accent::before { background: var(--flare); opacity: 1; }
+  .flip .btn--accent:hover { color: var(--ink); }
+  .flip .btn--ghost { --btn-fg: var(--ink); border-color: var(--ink); }
+  .flip .btn--ghost::before { background: var(--ink); }
+  .flip .btn--ghost:hover { color: var(--paper); }
+  .flip__label-in { display: none; }
+  :root[data-view='inside'] .flip__label-in { display: inline; }
+  :root[data-view='inside'] .flip__label-out { display: none; }
+  @media (max-width: 860px) { .flip__inner { grid-template-columns: 1fr; align-items: start; } }
+</style>

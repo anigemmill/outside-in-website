@@ -1,0 +1,173 @@
+---
+/**
+ * Interactive demo for the Quiet Machine concept. Runs entirely in the browser
+ * on sample messages. It illustrates the workflow; it does not call an AI model
+ * and sends nothing anywhere.
+ */
+const samples = [
+  {
+    id: 'booking',
+    from: 'Sam',
+    text: 'Hi, do you have a table for 8 this Saturday at 7pm? One of us is coeliac.',
+    type: 'Table booking',
+    urgency: 'High: within 48 hours',
+    value: 'Standard',
+    flags: ['Dietary requirement'],
+    route: 'Front of house',
+    draft: 'Hi Sam, thanks for getting in touch. We can hold a table for 8 at 7pm this Saturday. Our kitchen has a gluten-free menu and we’ll note the coeliac requirement on the booking. Can you confirm a contact number so we can secure it?',
+  },
+  {
+    id: 'function',
+    from: 'Priya',
+    text: 'We’re planning a 60-person end of year function in early December. Can you send through your packages?',
+    type: 'Function enquiry',
+    urgency: 'High: competing venues likely',
+    value: 'High',
+    flags: ['Group of 60', 'Peak season date'],
+    route: 'Events lead',
+    draft: 'Hi Priya, thanks for thinking of us for your end of year function. Our function packages are attached. December dates move quickly, so if you share your preferred date we can hold it for you while you decide. Our events lead will follow up today.',
+  },
+  {
+    id: 'lost',
+    from: 'Jordan',
+    text: 'I think I left a grey jacket at the bar last night. Has anyone handed it in?',
+    type: 'Lost property',
+    urgency: 'Normal',
+    value: 'Low',
+    flags: [],
+    route: 'Duty manager',
+    draft: 'Hi Jordan, sorry to hear that. I’ve asked our duty manager to check lost property for a grey jacket from last night. We’ll reply as soon as we’ve looked.',
+  },
+  {
+    id: 'complaint',
+    from: 'Alex',
+    text: 'I was really disappointed with how our group was treated on Friday night. Not what I expected from you.',
+    type: 'Complaint',
+    urgency: 'Priority',
+    value: 'Relationship risk',
+    flags: ['Sensitive: no AI draft'],
+    route: 'General manager',
+    draft: '',
+  },
+];
+---
+<div class="triage" data-triage>
+  <p class="triage__disclaimer mono">Illustrative demo · sample messages · runs in your browser · nothing is sent</p>
+  <div class="triage__grid">
+    <div class="triage__inbox">
+      <p class="triage__label mono" id="inbox-label">Shared inbox</p>
+      <ul role="list" aria-labelledby="inbox-label">
+        {samples.map((s, i) => (
+          <li>
+            <button type="button" class="msg" aria-pressed={i === 0 ? 'true' : 'false'} data-sample={s.id}>
+              <span class="msg__from">{s.from}</span>
+              <span class="msg__text">{s.text}</span>
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="triage__panel" aria-live="polite">
+      <ol class="steps" role="list" data-steps>
+        <li data-step="classify"><span class="steps__n mono">1</span><div><p class="steps__t">Classify</p><p class="steps__d" data-out="classify"></p></div></li>
+        <li data-step="route"><span class="steps__n mono">2</span><div><p class="steps__t">Route</p><p class="steps__d" data-out="route"></p></div></li>
+        <li data-step="draft"><span class="steps__n mono">3</span><div><p class="steps__t">Draft from approved policies</p><div class="steps__d" data-out="draft"></div></div></li>
+        <li data-step="approve"><span class="steps__n mono">4</span><div><p class="steps__t">Human approval</p><div class="steps__d" data-out="approve"></div></div></li>
+      </ol>
+    </div>
+  </div>
+  <script type="application/json" data-samples set:html={JSON.stringify(samples)}></script>
+</div>
+
+<script>
+  type Sample = { id: string; from: string; text: string; type: string; urgency: string; value: string; flags: string[]; route: string; draft: string };
+  document.querySelectorAll<HTMLElement>('[data-triage]').forEach((root) => {
+    const samples: Sample[] = JSON.parse(root.querySelector('[data-samples]')!.textContent || '[]');
+    const out = (k: string) => root.querySelector<HTMLElement>(`[data-out="${k}"]`)!;
+    const steps = [...root.querySelectorAll<HTMLElement>('[data-step]')];
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let timer: number[] = [];
+    const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]!));
+
+    function run(s: Sample) {
+      timer.forEach(clearTimeout); timer = [];
+      steps.forEach((st) => st.classList.remove('is-done', 'is-active'));
+      out('classify').innerHTML = `<span class="chip">${esc(s.type)}</span><span class="chip">${esc(s.urgency)}</span><span class="chip">Value: ${esc(s.value)}</span>${s.flags.map((f) => `<span class="chip chip--flag">${esc(f)}</span>`).join('')}`;
+      out('route').innerHTML = `Sent to <strong>${esc(s.route)}</strong>`;
+      out('draft').innerHTML = s.draft
+        ? `<p class="draft" data-draft>${esc(s.draft)}</p>`
+        : `<p class="draft draft--none">No draft. Complaints go straight to a person, because tone and accountability matter more than speed here.</p>`;
+      out('approve').innerHTML = s.draft
+        ? `<div class="btn-row"><button type="button" class="btn btn--accent btn--sm" data-act="approve">Approve reply (demo)</button><button type="button" class="btn btn--ghost btn--sm" data-act="edit">Edit first</button></div><p class="approve__msg mono" data-msg></p>`
+        : `<p class="approve__msg mono">Waiting for ${esc(s.route)} to write a personal reply.</p>`;
+      const delay = reduce ? 0 : 420;
+      steps.forEach((st, i) => {
+        timer.push(window.setTimeout(() => {
+          steps.forEach((x, j) => x.classList.toggle('is-active', j === i));
+          st.classList.add('is-done');
+        }, delay * (i + (reduce ? 0 : 0.4))));
+      });
+    }
+
+    root.addEventListener('click', (e) => {
+      const t = e.target as HTMLElement;
+      const btn = t.closest<HTMLButtonElement>('[data-sample]');
+      if (btn) {
+        root.querySelectorAll('[data-sample]').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+        run(samples.find((s) => s.id === btn.dataset.sample)!);
+        return;
+      }
+      const act = t.closest<HTMLButtonElement>('[data-act]');
+      if (!act) return;
+      const msg = root.querySelector<HTMLElement>('[data-msg]');
+      const draft = root.querySelector<HTMLElement>('[data-draft]');
+      if (act.dataset.act === 'edit' && draft) {
+        draft.contentEditable = 'true';
+        draft.setAttribute('role', 'textbox');
+        draft.setAttribute('aria-label', 'Draft reply');
+        draft.focus();
+        if (msg) msg.textContent = 'Editing. Change anything, then approve.';
+      } else if (act.dataset.act === 'approve') {
+        if (draft) draft.contentEditable = 'false';
+        if (msg) msg.textContent = 'Approved. In a live system this reply would now be sent. In this demo, nothing was sent.';
+      }
+    });
+
+    run(samples[0]);
+  });
+</script>
+
+<style>
+  .triage { border: 1.5px solid var(--fg); border-radius: var(--radius); overflow: hidden; }
+  .triage__disclaimer { padding: 0.65rem 1rem; background: var(--fg); color: var(--bg); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; }
+  .triage__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
+  .triage__inbox { border-right: 1px solid var(--line); padding: 1rem; }
+  .triage__label { color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.72rem; margin-bottom: 0.75rem; }
+  .triage__inbox ul { display: grid; gap: 0.5rem; padding: 0; }
+  .msg { display: grid; gap: 0.25rem; width: 100%; text-align: left; padding: 0.8rem 0.9rem; border: 1px solid var(--line); background: transparent; border-radius: var(--radius); transition: background-color 0.2s, border-color 0.2s; }
+  .msg:hover { border-color: var(--fg); }
+  .msg[aria-pressed='true'] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+  .msg__from { font-weight: 700; }
+  .msg__text { font-size: var(--step--1); opacity: 0.85; }
+  .triage__panel { padding: 1rem clamp(1rem, 2vw, 1.75rem); }
+  .steps { display: grid; gap: 0; padding: 0; }
+  .steps li { display: grid; grid-template-columns: 2.2rem 1fr; gap: 0.8rem; padding-block: 1rem; border-bottom: 1px dashed var(--line); opacity: 0.3; transition: opacity 0.4s var(--ease-out); }
+  .steps li:last-child { border-bottom: 0; }
+  .steps li.is-done { opacity: 1; }
+  .steps__n { display: grid; place-items: center; width: 2.2rem; height: 2.2rem; border: 1.5px solid var(--fg); border-radius: 2px; }
+  .steps li.is-done .steps__n { background: var(--lagoon); color: var(--paper); border-color: var(--lagoon); }
+  .steps li.is-active .steps__n { background: var(--flare); color: var(--ink); border-color: var(--flare); }
+  .steps__t { font-weight: 700; margin-bottom: 0.4rem; }
+  .steps__d :global(.chip) { display: inline-block; margin: 0 0.35rem 0.35rem 0; padding: 0.25rem 0.5rem; background: var(--surface); border-radius: 2px; font-family: var(--font-mono); font-size: 0.75rem; }
+  .steps__d :global(.chip--flag) { background: var(--flare); color: var(--ink); }
+  .steps__d :global(.draft) { padding: 0.8rem 0.9rem; border-left: 3px solid var(--lagoon); background: var(--surface); border-radius: 2px; }
+  .steps__d :global(.draft[contenteditable='true']) { outline: 2px solid var(--flare); background: var(--bg); }
+  .steps__d :global(.draft--none) { border-left-color: var(--flare); }
+  .steps__d :global(.btn--sm) { min-height: 2.6rem; padding: 0.6rem 1rem; font-size: 0.9rem; }
+  .steps__d :global(.approve__msg) { margin-top: 0.75rem; color: var(--muted); }
+  @media (max-width: 760px) {
+    .triage__grid { grid-template-columns: 1fr; }
+    .triage__inbox { border-right: 0; border-bottom: 1px solid var(--line); }
+  }
+</style>

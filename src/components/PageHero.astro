@@ -1,0 +1,18 @@
+---
+import SliceText from './SliceText.astro';
+interface Props { eyebrow: string; title: string; sliceWord?: string; lede?: string }
+const { eyebrow, title, sliceWord, lede } = Astro.props;
+---
+<header class="page-hero wrap">
+  <p class="eyebrow">{eyebrow}</p>
+  <h1 class="h-xl page-hero__title">
+    {title}{sliceWord && <> <SliceText text={sliceWord} accent /></>}
+  </h1>
+  {lede && <p class="lede page-hero__lede">{lede}</p>}
+  <slot />
+</header>
+<style>
+  .page-hero { display: grid; gap: 1.5rem; padding-block: clamp(3rem, 7vw, 7rem) clamp(2.5rem, 5vw, 4.5rem); }
+  .page-hero__title { max-width: 16ch; font-size: clamp(2.8rem, 1.6rem + 6vw, 7.5rem); line-height: 0.93; }
+  .page-hero__lede { max-width: 52ch; }
+</style>

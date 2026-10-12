@@ -1,0 +1,33 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../config/site';
+// PLACEHOLDER: review this notice before launch, and update it if you add analytics or other tools.
+const updated = '12 October 2026';
+---
+<Base title="Privacy" description="How Outside In collects, uses and stores personal information sent through this website.">
+  <article class="wrap privacy prose">
+    <p class="eyebrow">Privacy notice</p>
+    <h1 class="h-xl">Privacy</h1>
+    <p class="muted">Last updated {updated}</p>
+
+    <h2 class="h-md">What we collect</h2>
+    <p>When you use the contact form we collect your name, email address, company (if you give it), the topic you choose and your message. If you book a call, the booking service collects the details it asks for.</p>
+
+    <h2 class="h-md">Why we collect it</h2>
+    <p>Only to reply to your enquiry and, if you choose to work with us, to manage that work. We don’t sell your information or add you to a mailing list without asking.</p>
+
+    <h2 class="h-md">Where it’s stored</h2>
+    <p>Form submissions are processed and stored by our website’s form provider and delivered to our email. Booking details are held by our scheduling provider. These services may store data outside New Zealand.</p>
+
+    <h2 class="h-md">Cookies and tracking</h2>
+    <p>This website doesn’t use advertising or analytics cookies. If you switch between the Outside and Inside views, your browser remembers your choice locally. That setting never leaves your device.</p>
+
+    <h2 class="h-md">Your rights</h2>
+    <p>Under the New Zealand Privacy Act 2020 you can ask to see the personal information we hold about you and ask us to correct it. Email <a href={`mailto:${site.email}`}>{site.email}</a> and we’ll respond as soon as we can.</p>
+  </article>
+</Base>
+<style>
+  .privacy { padding-block: clamp(3rem, 7vw, 6rem) var(--section); }
+  .privacy h1 { margin-block: 1rem 0.5rem; }
+  .privacy h2 { margin-top: 2.5rem; margin-bottom: 0.75rem; }
+</style>

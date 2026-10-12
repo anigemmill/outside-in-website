@@ -1,0 +1,42 @@
+---
+/**
+ * Switches the whole site between the Outside view (the brand experience) and the
+ * Inside view (a blueprint layer that explains the decision behind each section).
+ */
+interface Props { id: string; class?: string }
+const { id, class: className = '' } = Astro.props;
+---
+<button
+  type="button"
+  role="switch"
+  aria-checked="false"
+  class:list={['view-toggle', className]}
+  id={id}
+  data-view-toggle
+  title="Switch between the Outside view and the Inside view"
+>
+  <span class="view-toggle__label view-toggle__label--out">Outside</span>
+  <span class="view-toggle__track" aria-hidden="true"><span class="view-toggle__thumb"></span></span>
+  <span class="view-toggle__label view-toggle__label--in">Inside</span>
+  <span class="visually-hidden"> view: show the thinking behind each section</span>
+</button>
+
+<style>
+  .view-toggle {
+    display: inline-flex; align-items: center; gap: 0.55rem; min-height: 44px;
+    background: none; border: 0; padding: 0 0.25rem;
+    font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .view-toggle__label { color: var(--muted); transition: color 0.3s; }
+  .view-toggle[aria-checked='false'] .view-toggle__label--out,
+  .view-toggle[aria-checked='true'] .view-toggle__label--in { color: var(--fg); }
+  .view-toggle__track {
+    position: relative; width: 44px; height: 22px; border: 1.5px solid currentColor; border-radius: 2px;
+  }
+  .view-toggle__thumb {
+    position: absolute; top: 3px; left: 3px; width: 16px; height: 13px; background: var(--flare);
+    transition: transform 0.45s var(--ease-out-back);
+  }
+  .view-toggle[aria-checked='true'] .view-toggle__thumb { transform: translateX(19px); }
+  .view-toggle:hover .view-toggle__track { background: color-mix(in srgb, var(--accent) 15%, transparent); }
+</style>

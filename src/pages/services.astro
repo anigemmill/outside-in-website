@@ -1,0 +1,124 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Note from '../components/Note.astro';
+import BookingLink from '../components/BookingLink.astro';
+import { services, combinations, partnership } from '../data/services';
+---
+<Base
+  title="Services"
+  description="Design and creative, marketing and growth, and practical AI strategy and implementation. Individual projects or an ongoing partnership, from one New Zealand team."
+>
+  <PageHero
+    eyebrow="Services"
+    title="Three disciplines, built to"
+    sliceWord="work together."
+    lede="Hire us for one thing or all three. Either way, you get people who understand how a brand, a campaign and the systems behind them affect each other."
+  >
+    <nav class="jump" aria-label="Services on this page">
+      {services.map((s) => <a href={`#${s.id}`} class="tag">{s.number} {s.name}</a>)}
+      <a href="#together" class="tag">Combined engagements</a>
+    </nav>
+  </PageHero>
+
+  {services.map((s) => (
+    <section id={s.id} class={`svc svc--${s.id}`} aria-labelledby={`${s.id}-title`}>
+      <div class="wrap">
+        <div class="svc__head" data-reveal>
+          <p class="svc__num mono">{s.number} / {s.layer}</p>
+          <h2 id={`${s.id}-title`} class="h-xl">{s.name}</h2>
+          <p class="lede">{s.lead}</p>
+        </div>
+        <div class="svc__cols">
+          <div data-reveal>
+            <h3 class="svc__h mono">Problems it solves</h3>
+            <ul role="list" class="svc__list svc__list--problems">{s.problems.map((p) => <li>{p}</li>)}</ul>
+          </div>
+          <div data-reveal style="--reveal-delay:.08s">
+            <h3 class="svc__h mono">What’s included</h3>
+            <ul role="list" class="svc__list">{s.includes.map((p) => <li>{p}</li>)}</ul>
+          </div>
+          <div data-reveal style="--reveal-delay:.16s">
+            <h3 class="svc__h mono">What you can expect</h3>
+            <ul role="list" class="svc__list">{s.outcomes.map((p) => <li>{p}</li>)}</ul>
+          </div>
+        </div>
+        {s.id === 'ai-systems' && (
+          <Note>AI gets the most detail because buyers are least sure what it means in practice. Every item here is concrete and checkable. No promises of percentages we can’t yet evidence.</Note>
+        )}
+      </div>
+    </section>
+  ))}
+
+  <section id="together" class="section together" aria-labelledby="together-title">
+    <div class="wrap">
+      <p class="eyebrow">Combined engagements</p>
+      <h2 id="together-title" class="h-xl" data-reveal>Better together, when it makes sense.</h2>
+      <p class="lede muted together__lede">Most briefs touch more than one discipline. These are common shapes an engagement takes. Every one is scoped to the problem, so treat them as starting points, not packages.</p>
+      <ul role="list" class="combos">
+        {combinations.map((c, i) => (
+          <li class="combo" data-reveal style={`--reveal-delay:${i * 0.08}s`}>
+            <h3 class="h-md">{c.name}</h3>
+            <p class="muted">{c.for}</p>
+            <ul role="list" class="combo__mix">{c.mix.map((m) => <li>{m}</li>)}</ul>
+          </li>
+        ))}
+      </ul>
+
+      <div class="partner" data-reveal>
+        <div>
+          <p class="eyebrow">Or keep us on</p>
+          <h3 class="h-lg">{partnership.name}</h3>
+          <p class="lede">{partnership.lead}</p>
+        </div>
+        <ul role="list" class="svc__list">{partnership.points.map((p) => <li>{p}</li>)}</ul>
+      </div>
+
+      <div class="pricing">
+        <p><strong>What does it cost?</strong> It depends on the scope, so we don’t publish prices. After a discovery call you’ll get a written proposal setting out the scope, timeline and cost.</p>
+        <BookingLink />
+      </div>
+      <Note>Pricing is answered honestly up front. Visitors who look for prices and find nothing tend to leave; telling them how pricing works keeps them moving toward a call.</Note>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .jump { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+  .jump a { text-decoration: none; min-height: 36px; }
+  .jump a:hover { background: var(--fg); color: var(--bg); }
+
+  .svc { padding-block: clamp(3.5rem, 7vw, 7rem); border-top: 1px solid var(--line); scroll-margin-top: 4.5rem; }
+  .svc__head { display: grid; gap: 1rem; margin-bottom: 3rem; max-width: 60rem; }
+  .svc__num { color: var(--muted); }
+  .svc--design-creative .svc__head h2 { color: var(--fg); }
+  .svc--design-creative { box-shadow: inset 6px 0 0 var(--flare); }
+  .svc--marketing-growth { box-shadow: inset 6px 0 0 var(--fg); }
+  .svc--ai-systems { background: var(--lagoon); color: var(--paper); --muted: #bfd9d1; --line: rgba(244,240,232,.2); }
+  :root[data-view='inside'] .svc--ai-systems { background: #0c3d36; }
+  .svc__cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gutter); }
+  .svc__h { text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 500; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--line); }
+  .svc__list { display: grid; gap: 0.75rem; padding: 0; }
+  .svc__list li { position: relative; padding-left: 1.4rem; }
+  .svc__list li::before { content: ''; position: absolute; left: 0; top: 0.62em; width: 0.6rem; height: 0.22rem; background: var(--flare); box-shadow: 0.25rem 0 0 var(--flare); }
+  .svc__list--problems li { font-family: var(--font-display); font-weight: 600; font-size: var(--step-1); line-height: 1.25; letter-spacing: -0.01em; }
+  @media (max-width: 860px) { .svc__cols { grid-template-columns: 1fr; gap: 2.5rem; } }
+
+  .together { border-top: 1px solid var(--line); }
+  .together h2 { margin-top: 1rem; }
+  .together__lede { margin-block: 1.25rem 3rem; max-width: 56ch; }
+  .combos { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gutter); padding: 0; }
+  .combo { border: 1.5px solid var(--fg); border-radius: var(--radius); padding: 1.5rem; display: grid; gap: 0.6rem; align-content: start; transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out); }
+  .combo:hover { transform: translate(-4px, -4px); box-shadow: 8px 8px 0 var(--flare); }
+  .combo__mix { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0; margin-top: 0.8rem; }
+  .combo__mix li { font-family: var(--font-mono); font-size: 0.75rem; padding: 0.35rem 0.55rem; background: var(--surface); border-radius: 2px; }
+  @media (max-width: 860px) { .combos { grid-template-columns: 1fr; } }
+
+  .partner { display: grid; grid-template-columns: 1.2fr 1fr; gap: var(--gutter); align-items: end; margin-top: clamp(3rem, 6vw, 6rem); padding: clamp(1.5rem, 3vw, 3rem); background: var(--ink); color: var(--paper); border-radius: var(--radius); }
+  .partner .eyebrow { color: rgba(244,240,232,.7); }
+  .partner > div { display: grid; gap: 1rem; }
+  @media (max-width: 860px) { .partner { grid-template-columns: 1fr; } }
+
+  .pricing { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+  .pricing p { max-width: 62ch; }
+</style>

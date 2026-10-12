@@ -1,0 +1,96 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Note from '../components/Note.astro';
+import Logo from '../components/Logo.astro';
+import BookingLink from '../components/BookingLink.astro';
+import { about } from '../data/about';
+import { site } from '../config/site';
+---
+<Base
+  title="About"
+  description="Why Outside In brings creativity, marketing and AI together, and what that means for the businesses we work with."
+>
+  <PageHero eyebrow="About" title="Close enough to care." sliceWord="Far enough to see." lede={about.lede} />
+
+  <section class="wrap about-why" aria-labelledby="why-title">
+    <div class="about-why__mark" aria-hidden="true">
+      <Logo id="oi-about" decorative class="about-why__logo" />
+      <p class="mono muted">The O and the I are each cut by one slice, shifted right. On the O it pushes in on one side and out on the other. Same shape, new perspective.</p>
+    </div>
+    <div class="prose about-why__text">
+      <h2 id="why-title" class="h-lg">{about.why.title}</h2>
+      {about.why.paragraphs.map((p) => <p>{p}</p>)}
+    </div>
+  </section>
+
+  <section class="section about-name" aria-labelledby="name-title">
+    <div class="wrap">
+      <p class="eyebrow">The name</p>
+      <h2 id="name-title" class="h-xl about-name__title" data-reveal>Outside. In.</h2>
+      <div class="about-name__cols">
+        {about.name.map((n, i) => (
+          <div data-reveal style={`--reveal-delay:${i * 0.1}s`}>
+            <h3 class="h-md">{n.title}</h3>
+            <p>{n.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {about.people.length > 0 && (
+    <section class="section wrap" aria-labelledby="people-title">
+      <p class="eyebrow">People</p>
+      <h2 id="people-title" class="h-xl">Who you’ll work with</h2>
+      <ul role="list" class="people">
+        {about.people.map((p) => (
+          <li><h3 class="h-md">{p.name}</h3><p class="mono muted">{p.role}</p><p>{p.bio}</p></li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <section class="section wrap about-who" aria-labelledby="who-title">
+    <div>
+      <p class="eyebrow">Who we work with</p>
+      <h2 id="who-title" class="h-lg">{about.who.title}</h2>
+    </div>
+    <ul role="list" class="about-who__list">
+      {about.who.list.map((w) => <li><strong>{w.name}</strong><span class="muted">{w.text}</span></li>)}
+    </ul>
+    <Note>Names the audiences from the brief so each visitor can find themselves on the page, without inventing a client list.</Note>
+    <div class="about-who__cta">
+      <p>Based in {site.location}. Working with businesses here and further afield.</p>
+      <BookingLink />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .about-why { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: calc(var(--gutter) * 2); padding-bottom: var(--section); align-items: start; }
+  .about-why__mark { position: sticky; top: 7rem; display: grid; gap: 1.25rem; }
+  :global(.about-why__logo) { width: 100%; max-width: 380px; color: var(--fg); }
+  .about-why__mark p { max-width: 36ch; font-size: 0.78rem; }
+  .about-why__text { font-size: var(--step-1); }
+  .about-why__text h2 { margin-bottom: 1.5rem; }
+  @media (max-width: 860px) { .about-why { grid-template-columns: 1fr; } .about-why__mark { position: static; } :global(.about-why__logo) { max-width: 220px; } }
+
+  .about-name { background: var(--flare); color: var(--ink); }
+  :root[data-view='inside'] .about-name { background: var(--paper); }
+  .about-name .eyebrow { color: var(--ink); }
+  .about-name .eyebrow::before { background: var(--ink); box-shadow: 0.42em 0 0 var(--ink); }
+  .about-name__title { margin-block: 1rem 3rem; font-size: clamp(3.5rem, 2rem + 8vw, 10rem); }
+  .about-name__cols { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gutter); }
+  .about-name__cols > div { display: grid; gap: 0.75rem; align-content: start; border-top: 2px solid var(--ink); padding-top: 1.25rem; font-size: var(--step-1); line-height: 1.4; }
+  @media (max-width: 760px) { .about-name__cols { grid-template-columns: 1fr; } }
+
+  .people { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--gutter); padding: 0; margin-top: 2rem; }
+
+  .about-who { display: grid; grid-template-columns: 1fr 1.3fr; gap: var(--gutter); }
+  .about-who__list { display: grid; padding: 0; }
+  .about-who__list li { display: grid; gap: 0.2rem; padding-block: 1rem; border-top: 1px solid var(--line); }
+  .about-who__list strong { font-family: var(--font-display); font-size: var(--step-1); }
+  .about-who__cta { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+  @media (max-width: 860px) { .about-who { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,107 @@
+---
+/**
+ * The Outside In mark, rebuilt as live SVG from the supplied artwork.
+ *
+ * Construction (measured from the original file, in its own pixel space):
+ *  - O: a ring, centre (369.5, 387), outer radius 259.5, inner radius 193.5.
+ *  - I: a bar 76 wide, x 842, from y 128 to 650.
+ *  - The slice: one horizontal band cut through each letter and shifted right.
+ *    O band y 376 to 433, shifted 73. I band y 377 to 437, shifted 77.
+ *    On the O, the slice pushes inward on the left and outward on the right.
+ *
+ * The resting state is always the exact logo. Animation only moves the two
+ * slice groups horizontally (from 0 to their real offset), so the geometry is
+ * never distorted. Colour comes from `currentColor`, so the mark is monochrome
+ * by default and inherits black or white from its context.
+ *
+ * Props:
+ *  - id: unique prefix (needed when the logo appears more than once on a page)
+ *  - animate: 'load' plays the slice-in on first paint; 'none' is static
+ *  - interactive: lets the hero version follow the pointer
+ */
+interface Props {
+  id?: string;
+  animate?: 'load' | 'none';
+  interactive?: boolean;
+  class?: string;
+  title?: string;
+  decorative?: boolean;
+}
+const {
+  id = 'oi',
+  animate = 'none',
+  interactive = false,
+  class: className = '',
+  title = 'Outside In',
+  decorative = false,
+} = Astro.props;
+
+const cx = 369.5, cy = 387, R = 259.5, r = 193.5;
+const ring = `M${cx - R},${cy}a${R},${R} 0 1,0 ${2 * R},0a${R},${R} 0 1,0 ${-2 * R},0Z` +
+             `M${cx - r},${cy}a${r},${r} 0 1,0 ${2 * r},0a${r},${r} 0 1,0 ${-2 * r},0Z`;
+---
+<svg
+  class:list={['oi-logo', className, { 'oi-logo--load': animate === 'load', 'oi-logo--interactive': interactive }]}
+  viewBox="110 128 887 522"
+  xmlns="http://www.w3.org/2000/svg"
+  role={decorative ? undefined : 'img'}
+  aria-hidden={decorative ? 'true' : undefined}
+  aria-labelledby={decorative ? undefined : `${id}-title`}
+  data-logo={interactive ? 'interactive' : undefined}
+  fill="currentColor"
+>
+  {!decorative && <title id={`${id}-title`}>{title}</title>}
+  <defs>
+    <clipPath id={`${id}-o-top`}><rect x="0" y="0" width="1200" height="376" /></clipPath>
+    <clipPath id={`${id}-o-bot`}><rect x="0" y="433" width="1200" height="400" /></clipPath>
+    <clipPath id={`${id}-o-band`}><rect x="0" y="376" width="1200" height="57" /></clipPath>
+  </defs>
+
+  <!-- O -->
+  <path d={ring} fill-rule="evenodd" clip-path={`url(#${id}-o-top)`} />
+  <path d={ring} fill-rule="evenodd" clip-path={`url(#${id}-o-bot)`} />
+  <g class="oi-slice oi-slice--o" style="--oi-shift: 73px">
+    <path d={ring} fill-rule="evenodd" clip-path={`url(#${id}-o-band)`} />
+  </g>
+
+  <!-- I -->
+  <rect x="842" y="128" width="76" height="249" />
+  <rect x="842" y="437" width="76" height="213" />
+  <g class="oi-slice oi-slice--i" style="--oi-shift: 77px">
+    <rect x="842" y="377" width="77" height="60" />
+  </g>
+</svg>
+
+<style is:global>
+  .oi-logo { display: block; height: auto; overflow: visible; }
+  .oi-slice {
+    transform: translateX(calc(var(--oi-shift) * var(--oi-k, 1)));
+    transition: transform 0.55s var(--ease-out-back, cubic-bezier(0.34, 1.4, 0.64, 1));
+  }
+  /* First paint: the letters arrive whole, then the slice shifts into place. */
+  .oi-logo--load .oi-slice { animation: oi-slice-in 0.9s var(--ease-out-back, cubic-bezier(0.34, 1.4, 0.64, 1)) 0.25s both; }
+  .oi-logo--load .oi-slice--i { animation-delay: 0.38s; }
+  @keyframes oi-slice-in {
+    from { transform: translateX(0); }
+    to   { transform: translateX(var(--oi-shift)); }
+  }
+  /* Hover on a logo link: the slice snaps back to whole, then out again. */
+  a:hover > .oi-logo .oi-slice,
+  a:focus-visible > .oi-logo .oi-slice { animation: oi-blink 0.7s var(--ease-out-back, cubic-bezier(0.34, 1.4, 0.64, 1)) both; }
+  a:hover > .oi-logo .oi-slice--i,
+  a:focus-visible > .oi-logo .oi-slice--i { animation-delay: 0.06s; }
+  @keyframes oi-blink {
+    0%   { transform: translateX(var(--oi-shift)); }
+    40%  { transform: translateX(0); }
+    100% { transform: translateX(var(--oi-shift)); }
+  }
+  /* Pointer-driven version (hero): JS sets --oi-k between roughly 0 and 1.8. */
+  .oi-logo--interactive .oi-slice { transition-duration: 0.35s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .oi-slice,
+    .oi-logo--load .oi-slice,
+    a:hover > .oi-logo .oi-slice,
+    a:focus-visible > .oi-logo .oi-slice { animation: none !important; transition: none !important; transform: translateX(var(--oi-shift)) !important; }
+  }
+</style>

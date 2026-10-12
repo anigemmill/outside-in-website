@@ -1,0 +1,203 @@
+---
+/**
+ * Contact form.
+ *
+ * Delivery:
+ *  - Default: Netlify Forms. Netlify detects this form at build time (data-netlify),
+ *    stores submissions and emails them to you once notifications are switched on.
+ *  - Alternative: set PUBLIC_FORM_ENDPOINT (e.g. a Formspree form URL) and the form
+ *    posts there instead. Works on any host.
+ * Without JavaScript the form still submits normally and lands on /contact/thanks/.
+ * No secrets live in this file or in the browser.
+ */
+import { site } from '../config/site';
+import { services } from '../data/services';
+
+const endpoint = site.formEndpoint;
+const usesNetlify = !endpoint;
+const topics = [
+  ...services.map((s) => ({ value: s.name, label: s.name })),
+  { value: 'Ongoing partnership', label: 'Ongoing partnership' },
+  { value: 'Discovery call', label: 'A discovery call' },
+  { value: 'Not sure yet', label: 'Not sure yet' },
+];
+---
+<form
+  class="cform"
+  name="contact"
+  method="POST"
+  action={endpoint || '/contact/thanks/'}
+  data-contact-form
+  data-endpoint={endpoint || undefined}
+  novalidate
+  {...(usesNetlify ? { 'data-netlify': 'true', 'netlify-honeypot': 'company_website' } : {})}
+>
+  {usesNetlify && <input type="hidden" name="form-name" value="contact" />}
+  <p class="cform__hp" aria-hidden="true">
+    <label>Leave this empty <input name="company_website" tabindex="-1" autocomplete="off" /></label>
+  </p>
+
+  <div class="cform__row">
+    <div class="field">
+      <label for="cf-name">Your name <span class="req" aria-hidden="true">*</span></label>
+      <input id="cf-name" name="name" type="text" autocomplete="name" required maxlength="120" aria-describedby="cf-name-err" />
+      <p class="field__err" id="cf-name-err" data-err-for="name"></p>
+    </div>
+    <div class="field">
+      <label for="cf-email">Email <span class="req" aria-hidden="true">*</span></label>
+      <input id="cf-email" name="email" type="email" autocomplete="email" required maxlength="200" aria-describedby="cf-email-err" />
+      <p class="field__err" id="cf-email-err" data-err-for="email"></p>
+    </div>
+  </div>
+
+  <div class="cform__row">
+    <div class="field">
+      <label for="cf-company">Company or organisation <span class="opt">(optional)</span></label>
+      <input id="cf-company" name="company" type="text" autocomplete="organization" maxlength="160" />
+    </div>
+    <div class="field">
+      <label for="cf-topic">What can we help with? <span class="req" aria-hidden="true">*</span></label>
+      <select id="cf-topic" name="topic" required aria-describedby="cf-topic-err">
+        <option value="">Choose one</option>
+        {topics.map((t) => <option value={t.value}>{t.label}</option>)}
+      </select>
+      <p class="field__err" id="cf-topic-err" data-err-for="topic"></p>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="cf-message">Tell us a little about it <span class="req" aria-hidden="true">*</span></label>
+    <textarea id="cf-message" name="message" rows="6" required minlength="10" maxlength="4000" aria-describedby="cf-message-hint cf-message-err"></textarea>
+    <p class="field__hint" id="cf-message-hint">What’s the challenge, and is there a timeframe? A few sentences is plenty.</p>
+    <p class="field__err" id="cf-message-err" data-err-for="message"></p>
+  </div>
+
+  <p class="cform__privacy">
+    We’ll only use these details to reply to your enquiry. See our <a class="text-link" href="/privacy/">privacy notice</a>.
+  </p>
+
+  <div class="cform__actions">
+    <button class="btn btn--accent" type="submit" data-submit>
+      <span data-submit-label>Send enquiry</span> <span class="btn__arrow" aria-hidden="true">→</span>
+    </button>
+    <p class="cform__status" role="status" aria-live="polite" data-status></p>
+  </div>
+</form>
+
+<div class="cform-done" data-done hidden tabindex="-1">
+  <p class="eyebrow">Sent</p>
+  <p class="h-lg">Thanks. We’ve got it.</p>
+  <p class="lede">We’ll reply to the email you gave us within {site.replyWithin}.</p>
+</div>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+  if (form) {
+    const status = form.querySelector<HTMLElement>('[data-status]')!;
+    const submit = form.querySelector<HTMLButtonElement>('[data-submit]')!;
+    const label = form.querySelector<HTMLElement>('[data-submit-label]')!;
+    const done = document.querySelector<HTMLElement>('[data-done]')!;
+    const endpoint = form.dataset.endpoint;
+
+    // Preselect topic from ?topic=discovery-call (used by "Book a discovery call" fallback).
+    const topic = new URL(location.href).searchParams.get('topic');
+    if (topic === 'discovery-call') {
+      (form.elements.namedItem('topic') as HTMLSelectElement).value = 'Discovery call';
+    }
+
+    const messages: Record<string, (el: HTMLInputElement) => string> = {
+      name: () => 'Please tell us your name.',
+      email: (el) => (el.validity.valueMissing ? 'Please add your email so we can reply.' : 'That email address doesn’t look quite right.'),
+      topic: () => 'Please choose what you’d like help with.',
+      message: (el) => (el.validity.valueMissing ? 'Please add a short description.' : 'A little more detail would help (at least 10 characters).'),
+    };
+
+    const check = (el: HTMLInputElement) => {
+      const err = form.querySelector<HTMLElement>(`[data-err-for="${el.name}"]`);
+      if (!err) return true;
+      const ok = el.checkValidity();
+      el.setAttribute('aria-invalid', String(!ok));
+      err.textContent = ok ? '' : messages[el.name]?.(el) ?? 'Please check this field.';
+      return ok;
+    };
+
+    const fields = [...form.querySelectorAll<HTMLInputElement>('input[required], select[required], textarea[required]')];
+    fields.forEach((el) => {
+      el.addEventListener('blur', () => { if (el.value) check(el); });
+      el.addEventListener('input', () => { if (el.getAttribute('aria-invalid') === 'true') check(el); });
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const invalid = fields.filter((el) => !check(el));
+      if (invalid.length) {
+        status.textContent = `Please fix ${invalid.length} field${invalid.length > 1 ? 's' : ''} above.`;
+        invalid[0].focus();
+        return;
+      }
+      submit.disabled = true;
+      label.textContent = 'Sending…';
+      status.textContent = '';
+      try {
+        const data = new FormData(form);
+        if (data.get('company_website')) { form.hidden = true; done.hidden = false; return; } // bot trap
+        const res = endpoint
+          ? await fetch(endpoint, { method: 'POST', body: data, headers: { Accept: 'application/json' } })
+          : await fetch('/', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+              body: new URLSearchParams(data as unknown as Record<string, string>).toString(),
+            });
+        if (!res.ok) throw new Error(String(res.status));
+        form.hidden = true;
+        done.hidden = false;
+        done.focus();
+      } catch {
+        status.innerHTML = '';
+        const msg = document.createElement('span');
+        msg.className = 'cform__error';
+        const email = document.querySelector<HTMLAnchorElement>('[data-contact-email]');
+        msg.innerHTML = `Sorry, that didn’t send. Please try again, or email us directly${email ? ` at <a class="text-link" href="${email.href}">${email.textContent}</a>` : ''}.`;
+        status.appendChild(msg);
+      } finally {
+        submit.disabled = false;
+        label.textContent = 'Send enquiry';
+      }
+    });
+  }
+</script>
+
+<style>
+  .cform { display: grid; gap: 1.25rem; }
+  .cform__hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+  .cform__row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  @media (max-width: 640px) { .cform__row { grid-template-columns: 1fr; } }
+  .field { display: grid; gap: 0.4rem; }
+  .field label { font-weight: 600; }
+  .req { color: var(--link); }
+  .opt { font-weight: 400; color: var(--muted); }
+  .field input, .field select, .field textarea {
+    width: 100%; min-height: 3.1rem; padding: 0.75rem 0.9rem;
+    background: color-mix(in srgb, var(--bg) 70%, #fff); color: var(--fg);
+    border: 1.5px solid color-mix(in srgb, var(--fg) 45%, transparent); border-radius: var(--radius);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  :root[data-view='inside'] .field input, :root[data-view='inside'] .field select, :root[data-view='inside'] .field textarea { background: #0c3d36; }
+  .field textarea { resize: vertical; min-height: 9rem; }
+  .field input:hover, .field select:hover, .field textarea:hover { border-color: var(--fg); }
+  .field input:focus-visible, .field select:focus-visible, .field textarea:focus-visible { outline: none; border-color: var(--fg); box-shadow: 4px 4px 0 var(--flare); }
+  .field [aria-invalid='true'] { border-color: #b3261e; box-shadow: 4px 4px 0 #b3261e33; }
+  :root[data-view='inside'] .field [aria-invalid='true'] { border-color: #ff9b8a; }
+  .field__hint { font-size: var(--step--1); color: var(--muted); }
+  .field__err { font-size: var(--step--1); color: #b3261e; font-weight: 600; min-height: 0; }
+  :root[data-view='inside'] .field__err { color: #ffb4a6; }
+  .field__err:empty { display: none; }
+  .cform__privacy { font-size: var(--step--1); color: var(--muted); }
+  .cform__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; }
+  .cform__status { font-size: var(--step--1); }
+  .cform__status :global(.cform__error) { color: #b3261e; font-weight: 600; }
+  :root[data-view='inside'] .cform__status :global(.cform__error) { color: #ffb4a6; }
+  .cform-done { display: grid; gap: 1rem; padding: 2rem; border: 1.5px solid var(--fg); border-radius: var(--radius); box-shadow: 8px 8px 0 var(--flare); }
+  .cform-done[hidden] { display: none; }
+  .cform-done:focus { outline: none; }
+</style>

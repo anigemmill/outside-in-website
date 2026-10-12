@@ -1,0 +1,125 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Note from '../components/Note.astro';
+import BookingLink from '../components/BookingLink.astro';
+
+// Edit the approach here.
+const stages = [
+  {
+    n: '01', name: 'Look outside',
+    text: 'We start where your customers are. How do they find you, what do they compare you with, and what do they see that you might not? We look at your audience, your market and your competitors with fresh eyes.',
+    youGet: 'A clear picture of how you’re seen from outside',
+  },
+  {
+    n: '02', name: 'Look inside',
+    text: 'Then we look at how the business works: goals, team, tools, data and the jobs that eat time. This is where we agree what success means and how we’ll measure it.',
+    youGet: 'An agreed goal, a baseline and a measure',
+  },
+  {
+    n: '03', name: 'Decide',
+    text: 'The strategy lives where the two views meet. We recommend what to do, what to leave alone and in what order, with effort and value spelled out so the choice is yours.',
+    youGet: 'A prioritised plan you can say yes or no to',
+  },
+  {
+    n: '04', name: 'Build',
+    text: 'Then we make it: brand, website, campaign, content, automation or AI system. You see work early and often, so there are no big reveals that miss the point.',
+    youGet: 'Finished work, documented and handed over',
+  },
+  {
+    n: '05', name: 'Measure and refine',
+    text: 'We check results against the goal we agreed in stage two and improve what isn’t working. For ongoing partners, this becomes the monthly rhythm.',
+    youGet: 'A report that ends with a recommendation',
+  },
+];
+
+const tracks = [
+  {
+    name: 'Creative projects',
+    text: 'These move quickly through ideas. We share early concepts, agree a direction together, then refine. Feedback rounds are planned into the timeline from the start.',
+  },
+  {
+    name: 'Marketing campaigns',
+    text: 'Each one is built as an experiment. Every campaign has a hypothesis and a measure, so whatever happens, you learn something you can use next time.',
+  },
+  {
+    name: 'AI and automation',
+    text: 'This starts small. We pilot one workflow with real data and real people before anything scales, and a human stays in control of decisions that matter.',
+  },
+];
+---
+<Base
+  title="Approach"
+  description="How Outside In works: look outside, look inside, decide, build, then measure and refine. Creative, marketing and AI projects each follow the rhythm that suits them."
+>
+  <PageHero
+    eyebrow="Approach"
+    title="First we look out. Then we"
+    sliceWord="look in."
+    lede="Good work starts with seeing the problem clearly. Our process moves from your customers’ view to your business’s inner workings, and back out again with something that works."
+  />
+
+  <section class="wrap stages-wrap" aria-label="Stages">
+    <ol class="stages" role="list">
+      {stages.map((s, i) => (
+        <li class="stage" data-reveal style={`--reveal-delay:${i * 0.06}s`}>
+          <span class="stage__n mono">{s.n}</span>
+          <h2 class="stage__name">{s.name}</h2>
+          <p class="stage__text">{s.text}</p>
+          <p class="stage__get mono"><span>You get</span> {s.youGet}</p>
+        </li>
+      ))}
+    </ol>
+    <Note>Five stages, but named in plain language. “Look outside / look inside” turns the agency name into a method a client can remember and repeat.</Note>
+  </section>
+
+  <section class="section tracks" aria-labelledby="tracks-title">
+    <div class="wrap">
+      <p class="eyebrow">Not one process for everything</p>
+      <h2 id="tracks-title" class="h-xl tracks__title" data-reveal>Different work moves at a different pace.</h2>
+      <ul role="list" class="tracks__list">
+        {tracks.map((t) => (
+          <li data-reveal>
+            <h3 class="h-md">{t.name}</h3>
+            <p>{t.text}</p>
+          </li>
+        ))}
+      </ul>
+      <div class="tracks__cta">
+        <p class="lede">Not sure which applies to you? That’s what the discovery call is for.</p>
+        <BookingLink />
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .stages-wrap { padding-bottom: var(--section); }
+  .stages { display: grid; padding: 0; counter-reset: s; }
+  .stage {
+    display: grid; grid-template-columns: 5rem minmax(0, 1fr) minmax(0, 1.3fr); gap: 0.5rem var(--gutter);
+    padding-block: 2rem; border-top: 1px solid var(--line); align-items: start;
+    transition: padding-left 0.5s var(--ease-out);
+  }
+  .stage:last-child { border-bottom: 1px solid var(--line); }
+  .stage:hover { padding-left: 1rem; }
+  .stage__n { color: var(--link); padding-top: 0.5rem; font-size: 1rem; }
+  .stage__name { font-size: var(--step-3); letter-spacing: -0.03em; }
+  .stage:nth-child(1) .stage__name { color: var(--fg); }
+  .stage__get { grid-column: 3; color: var(--muted); }
+  .stage__get span { display: inline-block; background: var(--fg); color: var(--bg); padding: 0.15rem 0.4rem; margin-right: 0.4rem; border-radius: 2px; text-transform: uppercase; font-size: 0.68rem; letter-spacing: 0.06em; }
+  @media (max-width: 860px) {
+    .stage { grid-template-columns: 3rem 1fr; }
+    .stage__text, .stage__get { grid-column: 2; }
+  }
+
+  .tracks { background: var(--ink); color: var(--paper); --muted: rgba(244,240,232,.7); --line: rgba(244,240,232,.18); }
+  .tracks .eyebrow { color: rgba(244,240,232,.7); }
+  .tracks__title { margin-block: 1rem 3rem; max-width: 18ch; }
+  .tracks__list { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gutter); padding: 0; }
+  .tracks__list li { display: grid; gap: 0.75rem; align-content: start; padding-top: 1.25rem; border-top: 2px solid var(--flare); }
+  .tracks__list li:nth-child(2) { border-color: var(--paper); }
+  .tracks__list li:nth-child(3) { border-color: var(--mist); }
+  .tracks__cta { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1.5rem; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+  @media (max-width: 860px) { .tracks__list { grid-template-columns: 1fr; } }
+</style>

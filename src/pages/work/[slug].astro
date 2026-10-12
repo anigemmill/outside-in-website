@@ -1,0 +1,215 @@
+---
+import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Note from '../../components/Note.astro';
+import TriageDemo from '../../components/TriageDemo.astro';
+import BookingLink from '../../components/BookingLink.astro';
+import { serviceById } from '../../data/services';
+import { site } from '../../config/site';
+
+export async function getStaticPaths() {
+  const all = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
+  return all.map((project, i) => ({
+    params: { slug: project.id },
+    props: { project, next: all[(i + 1) % all.length] },
+  }));
+}
+
+const { project, next } = Astro.props;
+const d = project.data;
+const { Content } = await render(project);
+const isConcept = d.status === 'concept';
+const isSvg = d.cover.format === 'svg';
+
+const schema = site.url
+  ? [{
+      '@context': 'https://schema.org',
+      '@type': 'CreativeWork',
+      name: d.title,
+      description: d.summary,
+      creator: { '@type': 'Organization', name: site.name, url: site.url },
+      url: new URL(`/work/${project.id}/`, site.url + '/').href,
+      ...(isConcept ? { creativeWorkStatus: 'Concept' } : {}),
+    }]
+  : [];
+---
+<Base
+  title={isConcept ? `${d.title} (concept)` : `${d.title} for ${d.client}`}
+  description={d.seoDescription ?? d.summary}
+  image={isSvg ? undefined : d.cover.src}
+  schema={schema}
+>
+  <article class="case">
+    <header class="wrap case__head">
+      <a class="case__back mono" href="/work/"><span aria-hidden="true">←</span> All work</a>
+      <div class="case__tags">
+        {isConcept
+          ? <span class="tag tag--concept">Concept · proof of concept</span>
+          : <span class="tag tag--client">Client work</span>}
+        {d.categories.map((c) => <a class="tag" href={`/work/?filter=${c}`}>{serviceById[c].name}</a>)}
+      </div>
+      <h1 class="case__title">{d.title}</h1>
+      <p class="lede case__summary">{d.summary}</p>
+      <dl class="case__facts">
+        <div><dt>Type</dt><dd>{d.type}</dd></div>
+        <div><dt>Sector</dt><dd>{d.sector}</dd></div>
+        <div><dt>{isConcept ? 'Status' : 'Client'}</dt><dd>{isConcept ? 'Concept. Not commissioned work.' : d.client}</dd></div>
+        {d.year && <div><dt>Year</dt><dd>{d.year}</dd></div>}
+      </dl>
+    </header>
+
+    <div class="wrap">
+      <figure class="case__cover" style={`view-transition-name: cover-${project.id}`}>
+        <Image src={d.cover} alt={d.coverAlt} {...(isSvg ? {} : { widths: [800, 1280, 1920], sizes: '(max-width: 1440px) 100vw, 1440px' })} loading="eager" />
+        {isConcept && <figcaption class="mono">Concept artwork</figcaption>}
+      </figure>
+    </div>
+
+    <div class="wrap case__body">
+      <section class="case__block" aria-labelledby="challenge">
+        <h2 id="challenge" class="case__h mono">The challenge</h2>
+        <p class="case__big">{d.challenge}</p>
+      </section>
+
+      <section class="case__block" aria-labelledby="approach">
+        <h2 id="approach" class="case__h mono">The approach</h2>
+        <p class="case__big">{d.approach}</p>
+      </section>
+
+      <div class="case__block prose case__notes"><Content /></div>
+
+      <section class="case__block" aria-labelledby="developed">
+        <h2 id="developed" class="case__h mono">{isConcept ? 'What we’d develop' : 'What we developed'}</h2>
+        <ol class="developed" role="list">
+          {d.developed.map((item, i) => (
+            <li data-reveal style={`--reveal-delay:${i * 0.05}s`}><span class="mono">{String(i + 1).padStart(2, '0')}</span><span>{item}</span></li>
+          ))}
+        </ol>
+      </section>
+
+      <section class="case__block case__block--wide" aria-labelledby="map">
+        <h2 id="map" class="case__h mono">Outside / Inside</h2>
+        <p class="muted map__intro">What customers would see, and what runs behind it.</p>
+        <div class="map" data-reveal>
+          <div class="map__lane map__lane--out">
+            <p class="map__label">Outside</p>
+            <ul role="list">{d.map.outside.map((m) => <li>{m}</li>)}</ul>
+          </div>
+          <div class="map__lane map__lane--in">
+            <p class="map__label">Inside</p>
+            <ul role="list">{d.map.inside.map((m) => <li>{m}</li>)}</ul>
+          </div>
+        </div>
+        <Note>Every case study shows both layers. It makes the point of the agency without saying it: we design what people see and build what makes it work.</Note>
+      </section>
+
+      {d.demo === 'triage' && (
+        <section class="case__block case__block--wide" id="demo" aria-labelledby="demo-title">
+          <h2 id="demo-title" class="case__h mono">Interactive demo</h2>
+          <TriageDemo />
+        </section>
+      )}
+
+      {d.gallery.length > 0 && (
+        <section class="case__block case__block--wide" aria-label="Project images">
+          <div class="gallery">
+            {d.gallery.map((g) => (
+              <figure>
+                <Image src={g.src} alt={g.alt} widths={[640, 1024, 1600]} sizes="(max-width: 860px) 100vw, 50vw" />
+                {g.caption && <figcaption class="mono muted">{g.caption}</figcaption>}
+              </figure>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <section class="case__block" aria-labelledby="value">
+        <h2 id="value" class="case__h mono">{isConcept ? 'Intended value' : 'Business value'}</h2>
+        {isConcept && <p class="muted value__note">These are the objectives the concept is designed to test. They are hypotheses, not results.</p>}
+        <ul role="list" class="value">
+          {d.objectives.map((o) => <li><span class="value__kind mono">Objective</span>{o}</li>)}
+        </ul>
+      </section>
+
+      {!isConcept && d.results.length > 0 && (
+        <section class="case__block" aria-labelledby="results">
+          <h2 id="results" class="case__h mono">Results</h2>
+          <ul role="list" class="value">{d.results.map((r) => <li><span class="value__kind mono">Result</span>{r}</li>)}</ul>
+        </section>
+      )}
+
+      <div class="case__block case__ask">
+        <p class="h-md">{isConcept ? 'Have a version of this problem?' : 'Want results like these?'}</p>
+        <BookingLink label="Talk it through" />
+      </div>
+    </div>
+
+    <nav class="next" aria-label="Next project">
+      <a class="wrap next__link" href={`/work/${next.id}/`}>
+        <span class="mono">Next project</span>
+        <span class="next__title">{next.data.title} <span aria-hidden="true">→</span></span>
+        <span class="muted">{next.data.summary}</span>
+      </a>
+    </nav>
+  </article>
+</Base>
+
+<style>
+  .case__head { display: grid; gap: 1.25rem; padding-block: clamp(2rem, 5vw, 4rem) clamp(2rem, 4vw, 3rem); }
+  .case__back { text-decoration: none; color: var(--muted); justify-self: start; padding-block: 0.5rem; }
+  .case__back:hover { color: var(--fg); }
+  .case__tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .case__tags a.tag { text-decoration: none; }
+  .case__tags a.tag:hover { background: var(--fg); color: var(--bg); }
+  .case__title { font-size: clamp(3.2rem, 1.5rem + 9vw, 10rem); line-height: 0.9; letter-spacing: -0.045em; }
+  .case__summary { max-width: 40ch; }
+  .case__facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem var(--gutter); border-top: 1px solid var(--line); padding-top: 1.25rem; margin-top: 0.5rem; }
+  .case__facts dt { font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+  .case__facts dd { margin: 0.2rem 0 0; }
+
+  .case__cover { margin: 0; position: relative; border-radius: var(--radius); overflow: hidden; background: var(--surface); }
+  .case__cover :global(img) { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; }
+  .case__cover figcaption { position: absolute; right: 0.75rem; bottom: 0.75rem; background: var(--paper); color: var(--ink); padding: 0.3rem 0.5rem; font-size: 0.7rem; border-radius: 2px; }
+
+  .case__body { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 0 var(--gutter); padding-block: clamp(3rem, 6vw, 6rem); }
+  .case__block { grid-column: 4 / span 8; margin-bottom: clamp(3rem, 6vw, 5rem); }
+  .case__block--wide { grid-column: 1 / -1; }
+  @media (max-width: 960px) { .case__block { grid-column: 1 / -1; } }
+  .case__h { text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 500; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem; }
+  .case__h::before { content: ''; width: 0.9em; height: 0.32em; background: var(--accent); box-shadow: 0.42em 0 0 var(--accent); margin-right: 0.42em; }
+  .case__big { font-family: var(--font-display); font-weight: 500; font-size: var(--step-2); line-height: 1.22; letter-spacing: -0.015em; }
+
+  .developed { display: grid; gap: 0; padding: 0; border-top: 1px solid var(--line); }
+  .developed li { display: grid; grid-template-columns: 3rem 1fr; gap: 1rem; padding-block: 1rem; border-bottom: 1px solid var(--line); font-size: var(--step-1); line-height: 1.35; }
+  .developed .mono { color: var(--link); padding-top: 0.3rem; }
+
+  .map__intro { margin-bottom: 1.5rem; }
+  .map { display: grid; grid-template-columns: 1fr 1fr; border-radius: var(--radius); overflow: hidden; }
+  .map__lane { padding: clamp(1.25rem, 3vw, 2.5rem); }
+  .map__lane--out { background: var(--flare); color: var(--ink); }
+  .map__lane--in { background: var(--lagoon); color: var(--paper); }
+  .map__label { font-family: var(--font-display); font-weight: 700; font-size: var(--step-3); letter-spacing: -0.03em; margin-bottom: 1.25rem; }
+  .map__lane ul { display: grid; gap: 0.7rem; padding: 0; }
+  .map__lane li { padding: 0.75rem 0.9rem; border: 1.5px solid currentColor; border-radius: 2px; font-weight: 500; }
+  .map__lane--out li { background: rgba(255,255,255,.18); }
+  .map__lane--in li { border-style: dashed; font-family: var(--font-mono); font-size: 0.85rem; }
+  @media (max-width: 760px) { .map { grid-template-columns: 1fr; } }
+
+  .value__note { margin-bottom: 1rem; }
+  .value { display: grid; gap: 0.6rem; padding: 0; }
+  .value li { display: grid; gap: 0.3rem; padding: 1rem 1.1rem; background: var(--surface); border-radius: var(--radius); font-size: var(--step-1); line-height: 1.3; }
+  .value__kind { color: var(--muted); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; }
+
+  .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--gutter); }
+  .gallery figure { margin: 0; display: grid; gap: 0.5rem; }
+  @media (max-width: 760px) { .gallery { grid-template-columns: 1fr; } }
+
+  .case__notes { font-size: var(--step-1); }
+  .case__ask { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.5rem; border: 1.5px solid var(--fg); border-radius: var(--radius); }
+
+  .next { border-top: 1px solid var(--line); }
+  .next__link { display: grid; gap: 0.5rem; padding-block: clamp(3rem, 6vw, 5rem); text-decoration: none; }
+  .next__title { font-family: var(--font-display); font-weight: 700; font-size: var(--step-4); letter-spacing: -0.035em; line-height: 1; transition: color 0.3s; }
+  .next__link:hover .next__title { color: var(--accent); }
+</style>

@@ -1,0 +1,76 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import ContactForm from '../../components/ContactForm.astro';
+import BookingLink from '../../components/BookingLink.astro';
+import Note from '../../components/Note.astro';
+import { site } from '../../config/site';
+
+const next = [
+  { t: 'We read it properly', d: `A real person reads every enquiry and replies within ${site.replyWithin}.` },
+  { t: 'A short discovery call', d: 'If there’s a fit, we’ll suggest a call to understand the problem, the goal and any constraints.' },
+  { t: 'A written proposal', d: 'You get a clear scope, timeline and cost. No obligation, and no pressure if the timing isn’t right.' },
+];
+---
+<Base title="Contact" description="Start a conversation with Outside In. Send an enquiry or book a discovery call about design, marketing or AI for your business.">
+  <PageHero
+    eyebrow="Contact"
+    title="Bring us the problem."
+    sliceWord="We’ll bring the outside view."
+    lede="Tell us what’s going on, or book a discovery call. Either way, you’ll get a straight answer."
+  />
+
+  <section class="wrap contact" aria-label="Get in touch">
+    <div class="contact__form" id="enquiry">
+      <h2 class="h-md contact__h">Send an enquiry</h2>
+      <ContactForm />
+    </div>
+
+    <aside class="contact__side" aria-label="Other ways to reach us">
+      <div class="contact__card contact__card--call">
+        <p class="eyebrow">Prefer to talk?</p>
+        <p class="h-md">Book a discovery call</p>
+        <p>{site.bookingUrl ? 'Pick a time that suits you. We’ll come prepared with questions about your business.' : 'Choose “A discovery call” in the form and we’ll send you some times.'}</p>
+        {site.bookingUrl ? <BookingLink /> : <a class="btn btn--accent" href="#enquiry" data-pick-call>Request a call <span class="btn__arrow" aria-hidden="true">→</span></a>}
+      </div>
+
+      <div class="contact__card">
+        <p class="eyebrow">Email</p>
+        <a class="contact__email" href={`mailto:${site.email}`} data-contact-email>{site.email}</a>
+      </div>
+
+      <div class="contact__card">
+        <p class="eyebrow">What happens next</p>
+        <ol role="list" class="next-steps">
+          {next.map((n, i) => <li><span class="mono">0{i + 1}</span><div><strong>{n.t}</strong><p class="muted">{n.d}</p></div></li>)}
+        </ol>
+      </div>
+      <Note>Explaining what happens after you hit send lowers the risk of enquiring. People contact you more when they know the next step.</Note>
+    </aside>
+  </section>
+</Base>
+
+<script>
+  document.querySelector('[data-pick-call]')?.addEventListener('click', () => {
+    const sel = document.querySelector<HTMLSelectElement>('select[name="topic"]');
+    if (sel) { sel.value = 'Discovery call'; setTimeout(() => document.getElementById('cf-name')?.focus(), 300); }
+  });
+</script>
+
+<style>
+  .contact { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: calc(var(--gutter) * 1.5); padding-bottom: var(--section); align-items: start; }
+  .contact__form { scroll-margin-top: 6rem; }
+  .contact__h { margin-bottom: 1.5rem; }
+  .contact__side { display: grid; gap: 1rem; }
+  .contact__card { display: grid; gap: 0.75rem; justify-items: start; padding: 1.5rem; border: 1px solid var(--line); border-radius: var(--radius); }
+  .contact__card--call { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .contact__card--call .eyebrow { color: rgba(244,240,232,.7); }
+  :root[data-view='inside'] .contact__card--call { background: var(--paper); color: var(--ink); }
+  :root[data-view='inside'] .contact__card--call .eyebrow { color: var(--ash); }
+  .contact__email { font-family: var(--font-display); font-weight: 600; font-size: var(--step-1); overflow-wrap: anywhere; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .contact__email:hover { color: var(--link); }
+  .next-steps { display: grid; gap: 1rem; padding: 0; }
+  .next-steps li { display: grid; grid-template-columns: 2rem 1fr; gap: 0.5rem; }
+  .next-steps .mono { color: var(--link); padding-top: 0.2rem; }
+  @media (max-width: 900px) { .contact { grid-template-columns: 1fr; } }
+</style>

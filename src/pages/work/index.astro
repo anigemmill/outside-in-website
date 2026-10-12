@@ -1,0 +1,121 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import Note from '../../components/Note.astro';
+import { services } from '../../data/services';
+
+const projects = (await getCollection('work')).sort((a, b) => {
+  // Real client work first, then by order.
+  if (a.data.status !== b.data.status) return a.data.status === 'client' ? -1 : 1;
+  return a.data.order - b.data.order;
+});
+const conceptCount = projects.filter((p) => p.data.status === 'concept').length;
+const filters = [
+  { id: 'all', label: 'All' },
+  ...services.map((s) => ({ id: s.id, label: s.name })),
+  { id: 'client', label: 'Client work' },
+];
+---
+<Base
+  title="Work"
+  description="Brand, campaign, digital and AI projects by Outside In. Concept projects are clearly labelled and show how we approach real business problems."
+>
+  <PageHero
+    eyebrow="Work"
+    title="Ideas, built from the"
+    sliceWord="outside in."
+    lede="Creative, marketing and AI projects. Each one starts with a business problem and ends with something real: a brand, a campaign, a working system."
+  />
+
+  <section class="wrap work-index" aria-label="Projects">
+    {conceptCount > 0 && (
+      <p class="disclosure">
+        <span class="tag tag--concept">Concept</span>
+        <span>
+          Projects marked Concept are self-initiated proof-of-concept work. They show how we would approach a real brief.
+          They are not client commissions and they don’t claim results. Client work is published here with permission.
+        </span>
+      </p>
+    )}
+
+    <div class="filters" role="group" aria-label="Filter projects" data-filters hidden>
+      {filters.map((f, i) => (
+        <button type="button" class="filter" data-filter={f.id} aria-pressed={i === 0 ? 'true' : 'false'}>{f.label}</button>
+      ))}
+    </div>
+    <p class="visually-hidden" aria-live="polite" data-filter-status></p>
+    <Note>Filters use the same three disciplines as the Services page, so a visitor who arrives looking for AI work can find it in one click.</Note>
+
+    <div class="grid-work" data-work-grid>
+      {projects.map((p, i) => <ProjectCard project={p} headingLevel="h2" priority={i < 2} />)}
+    </div>
+
+    <div class="empty" data-empty hidden>
+      <p class="h-md">Nothing here yet.</p>
+      <p class="muted" data-empty-text>No projects match this filter.</p>
+      <button type="button" class="btn btn--ghost" data-filter-reset>Show all projects</button>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const wrap = document.querySelector<HTMLElement>('[data-filters]');
+  const cards = [...document.querySelectorAll<HTMLElement>('[data-work-grid] .card')];
+  const empty = document.querySelector<HTMLElement>('[data-empty]')!;
+  const emptyText = document.querySelector<HTMLElement>('[data-empty-text]')!;
+  const status = document.querySelector<HTMLElement>('[data-filter-status]')!;
+  if (wrap) {
+    wrap.hidden = false;
+    const buttons = [...wrap.querySelectorAll<HTMLButtonElement>('[data-filter]')];
+    const apply = (id: string) => {
+      let shown = 0;
+      cards.forEach((c) => {
+        const cats = (c.dataset.categories ?? '').split(' ');
+        const isClient = c.querySelector('.tag--client') !== null;
+        const match = id === 'all' || (id === 'client' ? isClient : cats.includes(id));
+        c.hidden = !match;
+        if (match) { shown++; c.classList.add('is-in'); }
+      });
+      buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.filter === id)));
+      document.querySelector('[data-work-grid]')?.classList.toggle('is-filtered', id !== 'all');
+      empty.hidden = shown > 0;
+      emptyText.textContent = id === 'client'
+        ? 'Client projects will appear here as they are approved for publication. In the meantime, the concepts show how we work.'
+        : 'No projects match this filter yet.';
+      const label = buttons.find((b) => b.dataset.filter === id)?.textContent ?? '';
+      status.textContent = `${shown} project${shown === 1 ? '' : 's'} shown${id === 'all' ? '' : ` for ${label}`}.`;
+      const url = new URL(location.href);
+      if (id === 'all') url.searchParams.delete('filter'); else url.searchParams.set('filter', id);
+      history.replaceState(null, '', url);
+    };
+    buttons.forEach((b) => b.addEventListener('click', () => apply(b.dataset.filter!)));
+    document.querySelector('[data-filter-reset]')?.addEventListener('click', () => apply('all'));
+    const initial = new URL(location.href).searchParams.get('filter');
+    if (initial && buttons.some((b) => b.dataset.filter === initial)) apply(initial);
+  }
+</script>
+
+<style>
+  .work-index { padding-bottom: var(--section); }
+  .disclosure { display: flex; gap: 0.8rem; align-items: flex-start; max-width: 75ch; padding: 1rem 1.1rem; border: 1px solid var(--line); border-radius: var(--radius); margin-bottom: 2rem; font-size: var(--step--1); }
+  .filters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2.5rem; }
+  .filters[hidden] { display: none; }
+  .filter {
+    min-height: 44px; padding: 0.5rem 1rem; border: 1.5px solid var(--fg); background: transparent; border-radius: 999px;
+    font-weight: 500; transition: background-color 0.25s, color 0.25s;
+  }
+  .filter:hover { background: color-mix(in srgb, var(--accent) 20%, transparent); }
+  .filter[aria-pressed='true'] { background: var(--fg); color: var(--bg); }
+  .grid-work { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(3rem, 6vw, 5rem) var(--gutter); }
+  .grid-work > :global(.card:nth-child(even)) { margin-top: clamp(0rem, 8vw, 8rem); }
+  .grid-work > :global(.card[hidden]) { display: none; }
+  .grid-work.is-filtered > :global(.card) { margin-top: 0; }
+  .empty { display: grid; gap: 1rem; justify-items: start; padding: 3rem 0; }
+  .empty[hidden] { display: none; }
+  @media (max-width: 760px) {
+    .grid-work { grid-template-columns: 1fr; }
+    .grid-work > :global(.card:nth-child(even)) { margin-top: 0; }
+  }
+</style>

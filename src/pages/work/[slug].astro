@@ -21,6 +21,7 @@ const d = project.data;
 const { Content } = await render(project);
 const isConcept = d.status === 'concept';
 const isSvg = d.cover.format === 'svg';
+const imgOpts = (svg: boolean) => (svg ? {} : { widths: [800, 1280, 1920], sizes: '(max-width: 1440px) 100vw, 1440px' });
 
 const schema = site.url
   ? [{
@@ -42,55 +43,51 @@ const schema = site.url
 >
   <article class="case">
     <header class="wrap case__head">
-      <a class="case__back mono" href="/work/"><span aria-hidden="true">←</span> All work</a>
-      <div class="case__tags">
-        {isConcept
-          ? <span class="tag tag--concept">Concept · proof of concept</span>
-          : <span class="tag tag--client">Client work</span>}
-        {d.categories.map((c) => <a class="tag" href={`/work/?filter=${c}`}>{serviceById[c].name}</a>)}
-      </div>
+      <a class="case__back" href="/work/"><span aria-hidden="true">←</span> All work</a>
+      <p class="eyebrow">{isConcept ? 'Concept' : `Client work · ${d.client}`} · {d.type}</p>
       <h1 class="case__title">{d.title}</h1>
-      <p class="lede case__summary">{d.summary}</p>
-      <dl class="case__facts">
-        <div><dt>Type</dt><dd>{d.type}</dd></div>
-        <div><dt>Sector</dt><dd>{d.sector}</dd></div>
-        <div><dt>{isConcept ? 'Status' : 'Client'}</dt><dd>{isConcept ? 'Concept. Not commissioned work.' : d.client}</dd></div>
-        {d.year && <div><dt>Year</dt><dd>{d.year}</dd></div>}
-      </dl>
+      <p class="case__summary">{d.summary}</p>
     </header>
 
     <div class="wrap">
       <figure class="case__cover" style={`view-transition-name: cover-${project.id}`}>
-        <Image src={d.cover} alt={d.coverAlt} {...(isSvg ? {} : { widths: [800, 1280, 1920], sizes: '(max-width: 1440px) 100vw, 1440px' })} loading="eager" />
-        {isConcept && <figcaption class="mono">Concept artwork</figcaption>}
+        <Image src={d.cover} alt={d.coverAlt} {...imgOpts(isSvg)} loading="eager" />
       </figure>
+      <dl class="case__facts">
+        <div><dt>Sector</dt><dd>{d.sector}</dd></div>
+        <div><dt>Services</dt><dd>{d.categories.map((c, i) => <>{i > 0 && ', '}<a href={`/work/?filter=${c}`}>{serviceById[c].name}</a></>)}</dd></div>
+        <div><dt>{isConcept ? 'Status' : 'Year'}</dt><dd>{isConcept ? 'Concept, not commissioned work' : d.year ?? ''}</dd></div>
+      </dl>
     </div>
 
     <div class="wrap case__body">
-      <section class="case__block" aria-labelledby="challenge">
-        <h2 id="challenge" class="case__h mono">The challenge</h2>
-        <p class="case__big">{d.challenge}</p>
+      <section class="row" aria-labelledby="challenge">
+        <h2 id="challenge" class="row__label">The challenge</h2>
+        <div class="row__content"><p class="case__big">{d.challenge}</p></div>
       </section>
 
-      <section class="case__block" aria-labelledby="approach">
-        <h2 id="approach" class="case__h mono">The approach</h2>
-        <p class="case__big">{d.approach}</p>
+      <section class="row" aria-labelledby="approach">
+        <h2 id="approach" class="row__label">The approach</h2>
+        <div class="row__content">
+          <p class="case__big">{d.approach}</p>
+          <div class="prose case__notes"><Content /></div>
+        </div>
       </section>
 
-      <div class="case__block prose case__notes"><Content /></div>
-
-      <section class="case__block" aria-labelledby="developed">
-        <h2 id="developed" class="case__h mono">{isConcept ? 'What we’d develop' : 'What we developed'}</h2>
-        <ol class="developed" role="list">
+      <section class="row" aria-labelledby="developed">
+        <h2 id="developed" class="row__label">{isConcept ? 'What we’d develop' : 'What we developed'}</h2>
+        <ol class="row__content developed" role="list">
           {d.developed.map((item, i) => (
-            <li data-reveal style={`--reveal-delay:${i * 0.05}s`}><span class="mono">{String(i + 1).padStart(2, '0')}</span><span>{item}</span></li>
+            <li data-reveal style={`--reveal-delay:${i * 0.04}s`}><span class="developed__n">{String(i + 1).padStart(2, '0')}</span><span>{item}</span></li>
           ))}
         </ol>
       </section>
 
-      <section class="case__block case__block--wide" aria-labelledby="map">
-        <h2 id="map" class="case__h mono">Outside / Inside</h2>
-        <p class="muted map__intro">What customers would see, and what runs behind it.</p>
+      <section class="map-wrap" aria-labelledby="map">
+        <div class="map-wrap__head">
+          <h2 id="map" class="row__label">Outside / Inside</h2>
+          <p class="muted">What customers would see, and what runs behind it.</p>
+        </div>
         <div class="map" data-reveal>
           <div class="map__lane map__lane--out">
             <p class="map__label">Outside</p>
@@ -101,115 +98,123 @@ const schema = site.url
             <ul role="list">{d.map.inside.map((m) => <li>{m}</li>)}</ul>
           </div>
         </div>
-        <Note>Every case study shows both layers. It makes the point of the agency without saying it: we design what people see and build what makes it work.</Note>
+        <Note>Every case study shows both layers. It makes the agency’s point without saying it: we design what people see and build what makes it work.</Note>
       </section>
 
       {d.demo === 'triage' && (
-        <section class="case__block case__block--wide" id="demo" aria-labelledby="demo-title">
-          <h2 id="demo-title" class="case__h mono">Interactive demo</h2>
+        <section class="demo" id="demo" aria-labelledby="demo-title">
+          <h2 id="demo-title" class="row__label">Try it</h2>
           <TriageDemo />
         </section>
       )}
 
       {d.gallery.length > 0 && (
-        <section class="case__block case__block--wide" aria-label="Project images">
-          <div class="gallery">
-            {d.gallery.map((g) => (
-              <figure>
-                <Image src={g.src} alt={g.alt} widths={[640, 1024, 1600]} sizes="(max-width: 860px) 100vw, 50vw" />
-                {g.caption && <figcaption class="mono muted">{g.caption}</figcaption>}
-              </figure>
-            ))}
-          </div>
+        <section class="gallery" aria-label="Project images">
+          {d.gallery.map((g) => (
+            <figure>
+              <Image src={g.src} alt={g.alt} widths={[640, 1024, 1600]} sizes="(max-width: 860px) 100vw, 50vw" />
+              {g.caption && <figcaption>{g.caption}</figcaption>}
+            </figure>
+          ))}
         </section>
       )}
 
-      <section class="case__block" aria-labelledby="value">
-        <h2 id="value" class="case__h mono">{isConcept ? 'Intended value' : 'Business value'}</h2>
-        {isConcept && <p class="muted value__note">These are the objectives the concept is designed to test. They are hypotheses, not results.</p>}
-        <ul role="list" class="value">
-          {d.objectives.map((o) => <li><span class="value__kind mono">Objective</span>{o}</li>)}
-        </ul>
+      <section class="row" aria-labelledby="value">
+        <h2 id="value" class="row__label">{isConcept ? 'Intended value' : 'Business value'}</h2>
+        <div class="row__content">
+          <ul role="list" class="value">{d.objectives.map((o) => <li>{o}</li>)}</ul>
+          {isConcept && <p class="value__note">These are the objectives the concept is designed to test. They are hypotheses, not results.</p>}
+        </div>
       </section>
 
       {!isConcept && d.results.length > 0 && (
-        <section class="case__block" aria-labelledby="results">
-          <h2 id="results" class="case__h mono">Results</h2>
-          <ul role="list" class="value">{d.results.map((r) => <li><span class="value__kind mono">Result</span>{r}</li>)}</ul>
+        <section class="row" aria-labelledby="results">
+          <h2 id="results" class="row__label">Results</h2>
+          <ul role="list" class="row__content value">{d.results.map((r) => <li>{r}</li>)}</ul>
         </section>
       )}
 
-      <div class="case__block case__ask">
-        <p class="h-md">{isConcept ? 'Have a version of this problem?' : 'Want results like these?'}</p>
-        <BookingLink label="Talk it through" />
+      <div class="row case__ask">
+        <p class="row__label">{isConcept ? 'Have a version of this problem?' : 'Want results like these?'}</p>
+        <div class="row__content"><BookingLink label="Talk it through" /></div>
       </div>
     </div>
 
-    <nav class="next" aria-label="Next project">
-      <a class="wrap next__link" href={`/work/${next.id}/`}>
-        <span class="mono">Next project</span>
-        <span class="next__title">{next.data.title} <span aria-hidden="true">→</span></span>
-        <span class="muted">{next.data.summary}</span>
+    <nav class="next wrap" aria-label="Next project">
+      <a class="next__link" href={`/work/${next.id}/`}>
+        <div class="next__media"><Image src={next.data.cover} alt="" loading="lazy" /></div>
+        <div class="next__text">
+          <span class="eyebrow">Next project</span>
+          <span class="next__title">{next.data.title} <span aria-hidden="true">→</span></span>
+          <span class="muted">{next.data.summary}</span>
+        </div>
       </a>
     </nav>
   </article>
 </Base>
 
 <style>
-  .case__head { display: grid; gap: 1.25rem; padding-block: clamp(2rem, 5vw, 4rem) clamp(2rem, 4vw, 3rem); }
-  .case__back { text-decoration: none; color: var(--muted); justify-self: start; padding-block: 0.5rem; }
+  .case__head { display: grid; gap: 1.25rem; padding-block: clamp(3rem, 7vw, 6rem) clamp(2.5rem, 5vw, 4rem); }
+  .case__back { justify-self: start; color: var(--muted); text-decoration: none; font-size: var(--step--1); padding-block: 0.5rem; }
   .case__back:hover { color: var(--fg); }
-  .case__tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-  .case__tags a.tag { text-decoration: none; }
-  .case__tags a.tag:hover { background: var(--fg); color: var(--bg); }
-  .case__title { font-size: clamp(3rem, 1.4rem + 8vw, 9rem); line-height: 0.95; letter-spacing: -0.04em; font-weight: 600; }
-  .case__summary { max-width: 40ch; }
-  .case__facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem var(--gutter); border-top: 1px solid var(--line); padding-top: 1.25rem; margin-top: 0.5rem; }
-  .case__facts dt { font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
-  .case__facts dd { margin: 0.2rem 0 0; }
+  .case__title { font-size: clamp(2.8rem, 1.4rem + 6vw, 7.5rem); font-weight: 600; line-height: 0.98; letter-spacing: -0.04em; }
+  .case__summary { font-size: var(--step-1); color: var(--muted); max-width: 44ch; }
 
-  .case__cover { margin: 0; position: relative; border-radius: var(--radius); overflow: hidden; background: var(--surface); }
-  .case__cover :global(img) { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; }
-  .case__cover figcaption { position: absolute; right: 0.75rem; bottom: 0.75rem; background: var(--white); color: var(--ink); padding: 0.35rem 0.7rem; font-size: 0.7rem; border-radius: var(--pill); }
+  .case__cover { margin: 0; border-radius: var(--radius); overflow: hidden; background: var(--surface); }
+  .case__cover :global(img) { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+  .case__facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem var(--gutter); padding-block: 1.5rem; }
+  .case__facts dt { font-size: var(--step--1); color: var(--muted); }
+  .case__facts dd { margin: 0.25rem 0 0; }
+  .case__facts a { color: var(--fg); text-underline-offset: 0.2em; }
+  .case__facts a:hover { color: var(--link); }
+  @media (max-width: 640px) { .case__facts { grid-template-columns: 1fr; } }
 
-  .case__body { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 0 var(--gutter); padding-block: clamp(3rem, 6vw, 6rem); }
-  .case__block { grid-column: 4 / span 8; margin-bottom: clamp(3rem, 6vw, 5rem); }
-  .case__block--wide { grid-column: 1 / -1; }
-  @media (max-width: 960px) { .case__block { grid-column: 1 / -1; } }
-  .case__h { text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 500; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem; }
-  .case__h::before { content: ''; width: 0.9em; height: 0.32em; background: var(--accent); box-shadow: 0.42em 0 0 var(--accent); margin-right: 0.42em; }
-  .case__big { font-family: var(--font-display); font-weight: 500; font-size: var(--step-2); line-height: 1.22; letter-spacing: -0.015em; }
+  .case__body { padding-block: clamp(4rem, 9vw, 8rem) 0; }
+  .row { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 1rem var(--gutter); padding-block: clamp(2.5rem, 5vw, 4rem); border-top: 1px solid var(--line); }
+  .row__label { font-family: var(--font-body); font-size: var(--step-0); font-weight: 600; letter-spacing: 0; }
+  .row__content { min-width: 0; }
+  @media (max-width: 860px) { .row { grid-template-columns: 1fr; } }
+  .case__big { font-family: var(--font-display); font-weight: 500; font-size: var(--step-2); line-height: 1.25; letter-spacing: -0.015em; max-width: 34ch; }
+  .case__notes { margin-top: 1.5rem; color: var(--muted); }
 
-  .developed { display: grid; gap: 0; padding: 0; border-top: 1px solid var(--line); }
-  .developed li { display: grid; grid-template-columns: 3rem 1fr; gap: 1rem; padding-block: 1rem; border-bottom: 1px solid var(--line); font-size: var(--step-1); line-height: 1.35; }
-  .developed .mono { color: var(--link); padding-top: 0.3rem; }
+  .developed { display: grid; padding: 0; }
+  .developed li { display: grid; grid-template-columns: 2.5rem 1fr; gap: 1rem; padding-block: 0.9rem; border-bottom: 1px solid var(--line); font-size: var(--step-1); line-height: 1.35; }
+  .developed li:first-child { padding-top: 0; }
+  .developed li:last-child { border-bottom: 0; }
+  .developed__n { color: var(--muted); font-size: var(--step--1); padding-top: 0.35rem; }
 
-  .map__intro { margin-bottom: 1.5rem; }
-  .map { display: grid; grid-template-columns: 1fr 1fr; border-radius: var(--radius); overflow: hidden; }
-  .map__lane { padding: clamp(1.25rem, 3vw, 2.5rem); }
-  .map__lane--out { background: var(--pink); color: var(--ink); }
-  .map__lane--in { background: var(--purple); color: var(--ink); }
-  .map__label { font-family: var(--font-display); font-weight: 700; font-size: var(--step-3); letter-spacing: -0.03em; margin-bottom: 1.25rem; }
-  .map__lane ul { display: grid; gap: 0.7rem; padding: 0; }
-  .map__lane li { padding: 0.75rem 0.9rem; border: 1.5px solid currentColor; border-radius: 2px; font-weight: 500; }
-  .map__lane--out li { background: rgba(255,255,255,.35); }
-  .map__lane--in li { border-style: dashed; font-family: var(--font-mono); font-size: 0.85rem; }
+  .map-wrap { padding-block: clamp(2.5rem, 5vw, 4rem); border-top: 1px solid var(--line); }
+  .map-wrap__head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 2rem; margin-bottom: 1.5rem; }
+  .map { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .map__lane { padding: clamp(1.5rem, 3vw, 2.5rem); border-radius: var(--radius); color: var(--ink); }
+  .map__lane--out { background: var(--pink); }
+  .map__lane--in { background: var(--green); }
+  .map__label { font-family: var(--font-display); font-weight: 600; font-size: var(--step-3); letter-spacing: -0.03em; margin-bottom: 1.25rem; }
+  .map__lane ul { display: grid; padding: 0; }
+  .map__lane li { padding-block: 0.7rem; border-top: 1px solid rgba(23, 19, 31, 0.2); }
   @media (max-width: 760px) { .map { grid-template-columns: 1fr; } }
 
-  .value__note { margin-bottom: 1rem; }
-  .value { display: grid; gap: 0.6rem; padding: 0; }
-  .value li { display: grid; gap: 0.3rem; padding: 1rem 1.1rem; background: var(--surface); border-radius: var(--radius); font-size: var(--step-1); line-height: 1.3; }
-  .value__kind { color: var(--muted); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; }
+  .demo { display: grid; gap: 1.5rem; padding-block: clamp(2.5rem, 5vw, 4rem); border-top: 1px solid var(--line); scroll-margin-top: 6rem; }
 
-  .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--gutter); }
+  .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--gutter); padding-block: clamp(2.5rem, 5vw, 4rem); }
   .gallery figure { margin: 0; display: grid; gap: 0.5rem; }
+  .gallery figcaption { color: var(--muted); font-size: var(--step--1); }
   @media (max-width: 760px) { .gallery { grid-template-columns: 1fr; } }
 
-  .case__notes { font-size: var(--step-1); }
-  .case__ask { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.5rem; border: 1.5px solid var(--fg); border-radius: var(--radius); }
+  .value { display: grid; padding: 0; }
+  .value li { padding-block: 0.8rem; border-bottom: 1px solid var(--line); font-size: var(--step-1); line-height: 1.35; }
+  .value li:first-child { padding-top: 0; }
+  .value__note { margin-top: 1rem; color: var(--muted); font-size: var(--step--1); }
 
-  .next { border-top: 1px solid var(--line); }
-  .next__link { display: grid; gap: 0.5rem; padding-block: clamp(3rem, 6vw, 5rem); text-decoration: none; }
-  .next__title { font-family: var(--font-display); font-weight: 600; font-size: var(--step-4); letter-spacing: -0.035em; line-height: 1; transition: color 0.3s; }
-  .next__link:hover .next__title { color: var(--accent); }
+  .case__ask .row__label { font-family: var(--font-display); font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; }
+
+  .next { padding-block: clamp(4rem, 9vw, 8rem); }
+  .next__link { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--gutter); align-items: center; text-decoration: none; color: var(--fg); padding-top: clamp(2.5rem, 5vw, 4rem); border-top: 1px solid var(--line); }
+  .next__media { aspect-ratio: 4 / 3; border-radius: var(--radius); overflow: hidden; }
+  .next__media :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform 1s var(--ease-out); }
+  .next__link:hover .next__media :global(img) { transform: scale(1.04); }
+  .next__text { display: grid; gap: 0.75rem; justify-items: start; }
+  .next__title { font-family: var(--font-display); font-weight: 600; font-size: var(--step-4); letter-spacing: -0.035em; line-height: 1; }
+  .next__link:hover .next__title { color: var(--link); }
+  @media (max-width: 760px) { .next__link { grid-template-columns: 1fr; } }
 </style>

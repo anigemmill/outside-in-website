@@ -86,7 +86,7 @@ const topics = [
 
 <div class="cform-done" data-done hidden tabindex="-1">
   <p class="eyebrow">Sent</p>
-  <p class="h-lg">Thanks. We’ve got it.</p>
+  <p class="cform-done__title">Thanks. We’ve got it.</p>
   <p class="lede">We’ll reply to the email you gave us within {site.replyWithin}.</p>
 </div>
 
@@ -179,14 +179,14 @@ const topics = [
   .field input, .field select, .field textarea {
     width: 100%; min-height: 3.1rem; padding: 0.75rem 0.9rem;
     background: color-mix(in srgb, var(--bg) 70%, #fff); color: var(--fg);
-    border: 1.5px solid color-mix(in srgb, var(--fg) 45%, transparent); border-radius: var(--radius);
+    border: 1px solid color-mix(in srgb, var(--fg) 35%, transparent); border-radius: 12px;
     transition: border-color 0.2s, box-shadow 0.2s;
   }
   :root[data-view='inside'] .field input, :root[data-view='inside'] .field select, :root[data-view='inside'] .field textarea { background: var(--ink); }
   .field textarea { resize: vertical; min-height: 9rem; }
   .field input:hover, .field select:hover, .field textarea:hover { border-color: var(--fg); }
   .field input:focus-visible, .field select:focus-visible, .field textarea:focus-visible { outline: none; border-color: var(--fg); box-shadow: 0 0 0 4px var(--lilac); }
-  .field [aria-invalid='true'] { border-color: #b3261e; box-shadow: 4px 4px 0 #b3261e33; }
+  .field [aria-invalid='true'] { border-color: #b3261e; box-shadow: 0 0 0 3px #b3261e22; }
   :root[data-view='inside'] .field [aria-invalid='true'] { border-color: #ff9b8a; }
   .field__hint { font-size: var(--step--1); color: var(--muted); }
   .field__err { font-size: var(--step--1); color: #b3261e; font-weight: 600; min-height: 0; }
@@ -197,7 +197,8 @@ const topics = [
   .cform__status { font-size: var(--step--1); }
   .cform__status :global(.cform__error) { color: #b3261e; font-weight: 600; }
   :root[data-view='inside'] .cform__status :global(.cform__error) { color: #ffb4a6; }
-  .cform-done { display: grid; gap: 1rem; padding: 2rem; border: 1.5px solid var(--fg); border-radius: var(--radius); box-shadow: 8px 8px 0 var(--lilac); }
+  .cform-done { display: grid; gap: 1rem; padding: clamp(1.75rem, 4vw, 3rem); border-radius: var(--radius); background: var(--lilac); color: var(--ink); }
   .cform-done[hidden] { display: none; }
+  .cform-done__title { font-family: var(--font-display); font-size: var(--step-3); font-weight: 600; letter-spacing: -0.03em; }
   .cform-done:focus { outline: none; }
 </style>

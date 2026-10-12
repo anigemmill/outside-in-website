@@ -103,7 +103,7 @@ img { height: auto; }
 input, button, textarea, select { font: inherit; color: inherit; }
 button { cursor: pointer; }
 a { color: inherit; }
-h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; text-wrap: balance; }
+h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 600; line-height: 0.98; letter-spacing: -0.025em; text-wrap: balance; }
 p { text-wrap: pretty; }
 ul[role='list'], ol[role='list'] { list-style: none; padding: 0; }
 ::selection { background: var(--lilac); color: var(--ink); }
@@ -137,17 +137,13 @@ ul[role='list'], ol[role='list'] { list-style: none; padding: 0; }
 
 /* Type utilities -------------------------------------------------------- */
 .eyebrow {
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: var(--step--1);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-weight: 500;
   color: var(--muted);
-  display: inline-flex; align-items: center; gap: 0.6em;
+  display: inline-flex; align-items: center; gap: 0.55em;
 }
-.eyebrow::before {
-  content: ''; width: 0.9em; height: 0.32em; background: var(--accent);
-  box-shadow: 0.42em 0 0 var(--accent); margin-right: 0.42em; /* a tiny slice */
-}
+.eyebrow::before { content: ''; width: 0.55em; height: 0.55em; border-radius: 50%; background: var(--dot, var(--purple)); }
 .display { font-size: var(--step-5); line-height: 0.92; letter-spacing: -0.04em; font-variation-settings: 'wdth' 90; }
 .h-xl { font-size: var(--step-4); line-height: 0.95; letter-spacing: -0.035em; }
 .h-lg { font-size: var(--step-3); }
@@ -234,7 +230,7 @@ ul[role='list'], ol[role='list'] { list-style: none; padding: 0; }
 /* Tags / labels */
 .tag {
   display: inline-flex; align-items: center; gap: 0.4em;
-  font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase;
+  font-family: var(--font-body); font-size: 0.8rem; font-weight: 500;
   padding: 0.4em 0.75em; border: 1px solid var(--line); border-radius: var(--pill); line-height: 1.1;
 }
 .tag--concept { background: var(--fg); color: var(--bg); border-color: var(--fg); }

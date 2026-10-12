@@ -54,72 +54,72 @@ const tracks = [
 >
   <PageHero
     eyebrow="Approach"
-    title="First we look out. Then we"
-    sliceWord="look in."
-    lede="Good work starts with seeing the problem clearly. Our process moves from your customers’ view to your business’s inner workings, and back out again with something that works."
+    dot="green"
+    title="First we look out. Then we look in."
+    lede="Good work starts with seeing the problem clearly. We move from your customers’ view to your business’s inner workings, and back out again with something that works."
   />
 
-  <section class="wrap stages-wrap" aria-label="Stages">
+  <section class="wrap stages-wrap" aria-label="How a project runs">
     <ol class="stages" role="list">
       {stages.map((s, i) => (
-        <li class="stage" data-reveal style={`--reveal-delay:${i * 0.06}s`}>
-          <span class="stage__n mono">{s.n}</span>
+        <li class="stage" data-reveal style={`--reveal-delay:${i * 0.05}s`}>
+          <span class="stage__n">{s.n}</span>
           <h2 class="stage__name">{s.name}</h2>
-          <p class="stage__text">{s.text}</p>
-          <p class="stage__get mono"><span>You get</span> {s.youGet}</p>
+          <div class="stage__body">
+            <p>{s.text}</p>
+            <p class="stage__get"><span>You get</span> {s.youGet}</p>
+          </div>
         </li>
       ))}
     </ol>
-    <Note>Five stages, but named in plain language. “Look outside / look inside” turns the agency name into a method a client can remember and repeat.</Note>
+    <Note>Five stages named in plain language. “Look outside, look inside” turns the agency name into a method a client can remember and repeat.</Note>
   </section>
 
-  <section class="section tracks" aria-labelledby="tracks-title">
-    <div class="wrap">
-      <p class="eyebrow">Not one process for everything</p>
-      <h2 id="tracks-title" class="h-xl tracks__title" data-reveal>Different work moves at a different pace.</h2>
-      <ul role="list" class="tracks__list">
-        {tracks.map((t) => (
-          <li data-reveal>
-            <h3 class="h-md">{t.name}</h3>
-            <p>{t.text}</p>
-          </li>
-        ))}
-      </ul>
-      <div class="tracks__cta">
-        <p class="lede">Not sure which applies to you? That’s what the discovery call is for.</p>
-        <BookingLink />
-      </div>
+  <section class="wrap tracks" aria-labelledby="tracks-title">
+    <div class="tracks__head">
+      <h2 id="tracks-title" class="tracks__title">Different work moves at a different pace.</h2>
+    </div>
+    <ul role="list" class="tracks__list">
+      {tracks.map((t, i) => (
+        <li data-reveal style={`--reveal-delay:${i * 0.06}s`}>
+          <span class="tracks__swatch" style={`--c: var(--${['pink', 'green', 'purple'][i]})`} aria-hidden="true"></span>
+          <h3 class="tracks__name">{t.name}</h3>
+          <p class="muted">{t.text}</p>
+        </li>
+      ))}
+    </ul>
+    <div class="tracks__cta">
+      <p>Not sure which applies to you? That’s what the discovery call is for.</p>
+      <BookingLink />
     </div>
   </section>
 </Base>
 
 <style>
-  .stages-wrap { padding-bottom: var(--section); }
-  .stages { display: grid; padding: 0; counter-reset: s; }
+  .stages-wrap { padding-bottom: clamp(5rem, 10vw, 9rem); }
+  .stages { display: grid; padding: 0; }
   .stage {
-    display: grid; grid-template-columns: 5rem minmax(0, 1fr) minmax(0, 1.3fr); gap: 0.5rem var(--gutter);
-    padding-block: 2rem; border-top: 1px solid var(--line); align-items: start;
-    transition: padding-left 0.5s var(--ease-out);
+    display: grid; grid-template-columns: 4rem minmax(0, 4fr) minmax(0, 7fr); gap: 0.75rem var(--gutter);
+    padding-block: clamp(2rem, 4vw, 3rem); border-top: 1px solid var(--line); align-items: start;
   }
   .stage:last-child { border-bottom: 1px solid var(--line); }
-  .stage:hover { padding-left: 1rem; }
-  .stage__n { color: var(--link); padding-top: 0.5rem; font-size: 1rem; }
-  .stage__name { font-size: var(--step-3); letter-spacing: -0.03em; }
-  .stage:nth-child(1) .stage__name { color: var(--fg); }
-  .stage__get { grid-column: 3; color: var(--muted); }
-  .stage__get span { display: inline-block; background: var(--fg); color: var(--bg); padding: 0.15rem 0.4rem; margin-right: 0.4rem; border-radius: 2px; text-transform: uppercase; font-size: 0.68rem; letter-spacing: 0.06em; }
+  .stage__n { color: var(--muted); font-size: var(--step--1); padding-top: 0.7rem; }
+  .stage__name { font-size: var(--step-3); font-weight: 600; letter-spacing: -0.03em; }
+  .stage__body { display: grid; gap: 1rem; font-size: var(--step-1); line-height: 1.45; max-width: 52ch; }
+  .stage__get { font-size: var(--step-0); color: var(--muted); }
+  .stage__get span { color: var(--fg); font-weight: 600; margin-right: 0.35rem; }
   @media (max-width: 860px) {
-    .stage { grid-template-columns: 3rem 1fr; }
-    .stage__text, .stage__get { grid-column: 2; }
+    .stage { grid-template-columns: 2.5rem 1fr; }
+    .stage__body { grid-column: 2; }
   }
 
-  .tracks { background: var(--ink); color: var(--white); --muted: var(--lilac); --line: rgba(255,255,255,.22); --accent: var(--lilac); --fg: var(--white); --bg: var(--ink); }
-  .tracks .eyebrow { color: var(--lilac); }
-  .tracks__title { margin-block: 1rem 3rem; max-width: 18ch; color: var(--lilac); }
-  .tracks__list { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gutter); padding: 0; }
-  .tracks__list li { display: grid; gap: 0.75rem; align-content: start; padding-top: 1.25rem; border-top: 2px solid var(--white); }
-  .tracks__list li:nth-child(2) { border-color: var(--lilac); }
-  .tracks__list li:nth-child(3) { border-color: var(--green); }
-  .tracks__cta { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1.5rem; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+  .tracks { padding-bottom: clamp(6rem, 12vw, 12rem); }
+  .tracks__head { margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+  .tracks__title { font-size: var(--step-3); font-weight: 600; letter-spacing: -0.03em; max-width: 20ch; }
+  .tracks__list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gutter); padding: 0; }
+  .tracks__list li { display: grid; gap: 0.75rem; align-content: start; }
+  .tracks__swatch { width: 100%; aspect-ratio: 16 / 9; border-radius: var(--radius); background: var(--c); margin-bottom: 0.5rem; }
+  .tracks__name { font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; }
+  .tracks__cta { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1.5rem; margin-top: clamp(3rem, 6vw, 5rem); padding-top: 1.5rem; border-top: 1px solid var(--line); font-size: var(--step-1); }
   @media (max-width: 860px) { .tracks__list { grid-template-columns: 1fr; } }
 </style>

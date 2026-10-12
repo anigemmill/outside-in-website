@@ -1,18 +1,16 @@
 ---
-import SliceText from './SliceText.astro';
-interface Props { eyebrow: string; title: string; sliceWord?: string; lede?: string }
-const { eyebrow, title, sliceWord, lede } = Astro.props;
+/** Quiet page header: a small label, one large line, an optional short lede. */
+interface Props { eyebrow: string; title: string; lede?: string; dot?: string }
+const { eyebrow, title, lede, dot } = Astro.props;
 ---
 <header class="page-hero wrap">
-  <p class="eyebrow">{eyebrow}</p>
-  <h1 class="h-xl page-hero__title">
-    {title}{sliceWord && <> <SliceText text={sliceWord} accent /></>}
-  </h1>
-  {lede && <p class="lede page-hero__lede">{lede}</p>}
+  <p class="eyebrow" style={dot ? `--dot: var(--${dot})` : undefined}>{eyebrow}</p>
+  <h1 class="page-hero__title">{title}</h1>
+  {lede && <p class="page-hero__lede">{lede}</p>}
   <slot />
 </header>
 <style>
-  .page-hero { display: grid; gap: 1.5rem; padding-block: clamp(4rem, 10vw, 9rem) clamp(3rem, 6vw, 5rem); }
-  .page-hero__title { max-width: 18ch; font-size: clamp(2.5rem, 1.4rem + 5.4vw, 6.8rem); line-height: 1; letter-spacing: -0.035em; font-weight: 600; }
-  .page-hero__lede { max-width: 52ch; }
+  .page-hero { display: grid; gap: 1.5rem; padding-block: clamp(5rem, 12vw, 11rem) clamp(3.5rem, 7vw, 6rem); }
+  .page-hero__title { font-size: clamp(2.4rem, 1.3rem + 4.2vw, 5.6rem); font-weight: 600; line-height: 1.02; letter-spacing: -0.035em; max-width: 18ch; }
+  .page-hero__lede { font-size: var(--step-1); color: var(--muted); max-width: 46ch; line-height: 1.45; }
 </style>

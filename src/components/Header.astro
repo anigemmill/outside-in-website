@@ -1,6 +1,5 @@
 ---
 import Logo from './Logo.astro';
-import ViewToggle from './ViewToggle.astro';
 import { nav, site, bookingHref, bookingIsExternal } from '../config/site';
 
 const path = Astro.url.pathname;
@@ -10,27 +9,20 @@ const isCurrent = (href: string) => (href === '/' ? path === '/' : path.startsWi
   <div class="site-header__inner wrap">
     <a class="brand" href="/" aria-label={`${site.name}, home`}>
       <Logo id="oi-head" animate="load" class="brand__mark" decorative />
-      <span class="brand__word" aria-hidden="true">Outside&nbsp;In</span>
     </a>
 
-    <div class="nav-pill">
-      <nav class="site-nav" aria-label="Main">
-        <ul role="list">
-          {nav.filter((n) => n.href !== '/contact/').map((item) => (
-            <li><a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a></li>
-          ))}
-        </ul>
-      </nav>
-      <ViewToggle id="view-toggle-desktop" class="hide-sm" />
-    </div>
+    <nav class="site-nav" aria-label="Main">
+      <ul role="list">
+        {nav.filter((n) => n.href !== '/contact/').map((item) => (
+          <li><a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a></li>
+        ))}
+      </ul>
+    </nav>
 
-    <div class="site-header__actions">
-      <a class="btn btn--talk hide-sm" href="/contact/">Let’s talk</a>
-      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-open>
-        <span class="menu-btn__bars" aria-hidden="true"><span></span><span></span></span>
-        <span class="menu-btn__label">Menu</span>
-      </button>
-    </div>
+    <a class="btn btn--accent btn--sm hide-sm" href="/contact/">Let’s talk</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-open>
+      <span class="menu-btn__label">Menu</span>
+    </button>
   </div>
 
   <div class="mobile-menu" id="mobile-menu" data-menu hidden>
@@ -42,7 +34,6 @@ const isCurrent = (href: string) => (href === '/' ? path === '/' : path.startsWi
       </ul>
     </nav>
     <div class="mobile-menu__foot">
-      <ViewToggle id="view-toggle-mobile" />
       <a class="btn btn--accent" href={bookingHref} {...(bookingIsExternal ? { target: '_blank', rel: 'noopener' } : {})}>
         Book a discovery call <span class="btn__arrow" aria-hidden="true">→</span>
       </a>
@@ -52,77 +43,54 @@ const isCurrent = (href: string) => (href === '/' ? path === '/' : path.startsWi
 </header>
 
 <style>
-  /* Floating pills: the header itself is transparent. */
   .site-header {
     position: sticky; top: 0; z-index: 50;
-    padding-block: 0.75rem;
-    pointer-events: none;
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    transition: background-color 0.4s var(--ease-out);
   }
+  /* Homepage: the header floats over the logo hero and stays clear until you scroll. */
   :global(.is-home) .site-header { position: fixed; left: 0; right: 0; }
-  .site-header__inner { display: flex; align-items: center; gap: 0.75rem; }
-  .site-header__inner > * { pointer-events: auto; }
+  :global(.is-home) .site-header:not(.is-past-hero) { background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .site-header__inner { display: flex; align-items: center; gap: clamp(1.25rem, 3vw, 2.5rem); min-height: 5rem; }
 
-  .brand {
-    display: inline-flex; align-items: center; gap: 0.7rem; margin-right: auto;
-    padding: 0.55rem 1.1rem 0.55rem 0.9rem; border-radius: var(--pill);
-    background: var(--cream); color: var(--ink); text-decoration: none;
-    box-shadow: 0 0 0 1.5px var(--ink);
-    transition: opacity 0.4s var(--ease-out), transform 0.4s var(--ease-out), visibility 0.4s;
-  }
-  /* On the homepage the hero is the logo, so the header mark waits until you scroll past it. */
-  :global(.is-home) .site-header:not(.is-past-hero) .brand { opacity: 0; transform: translateY(-8px); visibility: hidden; }
-  :global(.brand__mark) { width: 2.6rem; view-transition-name: oi-logo; }
-  .brand__word { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; }
+  .brand { display: inline-flex; margin-right: auto; color: var(--plum); padding-block: 0.5rem; transition: opacity 0.4s var(--ease-out), visibility 0.4s; }
+  :root[data-view='inside'] .brand { color: var(--white); }
+  :global(.is-home) .site-header:not(.is-past-hero) .brand { opacity: 0; visibility: hidden; }
+  :global(.brand__mark) { width: 3.2rem; view-transition-name: oi-logo; }
 
-  .nav-pill {
-    display: flex; align-items: center; gap: 1.25rem;
-    padding: 0.3rem 0.5rem 0.3rem 1.4rem; border-radius: var(--pill);
-    background: var(--ink); color: var(--cream);
-    --fg: var(--cream); --muted: #b9b4bd; --accent: var(--lime);
-  }
-  :root[data-view='inside'] .nav-pill { background: var(--cream); color: var(--ink); --fg: var(--ink); --muted: var(--ink-soft); --accent: var(--magenta); }
-  .site-nav ul { display: flex; gap: clamp(0.9rem, 1.6vw, 1.6rem); }
-  .site-nav a { position: relative; display: inline-block; text-decoration: none; font-weight: 600; padding-block: 0.65rem; }
+  .site-nav ul { display: flex; gap: clamp(1.25rem, 2.4vw, 2.25rem); }
+  .site-nav a { position: relative; display: inline-block; padding-block: 0.6rem; text-decoration: none; font-weight: 500; color: var(--fg); }
   .site-nav a::after {
-    content: ''; position: absolute; left: 0; bottom: 0.35rem; height: 2px; width: 100%;
-    background: var(--accent); transform: scaleX(0); transform-origin: left;
-    transition: transform 0.35s var(--ease-out);
+    content: ''; position: absolute; left: 0; bottom: 0.3rem; height: 1.5px; width: 100%;
+    background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform 0.35s var(--ease-out);
   }
   .site-nav a:hover::after, .site-nav a[aria-current='page']::after { transform: scaleX(1); }
 
-  .site-header__actions { display: flex; align-items: center; gap: 0.5rem; }
-  .btn--talk { --btn-bg: var(--magenta); --btn-fg: var(--ink); --btn-border: var(--ink); --fill: var(--lime); --fill-fg: var(--ink); min-height: 2.9rem; padding-block: 0.6rem; }
+  :global(.btn--sm) { min-height: 2.75rem; padding: 0.55rem 1.2rem; font-size: 0.95rem; }
 
   .menu-btn {
-    display: none; align-items: center; gap: 0.6rem; min-height: 44px; padding: 0 1.1rem;
-    background: var(--ink); color: var(--cream); border: 0; border-radius: var(--pill);
-    font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase;
+    display: none; min-height: 44px; padding: 0 0.25rem; background: none; border: 0;
+    font-weight: 600; color: var(--fg);
   }
-  .menu-btn__bars { display: grid; gap: 6px; width: 22px; }
-  .menu-btn__bars span { height: 2px; background: currentColor; transition: transform 0.35s var(--ease-out); }
-  .menu-btn__bars span:last-child { width: 70%; transform: translateX(30%); }
-  .menu-btn[aria-expanded='true'] .menu-btn__bars span:first-child { transform: translateY(4px) rotate(45deg); }
-  .menu-btn[aria-expanded='true'] .menu-btn__bars span:last-child { width: 100%; transform: translateY(-4px) rotate(-45deg); }
+  .menu-btn[aria-expanded='true'] .menu-btn__label { text-decoration: underline; text-underline-offset: 4px; }
 
   .mobile-menu {
-    position: fixed; inset: 0; z-index: -1; pointer-events: auto;
-    background: var(--blush); color: var(--ink); padding: 6rem var(--gutter) 2rem;
-    display: flex; flex-direction: column; justify-content: space-between; gap: 2rem;
-    overflow-y: auto; --fg: var(--ink); --muted: var(--ink-soft); --bg: var(--blush);
+    position: fixed; inset: 5rem 0 0 0; z-index: 49;
+    background: var(--bg); padding: 2rem var(--gutter) 2.5rem;
+    display: flex; flex-direction: column; justify-content: space-between; gap: 2rem; overflow-y: auto;
   }
   .mobile-menu[hidden] { display: none; }
-  .mobile-menu ul { display: grid; gap: 0.2rem; }
-  .mobile-menu li { animation: menu-in 0.5s var(--ease-out) both; animation-delay: calc(var(--i) * 50ms); }
-  .mobile-menu nav a {
-    display: block; font-family: var(--font-display); font-weight: 800; font-size: clamp(2.6rem, 12vw, 4rem);
-    letter-spacing: -0.03em; line-height: 1.05; text-decoration: none; text-transform: uppercase;
-  }
-  .mobile-menu nav a[aria-current='page'] { text-decoration: underline; text-decoration-thickness: 4px; text-underline-offset: 6px; }
+  .mobile-menu ul { display: grid; gap: 0.4rem; }
+  .mobile-menu li { animation: menu-in 0.5s var(--ease-out) both; animation-delay: calc(var(--i) * 45ms); }
+  .mobile-menu nav a { display: block; font-family: var(--font-display); font-weight: 600; font-size: clamp(2.2rem, 10vw, 3.2rem); letter-spacing: -0.03em; line-height: 1.15; text-decoration: none; color: var(--fg); }
+  .mobile-menu nav a[aria-current='page'] { color: var(--link); }
   .mobile-menu__foot { display: grid; gap: 1rem; justify-items: start; }
-  @keyframes menu-in { from { opacity: 0; transform: translateX(-16px); } }
+  @keyframes menu-in { from { opacity: 0; transform: translateY(8px); } }
 
   @media (max-width: 960px) {
-    .nav-pill { display: none; }
-    .menu-btn { display: inline-flex; }
+    .site-nav { display: none; }
+    .menu-btn { display: inline-flex; align-items: center; }
+    :global(.brand__mark) { width: 2.8rem; }
   }
 </style>

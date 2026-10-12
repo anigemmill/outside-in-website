@@ -9,35 +9,33 @@
 
 :root {
   /* Palette ------------------------------------------------------------
-     Taken from the GIND / Creator Studio reference.
-       Cream    base background            Ink      all text, the logo on light
-       Moss     the hero and big moments   Blush    the logo on moss, Design & Creative
-       Lime     Marketing & Growth         Lilac    pills, hover fills, surfaces
-       Magenta  stickers and the main call to action
-     Ink reads on every light colour (7:1 or more). Moss pairs are display-only
-     (blush or cream on moss is 3-4:1), so small text on green uses Moss Deep. */
-  --ink: #111010;
-  --ink-deep: #161417;      /* Inside view background */
-  --ink-soft: #57525b;      /* secondary text: 7.3:1 on cream, 5.1:1 on blush */
-  --cream: #fafcf0;
-  --moss: #628038;
-  --moss-deep: #4a6428;     /* moss for sections with small text (cream 6.4:1) */
-  --blush: #eccae0;
-  --magenta: #d782b3;       /* ink on magenta 7:1 */
-  --lilac: #ece0f8;
-  --lime: #e6fcb0;
+     Nine colours, used with restraint: the page is white, plum is the ink,
+     and the brights live mostly in the work imagery and the service colours.
+     Plum reads on every light colour (7.8:1 or more). Coral and tangerine are
+     for artwork and fills only (under 4.5:1 with text). */
+  --plum: #6b104d;          /* text, logo, buttons (11.6:1 on white) */
+  --petal: #225266;         /* secondary text (8.5:1 on white) */
+  --petal-deep: #173a48;    /* Inside view background */
+  --white: #ffffff;
+  --ballet: #ffe2e1;        /* Design & Creative, soft surfaces */
+  --powder: #cbe7fe;        /* Marketing & Growth */
+  --lavender: #e0cdfd;      /* pill fills, hovers */
+  --amethyst: #821eff;      /* links and highlights (5.9:1 on white) */
+  --chartreuse: #b7e255;    /* artwork, small accents */
+  --tangerine: #fd792d;     /* artwork only */
+  --coral: #fc3f32;         /* artwork only */
 
   /* Roles (swapped by the Inside view) */
-  --bg: var(--cream);
-  --fg: var(--ink);
-  --muted: var(--ink-soft);
-  --surface: var(--lilac);
-  --line: color-mix(in srgb, var(--fg) 22%, transparent);
-  --accent: var(--ink);       /* markers, underlines, numbers */
-  --fill: var(--lilac);        /* pill fills and hover sweeps */
-  --fill-fg: var(--ink);
-  --slice: var(--magenta);       /* colour of the shifted band in headlines */
-  --link: var(--ink);
+  --bg: var(--white);
+  --fg: var(--plum);
+  --muted: var(--petal);
+  --surface: var(--ballet);
+  --line: color-mix(in srgb, var(--fg) 14%, transparent);
+  --accent: var(--amethyst);   /* markers, underlines, numbers */
+  --fill: var(--lavender);     /* pill fills and hover sweeps */
+  --fill-fg: var(--plum);
+  --slice: var(--amethyst);    /* colour of the shifted band in headlines */
+  --link: var(--amethyst);
 
   /* Type ------------------------------------------------------------------ */
   --font-display: 'Bricolage Grotesque Variable', 'Arial Narrow', system-ui, sans-serif;
@@ -69,16 +67,16 @@
 
 /* The Inside view: same site, seen from the systems side. */
 :root[data-view='inside'] {
-  --bg: var(--ink-deep);
-  --fg: var(--cream);
-  --muted: var(--lilac);
-  --surface: var(--ink);
+  --bg: var(--petal-deep);
+  --fg: var(--white);
+  --muted: var(--powder);
+  --surface: var(--petal);
   --line: color-mix(in srgb, var(--fg) 20%, transparent);
-  --accent: var(--lime);
-  --fill: var(--lime);
-  --fill-fg: var(--ink);
-  --slice: var(--lilac);
-  --link: var(--cream);
+  --accent: var(--chartreuse);
+  --fill: var(--powder);
+  --fill-fg: var(--plum);
+  --slice: var(--powder);
+  --link: var(--powder);
   color-scheme: dark;
 }
 
@@ -104,21 +102,21 @@ img { height: auto; }
 input, button, textarea, select { font: inherit; color: inherit; }
 button { cursor: pointer; }
 a { color: inherit; }
-h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 800; line-height: 0.98; letter-spacing: -0.025em; text-wrap: balance; }
+h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; text-wrap: balance; }
 p { text-wrap: pretty; }
 ul[role='list'], ol[role='list'] { list-style: none; padding: 0; }
-::selection { background: var(--lilac); color: var(--ink); }
+::selection { background: var(--lavender); color: var(--plum); }
 
 :focus-visible {
-  outline: 3px solid var(--ink);
+  outline: 3px solid var(--plum);
   outline-offset: 3px;
   border-radius: 2px;
 }
-:root[data-view='inside'] :focus-visible { outline-color: var(--cream); }
+:root[data-view='inside'] :focus-visible { outline-color: var(--white); }
 
 .skip-link {
   position: absolute; left: var(--gutter); top: -100px; z-index: 100;
-  background: var(--ink); color: var(--cream); padding: 0.75rem 1rem; text-decoration: none; border-radius: var(--pill);
+  background: var(--plum); color: var(--white); padding: 0.75rem 1rem; text-decoration: none; border-radius: var(--pill);
 }
 .skip-link:focus { top: 0.75rem; }
 
@@ -239,7 +237,7 @@ ul[role='list'], ol[role='list'] { list-style: none; padding: 0; }
   padding: 0.4em 0.75em; border: 1px solid var(--line); border-radius: var(--pill); line-height: 1.1;
 }
 .tag--concept { background: var(--fg); color: var(--bg); border-color: var(--fg); }
-.tag--client { background: var(--lilac); color: var(--ink); border-color: var(--lilac); }
+.tag--client { background: var(--lavender); color: var(--plum); border-color: var(--lavender); }
 
 /* Inside-view notes ------------------------------------------------------------
    Each <aside class="note"> explains why a section exists. Hidden in the Outside
@@ -250,24 +248,24 @@ ul[role='list'], ol[role='list'] { list-style: none; padding: 0; }
   display: block;
   font-family: var(--font-mono); font-size: 0.8rem; line-height: 1.5;
   color: var(--fg);
-  border: 1px dashed color-mix(in srgb, var(--lilac) 75%, transparent);
-  background: var(--ink);
+  border: 1px dashed color-mix(in srgb, var(--lavender) 75%, transparent);
+  background: var(--plum);
   padding: 0.8rem 0.95rem; border-radius: 12px;
   max-width: 46ch; margin-block: 1.25rem;
   animation: note-in 0.5s var(--ease-out) both;
 }
-.note__label { display: block; color: var(--cream); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.7rem; margin-bottom: 0.3rem; }
+.note__label { display: block; color: var(--white); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.7rem; margin-bottom: 0.3rem; }
 @keyframes note-in { from { opacity: 0; transform: translateY(6px); } }
 
 /* Blueprint grid behind everything in the Inside view */
 :root[data-view='inside'] body {
   background-image:
-    linear-gradient(color-mix(in srgb, var(--cream) 7%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in srgb, var(--cream) 7%, transparent) 1px, transparent 1px);
+    linear-gradient(color-mix(in srgb, var(--white) 7%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--white) 7%, transparent) 1px, transparent 1px);
   background-size: 48px 48px;
   background-position: -1px -1px;
 }
-:root[data-view='inside'] .inside-outline { outline: 1px dashed color-mix(in srgb, var(--lilac) 35%, transparent); outline-offset: 6px; }
+:root[data-view='inside'] .inside-outline { outline: 1px dashed color-mix(in srgb, var(--lavender) 35%, transparent); outline-offset: 6px; }
 
 /* Reveal on scroll ---------------------------------------------------------- */
 .js [data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out); transition-delay: var(--reveal-delay, 0s); }

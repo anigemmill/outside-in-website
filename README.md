@@ -134,29 +134,29 @@ Create a booking page in Cal.com, Calendly or Google Calendar appointment schedu
 3. Hero only: the slices follow the pointer (or a finger on touch screens), and every six seconds while idle and on screen the slices give a short blink.
 Reduced-motion users see the finished logo with no movement. Timings are in the `<style>` block of `Logo.astro`; the idle interval is in `src/scripts/site.ts`.
 
-**Homepage.** Deliberately simple: a full-screen hero that is only the animated logo (blush on moss), then one statement, four portrait work tiles, a numbered services list, and the footer call to action. Homepage copy lives in `src/data/home.ts`.
+**Homepage.** Deliberately minimal, with lots of white space: a full-screen hero that is only the animated plum logo and one line, then one statement, two large work images, three services in a row, and the footer call to action. Homepage copy lives in `src/data/home.ts`.
 
-**Badge.** The spinning “Let’s talk” sticker in the hero (`src/components/Badge.astro`) is a real link to the contact page. Change its words with the `text` prop.
+**Header.** Logo on the left, plain text links and one plum “Let’s talk” button on the right. On the homepage the header logo appears once you scroll past the hero logo.
 
-**Header.** Floating pills: the brand in a cream pill, navigation in an ink pill, and a magenta “Let’s talk” button. On the homepage the header logo appears once you scroll past the hero logo.
+**Inside view switch.** Lives in the footer (“See the thinking behind every page”).
 
 **The slice.** The logo’s cut runs through the whole site: headline text, card hovers, rules and the eyebrow markers.
 
-**Colour.** Taken from the GIND / Creator Studio reference:
+**Colour.** Nine colours, used with restraint. The page is white and plum is the ink; the brights live mostly in the work imagery and the three service colours.
 
 | Colour | Hex | Role |
 | --- | --- | --- |
-| Cream | `#FAFCF0` | Base background |
-| Ink | `#111010` | All text, the logo on light colours, footer |
-| Moss | `#628038` | The hero and big colour moments |
-| Blush | `#ECCAE0` | The logo on moss; Design & Creative |
-| Lime | `#E6FCB0` | Marketing & Growth |
-| Lilac | `#ECE0F8` | Pills, hover fills, surfaces |
-| Magenta | `#D782B3` | The badge and the “Let’s talk” buttons |
+| Plum Purple | `#6B104D` | Text, logo, buttons, footer, AI & Systems |
+| Petal (teal) | `#225266` | Secondary text; Inside view |
+| Ballet Pink | `#FFE2E1` | Design & Creative; soft surfaces |
+| Powder Blue | `#CBE7FE` | Marketing & Growth |
+| Lavender Purple | `#E0CDFD` | Hover fills, pills |
+| Amethyst Purple | `#821EFF` | Links and highlights |
+| Chartreuse Green | `#B7E255` | Small accents, artwork |
+| Tangerine Orange | `#FD792D` | Artwork only |
+| Coral Red | `#FC3F32` | Artwork only |
 
-Supporting tokens: Moss Deep `#4A6428` (AI & Systems and any green section with small text), Ink Soft `#57525B` (secondary text), Ink Deep `#161417` (Inside view).
-
-**Contrast.** Ink reads on every light colour (7:1 or more). Blush or cream on moss is 3 to 4.3:1, which is fine for the logo and large bold type only, so small text on green uses Moss Deep with cream text (6.4:1).
+**Contrast.** Plum reads on every light colour (7.8:1 or more, 11.6:1 on white). Petal is 8.5:1 and Amethyst 5.9:1 on white. Coral and tangerine are under 4.5:1 with text, so keep them to artwork, dots and fills.
 
 **Shapes.** Buttons, tags, filters and stickers are pills (`--pill`); cards and panels use a 16px radius (`--radius`).
 

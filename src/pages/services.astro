@@ -92,11 +92,10 @@ import { services, combinations, partnership } from '../data/services';
   .svc__head { display: grid; gap: 1rem; margin-bottom: 3rem; max-width: 60rem; }
   .svc__num { color: var(--muted); }
   /* Each discipline wears its own colour pairing. */
-  .svc--design-creative { background: var(--blush); color: var(--ink); --fg: var(--ink); --muted: var(--ink-soft); --surface: var(--cream); --accent: var(--ink); --line: rgba(17,16,16,.25); border-top: 0; }
-  .svc--marketing-growth { background: var(--lime); color: var(--ink); --fg: var(--ink); --muted: var(--ink-soft); --surface: var(--cream); --accent: var(--ink); --line: rgba(17,16,16,.25); border-top: 0; }
-  .svc--ai-systems { background: var(--moss-deep); color: var(--cream); --fg: var(--cream); --muted: var(--cream); --accent: var(--blush); --fill: var(--cream); --line: rgba(250,252,240,.3); border-top: 0; }
-  .svc--ai-systems .svc__head h2 { color: var(--blush); }
-  .svc h2 { text-transform: uppercase; }
+  .svc--design-creative { background: var(--ballet); color: var(--plum); --fg: var(--plum); --muted: var(--petal); --surface: var(--white); --accent: var(--plum); --line: rgba(107,16,77,.25); border-top: 0; }
+  .svc--marketing-growth { background: var(--powder); color: var(--plum); --fg: var(--plum); --muted: var(--petal); --surface: var(--white); --accent: var(--plum); --line: rgba(107,16,77,.25); border-top: 0; }
+  .svc--ai-systems { background: var(--plum); color: var(--white); --fg: var(--white); --muted: var(--white); --accent: var(--ballet); --fill: var(--white); --line: rgba(255,255,255,.3); border-top: 0; }
+  .svc--ai-systems .svc__head h2 { color: var(--ballet); }
   .svc__cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gutter); }
   .svc__h { text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 500; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--line); }
   .svc__list { display: grid; gap: 0.75rem; padding: 0; }
@@ -110,17 +109,17 @@ import { services, combinations, partnership } from '../data/services';
   .together__lede { margin-block: 1.25rem 3rem; max-width: 56ch; }
   .combos { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gutter); padding: 0; }
   .combo { border: 1.5px solid var(--fg); border-radius: var(--radius); padding: 1.5rem; display: grid; gap: 0.6rem; align-content: start; transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out); }
-  .combo:hover { transform: translate(-4px, -4px); box-shadow: 8px 8px 0 var(--combo, var(--ink)); }
-  .combo:nth-child(1) { --combo: var(--lilac); }
-  .combo:nth-child(2) { --combo: var(--moss); }
+  .combo:hover { transform: translate(-4px, -4px); box-shadow: 8px 8px 0 var(--combo, var(--plum)); }
+  .combo:nth-child(1) { --combo: var(--lavender); }
+  .combo:nth-child(2) { --combo: var(--chartreuse); }
   .combo__mix { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0; margin-top: 0.8rem; }
   .combo__mix li { font-family: var(--font-mono); font-size: 0.75rem; padding: 0.35rem 0.55rem; background: var(--surface); border-radius: 2px; }
   @media (max-width: 860px) { .combos { grid-template-columns: 1fr; } }
 
-  .partner { display: grid; grid-template-columns: 1.2fr 1fr; gap: var(--gutter); align-items: end; margin-top: clamp(3rem, 6vw, 6rem); padding: clamp(1.5rem, 3vw, 3rem); background: var(--ink); color: var(--cream); border-radius: var(--radius); --fill: var(--lilac); }
-  .partner .eyebrow { color: var(--lilac); --accent: var(--lilac); }
+  .partner { display: grid; grid-template-columns: 1.2fr 1fr; gap: var(--gutter); align-items: end; margin-top: clamp(3rem, 6vw, 6rem); padding: clamp(1.5rem, 3vw, 3rem); background: var(--plum); color: var(--white); border-radius: var(--radius); --fill: var(--lavender); }
+  .partner .eyebrow { color: var(--lavender); --accent: var(--lavender); }
   .partner > div { display: grid; gap: 1rem; }
-  .partner h3 { color: var(--lilac); }
+  .partner h3 { color: var(--lavender); }
   @media (max-width: 860px) { .partner { grid-template-columns: 1fr; } }
 
   .pricing { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--line); }

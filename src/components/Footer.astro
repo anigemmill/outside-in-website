@@ -1,6 +1,8 @@
 ---
 import Logo from './Logo.astro';
-import { nav, site, bookingHref, bookingIsExternal } from '../config/site';
+import ViewToggle from './ViewToggle.astro';
+import BookingLink from './BookingLink.astro';
+import { nav, site } from '../config/site';
 
 const socials = Object.entries(site.social).filter(([, url]) => Boolean(url));
 const labels: Record<string, string> = { instagram: 'Instagram', linkedin: 'LinkedIn', facebook: 'Facebook', behance: 'Behance' };
@@ -8,45 +10,27 @@ const year = new Date().getFullYear();
 ---
 <footer class="site-footer">
   <div class="wrap">
-    <div class="site-footer__top">
-      <p class="site-footer__big">
-        Too close to see it?<br /><span class="accent">Let’s look from outside.</span>
-      </p>
-      <div class="btn-row">
-        <a class="btn btn--accent" href={bookingHref} {...(bookingIsExternal ? { target: '_blank', rel: 'noopener' } : {})}>
-          Book a discovery call <span class="btn__arrow" aria-hidden="true">→</span>
-        </a>
-        <a class="btn btn--ghost-inv" href="/contact/">Send an enquiry</a>
-      </div>
+    <div class="site-footer__cta">
+      <p class="site-footer__big">Too close to see it?<br />Let’s look from outside.</p>
+      <BookingLink class="btn btn--light" />
     </div>
 
     <div class="site-footer__grid">
-      <div class="site-footer__brand">
-        <Logo id="oi-foot" class="site-footer__mark" decorative />
-        <p>Creative, marketing and AI.<br />Made in {site.location}.</p>
-      </div>
+      <Logo id="oi-foot" class="site-footer__mark" decorative />
       <nav aria-label="Footer">
-        <p class="site-footer__h">Explore</p>
         <ul role="list">
-          <li><a href="/">Home</a></li>
           {nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
         </ul>
       </nav>
-      <div>
-        <p class="site-footer__h">Talk to us</p>
-        <ul role="list">
-          <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
-          <li><a href={bookingHref} {...(bookingIsExternal ? { target: '_blank', rel: 'noopener' } : {})}>Book a discovery call</a></li>
-        </ul>
+      <ul role="list">
+        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+        {socials.map(([k, url]) => <li><a href={url} target="_blank" rel="noopener">{labels[k] ?? k}</a></li>)}
+        <li class="site-footer__loc">{site.location}</li>
+      </ul>
+      <div class="site-footer__toggle">
+        <ViewToggle id="view-toggle-footer" />
+        <p class="site-footer__hint">See the thinking behind every page.</p>
       </div>
-      {socials.length > 0 && (
-        <div>
-          <p class="site-footer__h">Follow</p>
-          <ul role="list">
-            {socials.map(([k, url]) => <li><a href={url} target="_blank" rel="noopener">{labels[k] ?? k}</a></li>)}
-          </ul>
-        </div>
-      )}
     </div>
 
     <div class="site-footer__base">
@@ -58,33 +42,27 @@ const year = new Date().getFullYear();
 
 <style>
   .site-footer {
-    background: var(--ink); color: var(--cream);
-    padding-block: var(--section) 2rem;
-    --line: rgba(250, 252, 240, 0.22); --fill: var(--lilac); --fill-fg: var(--ink); --fg: var(--cream); --bg: var(--ink);
+    background: var(--plum); color: var(--ballet);
+    padding-block: clamp(5rem, 10vw, 9rem) 2rem;
+    --fg: var(--ballet); --bg: var(--plum); --muted: var(--lavender); --accent: var(--chartreuse);
+    --line: rgba(255, 226, 225, 0.2);
   }
-  :root[data-view='inside'] .site-footer { background: #000000; }
-  .site-footer a { text-decoration: none; }
-  .site-footer a:hover { color: var(--blush); }
-  .site-footer__top { display: grid; gap: 2rem; padding-bottom: clamp(3rem, 6vw, 6rem); border-bottom: 1px solid var(--line); }
-  .site-footer__big { font-family: var(--font-display); font-weight: 700; font-size: var(--step-4); line-height: 0.95; letter-spacing: -0.035em; font-weight: 800; text-transform: uppercase; }
-  .accent { color: var(--blush); }
-  .site-footer :global(.btn--accent) { --btn-bg: var(--magenta); --btn-fg: var(--ink); --fill: var(--lime); }
-  .btn--ghost-inv { --btn-bg: transparent; --btn-fg: var(--cream); --btn-border: var(--cream); }
+  :root[data-view='inside'] .site-footer { background: #0f2834; }
+  .site-footer a { text-decoration: none; color: inherit; }
+  .site-footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .site-footer__cta { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 2rem; padding-bottom: clamp(4rem, 8vw, 7rem); }
+  .site-footer__big { font-family: var(--font-display); font-weight: 600; font-size: clamp(2rem, 1.2rem + 3vw, 4rem); line-height: 1.05; letter-spacing: -0.03em; }
+  :global(.btn--light) { --btn-bg: var(--ballet); --btn-fg: var(--plum); --fill: var(--chartreuse); --fill-fg: var(--plum); }
   .site-footer__grid {
-    display: grid; gap: 2.5rem; padding-block: 3rem;
-    grid-template-columns: 1.4fr repeat(3, minmax(0, 1fr));
+    display: grid; gap: 2.5rem; padding-block: 2.5rem; border-top: 1px solid var(--line);
+    grid-template-columns: 1fr 1fr 1.3fr 1.2fr; align-items: start;
   }
-  :global(.site-footer__mark) { width: 5.5rem; color: var(--cream); margin-bottom: 1rem; }
-  .site-footer__brand p { color: var(--lilac); }
-  .site-footer__h { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--lilac); margin-bottom: 0.9rem; }
-  .site-footer ul { display: grid; gap: 0.45rem; }
-  .site-footer li a { display: inline-block; padding-block: 0.15rem; overflow-wrap: anywhere; }
-  .site-footer__base {
-    display: flex; justify-content: space-between; gap: 1rem; padding-top: 1.5rem; border-top: 1px solid var(--line);
-    font-family: var(--font-mono); font-size: 0.75rem; color: var(--lilac);
-  }
-  @media (max-width: 860px) {
-    .site-footer__grid { grid-template-columns: 1fr 1fr; }
-    .site-footer__brand { grid-column: 1 / -1; }
-  }
+  :global(.site-footer__mark) { width: 4.5rem; color: var(--ballet); }
+  .site-footer ul { display: grid; gap: 0.5rem; }
+  .site-footer li a { display: inline-block; padding-block: 0.1rem; overflow-wrap: anywhere; }
+  .site-footer__loc { color: var(--lavender); }
+  .site-footer__toggle { display: grid; gap: 0.25rem; justify-items: start; }
+  .site-footer__hint { font-size: var(--step--1); color: var(--lavender); }
+  .site-footer__base { display: flex; justify-content: space-between; gap: 1rem; padding-top: 1.5rem; border-top: 1px solid var(--line); font-size: var(--step--1); color: var(--lavender); }
+  @media (max-width: 860px) { .site-footer__grid { grid-template-columns: 1fr 1fr; } }
 </style>

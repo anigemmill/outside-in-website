@@ -12,7 +12,7 @@ function setView(view: 'outside' | 'inside', persist = true) {
     btn.setAttribute('aria-checked', String(view === 'inside'));
   });
   const meta = document.querySelector('meta[name="theme-color"]');
-  meta?.setAttribute('content', view === 'inside' ? '#173a48' : '#ffffff');
+  meta?.setAttribute('content', view === 'inside' ? '#1f1a29' : '#ffffff');
   if (persist) {
     try { localStorage.setItem('oi-view', view); } catch { /* storage unavailable: fine */ }
   }
@@ -140,13 +140,22 @@ document.querySelectorAll<SVGSVGElement>('[data-logo="interactive"]').forEach((l
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(([en]) => { visible = en.isIntersecting; }).observe(logo);
   }
+  // If the hero has colour pairs, the background flips to the next pair at the
+  // moment the slices are whole (40% into the blink), so the change feels cut-in.
+  const heroEl = logo.closest<HTMLElement>('[data-pair]');
+  const pairs = 4;
   const pulse = () => {
-    if (!introDone || !visible || document.hidden || Date.now() - lastMove < 3000) return;
+    if (!introDone || !visible || document.hidden || Date.now() - lastMove < 2500) return;
     logo.style.setProperty('--oi-k', '1');
     logo.classList.add('oi-logo--pulse');
     logo.querySelector('.oi-slice--i')?.addEventListener('animationend', () => logo.classList.remove('oi-logo--pulse'), { once: true });
+    if (heroEl) {
+      window.setTimeout(() => {
+        heroEl.dataset.pair = String((Number(heroEl.dataset.pair ?? 0) + 1) % pairs);
+      }, 300);
+    }
   };
-  window.setInterval(pulse, 6000);
+  window.setInterval(pulse, 4200);
 });
 
 export {};

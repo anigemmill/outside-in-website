@@ -42,27 +42,27 @@ const year = new Date().getFullYear();
 
 <style>
   .site-footer {
-    background: var(--plum); color: var(--ballet);
+    background: var(--ink); color: var(--pink);
     padding-block: clamp(5rem, 10vw, 9rem) 2rem;
-    --fg: var(--ballet); --bg: var(--plum); --muted: var(--lavender); --accent: var(--chartreuse);
-    --line: rgba(255, 226, 225, 0.2);
+    --fg: var(--pink); --bg: var(--ink); --muted: var(--lilac); --accent: var(--green);
+    --line: rgba(255, 153, 220, 0.2);
   }
-  :root[data-view='inside'] .site-footer { background: #0f2834; }
+  :root[data-view='inside'] .site-footer { background: #0e0b14; }
   .site-footer a { text-decoration: none; color: inherit; }
   .site-footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
   .site-footer__cta { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 2rem; padding-bottom: clamp(4rem, 8vw, 7rem); }
   .site-footer__big { font-family: var(--font-display); font-weight: 600; font-size: clamp(2rem, 1.2rem + 3vw, 4rem); line-height: 1.05; letter-spacing: -0.03em; }
-  :global(.btn--light) { --btn-bg: var(--ballet); --btn-fg: var(--plum); --fill: var(--chartreuse); --fill-fg: var(--plum); }
+  :global(.btn--light) { --btn-bg: var(--pink); --btn-fg: var(--ink); --fill: var(--green); --fill-fg: var(--ink); }
   .site-footer__grid {
     display: grid; gap: 2.5rem; padding-block: 2.5rem; border-top: 1px solid var(--line);
     grid-template-columns: 1fr 1fr 1.3fr 1.2fr; align-items: start;
   }
-  :global(.site-footer__mark) { width: 4.5rem; color: var(--ballet); }
+  :global(.site-footer__mark) { width: 4.5rem; color: var(--pink); }
   .site-footer ul { display: grid; gap: 0.5rem; }
   .site-footer li a { display: inline-block; padding-block: 0.1rem; overflow-wrap: anywhere; }
-  .site-footer__loc { color: var(--lavender); }
+  .site-footer__loc { color: var(--lilac); }
   .site-footer__toggle { display: grid; gap: 0.25rem; justify-items: start; }
-  .site-footer__hint { font-size: var(--step--1); color: var(--lavender); }
-  .site-footer__base { display: flex; justify-content: space-between; gap: 1rem; padding-top: 1.5rem; border-top: 1px solid var(--line); font-size: var(--step--1); color: var(--lavender); }
+  .site-footer__hint { font-size: var(--step--1); color: var(--lilac); }
+  .site-footer__base { display: flex; justify-content: space-between; gap: 1rem; padding-top: 1.5rem; border-top: 1px solid var(--line); font-size: var(--step--1); color: var(--lilac); }
   @media (max-width: 860px) { .site-footer__grid { grid-template-columns: 1fr 1fr; } }
 </style>

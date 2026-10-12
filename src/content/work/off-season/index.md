@@ -6,7 +6,7 @@ sector: Tourism & accommodation
 type: Digital marketing campaign
 categories: [marketing-growth, design-creative]
 cover: ./cover.svg
-coverAlt: Pale pink artwork of a red sun setting behind a teal sea with white wave stripes and a tiny beach hut, cut by a shifted horizontal band.
+coverAlt: Pink artwork of a red sun setting behind a purple sea with white wave stripes and a tiny beach hut, cut by a shifted horizontal band.
 featured: false
 order: 5
 challenge: >-

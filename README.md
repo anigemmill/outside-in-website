@@ -142,21 +142,22 @@ Reduced-motion users see the finished logo with no movement. Timings are in the 
 
 **The slice.** The logo’s cut runs through the whole site: headline text, card hovers, rules and the eyebrow markers.
 
-**Colour.** Nine colours, used with restraint. The page is white and plum is the ink; the brights live mostly in the work imagery and the three service colours.
+**Colour.** Four colours that swap roles, plus ink and white:
 
 | Colour | Hex | Role |
 | --- | --- | --- |
-| Plum Purple | `#6B104D` | Text, logo, buttons, footer, AI & Systems |
-| Petal (teal) | `#225266` | Secondary text; Inside view |
-| Ballet Pink | `#FFE2E1` | Design & Creative; soft surfaces |
-| Powder Blue | `#CBE7FE` | Marketing & Growth |
-| Lavender Purple | `#E0CDFD` | Hover fills, pills |
-| Amethyst Purple | `#821EFF` | Links and highlights |
-| Chartreuse Green | `#B7E255` | Small accents, artwork |
-| Tangerine Orange | `#FD792D` | Artwork only |
-| Coral Red | `#FC3F32` | Artwork only |
+| Red | `#EB4213` | Hero pair 1 (green mark); artwork |
+| Pink | `#FF99DC` | Hero pair 2 (red mark); Design & Creative |
+| Purple | `#826DEE` | Hero pair 3 (pink mark); AI & Systems |
+| Light green | `#D8F382` | Hero pair 4 (purple mark); Marketing & Growth |
+| Ink | `#17131F` | All text, buttons, footer |
+| White | `#FFFFFF` | Page background |
 
-**Contrast.** Plum reads on every light colour (7.8:1 or more, 11.6:1 on white). Petal is 8.5:1 and Amethyst 5.9:1 on white. Coral and tangerine are under 4.5:1 with text, so keep them to artwork, dots and fills.
+Supporting tokens: Purple Ink `#4F3ACB` (links, 7.5:1 on white), Red Ink `#B8320D` (small red text), Lilac `#E6E0FC` (hover fills), Ink Soft `#4B4556` (secondary text), Ink Deep `#1F1A29` (Inside view).
+
+**The colour-cycling hero.** The homepage hero flips to the next pair every few seconds, at the moment the logo's slices snap whole, so the change feels cut-in. The pairs are set in `src/pages/index.astro` (`.hero[data-pair='0']` to `'3'`); the interval is in `src/scripts/site.ts`. It pauses when the hero is off screen, while someone is moving over the mark, and for reduced-motion users.
+
+**Contrast.** Ink reads on all four colours (4.6:1 or more) and is used for every piece of text on colour. The colour pairs themselves are 2 to 3:1, so they are only for the logo and big colour fields, never for text.
 
 **Shapes.** Buttons, tags, filters and stickers are pills (`--pill`); cards and panels use a 16px radius (`--radius`).
 

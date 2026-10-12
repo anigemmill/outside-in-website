@@ -6,7 +6,7 @@ sector: Events & entertainment
 type: Event campaign · Content system
 categories: [design-creative, marketing-growth]
 cover: ./cover.svg
-coverAlt: Bold violet artwork of pale pink equaliser bars of varying heights under small green stars, cut by a shifted horizontal band.
+coverAlt: Bold red artwork of pink equaliser bars of varying heights under small green stars, cut by a shifted horizontal band.
 featured: true
 order: 4
 challenge: >-

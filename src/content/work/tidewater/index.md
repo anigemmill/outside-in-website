@@ -6,7 +6,7 @@ sector: Startup · Agritech
 type: Brand identity · Website
 categories: [design-creative, marketing-growth]
 cover: ./cover.svg
-coverAlt: Deep teal artwork of wavy kelp-like lines in green, blue and lavender rising from the bottom, with a ringed orange dot, cut by a shifted horizontal band.
+coverAlt: Black artwork of wavy kelp-like lines in green, pink and lilac rising from the bottom, with a ringed orange dot, cut by a shifted horizontal band.
 featured: false
 order: 6
 challenge: >-

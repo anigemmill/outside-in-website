@@ -9,33 +9,34 @@
 
 :root {
   /* Palette ------------------------------------------------------------
-     Nine colours, used with restraint: the page is white, plum is the ink,
-     and the brights live mostly in the work imagery and the service colours.
-     Plum reads on every light colour (7.8:1 or more). Coral and tangerine are
-     for artwork and fills only (under 4.5:1 with text). */
-  --plum: #6b104d;          /* text, logo, buttons (11.6:1 on white) */
-  --petal: #225266;         /* secondary text (8.5:1 on white) */
-  --petal-deep: #173a48;    /* Inside view background */
+     Four colours that swap roles: each is the background for one pair and the
+     mark for another (red/green, pink/red, purple/pink, green/purple). The
+     homepage hero cycles through those pairs; everything else is white and ink.
+     Ink reads on all four (4.6:1 or more). The pairs themselves are 2-3:1, so
+     they are for the logo and big colour fields, never for small text. */
+  --red: #eb4213;
+  --pink: #ff99dc;
+  --green: #d8f382;
+  --purple: #826dee;
+  --ink: #17131f;           /* text, buttons, footer (18:1 on white) */
+  --ink-soft: #4b4556;      /* secondary text */
+  --ink-deep: #1f1a29;      /* Inside view background */
   --white: #ffffff;
-  --ballet: #ffe2e1;        /* Design & Creative, soft surfaces */
-  --powder: #cbe7fe;        /* Marketing & Growth */
-  --lavender: #e0cdfd;      /* pill fills, hovers */
-  --amethyst: #821eff;      /* links and highlights (5.9:1 on white) */
-  --chartreuse: #b7e255;    /* artwork, small accents */
-  --tangerine: #fd792d;     /* artwork only */
-  --coral: #fc3f32;         /* artwork only */
+  --lilac: #e6e0fc;         /* soft purple for hover fills and surfaces */
+  --purple-ink: #4f3acb;    /* purple dark enough for links (7.5:1 on white) */
+  --red-ink: #b8320d;       /* red dark enough for small text (6:1 on white) */
 
   /* Roles (swapped by the Inside view) */
   --bg: var(--white);
-  --fg: var(--plum);
-  --muted: var(--petal);
-  --surface: var(--ballet);
+  --fg: var(--ink);
+  --muted: var(--ink-soft);
+  --surface: var(--lilac);
   --line: color-mix(in srgb, var(--fg) 14%, transparent);
-  --accent: var(--amethyst);   /* markers, underlines, numbers */
-  --fill: var(--lavender);     /* pill fills and hover sweeps */
-  --fill-fg: var(--plum);
-  --slice: var(--amethyst);    /* colour of the shifted band in headlines */
-  --link: var(--amethyst);
+  --accent: var(--purple-ink);   /* markers, underlines, numbers */
+  --fill: var(--lilac);     /* pill fills and hover sweeps */
+  --fill-fg: var(--ink);
+  --slice: var(--purple-ink);    /* colour of the shifted band in headlines */
+  --link: var(--purple-ink);
 
   /* Type ------------------------------------------------------------------ */
   --font-display: 'Bricolage Grotesque Variable', 'Arial Narrow', system-ui, sans-serif;
@@ -67,16 +68,16 @@
 
 /* The Inside view: same site, seen from the systems side. */
 :root[data-view='inside'] {
-  --bg: var(--petal-deep);
+  --bg: var(--ink-deep);
   --fg: var(--white);
-  --muted: var(--powder);
-  --surface: var(--petal);
+  --muted: var(--green);
+  --surface: var(--ink-soft);
   --line: color-mix(in srgb, var(--fg) 20%, transparent);
-  --accent: var(--chartreuse);
-  --fill: var(--powder);
-  --fill-fg: var(--plum);
-  --slice: var(--powder);
-  --link: var(--powder);
+  --accent: var(--green);
+  --fill: var(--green);
+  --fill-fg: var(--ink);
+  --slice: var(--green);
+  --link: var(--green);
   color-scheme: dark;
 }
 
@@ -105,10 +106,10 @@ a { color: inherit; }
 h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; text-wrap: balance; }
 p { text-wrap: pretty; }
 ul[role='list'], ol[role='list'] { list-style: none; padding: 0; }
-::selection { background: var(--lavender); color: var(--plum); }
+::selection { background: var(--lilac); color: var(--ink); }
 
 :focus-visible {
-  outline: 3px solid var(--plum);
+  outline: 3px solid var(--ink);
   outline-offset: 3px;
   border-radius: 2px;
 }
@@ -116,7 +117,7 @@ ul[role='list'], ol[role='list'] { list-style: none; padding: 0; }
 
 .skip-link {
   position: absolute; left: var(--gutter); top: -100px; z-index: 100;
-  background: var(--plum); color: var(--white); padding: 0.75rem 1rem; text-decoration: none; border-radius: var(--pill);
+  background: var(--ink); color: var(--white); padding: 0.75rem 1rem; text-decoration: none; border-radius: var(--pill);
 }
 .skip-link:focus { top: 0.75rem; }
 
@@ -237,7 +238,7 @@ ul[role='list'], ol[role='list'] { list-style: none; padding: 0; }
   padding: 0.4em 0.75em; border: 1px solid var(--line); border-radius: var(--pill); line-height: 1.1;
 }
 .tag--concept { background: var(--fg); color: var(--bg); border-color: var(--fg); }
-.tag--client { background: var(--lavender); color: var(--plum); border-color: var(--lavender); }
+.tag--client { background: var(--lilac); color: var(--ink); border-color: var(--lilac); }
 
 /* Inside-view notes ------------------------------------------------------------
    Each <aside class="note"> explains why a section exists. Hidden in the Outside
@@ -248,8 +249,8 @@ ul[role='list'], ol[role='list'] { list-style: none; padding: 0; }
   display: block;
   font-family: var(--font-mono); font-size: 0.8rem; line-height: 1.5;
   color: var(--fg);
-  border: 1px dashed color-mix(in srgb, var(--lavender) 75%, transparent);
-  background: var(--plum);
+  border: 1px dashed color-mix(in srgb, var(--lilac) 75%, transparent);
+  background: var(--ink);
   padding: 0.8rem 0.95rem; border-radius: 12px;
   max-width: 46ch; margin-block: 1.25rem;
   animation: note-in 0.5s var(--ease-out) both;
@@ -265,7 +266,7 @@ ul[role='list'], ol[role='list'] { list-style: none; padding: 0; }
   background-size: 48px 48px;
   background-position: -1px -1px;
 }
-:root[data-view='inside'] .inside-outline { outline: 1px dashed color-mix(in srgb, var(--lavender) 35%, transparent); outline-offset: 6px; }
+:root[data-view='inside'] .inside-outline { outline: 1px dashed color-mix(in srgb, var(--lilac) 35%, transparent); outline-offset: 6px; }
 
 /* Reveal on scroll ---------------------------------------------------------- */
 .js [data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out); transition-delay: var(--reveal-delay, 0s); }

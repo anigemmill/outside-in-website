@@ -51,10 +51,10 @@ const isCurrent = (href: string) => (href === '/' ? path === '/' : path.startsWi
   }
   /* Homepage: the header floats over the logo hero and stays clear until you scroll. */
   :global(.is-home) .site-header { position: fixed; left: 0; right: 0; }
-  :global(.is-home) .site-header:not(.is-past-hero) { background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; }
+  :global(.is-home) .site-header:not(.is-past-hero) { background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; --fg: var(--ink); --bg: var(--white); }
   .site-header__inner { display: flex; align-items: center; gap: clamp(1.25rem, 3vw, 2.5rem); min-height: 5rem; }
 
-  .brand { display: inline-flex; margin-right: auto; color: var(--plum); padding-block: 0.5rem; transition: opacity 0.4s var(--ease-out), visibility 0.4s; }
+  .brand { display: inline-flex; margin-right: auto; color: var(--ink); padding-block: 0.5rem; transition: opacity 0.4s var(--ease-out), visibility 0.4s; }
   :root[data-view='inside'] .brand { color: var(--white); }
   :global(.is-home) .site-header:not(.is-past-hero) .brand { opacity: 0; visibility: hidden; }
   :global(.brand__mark) { width: 3.2rem; view-transition-name: oi-logo; }

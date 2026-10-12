@@ -32,29 +32,29 @@ const logo = (fill) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="110 128
 mkdirSync('public/brand', { recursive: true });
 writeFileSync('public/brand/outside-in-logo.svg', logo('#121110'));
 writeFileSync('public/brand/outside-in-logo-white.svg', logo('#ffffff'));
-writeFileSync('public/brand/outside-in-logo-plum.svg', logo('#6b104d'));
-writeFileSync('public/brand/outside-in-logo-ballet.svg', logo('#ffe2e1'));
+writeFileSync('public/brand/outside-in-logo-ink.svg', logo('#17131f'));
+writeFileSync('public/brand/outside-in-logo-green.svg', logo('#d8f382'));
 
 // Favicon: the O alone reads better at 16px. Square crop around the ring.
 const favicon = (bg, fg) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="60 77 620 620">
   <rect x="60" y="77" width="620" height="620" rx="96" fill="${bg}"/>${mark(fg, 'f')}</svg>`;
 writeFileSync('public/favicon.svg', `<svg xmlns="http://www.w3.org/2000/svg" viewBox="60 77 620 620">
-  <style>.bg{fill:#6b104d}.fg{fill:#ffe2e1}</style>
+  <style>.bg{fill:#eb4213}.fg{fill:#d8f382}</style>
   <rect class="bg" x="60" y="77" width="620" height="620" rx="96"/>
-  ${mark('#ffe2e1', 'f')}
+  ${mark('#d8f382', 'f')}
 </svg>\n`);
-await sharp(Buffer.from(favicon('#6b104d', '#ffe2e1'))).resize(32, 32).png().toFile('public/favicon-32.png');
-await sharp(Buffer.from(favicon('#6b104d', '#ffe2e1').replace('rx="96"', 'rx="0"'))).resize(180, 180).png().toFile('public/apple-touch-icon.png');
+await sharp(Buffer.from(favicon('#eb4213', '#d8f382'))).resize(32, 32).png().toFile('public/favicon-32.png');
+await sharp(Buffer.from(favicon('#eb4213', '#d8f382').replace('rx="96"', 'rx="0"'))).resize(180, 180).png().toFile('public/apple-touch-icon.png');
 
-// Social image: white ground, the plum mark large, a lavender slice running through it.
+// Social image: red ground, the green mark large, a pink slice running through it.
 const og = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-  <rect width="1200" height="630" fill="#ffffff"/>
-  <!-- Lavender band aligned exactly to the logo's slice: y 376-433 in logo space, scaled by 760/887 -->
-  <rect x="0" y="${95 + (376 - 128) * 760 / 887}" width="1200" height="${(433 - 376) * 760 / 887}" fill="#e0cdfd"/>
-  <svg x="140" y="95" width="760" height="447" viewBox="110 128 887 522">${mark('#6b104d', 'o')}</svg>
-  <rect x="1010" y="70" width="120" height="14" fill="#fd792d"/>
-  <rect x="1040" y="96" width="90" height="14" fill="#b7e255"/>
-  <rect x="1070" y="122" width="60" height="14" fill="#821eff"/>
+  <rect width="1200" height="630" fill="#eb4213"/>
+  <!-- Pink band aligned exactly to the logo's slice: y 376-433 in logo space, scaled by 760/887 -->
+  <rect x="0" y="${95 + (376 - 128) * 760 / 887}" width="1200" height="${(433 - 376) * 760 / 887}" fill="#ff99dc"/>
+  <svg x="140" y="95" width="760" height="447" viewBox="110 128 887 522">${mark('#d8f382', 'o')}</svg>
+  <rect x="1010" y="70" width="120" height="14" fill="#ff99dc"/>
+  <rect x="1040" y="96" width="90" height="14" fill="#826dee"/>
+  <rect x="1070" y="122" width="60" height="14" fill="#d8f382"/>
 </svg>`;
 await sharp(Buffer.from(og)).png().toFile('public/og.png');
 console.log('Brand files written.');

@@ -12,7 +12,7 @@ function setView(view: 'outside' | 'inside', persist = true) {
     btn.setAttribute('aria-checked', String(view === 'inside'));
   });
   const meta = document.querySelector('meta[name="theme-color"]');
-  meta?.setAttribute('content', view === 'inside' ? '#072b26' : '#f4f0e8');
+  meta?.setAttribute('content', view === 'inside' ? '#132e1a' : '#ebeae4');
   if (persist) {
     try { localStorage.setItem('oi-view', view); } catch { /* storage unavailable: fine */ }
   }

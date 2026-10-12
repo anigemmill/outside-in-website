@@ -182,10 +182,10 @@ const topics = [
     border: 1.5px solid color-mix(in srgb, var(--fg) 45%, transparent); border-radius: var(--radius);
     transition: border-color 0.2s, box-shadow 0.2s;
   }
-  :root[data-view='inside'] .field input, :root[data-view='inside'] .field select, :root[data-view='inside'] .field textarea { background: #0c3d36; }
+  :root[data-view='inside'] .field input, :root[data-view='inside'] .field select, :root[data-view='inside'] .field textarea { background: var(--forest-mid); }
   .field textarea { resize: vertical; min-height: 9rem; }
   .field input:hover, .field select:hover, .field textarea:hover { border-color: var(--fg); }
-  .field input:focus-visible, .field select:focus-visible, .field textarea:focus-visible { outline: none; border-color: var(--fg); box-shadow: 4px 4px 0 var(--flare); }
+  .field input:focus-visible, .field select:focus-visible, .field textarea:focus-visible { outline: none; border-color: var(--fg); box-shadow: 4px 4px 0 var(--vermilion); }
   .field [aria-invalid='true'] { border-color: #b3261e; box-shadow: 4px 4px 0 #b3261e33; }
   :root[data-view='inside'] .field [aria-invalid='true'] { border-color: #ff9b8a; }
   .field__hint { font-size: var(--step--1); color: var(--muted); }
@@ -197,7 +197,7 @@ const topics = [
   .cform__status { font-size: var(--step--1); }
   .cform__status :global(.cform__error) { color: #b3261e; font-weight: 600; }
   :root[data-view='inside'] .cform__status :global(.cform__error) { color: #ffb4a6; }
-  .cform-done { display: grid; gap: 1rem; padding: 2rem; border: 1.5px solid var(--fg); border-radius: var(--radius); box-shadow: 8px 8px 0 var(--flare); }
+  .cform-done { display: grid; gap: 1rem; padding: 2rem; border: 1.5px solid var(--fg); border-radius: var(--radius); box-shadow: 8px 8px 0 var(--vermilion); }
   .cform-done[hidden] { display: none; }
   .cform-done:focus { outline: none; }
 </style>

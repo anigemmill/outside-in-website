@@ -6,7 +6,7 @@ sector: Tourism & accommodation
 type: Digital marketing campaign
 categories: [marketing-growth, design-creative]
 cover: ./cover.svg
-coverAlt: Pale artwork of an orange sun setting behind green sea stripes with a tiny beach hut, cut by a shifted horizontal band.
+coverAlt: Pink artwork of an orange sun setting behind a green sea with cream wave stripes and a tiny beach hut, cut by a shifted horizontal band.
 featured: false
 order: 5
 challenge: >-

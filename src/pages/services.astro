@@ -91,16 +91,17 @@ import { services, combinations, partnership } from '../data/services';
   .svc { padding-block: clamp(3.5rem, 7vw, 7rem); border-top: 1px solid var(--line); scroll-margin-top: 4.5rem; }
   .svc__head { display: grid; gap: 1rem; margin-bottom: 3rem; max-width: 60rem; }
   .svc__num { color: var(--muted); }
-  .svc--design-creative .svc__head h2 { color: var(--fg); }
-  .svc--design-creative { box-shadow: inset 6px 0 0 var(--flare); }
-  .svc--marketing-growth { box-shadow: inset 6px 0 0 var(--fg); }
-  .svc--ai-systems { background: var(--lagoon); color: var(--paper); --muted: #bfd9d1; --line: rgba(244,240,232,.2); }
-  :root[data-view='inside'] .svc--ai-systems { background: #0c3d36; }
+  /* Each discipline wears its own colour pairing. */
+  .svc--design-creative { background: var(--cobalt); color: var(--ink); --fg: var(--ink); --muted: var(--ink); --accent: var(--lime); --line: rgba(18,17,16,.28); border-top: 0; }
+  .svc--design-creative .svc__head h2 { color: var(--lime); }
+  .svc--marketing-growth .svc__head h2 { color: var(--vermilion); }
+  .svc--ai-systems { background: var(--forest); color: var(--cream); --fg: var(--cream); --muted: var(--cream); --accent: var(--pink); --line: rgba(235,234,228,.28); border-top: 0; }
+  .svc--ai-systems .svc__head h2 { color: var(--pink); }
   .svc__cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gutter); }
   .svc__h { text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 500; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--line); }
   .svc__list { display: grid; gap: 0.75rem; padding: 0; }
   .svc__list li { position: relative; padding-left: 1.4rem; }
-  .svc__list li::before { content: ''; position: absolute; left: 0; top: 0.62em; width: 0.6rem; height: 0.22rem; background: var(--flare); box-shadow: 0.25rem 0 0 var(--flare); }
+  .svc__list li::before { content: ''; position: absolute; left: 0; top: 0.62em; width: 0.6rem; height: 0.22rem; background: var(--accent); box-shadow: 0.25rem 0 0 var(--accent); }
   .svc__list--problems li { font-family: var(--font-display); font-weight: 600; font-size: var(--step-1); line-height: 1.25; letter-spacing: -0.01em; }
   @media (max-width: 860px) { .svc__cols { grid-template-columns: 1fr; gap: 2.5rem; } }
 
@@ -109,14 +110,17 @@ import { services, combinations, partnership } from '../data/services';
   .together__lede { margin-block: 1.25rem 3rem; max-width: 56ch; }
   .combos { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gutter); padding: 0; }
   .combo { border: 1.5px solid var(--fg); border-radius: var(--radius); padding: 1.5rem; display: grid; gap: 0.6rem; align-content: start; transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out); }
-  .combo:hover { transform: translate(-4px, -4px); box-shadow: 8px 8px 0 var(--flare); }
+  .combo:hover { transform: translate(-4px, -4px); box-shadow: 8px 8px 0 var(--combo, var(--vermilion)); }
+  .combo:nth-child(1) { --combo: var(--cobalt); }
+  .combo:nth-child(3) { --combo: var(--forest); }
   .combo__mix { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0; margin-top: 0.8rem; }
   .combo__mix li { font-family: var(--font-mono); font-size: 0.75rem; padding: 0.35rem 0.55rem; background: var(--surface); border-radius: 2px; }
   @media (max-width: 860px) { .combos { grid-template-columns: 1fr; } }
 
-  .partner { display: grid; grid-template-columns: 1.2fr 1fr; gap: var(--gutter); align-items: end; margin-top: clamp(3rem, 6vw, 6rem); padding: clamp(1.5rem, 3vw, 3rem); background: var(--ink); color: var(--paper); border-radius: var(--radius); }
-  .partner .eyebrow { color: rgba(244,240,232,.7); }
+  .partner { display: grid; grid-template-columns: 1.2fr 1fr; gap: var(--gutter); align-items: end; margin-top: clamp(3rem, 6vw, 6rem); padding: clamp(1.5rem, 3vw, 3rem); background: var(--ink); color: var(--cream); border-radius: var(--radius); }
+  .partner .eyebrow { color: rgba(235,234,228,.7); }
   .partner > div { display: grid; gap: 1rem; }
+  .partner h3 { color: var(--lime); }
   @media (max-width: 860px) { .partner { grid-template-columns: 1fr; } }
 
   .pricing { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--line); }

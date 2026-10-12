@@ -6,7 +6,7 @@ sector: Multi-brand marketing teams
 type: AI marketing intelligence
 categories: [ai-systems, marketing-growth]
 cover: ./cover.svg
-coverAlt: Abstract data artwork with three rows of bars in black, green and orange, and a summary card in the corner, cut by a shifted horizontal band.
+coverAlt: Abstract data artwork with three rows of bars in black, blue and orange, and a summary card in the corner, cut by a shifted horizontal band.
 featured: true
 order: 2
 challenge: >-

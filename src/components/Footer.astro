@@ -58,31 +58,31 @@ const year = new Date().getFullYear();
 
 <style>
   .site-footer {
-    background: var(--ink); color: var(--paper);
+    background: var(--ink); color: var(--cream);
     padding-block: var(--section) 2rem;
-    --line: rgba(244, 240, 232, 0.16);
+    --line: rgba(235, 234, 228, 0.16);
   }
-  :root[data-view='inside'] .site-footer { background: #041b18; }
+  :root[data-view='inside'] .site-footer { background: #0b1d10; }
   .site-footer a { text-decoration: none; }
-  .site-footer a:hover { color: var(--flare); }
+  .site-footer a:hover { color: var(--lime); }
   .site-footer__top { display: grid; gap: 2rem; padding-bottom: clamp(3rem, 6vw, 6rem); border-bottom: 1px solid var(--line); }
   .site-footer__big { font-family: var(--font-display); font-weight: 700; font-size: var(--step-4); line-height: 0.95; letter-spacing: -0.035em; }
-  .accent { color: var(--flare); }
-  .btn--ghost-inv { --btn-bg: transparent; --btn-fg: var(--paper); border-color: var(--paper); }
+  .accent { color: var(--lime); }
+  .btn--ghost-inv { --btn-bg: transparent; --btn-fg: var(--cream); border-color: var(--cream); }
   .btn--ghost-inv:hover { color: var(--ink); }
-  .btn--ghost-inv::before { background: var(--flare); }
+  .btn--ghost-inv::before { background: var(--lime); }
   .site-footer__grid {
     display: grid; gap: 2.5rem; padding-block: 3rem;
     grid-template-columns: 1.4fr repeat(3, minmax(0, 1fr));
   }
-  :global(.site-footer__mark) { width: 5.5rem; color: var(--paper); margin-bottom: 1rem; }
-  .site-footer__brand p { color: rgba(244, 240, 232, 0.72); }
-  .site-footer__h { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(244, 240, 232, 0.6); margin-bottom: 0.9rem; }
+  :global(.site-footer__mark) { width: 5.5rem; color: var(--cream); margin-bottom: 1rem; }
+  .site-footer__brand p { color: rgba(235, 234, 228, 0.72); }
+  .site-footer__h { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(235, 234, 228, 0.6); margin-bottom: 0.9rem; }
   .site-footer ul { display: grid; gap: 0.45rem; }
   .site-footer li a { display: inline-block; padding-block: 0.15rem; overflow-wrap: anywhere; }
   .site-footer__base {
     display: flex; justify-content: space-between; gap: 1rem; padding-top: 1.5rem; border-top: 1px solid var(--line);
-    font-family: var(--font-mono); font-size: 0.75rem; color: rgba(244, 240, 232, 0.66);
+    font-family: var(--font-mono); font-size: 0.75rem; color: rgba(235, 234, 228, 0.66);
   }
   @media (max-width: 860px) {
     .site-footer__grid { grid-template-columns: 1fr 1fr; }

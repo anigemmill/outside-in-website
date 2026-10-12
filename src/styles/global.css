@@ -8,26 +8,35 @@
 @import '@fontsource-variable/jetbrains-mono/wght.css';
 
 :root {
-  /* Palette ------------------------------------------------------------- */
-  --ink: #121110;          /* the logo's black, slightly warm */
-  --paper: #f4f0e8;        /* warm off-white: human, not lab-white */
-  --pumice: #e4ddd0;       /* quiet surface */
-  --ash: #5c574f;          /* secondary text on paper (7:1) */
-  --flare: #f74a15;        /* dominant accent: the outside, attention, energy (3.1:1 on paper: large type and fills only) */
-  --flare-ink: #b8300a;    /* flare dark enough for small text on paper */
-  --lagoon: #0c5a4f;       /* secondary: the inside, systems, intelligence */
-  --lagoon-deep: #072b26;  /* Inside view background */
-  --mist: #cde7df;         /* lagoon tint */
+  /* Palette ------------------------------------------------------------
+     Three pairings, one per discipline, plus the logo's ink:
+       Cobalt + Lime     Design & Creative  (the outside)
+       Cream + Vermilion Marketing & Growth (between), and the site's base
+       Forest + Pink     AI & Systems       (the inside), and the Inside view
+     Each pairing is about 3:1, so the coloured-on-colour combinations are for
+     large type and colour fields. Small text uses ink or cream (see README). */
+  --ink: #121110;            /* the logo's black */
+  --cream: #ebeae4;          /* base background */
+  --stone: #dddbd2;          /* quiet surface on cream */
+  --ash: #55534d;            /* secondary text on cream */
+  --vermilion: #da613d;      /* dominant accent; ink on vermilion 5.2:1 */
+  --vermilion-ink: #a8441f;  /* vermilion for small text and links on cream (5:1) */
+  --cobalt: #3d7fd3;         /* ink on cobalt 4.7:1 */
+  --lime: #e0e66b;           /* on cobalt (large), on ink, or as a fill */
+  --forest: #31733f;         /* cream on forest 4.8:1 */
+  --forest-deep: #132e1a;    /* Inside view background */
+  --forest-mid: #1e4727;     /* Inside view surfaces */
+  --pink: #e5b5cd;           /* on forest (large), on ink, or as a fill */
 
   /* Roles (swapped by the Inside view) */
-  --bg: var(--paper);
+  --bg: var(--cream);
   --fg: var(--ink);
   --muted: var(--ash);
-  --surface: var(--pumice);
+  --surface: var(--stone);
   --line: color-mix(in srgb, var(--fg) 16%, transparent);
-  --accent: var(--flare);
+  --accent: var(--vermilion);
   --accent-fg: var(--ink);
-  --link: var(--flare-ink);
+  --link: var(--vermilion-ink);
 
   /* Type ------------------------------------------------------------------ */
   --font-display: 'Bricolage Grotesque Variable', 'Arial Narrow', system-ui, sans-serif;
@@ -58,13 +67,14 @@
 
 /* The Inside view: same site, seen from the systems side. */
 :root[data-view='inside'] {
-  --bg: var(--lagoon-deep);
-  --fg: #eaf4f0;
-  --muted: #a9c7bf;
-  --surface: #0c3d36;
+  --bg: var(--forest-deep);
+  --fg: var(--cream);
+  --muted: #c3c9bf;
+  --surface: var(--forest-mid);
   --line: color-mix(in srgb, var(--fg) 18%, transparent);
-  --accent: var(--flare);
-  --link: #ff8a63;
+  --accent: var(--pink);
+  --accent-fg: var(--ink);
+  --link: var(--lime);
   color-scheme: dark;
 }
 
@@ -93,18 +103,18 @@ a { color: inherit; }
 h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; text-wrap: balance; }
 p { text-wrap: pretty; }
 ul[role='list'], ol[role='list'] { list-style: none; padding: 0; }
-::selection { background: var(--flare); color: var(--ink); }
+::selection { background: var(--vermilion); color: var(--ink); }
 
 :focus-visible {
-  outline: 3px solid var(--flare);
+  outline: 3px solid var(--vermilion);
   outline-offset: 3px;
   border-radius: 2px;
 }
-:root[data-view='inside'] :focus-visible { outline-color: #ffb199; }
+:root[data-view='inside'] :focus-visible { outline-color: var(--lime); }
 
 .skip-link {
   position: absolute; left: var(--gutter); top: -100px; z-index: 100;
-  background: var(--ink); color: var(--paper); padding: 0.75rem 1rem; text-decoration: none;
+  background: var(--ink); color: var(--cream); padding: 0.75rem 1rem; text-decoration: none;
 }
 .skip-link:focus { top: 0.75rem; }
 
@@ -207,13 +217,16 @@ ul[role='list'], ol[role='list'] { list-style: none; padding: 0; }
   transition: transform 0.45s var(--ease-out);
 }
 .btn:hover::before, .btn:focus-visible::before { transform: translateX(0); }
+/* Non-accent buttons fill completely, so text colour can flip cleanly. */
+.btn:not(.btn--accent)::before { top: 0; height: 100%; }
+.btn:not(.btn--accent):hover, .btn:not(.btn--accent):focus-visible { color: var(--accent-fg); }
 .btn .btn__arrow { transition: transform 0.35s var(--ease-out-back); }
 .btn:hover .btn__arrow { transform: translateX(4px); }
-.btn--accent { --btn-bg: var(--flare); --btn-fg: var(--ink); }
+.btn--accent { --btn-bg: var(--vermilion); --btn-fg: var(--ink); }
 .btn--accent::before { background: var(--ink); opacity: 0.14; }
 .btn--ghost { --btn-bg: transparent; --btn-fg: var(--fg); border-color: var(--fg); }
-.btn--ghost::before { background: var(--accent); opacity: 0.9; }
-.btn--ghost:hover { color: var(--ink); }
+.btn--ghost::before { background: var(--accent); }
+
 .btn[disabled] { opacity: 0.6; cursor: progress; }
 .btn-row { display: flex; flex-wrap: wrap; gap: 0.75rem; }
 
@@ -224,7 +237,8 @@ ul[role='list'], ol[role='list'] { list-style: none; padding: 0; }
   padding: 0.35em 0.6em; border: 1px solid var(--line); border-radius: 2px; line-height: 1.1;
 }
 .tag--concept { background: var(--fg); color: var(--bg); border-color: var(--fg); }
-.tag--client { background: var(--lagoon); color: var(--paper); border-color: var(--lagoon); }
+.tag--client { background: var(--forest); color: var(--cream); border-color: var(--forest); }
+.tag--lime { background: var(--lime); color: var(--ink); border-color: var(--lime); }
 
 /* Inside-view notes ------------------------------------------------------------
    Each <aside class="note"> explains why a section exists. Hidden in the Outside
@@ -235,24 +249,24 @@ ul[role='list'], ol[role='list'] { list-style: none; padding: 0; }
   display: block;
   font-family: var(--font-mono); font-size: 0.8rem; line-height: 1.5;
   color: var(--fg);
-  border: 1px dashed color-mix(in srgb, var(--flare) 70%, transparent);
-  background: color-mix(in srgb, var(--lagoon-deep) 82%, var(--flare) 4%);
+  border: 1px dashed color-mix(in srgb, var(--pink) 75%, transparent);
+  background: color-mix(in srgb, var(--forest-mid) 85%, var(--pink) 6%);
   padding: 0.8rem 0.9rem; border-radius: 2px;
   max-width: 46ch; margin-block: 1.25rem;
   animation: note-in 0.5s var(--ease-out) both;
 }
-.note__label { display: block; color: #ff9b7a; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.7rem; margin-bottom: 0.3rem; }
+.note__label { display: block; color: var(--lime); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.7rem; margin-bottom: 0.3rem; }
 @keyframes note-in { from { opacity: 0; transform: translateY(6px); } }
 
 /* Blueprint grid behind everything in the Inside view */
 :root[data-view='inside'] body {
   background-image:
-    linear-gradient(color-mix(in srgb, var(--mist) 7%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in srgb, var(--mist) 7%, transparent) 1px, transparent 1px);
+    linear-gradient(color-mix(in srgb, var(--cream) 6%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--cream) 6%, transparent) 1px, transparent 1px);
   background-size: 48px 48px;
   background-position: -1px -1px;
 }
-:root[data-view='inside'] .inside-outline { outline: 1px dashed color-mix(in srgb, var(--mist) 30%, transparent); outline-offset: 6px; }
+:root[data-view='inside'] .inside-outline { outline: 1px dashed color-mix(in srgb, var(--pink) 35%, transparent); outline-offset: 6px; }
 
 /* Reveal on scroll ---------------------------------------------------------- */
 .js [data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out); transition-delay: var(--reveal-delay, 0s); }

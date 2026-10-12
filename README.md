@@ -130,18 +130,18 @@ Create a booking page in Cal.com, Calendly or Google Calendar appointment schedu
 
 **The slice.** The logo’s cut runs through the whole site: headline text, button hovers, card hovers, rules and the eyebrow markers.
 
-**Colour.**
+**Colour.** Three colour pairings, one per discipline, around the logo's black and white:
 
-| Token | Hex | Role |
+| Pairing | Hex | Discipline / role |
 | --- | --- | --- |
-| Ink | `#121110` | The logo, text, dark sections |
-| Paper | `#F4F0E8` | Warm off-white background |
-| Flare | `#F74A15` | Dominant accent: the outside, attention. Fills and large type only on paper (3.1:1); ink on flare is 5.3:1 |
-| Flare Ink | `#B8300A` | Flare dark enough for small text and links on paper (5.3:1) |
-| Lagoon | `#0C5A4F` | Secondary: the inside, systems, AI. Paper on lagoon is 7.1:1 |
-| Lagoon Deep | `#072B26` | Inside-view background |
-| Mist | `#CDE7DF` | Lagoon tint |
-| Pumice / Ash | `#E4DDD0` / `#5C574F` | Quiet surface / secondary text (6.3:1) |
+| Cobalt + Lime | `#3D7FD3` + `#E0E66B` | Design & Creative (the outside) |
+| Cream + Vermilion | `#EBEAE4` + `#DA613D` | Marketing & Growth (between); cream is the site’s base, vermilion the main accent |
+| Forest + Pink | `#31733F` + `#E5B5CD` | AI & Systems (the inside), and the Inside view |
+| Ink | `#121110` | The logo, text, footer |
+
+Supporting tokens: Vermilion Ink `#A8441F` (small text and links on cream), Stone `#DDDBD2` (surfaces), Ash `#55534D` (secondary text), Forest Deep `#132E1A` and Forest Mid `#1E4727` (Inside view).
+
+**Contrast rule.** Each coloured pair (lime on cobalt, vermilion on cream, pink on forest) is about 3:1. That passes for large, bold type and colour fields only. For body text use ink on cobalt, vermilion, lime or pink (4.7:1 or more), and cream on forest (4.8:1). The logo stays monochrome: black on cream, cobalt, lime, pink and vermilion; white on ink and forest.
 
 **Type.** Bricolage Grotesque (display), Instrument Sans (body), JetBrains Mono (labels and Inside-view notes). All self-hosted; no requests to Google.
 

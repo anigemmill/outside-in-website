@@ -37,21 +37,22 @@ writeFileSync('public/brand/outside-in-logo-white.svg', logo('#ffffff'));
 const favicon = (bg, fg) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="60 77 620 620">
   <rect x="60" y="77" width="620" height="620" rx="96" fill="${bg}"/>${mark(fg, 'f')}</svg>`;
 writeFileSync('public/favicon.svg', `<svg xmlns="http://www.w3.org/2000/svg" viewBox="60 77 620 620">
-  <style>.bg{fill:#f74a15}.fg{fill:#121110}</style>
+  <style>.bg{fill:#da613d}.fg{fill:#121110}</style>
   <rect class="bg" x="60" y="77" width="620" height="620" rx="96"/>
   ${mark('#121110', 'f')}
 </svg>\n`);
-await sharp(Buffer.from(favicon('#f74a15', '#121110'))).resize(32, 32).png().toFile('public/favicon-32.png');
-await sharp(Buffer.from(favicon('#f74a15', '#121110').replace('rx="96"', 'rx="0"'))).resize(180, 180).png().toFile('public/apple-touch-icon.png');
+await sharp(Buffer.from(favicon('#da613d', '#121110'))).resize(32, 32).png().toFile('public/favicon-32.png');
+await sharp(Buffer.from(favicon('#da613d', '#121110').replace('rx="96"', 'rx="0"'))).resize(180, 180).png().toFile('public/apple-touch-icon.png');
 
 // Social image: paper ground, the mark large, a flare slice running off the edge.
 const og = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-  <rect width="1200" height="630" fill="#f4f0e8"/>
+  <rect width="1200" height="630" fill="#ebeae4"/>
   <!-- Flare band aligned exactly to the logo's slice: y 376-433 in logo space, scaled by 760/887 -->
-  <rect x="0" y="${95 + (376 - 128) * 760 / 887}" width="1200" height="${(433 - 376) * 760 / 887}" fill="#f74a15"/>
+  <rect x="0" y="${95 + (376 - 128) * 760 / 887}" width="1200" height="${(433 - 376) * 760 / 887}" fill="#da613d"/>
   <svg x="140" y="95" width="760" height="447" viewBox="110 128 887 522">${mark('#121110', 'o')}</svg>
-  <rect x="1010" y="70" width="120" height="14" fill="#0c5a4f"/>
-  <rect x="1060" y="96" width="70" height="14" fill="#0c5a4f"/>
+  <rect x="1010" y="70" width="120" height="14" fill="#3d7fd3"/>
+  <rect x="1040" y="96" width="90" height="14" fill="#31733f"/>
+  <rect x="1070" y="122" width="60" height="14" fill="#e5b5cd"/>
 </svg>`;
 await sharp(Buffer.from(og)).png().toFile('public/og.png');
 console.log('Brand files written.');

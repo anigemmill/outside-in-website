@@ -12,7 +12,7 @@ function setView(view: 'outside' | 'inside', persist = true) {
     btn.setAttribute('aria-checked', String(view === 'inside'));
   });
   const meta = document.querySelector('meta[name="theme-color"]');
-  meta?.setAttribute('content', view === 'inside' ? '#2e1025' : '#bdeba5');
+  meta?.setAttribute('content', view === 'inside' ? '#161417' : '#fafcf0');
   if (persist) {
     try { localStorage.setItem('oi-view', view); } catch { /* storage unavailable: fine */ }
   }
@@ -29,7 +29,12 @@ document.addEventListener('click', (e) => {
 
 /* ---------- Header state ---------- */
 const header = document.querySelector<HTMLElement>('[data-header]');
-const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 8);
+const hero = document.querySelector<HTMLElement>('[data-hero]');
+const onScroll = () => {
+  header?.classList.toggle('is-scrolled', window.scrollY > 8);
+  // Homepage: reveal the header logo once the hero logo has scrolled away.
+  if (hero) header?.classList.toggle('is-past-hero', window.scrollY > hero.offsetHeight * 0.55);
+};
 onScroll();
 window.addEventListener('scroll', onScroll, { passive: true });
 

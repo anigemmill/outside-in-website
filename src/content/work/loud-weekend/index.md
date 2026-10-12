@@ -6,7 +6,7 @@ sector: Events & entertainment
 type: Event campaign · Content system
 categories: [design-creative, marketing-growth]
 cover: ./cover.svg
-coverAlt: Bold plum artwork of mint-green equaliser bars of varying heights under small lilac stars, cut by a shifted horizontal band.
+coverAlt: Bold olive-green artwork of pale pink equaliser bars of varying heights under small lime stars, cut by a shifted horizontal band.
 featured: true
 order: 4
 challenge: >-

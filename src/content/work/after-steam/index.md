@@ -6,7 +6,7 @@ sector: Tourism & hospitality
 type: Visitor experience · Brand · Digital
 categories: [design-creative, marketing-growth, ai-systems]
 cover: ./cover.svg
-coverAlt: Abstract artwork of mint-green steam rings rising from sage ground under a large lilac moon, on deep plum, cut by a shifted horizontal band.
+coverAlt: Abstract artwork of cream steam rings rising from dark green ground under a large pink moon, on olive green, cut by a shifted horizontal band.
 featured: true
 order: 1
 challenge: >-

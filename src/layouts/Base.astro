@@ -13,9 +13,11 @@ interface Props {
   noindex?: boolean;
   /** Extra JSON-LD objects for this page */
   schema?: Record<string, unknown>[];
+  /** Homepage: the header floats over the full-screen hero. */
+  home?: boolean;
 }
 
-const { title, description = site.seo.defaultDescription, image = site.seo.ogImage, noindex = false, schema = [] } = Astro.props;
+const { title, description = site.seo.defaultDescription, image = site.seo.ogImage, noindex = false, schema = [], home = false } = Astro.props;
 
 const pageTitle = title ? `${title} | ${site.name}` : site.seo.defaultTitle;
 const hasDomain = Boolean(site.url);
@@ -48,7 +50,7 @@ const todo = import.meta.env.DEV ? outstandingPlaceholders() : [];
     <meta name="description" content={description} />
     <meta name="robots" content={robots} />
     {canonical && <link rel="canonical" href={canonical} />}
-    <meta name="theme-color" content="#bdeba5" />
+    <meta name="theme-color" content="#fafcf0" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -73,7 +75,7 @@ const todo = import.meta.env.DEV ? outstandingPlaceholders() : [];
       } catch (e) {}
     </script>
   </head>
-  <body>
+  <body class:list={{ 'is-home': home }}>
     <a class="skip-link" href="#main">Skip to content</a>
     {todo.length > 0 && (
       <div class="dev-banner" role="note">

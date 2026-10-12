@@ -9,33 +9,35 @@
 
 :root {
   /* Palette ------------------------------------------------------------
-     A two-colour system, mint and plum, with three supporting tones:
-       Mint   Design & Creative (the outside) and the site's base
-       Lilac  Marketing & Growth (between); also pills and hover fills
-       Plum   AI & Systems (the inside), all text, and the logo
-     Plum on mint is 10:1 and plum on lilac 8:1, so text works on every surface.
-     Sage and mauve are decorative or large-type only (about 3:1 on mint). */
-  --plum: #4a1c3c;           /* text, logo, primary buttons */
-  --plum-deep: #2e1025;      /* Inside view background */
-  --plum-soft: #6b4a63;      /* secondary text on mint (5.6:1) and lilac (4.6:1) */
-  --mint: #bdeba5;           /* base background */
-  --mint-light: #d8f4c8;     /* lighter mint for hovers and quiet surfaces */
-  --lilac: #d2c4dc;          /* pills, fills, Marketing & Growth */
-  --sage: #6f8269;           /* decorative accent */
-  --mauve: #8d6e86;          /* decorative accent: the headline slice */
-  --ink: #121110;            /* the original logo black, kept for exported files */
+     Taken from the GIND / Creator Studio reference.
+       Cream    base background            Ink      all text, the logo on light
+       Moss     the hero and big moments   Blush    the logo on moss, Design & Creative
+       Lime     Marketing & Growth         Lilac    pills, hover fills, surfaces
+       Magenta  stickers and the main call to action
+     Ink reads on every light colour (7:1 or more). Moss pairs are display-only
+     (blush or cream on moss is 3-4:1), so small text on green uses Moss Deep. */
+  --ink: #111010;
+  --ink-deep: #161417;      /* Inside view background */
+  --ink-soft: #57525b;      /* secondary text: 7.3:1 on cream, 5.1:1 on blush */
+  --cream: #fafcf0;
+  --moss: #628038;
+  --moss-deep: #4a6428;     /* moss for sections with small text (cream 6.4:1) */
+  --blush: #eccae0;
+  --magenta: #d782b3;       /* ink on magenta 7:1 */
+  --lilac: #ece0f8;
+  --lime: #e6fcb0;
 
   /* Roles (swapped by the Inside view) */
-  --bg: var(--mint);
-  --fg: var(--plum);
-  --muted: var(--plum-soft);
+  --bg: var(--cream);
+  --fg: var(--ink);
+  --muted: var(--ink-soft);
   --surface: var(--lilac);
   --line: color-mix(in srgb, var(--fg) 22%, transparent);
-  --accent: var(--plum);       /* markers, underlines, numbers */
+  --accent: var(--ink);       /* markers, underlines, numbers */
   --fill: var(--lilac);        /* pill fills and hover sweeps */
-  --fill-fg: var(--plum);
-  --slice: var(--mauve);       /* colour of the shifted band in headlines */
-  --link: var(--plum);
+  --fill-fg: var(--ink);
+  --slice: var(--magenta);       /* colour of the shifted band in headlines */
+  --link: var(--ink);
 
   /* Type ------------------------------------------------------------------ */
   --font-display: 'Bricolage Grotesque Variable', 'Arial Narrow', system-ui, sans-serif;
@@ -67,16 +69,16 @@
 
 /* The Inside view: same site, seen from the systems side. */
 :root[data-view='inside'] {
-  --bg: var(--plum-deep);
-  --fg: var(--mint);
+  --bg: var(--ink-deep);
+  --fg: var(--cream);
   --muted: var(--lilac);
-  --surface: var(--plum);
+  --surface: var(--ink);
   --line: color-mix(in srgb, var(--fg) 20%, transparent);
-  --accent: var(--lilac);
-  --fill: var(--mint);
-  --fill-fg: var(--plum);
+  --accent: var(--lime);
+  --fill: var(--lime);
+  --fill-fg: var(--ink);
   --slice: var(--lilac);
-  --link: var(--mint);
+  --link: var(--cream);
   color-scheme: dark;
 }
 
@@ -102,21 +104,21 @@ img { height: auto; }
 input, button, textarea, select { font: inherit; color: inherit; }
 button { cursor: pointer; }
 a { color: inherit; }
-h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; text-wrap: balance; }
+h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 800; line-height: 0.98; letter-spacing: -0.025em; text-wrap: balance; }
 p { text-wrap: pretty; }
 ul[role='list'], ol[role='list'] { list-style: none; padding: 0; }
-::selection { background: var(--lilac); color: var(--plum); }
+::selection { background: var(--lilac); color: var(--ink); }
 
 :focus-visible {
-  outline: 3px solid var(--plum);
+  outline: 3px solid var(--ink);
   outline-offset: 3px;
   border-radius: 2px;
 }
-:root[data-view='inside'] :focus-visible { outline-color: var(--mint); }
+:root[data-view='inside'] :focus-visible { outline-color: var(--cream); }
 
 .skip-link {
   position: absolute; left: var(--gutter); top: -100px; z-index: 100;
-  background: var(--plum); color: var(--mint); padding: 0.75rem 1rem; text-decoration: none; border-radius: var(--pill);
+  background: var(--ink); color: var(--cream); padding: 0.75rem 1rem; text-decoration: none; border-radius: var(--pill);
 }
 .skip-link:focus { top: 0.75rem; }
 
@@ -237,7 +239,7 @@ ul[role='list'], ol[role='list'] { list-style: none; padding: 0; }
   padding: 0.4em 0.75em; border: 1px solid var(--line); border-radius: var(--pill); line-height: 1.1;
 }
 .tag--concept { background: var(--fg); color: var(--bg); border-color: var(--fg); }
-.tag--client { background: var(--lilac); color: var(--plum); border-color: var(--lilac); }
+.tag--client { background: var(--lilac); color: var(--ink); border-color: var(--lilac); }
 
 /* Inside-view notes ------------------------------------------------------------
    Each <aside class="note"> explains why a section exists. Hidden in the Outside
@@ -249,19 +251,19 @@ ul[role='list'], ol[role='list'] { list-style: none; padding: 0; }
   font-family: var(--font-mono); font-size: 0.8rem; line-height: 1.5;
   color: var(--fg);
   border: 1px dashed color-mix(in srgb, var(--lilac) 75%, transparent);
-  background: var(--plum);
+  background: var(--ink);
   padding: 0.8rem 0.95rem; border-radius: 12px;
   max-width: 46ch; margin-block: 1.25rem;
   animation: note-in 0.5s var(--ease-out) both;
 }
-.note__label { display: block; color: var(--mint); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.7rem; margin-bottom: 0.3rem; }
+.note__label { display: block; color: var(--cream); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.7rem; margin-bottom: 0.3rem; }
 @keyframes note-in { from { opacity: 0; transform: translateY(6px); } }
 
 /* Blueprint grid behind everything in the Inside view */
 :root[data-view='inside'] body {
   background-image:
-    linear-gradient(color-mix(in srgb, var(--mint) 7%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in srgb, var(--mint) 7%, transparent) 1px, transparent 1px);
+    linear-gradient(color-mix(in srgb, var(--cream) 7%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--cream) 7%, transparent) 1px, transparent 1px);
   background-size: 48px 48px;
   background-position: -1px -1px;
 }

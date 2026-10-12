@@ -134,23 +134,29 @@ Create a booking page in Cal.com, Calendly or Google Calendar appointment schedu
 3. Hero only: the slices follow the pointer (or a finger on touch screens), and every six seconds while idle and on screen the slices give a short blink.
 Reduced-motion users see the finished logo with no movement. Timings are in the `<style>` block of `Logo.astro`; the idle interval is in `src/scripts/site.ts`.
 
-**Stickers.** Draggable pill stickers around the hero mark (`src/components/Stickers.astro`), naming things the studio does. Edit words, colours and positions in the list at the top of that file. They are decorative and hidden from screen readers.
+**Homepage.** Deliberately simple: a full-screen hero that is only the animated logo (blush on moss), then one statement, four portrait work tiles, a numbered services list, and the footer call to action. Homepage copy lives in `src/data/home.ts`.
+
+**Badge.** The spinning “Let’s talk” sticker in the hero (`src/components/Badge.astro`) is a real link to the contact page. Change its words with the `text` prop.
+
+**Header.** Floating pills: the brand in a cream pill, navigation in an ink pill, and a magenta “Let’s talk” button. On the homepage the header logo appears once you scroll past the hero logo.
 
 **The slice.** The logo’s cut runs through the whole site: headline text, card hovers, rules and the eyebrow markers.
 
-**Colour.** A two-colour system, mint and plum, with three supporting tones:
+**Colour.** Taken from the GIND / Creator Studio reference:
 
 | Colour | Hex | Role |
 | --- | --- | --- |
-| Mint | `#BDEBA5` | Base background; Design & Creative (the outside) |
-| Plum | `#4A1C3C` | All text, the logo, primary buttons; AI & Systems (the inside) |
-| Lilac | `#D2C4DC` | Pills, hover fills, surfaces; Marketing & Growth (between) |
-| Sage | `#6F8269` | Decorative accent, stickers |
-| Mauve | `#8D6E86` | Decorative accent, stickers |
+| Cream | `#FAFCF0` | Base background |
+| Ink | `#111010` | All text, the logo on light colours, footer |
+| Moss | `#628038` | The hero and big colour moments |
+| Blush | `#ECCAE0` | The logo on moss; Design & Creative |
+| Lime | `#E6FCB0` | Marketing & Growth |
+| Lilac | `#ECE0F8` | Pills, hover fills, surfaces |
+| Magenta | `#D782B3` | The badge and the “Let’s talk” buttons |
 
-Supporting tokens: Plum Soft `#6B4A63` (secondary text), Mint Light `#D8F4C8` (hovers), Plum Deep `#2E1025` (Inside view background).
+Supporting tokens: Moss Deep `#4A6428` (AI & Systems and any green section with small text), Ink Soft `#57525B` (secondary text), Ink Deep `#161417` (Inside view).
 
-**Contrast.** Plum on mint is 10:1 and plum on lilac 8:1, so body text works on both. Mint on plum (10:1) and lilac on plum (8:1) work for the dark sections. Sage and mauve are about 3:1 with mint, so use them only for fills, decoration or large bold type.
+**Contrast.** Ink reads on every light colour (7:1 or more). Blush or cream on moss is 3 to 4.3:1, which is fine for the logo and large bold type only, so small text on green uses Moss Deep with cream text (6.4:1).
 
 **Shapes.** Buttons, tags, filters and stickers are pills (`--pill`); cards and panels use a 16px radius (`--radius`).
 

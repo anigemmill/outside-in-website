@@ -58,22 +58,23 @@ const year = new Date().getFullYear();
 
 <style>
   .site-footer {
-    background: var(--plum); color: var(--mint);
+    background: var(--ink); color: var(--cream);
     padding-block: var(--section) 2rem;
-    --line: rgba(189, 235, 165, 0.22); --fill: var(--lilac); --fill-fg: var(--plum);
+    --line: rgba(250, 252, 240, 0.22); --fill: var(--lilac); --fill-fg: var(--ink); --fg: var(--cream); --bg: var(--ink);
   }
-  :root[data-view='inside'] .site-footer { background: #1f0a19; }
+  :root[data-view='inside'] .site-footer { background: #000000; }
   .site-footer a { text-decoration: none; }
-  .site-footer a:hover { color: var(--lilac); }
+  .site-footer a:hover { color: var(--blush); }
   .site-footer__top { display: grid; gap: 2rem; padding-bottom: clamp(3rem, 6vw, 6rem); border-bottom: 1px solid var(--line); }
-  .site-footer__big { font-family: var(--font-display); font-weight: 700; font-size: var(--step-4); line-height: 0.95; letter-spacing: -0.035em; }
-  .accent { color: var(--lilac); }
-  .btn--ghost-inv { --btn-bg: transparent; --btn-fg: var(--mint); --btn-border: var(--mint); }
+  .site-footer__big { font-family: var(--font-display); font-weight: 700; font-size: var(--step-4); line-height: 0.95; letter-spacing: -0.035em; font-weight: 800; text-transform: uppercase; }
+  .accent { color: var(--blush); }
+  .site-footer :global(.btn--accent) { --btn-bg: var(--magenta); --btn-fg: var(--ink); --fill: var(--lime); }
+  .btn--ghost-inv { --btn-bg: transparent; --btn-fg: var(--cream); --btn-border: var(--cream); }
   .site-footer__grid {
     display: grid; gap: 2.5rem; padding-block: 3rem;
     grid-template-columns: 1.4fr repeat(3, minmax(0, 1fr));
   }
-  :global(.site-footer__mark) { width: 5.5rem; color: var(--mint); margin-bottom: 1rem; }
+  :global(.site-footer__mark) { width: 5.5rem; color: var(--cream); margin-bottom: 1rem; }
   .site-footer__brand p { color: var(--lilac); }
   .site-footer__h { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--lilac); margin-bottom: 0.9rem; }
   .site-footer ul { display: grid; gap: 0.45rem; }

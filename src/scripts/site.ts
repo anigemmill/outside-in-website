@@ -145,17 +145,18 @@ document.querySelectorAll<SVGSVGElement>('[data-logo="interactive"]').forEach((l
   const heroEl = logo.closest<HTMLElement>('[data-pair]');
   const pairs = 4;
   const pulse = () => {
-    if (!introDone || !visible || document.hidden || Date.now() - lastMove < 2500) return;
+    if (!introDone || !visible || document.hidden || Date.now() - lastMove < 1500) return;
     logo.style.setProperty('--oi-k', '1');
     logo.classList.add('oi-logo--pulse');
     logo.querySelector('.oi-slice--i')?.addEventListener('animationend', () => logo.classList.remove('oi-logo--pulse'), { once: true });
     if (heroEl) {
       window.setTimeout(() => {
         heroEl.dataset.pair = String((Number(heroEl.dataset.pair ?? 0) + 1) % pairs);
-      }, 300);
+      }, 170);
     }
   };
-  window.setInterval(pulse, 4200);
+  // One colour change every 1.6s: fast, but well under the three-flashes-a-second safety limit.
+  window.setInterval(pulse, 1600);
 });
 
 export {};

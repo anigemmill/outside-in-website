@@ -83,7 +83,7 @@ const featured = (await getCollection('work', (p) => p.data.featured)).sort((a, 
   .hero[data-pair='3'] { --hero-bg: var(--green);  --hero-fg: var(--purple); }
   .hero {
     background: var(--hero-bg); color: var(--hero-fg);
-    transition: background-color 0.5s var(--ease-out), color 0.5s var(--ease-out);
+    transition: background-color 0.12s linear, color 0.12s linear;
     min-height: 100svh; display: grid; place-items: center; align-content: center; gap: clamp(2rem, 4vw, 3.5rem);
     padding: 7rem var(--gutter) 5rem;
   }

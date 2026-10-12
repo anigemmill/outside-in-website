@@ -106,7 +106,9 @@ const ring = `M${cx - R},${cy}a${R},${R} 0 1,0 ${2 * R},0a${R},${R} 0 1,0 ${-2 *
   .oi-logo--pulse .oi-slice { animation: oi-blink 0.8s var(--ease-out-back, cubic-bezier(0.34, 1.4, 0.64, 1)) both; }
   a:hover > .oi-logo .oi-slice--i,
   a:focus-visible > .oi-logo .oi-slice--i,
-  .oi-logo--pulse .oi-slice--i { animation-delay: 0.07s; }
+  .oi-logo--pulse .oi-slice--i { animation-delay: 0.04s; }
+  /* The hero's idle pulse is a quick snap, so the colour change feels like a cut. */
+  .oi-logo--pulse .oi-slice { animation-duration: 0.42s; }
   @keyframes oi-blink {
     0%   { transform: translateX(var(--oi-shift)); }
     40%  { transform: translateX(0); }

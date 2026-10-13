@@ -12,7 +12,7 @@ const site = readFileSync('src/config/site.ts', 'utf8');
 const items = [];
 
 if (!val('PUBLIC_CONTACT_EMAIL') && site.includes("'hello@your-domain.co.nz'")) items.push('Contact email is still the placeholder (hello@your-domain.co.nz).');
-if (!val('PUBLIC_BOOKING_URL')) items.push('No booking URL: "Book a discovery call" opens the contact form instead (works, but a calendar link is smoother).');
+if (!val('PUBLIC_BOOKING_URL') && site.includes("bookingUrl: env.PUBLIC_BOOKING_URL || ''")) items.push('No booking URL: "Book a discovery call" opens the contact form instead (works, but a calendar link is smoother).');
 if (/instagram: '',\s*linkedin: '',\s*facebook: '',\s*behance: ''/.test(site)) items.push('No social links set in src/config/site.ts (the footer hides the Follow column until you add one).');
 const concepts = readdirSync('src/content/work').filter((d) => {
   const f = `src/content/work/${d}/index.md`;

@@ -73,7 +73,7 @@ Copy `.env.example` to `.env` for local work, and add the same variables in Netl
 | --- | --- | --- |
 | `PUBLIC_SITE_URL` | Only to override the domain (e.g. a staging copy) | Uses the built-in domain, `https://theoutsidein.nz` |
 | `PUBLIC_CONTACT_EMAIL` | Only to override the contact email | Uses the built-in address, `anigemmill@theoutsidein.nz` |
-| `PUBLIC_BOOKING_URL` | Discovery-call booking page | “Book a discovery call” opens the contact form with “Discovery call” preselected |
+| `PUBLIC_BOOKING_URL` | Only to override the booking link | Uses the built-in Cal.com link, `https://cal.com/ani-gemmill-yg4gmo` |
 | `PUBLIC_FORM_ENDPOINT` | Only if not using Netlify Forms | Form uses Netlify Forms |
 
 After changing environment variables in Netlify, trigger a new deploy (**Deploys → Trigger deploy**).
@@ -121,7 +121,7 @@ The form has validation, a sending state, a success message and an error message
 
 ## Discovery-call booking
 
-Create a booking page in Cal.com, Calendly or Google Calendar appointment scheduling, then set `PUBLIC_BOOKING_URL`. Every “Book a discovery call” button switches to it and opens in a new tab. Until then the buttons go to the contact form, so none are dead.
+Bookings use Cal.com: https://cal.com/ani-gemmill-yg4gmo. Every “Book a discovery call” button opens it in a new tab. To change it, edit `bookingUrl` in `src/config/site.ts` (or set `PUBLIC_BOOKING_URL`). If you create a dedicated discovery-call event type, use that event’s link so people land straight on the right booking.
 
 ---
 

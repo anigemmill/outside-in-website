@@ -26,11 +26,10 @@ export const site = {
   email: env.PUBLIC_CONTACT_EMAIL || 'anigemmill@theoutsidein.nz',
 
   /**
-   * Discovery-call booking link (Cal.com, Calendly, Google Calendar booking page...).
-   * PLACEHOLDER: while empty, every "Book a discovery call" button opens the contact
-   * form with "Discovery call" preselected, so nothing on the site is a dead link.
+   * Discovery-call booking link (Cal.com). Every "Book a discovery call" button opens it
+   * in a new tab. If this is ever emptied, the buttons fall back to the contact form.
    */
-  bookingUrl: env.PUBLIC_BOOKING_URL || '',
+  bookingUrl: env.PUBLIC_BOOKING_URL || 'https://cal.com/ani-gemmill-yg4gmo',
 
   /**
    * Optional third-party form endpoint (e.g. Formspree: https://formspree.io/f/xxxx).

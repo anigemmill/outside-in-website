@@ -72,7 +72,7 @@ Copy `.env.example` to `.env` for local work, and add the same variables in Netl
 | Variable | Purpose | If empty |
 | --- | --- | --- |
 | `PUBLIC_SITE_URL` | Only to override the domain (e.g. a staging copy) | Uses the built-in domain, `https://theoutsidein.nz` |
-| `PUBLIC_CONTACT_EMAIL` | Email shown on the site | Shows the placeholder `hello@your-domain.co.nz` |
+| `PUBLIC_CONTACT_EMAIL` | Only to override the contact email | Uses the built-in address, `anigemmill@theoutsidein.nz` |
 | `PUBLIC_BOOKING_URL` | Discovery-call booking page | “Book a discovery call” opens the contact form with “Discovery call” preselected |
 | `PUBLIC_FORM_ENDPOINT` | Only if not using Netlify Forms | Form uses Netlify Forms |
 

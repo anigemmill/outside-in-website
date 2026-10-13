@@ -22,8 +22,8 @@ export const site = {
    */
   indexable: !process.env.CONTEXT || process.env.CONTEXT === 'production',
 
-  /** PLACEHOLDER: the address enquiries should go to and that appears on the site. */
-  email: env.PUBLIC_CONTACT_EMAIL || 'hello@your-domain.co.nz',
+  /** The address shown on the site and offered as a fallback if the form fails. */
+  email: env.PUBLIC_CONTACT_EMAIL || 'anigemmill@theoutsidein.nz',
 
   /**
    * Discovery-call booking link (Cal.com, Calendly, Google Calendar booking page...).

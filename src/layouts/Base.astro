@@ -24,7 +24,7 @@ const hasDomain = Boolean(site.url);
 const canonical = hasDomain ? new URL(Astro.url.pathname, site.url + '/').href : undefined;
 const ogImage = hasDomain ? new URL(image, site.url + '/').href : image;
 // Without a confirmed domain the site asks not to be indexed (safe for previews).
-const robots = noindex || !hasDomain ? 'noindex, nofollow' : 'index, follow';
+const robots = noindex || !hasDomain || !site.indexable ? 'noindex, nofollow' : 'index, follow';
 
 const orgSchema = hasDomain
   ? {

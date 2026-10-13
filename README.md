@@ -71,7 +71,7 @@ Copy `.env.example` to `.env` for local work, and add the same variables in Netl
 
 | Variable | Purpose | If empty |
 | --- | --- | --- |
-| `PUBLIC_SITE_URL` | Your domain with `https://` | No canonical URLs or sitemap; site asks search engines **not** to index (safe for previews) |
+| `PUBLIC_SITE_URL` | Only to override the domain (e.g. a staging copy) | Uses the built-in domain, `https://theoutsidein.nz` |
 | `PUBLIC_CONTACT_EMAIL` | Email shown on the site | Shows the placeholder `hello@your-domain.co.nz` |
 | `PUBLIC_BOOKING_URL` | Discovery-call booking page | “Book a discovery call” opens the contact form with “Discovery call” preselected |
 | `PUBLIC_FORM_ENDPOINT` | Only if not using Netlify Forms | Form uses Netlify Forms |
@@ -86,7 +86,7 @@ Netlify hosts the site, handles the contact form and gives you free HTTPS. The f
 
 1. Put this folder in a GitHub repository (`git init`, commit, push), or use Netlify’s drag-and-drop for a one-off.
 2. In Netlify: **Add new site → Import an existing project →** choose the repo. Build settings are read from `netlify.toml` (build `npm run build`, publish `dist`).
-3. Add the environment variables above. Set `PUBLIC_SITE_URL` to your real domain.
+3. Add the environment variables above. The domain is already built in, so `PUBLIC_SITE_URL` can stay empty.
 4. Deploy. You’ll get a `*.netlify.app` address to check first.
 
 ### Connect your domain
@@ -96,7 +96,8 @@ Netlify hosts the site, handles the contact form and gives you free HTTPS. The f
    - an `A` record for the root domain (`@`) to Netlify’s load balancer IP shown in the Netlify dashboard;
    - a `CNAME` record for `www` to your `*.netlify.app` address.
 3. Netlify issues the HTTPS certificate automatically once DNS resolves (usually minutes, sometimes up to a day).
-4. Make sure `PUBLIC_SITE_URL` matches the version you want as primary (with or without `www`) and redeploy.
+4. Set `theoutsidein.nz` (no `www`) as the **primary domain** in Netlify. `netlify.toml` already redirects `www.theoutsidein.nz` to it.
+5. Deploy previews and branch deploys automatically tell search engines not to index them, so only the live site appears in Google.
 
 Check Netlify’s current docs for the exact IP and steps, as these can change.
 

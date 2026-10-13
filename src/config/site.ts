@@ -13,8 +13,14 @@ export const site = {
   descriptor: 'Creative, marketing and AI studio',
   location: 'Aotearoa New Zealand',
 
-  /** Production URL, e.g. https://outsidein.co.nz. Set PUBLIC_SITE_URL in .env / your host. */
-  url: (env.PUBLIC_SITE_URL ?? '').replace(/\/$/, ''),
+  /** Production URL. PUBLIC_SITE_URL can override it (e.g. for a staging copy). */
+  url: (env.PUBLIC_SITE_URL || 'https://theoutsidein.nz').replace(/\/$/, ''),
+
+  /**
+   * Only the live site should be indexed. Netlify sets CONTEXT to 'production' for the
+   * live deploy and to 'deploy-preview' / 'branch-deploy' for previews, which stay hidden.
+   */
+  indexable: !process.env.CONTEXT || process.env.CONTEXT === 'production',
 
   /** PLACEHOLDER: the address enquiries should go to and that appears on the site. */
   email: env.PUBLIC_CONTACT_EMAIL || 'hello@your-domain.co.nz',
@@ -67,7 +73,6 @@ export const bookingIsExternal = Boolean(site.bookingUrl);
 /** Things still to supply before launch (shown in a dev-only banner). */
 export function outstandingPlaceholders(): string[] {
   const list: string[] = [];
-  if (!site.url) list.push('PUBLIC_SITE_URL (your domain)');
   if (site.email.includes('your-domain')) list.push('Contact email');
   if (!site.bookingUrl) list.push('Booking URL (falls back to the contact form)');
   if (!Object.values(site.social).some(Boolean)) list.push('Social links');

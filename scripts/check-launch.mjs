@@ -11,7 +11,6 @@ const val = (k) => process.env[k] || env[k] || '';
 const site = readFileSync('src/config/site.ts', 'utf8');
 const items = [];
 
-if (!val('PUBLIC_SITE_URL')) items.push('PUBLIC_SITE_URL is not set: no canonical URLs or sitemap, and search engines are told not to index.');
 if (!val('PUBLIC_CONTACT_EMAIL') && site.includes("'hello@your-domain.co.nz'")) items.push('Contact email is still the placeholder (hello@your-domain.co.nz).');
 if (!val('PUBLIC_BOOKING_URL')) items.push('No booking URL: "Book a discovery call" opens the contact form instead (works, but a calendar link is smoother).');
 if (/instagram: '',\s*linkedin: '',\s*facebook: '',\s*behance: ''/.test(site)) items.push('No social links set in src/config/site.ts (the footer hides the Follow column until you add one).');

@@ -55,6 +55,10 @@ In `npm run dev` a yellow bar at the top of every page lists anything still to s
 
 To retire a concept, delete its folder.
 
+### Publish one of the Behance projects
+
+Eight projects from Behance are already set up as hidden drafts in `src/content/work/` (Flavours of Plenty, NZ CrossFit Nationals, Rotorua Walking Tours, Empty Plate Club, Sunseeker, Run for Reido, Wings for Life team logo, NSC wheel). Each `index.md` has the steps at the top: add the real images, confirm the client and summary, write two or three sentences, confirm you have permission to show it, then delete `draft: true`.
+
 ### Turn a concept into client work
 
 Change `status: concept` to `status: client`, add `client: Name`, swap the cover for real imagery, rewrite the copy as past tense, and add `results:` only where you have numbers or outcomes you can stand behind.

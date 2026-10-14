@@ -46,7 +46,7 @@ export const site = {
     instagram: '',
     linkedin: '',
     facebook: '',
-    behance: '',
+    behance: 'https://www.behance.net/anigemmill99',
   } as Record<string, string>,
 
   seo: {

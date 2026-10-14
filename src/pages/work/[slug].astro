@@ -1,5 +1,6 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { render } from 'astro:content';
+import { getWork } from '../../data/work';
 import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import Note from '../../components/Note.astro';
@@ -9,7 +10,7 @@ import { serviceById } from '../../data/services';
 import { site } from '../../config/site';
 
 export async function getStaticPaths() {
-  const all = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
+  const all = await getWork();
   return all.map((project, i) => ({
     params: { slug: project.id },
     props: { project, next: all[(i + 1) % all.length] },
@@ -21,6 +22,8 @@ const d = project.data;
 const { Content } = await render(project);
 const isConcept = d.status === 'concept';
 const isSvg = d.cover.format === 'svg';
+// Body text, ignoring HTML comments (drafts carry TODO comments only).
+const hasBody = Boolean((project.body ?? '').replace(/<!--[\s\S]*?-->/g, '').trim());
 const imgOpts = (svg: boolean) => (svg ? {} : { widths: [800, 1280, 1920], sizes: '(max-width: 1440px) 100vw, 1440px' });
 
 const schema = site.url
@@ -56,24 +59,31 @@ const schema = site.url
       <dl class="case__facts">
         <div><dt>Sector</dt><dd>{d.sector}</dd></div>
         <div><dt>Services</dt><dd>{d.categories.map((c, i) => <>{i > 0 && ', '}<a href={`/work/?filter=${c}`}>{serviceById[c].name}</a></>)}</dd></div>
-        <div><dt>{isConcept ? 'Status' : 'Year'}</dt><dd>{isConcept ? 'Concept, not commissioned work' : d.year ?? ''}</dd></div>
+        {isConcept
+          ? <div><dt>Status</dt><dd>Concept, not commissioned work</dd></div>
+          : <div><dt>Client</dt><dd>{d.client}{d.year ? `, ${d.year}` : ''}</dd></div>}
       </dl>
     </div>
 
     <div class="wrap case__body">
-      <section class="row" aria-labelledby="challenge">
-        <h2 id="challenge" class="row__label">The challenge</h2>
-        <div class="row__content"><p class="case__big">{d.challenge}</p></div>
-      </section>
+      {d.challenge && (
+        <section class="row" aria-labelledby="challenge">
+          <h2 id="challenge" class="row__label">The challenge</h2>
+          <div class="row__content"><p class="case__big">{d.challenge}</p></div>
+        </section>
+      )}
 
+      {(d.approach || hasBody) && (
       <section class="row" aria-labelledby="approach">
-        <h2 id="approach" class="row__label">The approach</h2>
+        <h2 id="approach" class="row__label">{d.approach ? 'The approach' : 'About the project'}</h2>
         <div class="row__content">
-          <p class="case__big">{d.approach}</p>
-          <div class="prose case__notes"><Content /></div>
+          {d.approach && <p class="case__big">{d.approach}</p>}
+          <div class:list={['prose', 'case__notes', { 'case__notes--lead': !d.approach }]}><Content /></div>
         </div>
       </section>
+      )}
 
+      {d.developed.length > 0 && (
       <section class="row" aria-labelledby="developed">
         <h2 id="developed" class="row__label">{isConcept ? 'What we’d develop' : 'What we developed'}</h2>
         <ol class="row__content developed" role="list">
@@ -82,7 +92,9 @@ const schema = site.url
           ))}
         </ol>
       </section>
+      )}
 
+      {d.map && (
       <section class="map-wrap" aria-labelledby="map">
         <div class="map-wrap__head">
           <h2 id="map" class="row__label">Outside / Inside</h2>
@@ -100,6 +112,7 @@ const schema = site.url
         </div>
         <Note>Every case study shows both layers. It makes the agency’s point without saying it: we design what people see and build what makes it work.</Note>
       </section>
+      )}
 
       {d.demo === 'triage' && (
         <section class="demo" id="demo" aria-labelledby="demo-title">
@@ -119,6 +132,7 @@ const schema = site.url
         </section>
       )}
 
+      {d.objectives.length > 0 && (
       <section class="row" aria-labelledby="value">
         <h2 id="value" class="row__label">{isConcept ? 'Intended value' : 'Business value'}</h2>
         <div class="row__content">
@@ -126,6 +140,7 @@ const schema = site.url
           {isConcept && <p class="value__note">These are the objectives the concept is designed to test. They are hypotheses, not results.</p>}
         </div>
       </section>
+      )}
 
       {!isConcept && d.results.length > 0 && (
         <section class="row" aria-labelledby="results">
@@ -135,7 +150,7 @@ const schema = site.url
       )}
 
       <div class="row case__ask">
-        <p class="row__label">{isConcept ? 'Have a version of this problem?' : 'Want results like these?'}</p>
+        <p class="row__label">{isConcept ? 'Have a version of this problem?' : 'Want work like this?'}</p>
         <div class="row__content"><BookingLink label="Talk it through" /></div>
       </div>
     </div>
@@ -176,6 +191,7 @@ const schema = site.url
   @media (max-width: 860px) { .row { grid-template-columns: 1fr; } }
   .case__big { font-family: var(--font-display); font-weight: 500; font-size: var(--step-2); line-height: 1.25; letter-spacing: -0.015em; max-width: 34ch; }
   .case__notes { margin-top: 1.5rem; color: var(--muted); }
+  .case__notes--lead { margin-top: 0; color: var(--fg); font-size: var(--step-1); line-height: 1.5; }
 
   .developed { display: grid; padding: 0; }
   .developed li { display: grid; grid-template-columns: 2.5rem 1fr; gap: 1rem; padding-block: 0.9rem; border-bottom: 1px solid var(--line); font-size: var(--step-1); line-height: 1.35; }
@@ -197,6 +213,8 @@ const schema = site.url
   .demo { display: grid; gap: 1.5rem; padding-block: clamp(2.5rem, 5vw, 4rem); border-top: 1px solid var(--line); scroll-margin-top: 6rem; }
 
   .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--gutter); padding-block: clamp(2.5rem, 5vw, 4rem); }
+  .gallery figure:first-child:nth-last-child(odd) { grid-column: 1 / -1; }
+  .gallery :global(img) { width: 100%; height: auto; border-radius: var(--radius); }
   .gallery figure { margin: 0; display: grid; gap: 0.5rem; }
   .gallery figcaption { color: var(--muted); font-size: var(--step--1); }
   @media (max-width: 760px) { .gallery { grid-template-columns: 1fr; } }

@@ -9,6 +9,9 @@ import { glob } from 'astro/loaders';
  *
  * status: 'concept' → labelled "Concept" everywhere, shows objectives, never results.
  * status: 'client'  → real commissioned work. `results` should only contain verified facts.
+ *                     Client projects only need a summary, cover and gallery; the longer
+ *                     write-up fields (challenge, approach, developed, map) are optional.
+ * draft: true        → kept in the repo but not published anywhere on the site.
  */
 const work = defineCollection({
   loader: glob({ pattern: '**/index.md', base: './src/content/work' }),
@@ -26,12 +29,13 @@ const work = defineCollection({
         cover: image(),
         coverAlt: z.string(),
         featured: z.boolean().default(false),
+        draft: z.boolean().default(false),
         order: z.number().default(100),
-        challenge: z.string(),
-        approach: z.string(),
-        developed: z.array(z.string()).min(1),
+        challenge: z.string().optional(),
+        approach: z.string().optional(),
+        developed: z.array(z.string()).default([]),
         /** What customers see vs what runs behind it. Drives the Outside / Inside map. */
-        map: z.object({ outside: z.array(z.string()), inside: z.array(z.string()) }),
+        map: z.object({ outside: z.array(z.string()), inside: z.array(z.string()) }).optional(),
         objectives: z.array(z.string()).default([]),
         results: z.array(z.string()).default([]),
         gallery: z.array(z.object({ src: image(), alt: z.string(), caption: z.string().optional() })).default([]),
@@ -40,6 +44,9 @@ const work = defineCollection({
       })
       .refine((d) => d.status === 'client' || d.results.length === 0, {
         message: 'Concept projects cannot list results. Use `objectives` instead.',
+      })
+      .refine((d) => d.status === 'client' || Boolean(d.challenge && d.approach && d.developed.length && d.map), {
+        message: 'Concept projects need challenge, approach, developed and map.',
       })
       .refine((d) => d.status === 'concept' || Boolean(d.client), {
         message: 'Client projects need a `client` name.',

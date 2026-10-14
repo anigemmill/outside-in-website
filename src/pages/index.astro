@@ -1,14 +1,16 @@
 ---
-import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Logo from '../components/Logo.astro';
 import Note from '../components/Note.astro';
 import { services } from '../data/services';
 import { home } from '../data/home';
+import { getWork } from '../data/work';
 import { site } from '../config/site';
 
-const featured = (await getCollection('work', (p) => p.data.featured)).sort((a, b) => a.data.order - b.data.order).slice(0, 2);
+// Featured projects, client work first. Falls back to the first published projects.
+const published = await getWork();
+const featured = (published.some((p) => p.data.featured) ? published.filter((p) => p.data.featured) : published).slice(0, 2);
 ---
 <Base description={site.seo.defaultDescription} home>
 

@@ -1,16 +1,12 @@
 ---
-import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 import Note from '../../components/Note.astro';
 import { services } from '../../data/services';
+import { getWork } from '../../data/work';
 
-const projects = (await getCollection('work')).sort((a, b) => {
-  // Real client work first, then by order.
-  if (a.data.status !== b.data.status) return a.data.status === 'client' ? -1 : 1;
-  return a.data.order - b.data.order;
-});
+const projects = await getWork();
 const conceptCount = projects.filter((p) => p.data.status === 'concept').length;
 const filters = [
   { id: 'all', label: 'All' },

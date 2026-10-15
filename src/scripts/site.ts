@@ -152,11 +152,11 @@ document.querySelectorAll<SVGSVGElement>('[data-logo="interactive"]').forEach((l
     if (heroEl) {
       window.setTimeout(() => {
         heroEl.dataset.pair = String((Number(heroEl.dataset.pair ?? 0) + 1) % pairs);
-      }, 170);
+      }, 120);
     }
   };
-  // One colour change every 1.6s: fast, but well under the three-flashes-a-second safety limit.
-  window.setInterval(pulse, 1600);
+  // 2.5 colour changes a second: as quick as it goes while staying under the three-flashes-a-second safety limit.
+  window.setInterval(pulse, 400);
 });
 
 export {};

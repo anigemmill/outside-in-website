@@ -56,7 +56,7 @@ These were reached over several rounds with Ani. Treat them as decided.
 **Logo animation (homepage hero).**
 1. Intro: the top halves drop in, the bottom halves rise, then both slices fly in from the left and lock into place.
 2. The slices follow the pointer (or finger) across the hero.
-3. Idle: every 1.6 s the slices snap whole and the hero cuts to the next colour pair, with a 0.12 s colour transition. Ani asked for this to be fast. Keep it under 3 changes per second (flash safety). It pauses while off screen, during pointer movement and for reduced-motion users.
+3. Idle: every 0.4 s the slices snap whole and the hero cuts to the next colour pair, with a 0.06 s colour transition. Ani asked for this to be super quick. Keep it under 3 changes per second (flash safety). It pauses while off screen, during pointer movement and for reduced-motion users.
 
 **Palette: final, chosen by Ani.** Four colours that swap roles in the hero (background / logo):
 

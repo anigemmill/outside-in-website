@@ -155,8 +155,8 @@ document.querySelectorAll<SVGSVGElement>('[data-logo="interactive"]').forEach((l
       }, 120);
     }
   };
-  // Two colour changes a second: very quick, but still under the three-flashes-a-second safety limit.
-  window.setInterval(pulse, 500);
+  // 2.5 colour changes a second: as quick as it goes while staying under the three-flashes-a-second safety limit.
+  window.setInterval(pulse, 400);
 });
 
 export {};

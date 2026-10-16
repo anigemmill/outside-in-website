@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 import Note from '../../components/Note.astro';
+import FindableFeature from '../../components/FindableFeature.astro';
 import { services } from '../../data/services';
 import { getWork } from '../../data/work';
 
@@ -15,15 +16,20 @@ const filters = [
 ];
 ---
 <Base
-  title="Work"
+  title="Projects"
   description="Brand, campaign, digital and AI projects by Outside In. Concept projects are clearly labelled and show how we approach real business problems."
 >
   <PageHero
-    eyebrow="Work"
+    eyebrow="Projects"
     dot="red"
     title="Ideas, built."
     lede="Each project starts with a business problem and ends with something real: a brand, a campaign, a working system."
   />
+
+  <section class="wrap product" aria-label="Our product">
+    <FindableFeature />
+    <Note>Findable is Outside In’s own product, so it sits above client and concept work rather than in the grid.</Note>
+  </section>
 
   <section class="wrap work-index" aria-label="Projects">
     <div class="work-index__bar">
@@ -88,6 +94,7 @@ const filters = [
 </script>
 
 <style>
+  .product { padding-bottom: clamp(4rem, 8vw, 7rem); }
   .work-index { padding-bottom: clamp(6rem, 12vw, 12rem); }
   .work-index__bar { display: grid; gap: 1.25rem; padding-bottom: 1.5rem; margin-bottom: clamp(2.5rem, 5vw, 4rem); border-bottom: 1px solid var(--line); }
   .filters { display: flex; flex-wrap: wrap; gap: 0.25rem 1.75rem; }

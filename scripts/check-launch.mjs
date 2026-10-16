@@ -19,6 +19,7 @@ const concepts = readdirSync('src/content/work').filter((d) => {
   return existsSync(f) && /status:\s*concept/.test(readFileSync(f, 'utf8'));
 });
 if (concepts.length) items.push(`${concepts.length} portfolio projects are concepts (${concepts.join(', ')}). Fine to launch with; replace or add client work when approved.`);
+if (!val('PUBLIC_FINDABLE_APP_URL') && site.includes("'https://tourism-ai-growth-platform.vercel.app'")) items.push('Findable "Sign in" links still point at the Vercel address. Switch findableAppUrl in src/config/site.ts to https://app.theoutsidein.nz once that domain is live.');
 items.push('Review the privacy notice in src/pages/privacy.astro, especially if you add analytics.');
 items.push('Turn on form notifications in Netlify (Forms > Form notifications) so enquiries reach your inbox.');
 

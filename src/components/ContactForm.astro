@@ -122,8 +122,9 @@ const topics = [
     };
 
     const fields = [...form.querySelectorAll<HTMLInputElement>('input[required], select[required], textarea[required]')];
+    // Errors appear on submit and clear as the field is fixed. (Checking on blur
+    // would insert a message mid-click and shift the form under the pointer.)
     fields.forEach((el) => {
-      el.addEventListener('blur', () => { if (el.value) check(el); });
       el.addEventListener('input', () => { if (el.getAttribute('aria-invalid') === 'true') check(el); });
     });
 

@@ -32,8 +32,9 @@ const header = document.querySelector<HTMLElement>('[data-header]');
 const hero = document.querySelector<HTMLElement>('[data-hero]');
 const onScroll = () => {
   header?.classList.toggle('is-scrolled', window.scrollY > 8);
-  // Homepage: reveal the header logo once the hero logo has scrolled away.
-  if (hero) header?.classList.toggle('is-past-hero', window.scrollY > hero.offsetHeight * 0.55);
+  // Homepage: the header logo takes over once the hero logo has glided into its
+  // slot, at 60% of the hero scrolled (src/scripts/home.ts runs the glide).
+  if (hero) header?.classList.toggle('is-past-hero', window.scrollY >= hero.offsetTop + hero.offsetHeight * 0.6 - 1);
 };
 onScroll();
 window.addEventListener('scroll', onScroll, { passive: true });
@@ -140,12 +141,23 @@ document.querySelectorAll<SVGSVGElement>('[data-logo="interactive"]').forEach((l
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(([en]) => { visible = en.isIntersecting; }).observe(logo);
   }
+  // The colour cycle stops on the first scroll and resumes 2s after the page is
+  // back at the top, so it never runs while the logo glides to the header.
+  let topSince = -Infinity;
+  const trackTop = () => {
+    if (window.scrollY > 0) topSince = Infinity;
+    else if (topSince === Infinity) topSince = Date.now();
+  };
+  trackTop();
+  window.addEventListener('scroll', trackTop, { passive: true });
+
   // If the hero has colour pairs, the background flips to the next pair at the
   // moment the slices are whole (40% into the blink), so the change feels cut-in.
   const heroEl = logo.closest<HTMLElement>('[data-pair]');
   const pairs = 4;
   const pulse = () => {
     if (!introDone || !visible || document.hidden || Date.now() - lastMove < 1500) return;
+    if (window.scrollY > 0 || Date.now() - topSince < 2000) return;
     logo.style.setProperty('--oi-k', '1');
     logo.classList.add('oi-logo--pulse');
     logo.querySelector('.oi-slice--i')?.addEventListener('animationend', () => logo.classList.remove('oi-logo--pulse'), { once: true });

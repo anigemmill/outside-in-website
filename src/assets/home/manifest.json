@@ -1,0 +1,515 @@
+{
+  "note": "Placeholder images for Outside In homepage v2. Replace each file with a real image at the same path and ratio, then update altPlaceholder.",
+  "assets": [
+    {
+      "placeholder": true,
+      "id": "stack-01",
+      "file": "stack/stack-01.jpg",
+      "width": 1600,
+      "height": 1000,
+      "usedIn": "04 Project stack",
+      "replaceWith": "real desktop screenshot of a project website, 16:10",
+      "altPlaceholder": "[Project 1] website, desktop view"
+    },
+    {
+      "placeholder": true,
+      "id": "stack-02",
+      "file": "stack/stack-02.jpg",
+      "width": 1600,
+      "height": 1000,
+      "usedIn": "04 Project stack",
+      "replaceWith": "real desktop screenshot of a project website, 16:10",
+      "altPlaceholder": "[Project 2] website, desktop view"
+    },
+    {
+      "placeholder": true,
+      "id": "stack-03",
+      "file": "stack/stack-03.jpg",
+      "width": 1600,
+      "height": 1000,
+      "usedIn": "04 Project stack",
+      "replaceWith": "real desktop screenshot of a project website, 16:10",
+      "altPlaceholder": "[Project 3] website, desktop view"
+    },
+    {
+      "placeholder": true,
+      "id": "stack-04",
+      "file": "stack/stack-04.jpg",
+      "width": 1600,
+      "height": 1000,
+      "usedIn": "04 Project stack",
+      "replaceWith": "real desktop screenshot of a project website, 16:10",
+      "altPlaceholder": "[Project 4] website, desktop view"
+    },
+    {
+      "placeholder": true,
+      "id": "stack-05",
+      "file": "stack/stack-05.jpg",
+      "width": 1600,
+      "height": 1000,
+      "usedIn": "04 Project stack",
+      "replaceWith": "real desktop screenshot of a project website, 16:10",
+      "altPlaceholder": "[Project 5] website, desktop view"
+    },
+    {
+      "placeholder": true,
+      "id": "stack-06",
+      "file": "stack/stack-06.jpg",
+      "width": 1600,
+      "height": 1000,
+      "usedIn": "04 Project stack",
+      "replaceWith": "real desktop screenshot of a project website, 16:10",
+      "altPlaceholder": "[Project 6] website, desktop view"
+    },
+    {
+      "placeholder": true,
+      "id": "stack-07",
+      "file": "stack/stack-07.jpg",
+      "width": 1600,
+      "height": 1000,
+      "usedIn": "04 Project stack",
+      "replaceWith": "real desktop screenshot of a project website, 16:10",
+      "altPlaceholder": "[Project 7] website, desktop view"
+    },
+    {
+      "placeholder": true,
+      "id": "stack-08",
+      "file": "stack/stack-08.jpg",
+      "width": 1600,
+      "height": 1000,
+      "usedIn": "04 Project stack",
+      "replaceWith": "real desktop screenshot of a project website, 16:10",
+      "altPlaceholder": "[Project 8] website, desktop view"
+    },
+    {
+      "placeholder": true,
+      "id": "stack-09",
+      "file": "stack/stack-09.jpg",
+      "width": 1600,
+      "height": 1000,
+      "usedIn": "04 Project stack",
+      "replaceWith": "real desktop screenshot of a project website, 16:10",
+      "altPlaceholder": "[Project 9] website, desktop view"
+    },
+    {
+      "placeholder": true,
+      "id": "stack-10",
+      "file": "stack/stack-10.jpg",
+      "width": 1600,
+      "height": 1000,
+      "usedIn": "04 Project stack",
+      "replaceWith": "real desktop screenshot of a project website, 16:10",
+      "altPlaceholder": "[Project 10] website, desktop view"
+    },
+    {
+      "placeholder": true,
+      "id": "feature-01-inside",
+      "file": "featured/feature-01-inside.jpg",
+      "width": 1600,
+      "height": 1200,
+      "usedIn": "03 Lens (inside layer)",
+      "replaceWith": "real sketch / wireframe / notes for the same project, same crop as outside",
+      "altPlaceholder": "[Project 1] behind the scenes: wireframe and notes"
+    },
+    {
+      "placeholder": true,
+      "id": "feature-02-inside",
+      "file": "featured/feature-02-inside.jpg",
+      "width": 1600,
+      "height": 1200,
+      "usedIn": "03 Lens (inside layer)",
+      "replaceWith": "real sketch / wireframe / notes for the same project, same crop as outside",
+      "altPlaceholder": "[Project 2] behind the scenes: wireframe and notes"
+    },
+    {
+      "placeholder": true,
+      "id": "drift-01",
+      "file": "drift/drift-01.jpg",
+      "width": 1200,
+      "height": 900,
+      "usedIn": "05 Drift field",
+      "replaceWith": "real process photo, 4:3",
+      "altPlaceholder": "[Describe the process photo]"
+    },
+    {
+      "placeholder": true,
+      "id": "drift-02",
+      "file": "drift/drift-02.jpg",
+      "width": 900,
+      "height": 1200,
+      "usedIn": "05 Drift field",
+      "replaceWith": "real process photo, 3:4",
+      "altPlaceholder": "[Describe the process photo]"
+    },
+    {
+      "placeholder": true,
+      "id": "drift-03",
+      "file": "drift/drift-03.jpg",
+      "width": 1200,
+      "height": 900,
+      "usedIn": "05 Drift field",
+      "replaceWith": "real process photo, 4:3",
+      "altPlaceholder": "[Describe the process photo]"
+    },
+    {
+      "placeholder": true,
+      "id": "drift-04",
+      "file": "drift/drift-04.jpg",
+      "width": 900,
+      "height": 1200,
+      "usedIn": "05 Drift field",
+      "replaceWith": "real process photo, 3:4",
+      "altPlaceholder": "[Describe the process photo]"
+    },
+    {
+      "placeholder": true,
+      "id": "drift-05",
+      "file": "drift/drift-05.jpg",
+      "width": 1200,
+      "height": 900,
+      "usedIn": "05 Drift field",
+      "replaceWith": "real process photo, 4:3",
+      "altPlaceholder": "[Describe the process photo]"
+    },
+    {
+      "placeholder": true,
+      "id": "drift-06",
+      "file": "drift/drift-06.jpg",
+      "width": 900,
+      "height": 1200,
+      "usedIn": "05 Drift field",
+      "replaceWith": "real process photo, 3:4",
+      "altPlaceholder": "[Describe the process photo]"
+    },
+    {
+      "placeholder": true,
+      "id": "drift-07",
+      "file": "drift/drift-07.jpg",
+      "width": 1200,
+      "height": 900,
+      "usedIn": "05 Drift field",
+      "replaceWith": "real process photo, 4:3",
+      "altPlaceholder": "[Describe the process photo]"
+    },
+    {
+      "placeholder": true,
+      "id": "drift-08",
+      "file": "drift/drift-08.jpg",
+      "width": 900,
+      "height": 1200,
+      "usedIn": "05 Drift field",
+      "replaceWith": "real process photo, 3:4",
+      "altPlaceholder": "[Describe the process photo]"
+    },
+    {
+      "placeholder": true,
+      "id": "service-brand-identity-sketch",
+      "file": "services/service-brand-identity-sketch.jpg",
+      "width": 600,
+      "height": 420,
+      "usedIn": "06 Notched cards (rest state)",
+      "replaceWith": "simple line sketch for this service",
+      "altPlaceholder": "Sketch for Brand identity"
+    },
+    {
+      "placeholder": true,
+      "id": "service-brand-identity-photo",
+      "file": "services/service-brand-identity-photo.jpg",
+      "width": 1000,
+      "height": 520,
+      "usedIn": "06 Notched cards (hover state)",
+      "replaceWith": "real photo, about 2:1",
+      "altPlaceholder": "Brand identity: [describe photo]"
+    },
+    {
+      "placeholder": true,
+      "id": "service-campaign-creative-sketch",
+      "file": "services/service-campaign-creative-sketch.jpg",
+      "width": 600,
+      "height": 420,
+      "usedIn": "06 Notched cards (rest state)",
+      "replaceWith": "simple line sketch for this service",
+      "altPlaceholder": "Sketch for Campaign creative"
+    },
+    {
+      "placeholder": true,
+      "id": "service-campaign-creative-photo",
+      "file": "services/service-campaign-creative-photo.jpg",
+      "width": 1000,
+      "height": 520,
+      "usedIn": "06 Notched cards (hover state)",
+      "replaceWith": "real photo, about 2:1",
+      "altPlaceholder": "Campaign creative: [describe photo]"
+    },
+    {
+      "placeholder": true,
+      "id": "service-web-design-sketch",
+      "file": "services/service-web-design-sketch.jpg",
+      "width": 600,
+      "height": 420,
+      "usedIn": "06 Notched cards (rest state)",
+      "replaceWith": "simple line sketch for this service",
+      "altPlaceholder": "Sketch for Web design"
+    },
+    {
+      "placeholder": true,
+      "id": "service-web-design-photo",
+      "file": "services/service-web-design-photo.jpg",
+      "width": 1000,
+      "height": 520,
+      "usedIn": "06 Notched cards (hover state)",
+      "replaceWith": "real photo, about 2:1",
+      "altPlaceholder": "Web design: [describe photo]"
+    },
+    {
+      "placeholder": true,
+      "id": "service-social-media-sketch",
+      "file": "services/service-social-media-sketch.jpg",
+      "width": 600,
+      "height": 420,
+      "usedIn": "06 Notched cards (rest state)",
+      "replaceWith": "simple line sketch for this service",
+      "altPlaceholder": "Sketch for Social media"
+    },
+    {
+      "placeholder": true,
+      "id": "service-social-media-photo",
+      "file": "services/service-social-media-photo.jpg",
+      "width": 1000,
+      "height": 520,
+      "usedIn": "06 Notched cards (hover state)",
+      "replaceWith": "real photo, about 2:1",
+      "altPlaceholder": "Social media: [describe photo]"
+    },
+    {
+      "placeholder": true,
+      "id": "service-search-ai-visibility-sketch",
+      "file": "services/service-search-ai-visibility-sketch.jpg",
+      "width": 600,
+      "height": 420,
+      "usedIn": "06 Notched cards (rest state)",
+      "replaceWith": "simple line sketch for this service",
+      "altPlaceholder": "Sketch for Search + AI visibility"
+    },
+    {
+      "placeholder": true,
+      "id": "service-search-ai-visibility-photo",
+      "file": "services/service-search-ai-visibility-photo.jpg",
+      "width": 1000,
+      "height": 520,
+      "usedIn": "06 Notched cards (hover state)",
+      "replaceWith": "real photo, about 2:1",
+      "altPlaceholder": "Search + AI visibility: [describe photo]"
+    },
+    {
+      "placeholder": true,
+      "id": "service-content-sketch",
+      "file": "services/service-content-sketch.jpg",
+      "width": 600,
+      "height": 420,
+      "usedIn": "06 Notched cards (rest state)",
+      "replaceWith": "simple line sketch for this service",
+      "altPlaceholder": "Sketch for Content"
+    },
+    {
+      "placeholder": true,
+      "id": "service-content-photo",
+      "file": "services/service-content-photo.jpg",
+      "width": 1000,
+      "height": 520,
+      "usedIn": "06 Notched cards (hover state)",
+      "replaceWith": "real photo, about 2:1",
+      "altPlaceholder": "Content: [describe photo]"
+    },
+    {
+      "placeholder": true,
+      "id": "service-ai-agents-sketch",
+      "file": "services/service-ai-agents-sketch.jpg",
+      "width": 600,
+      "height": 420,
+      "usedIn": "06 Notched cards (rest state)",
+      "replaceWith": "simple line sketch for this service",
+      "altPlaceholder": "Sketch for AI agents"
+    },
+    {
+      "placeholder": true,
+      "id": "service-ai-agents-photo",
+      "file": "services/service-ai-agents-photo.jpg",
+      "width": 1000,
+      "height": 520,
+      "usedIn": "06 Notched cards (hover state)",
+      "replaceWith": "real photo, about 2:1",
+      "altPlaceholder": "AI agents: [describe photo]"
+    },
+    {
+      "placeholder": true,
+      "id": "service-automation-sketch",
+      "file": "services/service-automation-sketch.jpg",
+      "width": 600,
+      "height": 420,
+      "usedIn": "06 Notched cards (rest state)",
+      "replaceWith": "simple line sketch for this service",
+      "altPlaceholder": "Sketch for Automation"
+    },
+    {
+      "placeholder": true,
+      "id": "service-automation-photo",
+      "file": "services/service-automation-photo.jpg",
+      "width": 1000,
+      "height": 520,
+      "usedIn": "06 Notched cards (hover state)",
+      "replaceWith": "real photo, about 2:1",
+      "altPlaceholder": "Automation: [describe photo]"
+    },
+    {
+      "placeholder": true,
+      "id": "service-reporting-sketch",
+      "file": "services/service-reporting-sketch.jpg",
+      "width": 600,
+      "height": 420,
+      "usedIn": "06 Notched cards (rest state)",
+      "replaceWith": "simple line sketch for this service",
+      "altPlaceholder": "Sketch for Reporting"
+    },
+    {
+      "placeholder": true,
+      "id": "service-reporting-photo",
+      "file": "services/service-reporting-photo.jpg",
+      "width": 1000,
+      "height": 520,
+      "usedIn": "06 Notched cards (hover state)",
+      "replaceWith": "real photo, about 2:1",
+      "altPlaceholder": "Reporting: [describe photo]"
+    },
+    {
+      "placeholder": true,
+      "id": "strip-01",
+      "file": "strip/strip-01.jpg",
+      "width": 900,
+      "height": 1200,
+      "usedIn": "07 Colour card strip",
+      "replaceWith": "real project image, 3:4",
+      "altPlaceholder": "[Project] image"
+    },
+    {
+      "placeholder": true,
+      "id": "strip-02",
+      "file": "strip/strip-02.jpg",
+      "width": 900,
+      "height": 1200,
+      "usedIn": "07 Colour card strip",
+      "replaceWith": "real project image, 3:4",
+      "altPlaceholder": "[Project] image"
+    },
+    {
+      "placeholder": true,
+      "id": "strip-03",
+      "file": "strip/strip-03.jpg",
+      "width": 900,
+      "height": 1200,
+      "usedIn": "07 Colour card strip",
+      "replaceWith": "real project image, 3:4",
+      "altPlaceholder": "[Project] image"
+    },
+    {
+      "placeholder": true,
+      "id": "strip-04",
+      "file": "strip/strip-04.jpg",
+      "width": 900,
+      "height": 1200,
+      "usedIn": "07 Colour card strip",
+      "replaceWith": "real project image, 3:4",
+      "altPlaceholder": "[Project] image"
+    },
+    {
+      "placeholder": true,
+      "id": "strip-05",
+      "file": "strip/strip-05.jpg",
+      "width": 900,
+      "height": 1200,
+      "usedIn": "07 Colour card strip",
+      "replaceWith": "real project image, 3:4",
+      "altPlaceholder": "[Project] image"
+    },
+    {
+      "placeholder": true,
+      "id": "strip-06",
+      "file": "strip/strip-06.jpg",
+      "width": 900,
+      "height": 1200,
+      "usedIn": "07 Colour card strip",
+      "replaceWith": "real project image, 3:4",
+      "altPlaceholder": "[Project] image"
+    },
+    {
+      "placeholder": true,
+      "id": "social-01",
+      "file": "social/social-01.jpg",
+      "width": 1080,
+      "height": 1920,
+      "usedIn": "09 Social fan",
+      "replaceWith": "real social post or reel cover, 9:16",
+      "altPlaceholder": "[Client] reel: [describe]"
+    },
+    {
+      "placeholder": true,
+      "id": "social-02",
+      "file": "social/social-02.jpg",
+      "width": 1080,
+      "height": 1920,
+      "usedIn": "09 Social fan",
+      "replaceWith": "real social post or reel cover, 9:16",
+      "altPlaceholder": "[Client] carousel: [describe]"
+    },
+    {
+      "placeholder": true,
+      "id": "social-03",
+      "file": "social/social-03.jpg",
+      "width": 1080,
+      "height": 1920,
+      "usedIn": "09 Social fan",
+      "replaceWith": "real social post or reel cover, 9:16",
+      "altPlaceholder": "[Client] post: [describe]"
+    },
+    {
+      "placeholder": true,
+      "id": "social-04",
+      "file": "social/social-04.jpg",
+      "width": 1080,
+      "height": 1920,
+      "usedIn": "09 Social fan",
+      "replaceWith": "real social post or reel cover, 9:16",
+      "altPlaceholder": "[Client] story: [describe]"
+    },
+    {
+      "placeholder": true,
+      "id": "social-05",
+      "file": "social/social-05.jpg",
+      "width": 1080,
+      "height": 1920,
+      "usedIn": "09 Social fan",
+      "replaceWith": "real social post or reel cover, 9:16",
+      "altPlaceholder": "[Client] reel: [describe]"
+    },
+    {
+      "placeholder": true,
+      "id": "social-06",
+      "file": "social/social-06.jpg",
+      "width": 1080,
+      "height": 1920,
+      "usedIn": "09 Social fan",
+      "replaceWith": "real social post or reel cover, 9:16",
+      "altPlaceholder": "[Client] carousel: [describe]"
+    },
+    {
+      "placeholder": true,
+      "id": "social-07",
+      "file": "social/social-07.jpg",
+      "width": 1080,
+      "height": 1920,
+      "usedIn": "09 Social fan",
+      "replaceWith": "real social post or reel cover, 9:16",
+      "altPlaceholder": "[Client] post: [describe]"
+    }
+  ]
+}

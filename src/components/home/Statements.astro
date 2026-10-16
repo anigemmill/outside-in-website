@@ -1,0 +1,69 @@
+---
+/**
+ * 08 Line-by-line statements + tag trail. Each statement fades and rises in turn.
+ * On fine pointers, moving inside this section leaves a short trail of capability
+ * tags. On touch, two or three tags drop in beside each statement once. Reduced
+ * motion: everything visible, tags as a static row.
+ */
+import Note from '../Note.astro';
+import { services } from '../../data/services';
+import { home } from '../../data/home';
+
+// Each tag word keeps one palette colour wherever it appears.
+const tagColour: Record<string, string> = {
+  Brand: 'pink', Social: 'red', Search: 'green', AI: 'purple', Web: 'green', Content: 'pink', Systems: 'purple',
+};
+const statements = [
+  ...services.map((s) => ({
+    label: s.name,
+    colour: { 'design-creative': 'pink', 'marketing-growth': 'green', 'ai-systems': 'purple' }[s.id],
+    text: s.short,
+    tags: { 'design-creative': ['Brand', 'Web'], 'marketing-growth': ['Social', 'Search', 'Content'], 'ai-systems': ['AI', 'Systems'] }[s.id],
+  })),
+  { label: 'All three', colour: 'red', text: home.intro.lede, tags: ['Brand', 'Content', 'AI'] },
+];
+---
+<section class="say wrap" aria-labelledby="say-title" data-say data-trail-words={JSON.stringify(home.statements.trail.map((w) => [w, tagColour[w]]))}>
+  <h2 id="say-title" class="row-head__title say__title">{home.statements.title}</h2>
+  <ul role="list" class="say__list" data-say-list>
+    {statements.map((s, i) => (
+      <li class="say__item" style={`--i: ${i}`}>
+        <span class="say__label" style={`--c: var(--${s.colour})`}>{s.label}</span>
+        <p class="say__text">{s.text}</p>
+        <span class="say__tags" aria-hidden="true">
+          {s.tags.map((t, k) => <span class="say__tag" style={`--c: var(--${tagColour[t]}); --k: ${k}`}>{t}</span>)}
+        </span>
+      </li>
+    ))}
+  </ul>
+  <div class="say__trail" aria-hidden="true" data-trail></div>
+  <Note>A plain section after a loud one. The trail is the playful moment here, and it only runs while your pointer is in this section.</Note>
+</section>
+
+<style>
+  .say { position: relative; padding-bottom: clamp(6rem, 12vw, 12rem); }
+  .say__title { margin-bottom: clamp(2rem, 4vw, 3.5rem); }
+  .say__list { display: grid; gap: clamp(2rem, 4vw, 3.5rem); max-width: 58rem; margin-inline: auto; text-align: center; position: relative; z-index: 1; }
+  .say__item { display: grid; justify-items: center; gap: 0.9rem; }
+  .say__label { display: inline-block; background: var(--c); color: var(--ink); font-size: 0.78rem; font-weight: 600; padding: 0.25rem 0.6rem; border-radius: 4px; }
+  .say__text { font-family: var(--font-display); font-size: var(--step-3); font-weight: 600; line-height: 1.08; letter-spacing: -0.025em; max-width: 26ch; }
+  .say__tags { display: flex; gap: 0.4rem; flex-wrap: wrap; justify-content: center; }
+  .say__tag { background: var(--c); color: var(--ink); font-size: 0.78rem; font-weight: 600; padding: 0.3rem 0.65rem; border-radius: var(--pill); }
+
+  /* Live (script + motion): lines fade and rise in turn. */
+  .say.is-live .say__item { opacity: 0; transform: translateY(8px); transition: opacity 0.4s var(--ease-out), transform 0.4s var(--ease-out); transition-delay: calc(var(--i) * 120ms); }
+  .say.is-live.is-in .say__item { opacity: 1; transform: none; }
+  /* Fine pointer: the tags live in the trail instead. */
+  .say.has-trail .say__tags { display: none; }
+  /* Touch: the tags drop in beside each statement once. */
+  .say.is-live:not(.has-trail) .say__tag { opacity: 0; transform: translateY(-14px) rotate(-6deg); transition: opacity 0.35s var(--ease-out), transform 0.45s var(--ease-out-back); transition-delay: calc(var(--i) * 120ms + 300ms + var(--k) * 90ms); }
+  .say.is-live.is-in:not(.has-trail) .say__tag { opacity: 1; transform: none; }
+
+  .say__trail { position: absolute; inset: 0; pointer-events: none; overflow: clip; z-index: 0; }
+  :global(.say__trail-tag) {
+    position: absolute; left: 0; top: 0; pointer-events: none;
+    background: var(--c); color: var(--ink); font-size: 0.8rem; font-weight: 600; padding: 0.3rem 0.65rem; border-radius: var(--pill); white-space: nowrap;
+    animation: say-trail 0.7s var(--ease-out) forwards;
+  }
+  @keyframes say-trail { from { opacity: 1; scale: 1; } to { opacity: 0; scale: 0.6; } }
+</style>

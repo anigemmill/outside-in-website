@@ -1,0 +1,48 @@
+---
+/**
+ * A featured block introducing Findable, linking to /findable/.
+ * Used on the homepage and at the top of /projects.
+ */
+interface Props { headingLevel?: 'h2' | 'h3' }
+const { headingLevel: H = 'h2' } = Astro.props;
+---
+<a class="ffeat" href="/findable/">
+  <span class="ffeat__mark" aria-hidden="true">
+    <span class="ffeat__word">Findable</span>
+    <span class="ffeat__bars"><i></i><i></i><i></i></span>
+  </span>
+  <span class="ffeat__body">
+    <span class="ffeat__tags"><span class="tag ffeat__tag">Our own product</span><span class="tag ffeat__tag">In pilot</span></span>
+    <H class="ffeat__title">Findable</H>
+    <span class="ffeat__text">A growth platform for tourism operators. It turns an honest look at your business into a short, prioritised plan, then tracks whether each change worked.</span>
+    <span class="ffeat__more">About Findable and the pilot <span aria-hidden="true">→</span></span>
+  </span>
+</a>
+
+<style>
+  .ffeat {
+    display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(1.5rem, 4vw, 3.5rem); align-items: center;
+    text-decoration: none; color: var(--fg);
+  }
+  .ffeat__mark {
+    position: relative; display: grid; place-items: center; aspect-ratio: 4 / 3; overflow: hidden;
+    background: var(--ink); color: var(--green); border-radius: var(--radius);
+  }
+  .ffeat__word { font-family: var(--font-display); font-weight: 600; font-size: clamp(2.2rem, 1.2rem + 4vw, 4.6rem); letter-spacing: -0.04em; position: relative; z-index: 1; }
+  /* The logo's slice, in Findable's colours: three bars, the middle one shifted. */
+  .ffeat__bars { position: absolute; left: 12%; right: 12%; bottom: 18%; display: grid; grid-template-rows: 6px 6px 6px; gap: 5px; }
+  .ffeat__bars i { display: block; background: var(--purple); width: 70%; }
+  .ffeat__bars i:nth-child(2) { background: var(--green); transform: translateX(18%); transition: transform 0.5s var(--ease-out-back); }
+  .ffeat__bars i:nth-child(3) { width: 45%; }
+  .ffeat:hover .ffeat__bars i:nth-child(2), .ffeat:focus-visible .ffeat__bars i:nth-child(2) { transform: translateX(40%); }
+  .ffeat__body { display: grid; gap: 1rem; justify-items: start; }
+  .ffeat__tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .ffeat__tag { background: var(--lilac); color: var(--ink); border-color: var(--lilac); }
+  .ffeat__title { font-size: var(--step-3); }
+  .ffeat__text { color: var(--muted); font-size: var(--step-1); line-height: 1.45; max-width: 40ch; }
+  .ffeat__more { color: var(--link); font-weight: 600; text-decoration: underline; text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+  .ffeat:hover .ffeat__more { text-decoration-thickness: 2px; }
+  .ffeat:hover .ffeat__title { color: var(--link); }
+  @media (max-width: 760px) { .ffeat { grid-template-columns: 1fr; } }
+  @media (prefers-reduced-motion: reduce) { .ffeat__bars i:nth-child(2) { transition: none; } }
+</style>

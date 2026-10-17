@@ -1,0 +1,117 @@
+---
+/**
+ * 05 Drift field (inside → outside). A tall section with one sticky line of text.
+ * Process photos drift past at three speeds while the background turns from the
+ * Inside view's deep ink to white. Reduced motion or no JavaScript: a still
+ * collage on white.
+ */
+import { Image } from 'astro:assets';
+import Note from '../Note.astro';
+import { home } from '../../data/home';
+import { asset } from '../../data/homeAssets';
+
+// layer: back 0.3×, mid 0.6×, front 1× scroll speed. x/y: start position in the
+// stage (% of width, vh). desk: hidden on phones (which show 4 photos).
+const photos = [
+  { id: 'drift-01', layer: 'back', x: 6, y: 34, w: 15, desk: false },
+  { id: 'drift-02', layer: 'mid', x: 72, y: 58, w: 15, desk: false },
+  { id: 'drift-03', layer: 'front', x: 12, y: 92, w: 24, desk: false },
+  { id: 'drift-04', layer: 'back', x: 80, y: 8, w: 11, desk: true },
+  { id: 'drift-05', layer: 'mid', x: 34, y: 112, w: 17, desk: true },
+  { id: 'drift-06', layer: 'front', x: 62, y: 128, w: 19, desk: false },
+  { id: 'drift-07', layer: 'back', x: 44, y: 64, w: 12, desk: true },
+  { id: 'drift-08', layer: 'mid', x: 4, y: 136, w: 13, desk: true },
+];
+---
+<section class="drift" data-drift aria-labelledby="drift-title">
+  <div class="drift__stage scrub">
+    <svg class="drift__contours scrub" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <g fill="none" stroke="currentColor" stroke-width="1.2">
+        {Array.from({ length: 14 }, (_, k) => {
+          const y = 40 + k * 62;
+          return <path d={`M-20 ${y} C 200 ${y - 60 + (k % 3) * 30}, 420 ${y + 70}, 640 ${y + 10} S 1000 ${y - 50 - (k % 2) * 40}, 1220 ${y + 20}`} />;
+        })}
+      </g>
+    </svg>
+    <div class="drift__photos">
+      {photos.map((ph) => {
+        const img = asset(ph.id);
+        const tall = img.src.height > img.src.width;
+        return (
+          <figure
+            class:list={['drift__ph', `drift__ph--${ph.layer}`, 'scrub', { 'drift__ph--desk': ph.desk, 'drift__ph--tall': tall }]}
+            style={`--x: ${ph.x}%; --y: ${ph.y}vh; --w: ${ph.w}vw;`}
+          >
+            <Image src={img.src} alt={img.alt} widths={[400, 800, 1200]} sizes={`(max-width: 760px) 40vw, ${ph.w}vw`} loading="lazy" />
+          </figure>
+        );
+      })}
+    </div>
+    <div class="drift__text">
+      <span class="drift__strip scrub" aria-hidden="true"></span>
+      <p class="drift__label mono scrub">{home.drift.label}</p>
+      <h2 id="drift-title" class="drift__line scrub">{home.drift.line}</h2>
+    </div>
+  </div>
+  <div class="wrap drift__note"><Note>The section moves from the Inside view's dark to the Outside's white: the work starts inside a business and ends up where customers see it.</Note></div>
+</section>
+
+<style>
+  /* Still collage (no JavaScript, reduced motion) */
+  .drift { padding-block: clamp(4rem, 8vw, 7rem); }
+  .drift__stage { position: relative; display: grid; gap: 2rem; padding-inline: var(--gutter); max-width: var(--max); margin-inline: auto; }
+  .drift__contours { display: none; }
+  .drift__photos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; order: 2; }
+  .drift__ph img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4 / 3; border-radius: 10px; }
+  .drift__ph--tall img { aspect-ratio: 3 / 4; }
+  .drift__text { display: grid; gap: 1rem; order: 1; }
+  .drift__strip { display: none; }
+  .drift__label { color: var(--muted); }
+  .drift__line { font-size: var(--step-4); line-height: 0.98; letter-spacing: -0.035em; max-width: 18ch; }
+  @media (max-width: 760px) { .drift__photos { grid-template-columns: repeat(2, minmax(0, 1fr)); } .drift__ph--desk { display: none; } }
+
+  /* Live: tall section, sticky stage, photos drifting at three speeds. */
+  .drift.is-live { --tl: --drift; --range: contain 0% contain 100%; view-timeline: --drift block; height: 220vh; padding: 0; }
+  .is-live .drift__stage {
+    position: sticky; top: 0; height: 100vh; overflow: clip; max-width: none; padding: 0;
+    display: grid; place-items: center; background: var(--ink-deep);
+    animation-name: drift-bg;
+  }
+  .is-live .drift__contours { display: block; position: absolute; inset: -10vh 0; width: 100%; height: 120vh; color: rgb(130 109 238 / 0.32); animation-name: drift-contours; }
+  .is-live .drift__photos { position: absolute; inset: 0; display: block; }
+  .is-live .drift__ph { position: absolute; left: var(--x); top: var(--y); width: var(--w); animation-name: drift-move; will-change: transform; }
+  .is-live .drift__ph img { box-shadow: 0 24px 50px -24px rgb(0 0 0 / 0.5); }
+  .is-live .drift__ph--back { --travel: -36vh; opacity: 0.85; z-index: 1; }
+  .is-live .drift__ph--mid { --travel: -72vh; z-index: 2; }
+  .is-live .drift__ph--front { --travel: -120vh; z-index: 3; }
+  .is-live .drift__text { position: relative; z-index: 5; justify-items: center; text-align: center; padding: 2rem clamp(1.25rem, 4vw, 3rem); max-width: min(92vw, 60rem); }
+  .is-live .drift__strip { display: block; position: absolute; inset: 0; border-radius: 6px; animation-name: drift-strip; }
+  .is-live .drift__label, .is-live .drift__line { position: relative; animation-name: drift-text; }
+  .is-live .drift__line { max-width: 20ch; }
+  .is-live .drift__note { position: absolute; }
+
+  /* Background: deep ink → white over the middle 60%, steep through the greys. */
+  @keyframes drift-bg {
+    0%, 20% { background-color: #1f1a29; animation-timing-function: cubic-bezier(0.9, 0, 0.1, 1); }
+    80%, 100% { background-color: #ffffff; }
+  }
+  /* Text is white, then ink, and always sits on a solid strip, so it never drops
+     below 4.5:1 while the background passes through the mid-greys. */
+  @keyframes drift-text { 0%, 49.9% { color: #ffffff; } 50%, 100% { color: #17131f; } }
+  /* The strip is solid for the whole section, matching the background (so it's
+     invisible on the dark and white ends) and switching with the text at 50%.
+     Photos pass behind it, never behind the words. */
+  @keyframes drift-strip {
+    0%, 49.9% { background: #1f1a29; }
+    50%, 100% { background: #ffffff; }
+  }
+  @keyframes drift-move { from { transform: translateY(0); } to { transform: translateY(var(--travel)); } }
+  @keyframes drift-contours { from { transform: translateY(4vh); } to { transform: translateY(-8vh); } }
+
+  @media (max-width: 760px) {
+    .is-live .drift__ph { width: calc(var(--w) * 2.2); }
+    .is-live .drift__ph--back { --travel: -72vh; }
+    .is-live .drift__ph--desk { display: none; }
+    .is-live .drift__line { font-size: var(--step-3); }
+  }
+</style>

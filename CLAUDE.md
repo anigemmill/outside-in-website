@@ -35,7 +35,9 @@ The core idea comes from the name and the logo: see a business from the outside,
 | Services, combinations, partnership | `src/data/services.ts` |
 | About copy, team (empty) | `src/data/about.ts` |
 | Approach stages | top of `src/pages/approach.astro` |
-| Portfolio | `src/content/work/<slug>/index.md` + images in the same folder |
+| Portfolio (shown at `/projects/`; `/work/*` redirects there) | `src/content/work/<slug>/index.md` + images in the same folder |
+| Findable landing page and pilot form | `src/pages/findable/`, `src/components/PilotForm.astro`, `src/components/FindableFeature.astro` |
+| Findable app address (Sign in links) | `findableAppUrl` in `src/config/site.ts` |
 | Portfolio field rules | `src/content.config.ts` |
 | Published-work loader (excludes drafts) | `src/data/work.ts` |
 | Design tokens and shared styles | `src/styles/global.css` |
@@ -72,7 +74,7 @@ Everything else: white `#FFFFFF` background, ink `#17131F` text, ink-soft `#4B45
 - **Contrast rule:** ink reads on all four colours (4.6:1 or better). The colour pairs themselves are only 2–3:1, so use them for the logo and large colour fields only, never for text.
 
 **Layout.**
-- **Homepage:** full-screen hero (logo animation and one line) → one statement → two large work images → three services in a row → footer call to action. Keep it this simple; Ani found earlier versions too busy.
+- **Homepage:** full-screen hero (logo animation and one line) → one statement → two large work images → Findable feature → three services in a row → footer call to action. Keep it this simple; Ani found earlier versions too busy.
 - **Header:** logo on the left (hidden on the homepage until you scroll past the hero), plain text links, and one ink "Let's talk" pill.
 - **Footer:** ink background with pink text, call to action, links, email, Behance, and the Outside/Inside switch.
 - **Inner pages:** quiet page headers; two-column rows (label left, content right); one colour moment per page.
@@ -94,6 +96,10 @@ Everything else: white `#FFFFFF` background, ink `#17131F` text, ink-soft `#4B45
 - **8 real Behance projects (hidden drafts, `draft: true`):** Flavours of Plenty 2025, NZ CrossFit Nationals merch, Rotorua Walking Tours, Empty Plate Club branding, Sunseeker beer label, Run for Reido 2025 tee, Wings for Life World Run team logo (renamed from "Red Bull Wings for Life"), NSC wheel design. Each has a placeholder cover and `# CONFIRM` comments. Behance blocks automated downloads, so images must come from Ani.
 - **To publish a draft:** add a real cover and gallery images, confirm the client name, sector and summary, write 2–3 sentences, get Ani's permission confirmed, then delete `draft: true`.
 - **Recommended next:** publish the 3–4 strongest real projects first (Rotorua Walking Tours, Flavours of Plenty, NZ CrossFit Nationals, Empty Plate Club), then cut the concepts down to Quiet Machine and Field Notes, which carry the AI story. Ride Retreat (Ani's own MTB retreat business in Rotorua) is a strong future case study.
+
+## Findable
+
+Findable is Outside In's own tourism growth platform, in pilot. The app lives in a separate repo and Vercel project (`anigemmill/Tourism-AI-Growth-Platform`); this site only has the public page `/findable/`, the pilot registration form (Netlify Forms, form name `findable-pilot`) and Sign in links. Keep every claim on `/findable/` to what the app does today: assessment, prioritised action plan, measured changes against a baseline, and a weekly brief a person checks before it's shared. Sign in links point at the Vercel address until `app.theoutsidein.nz` is live, then switch `findableAppUrl`.
 
 ## SEO and launch
 

@@ -33,7 +33,7 @@ const schema = site.url
       name: d.title,
       description: d.summary,
       creator: { '@type': 'Organization', name: site.name, url: site.url },
-      url: new URL(`/work/${project.id}/`, site.url + '/').href,
+      url: new URL(`/projects/${project.id}/`, site.url + '/').href,
       ...(isConcept ? { creativeWorkStatus: 'Concept' } : {}),
     }]
   : [];
@@ -46,7 +46,7 @@ const schema = site.url
 >
   <article class="case">
     <header class="wrap case__head">
-      <a class="case__back" href="/work/"><span aria-hidden="true">←</span> All work</a>
+      <a class="case__back" href="/projects/"><span aria-hidden="true">←</span> All projects</a>
       <p class="eyebrow">{isConcept ? 'Concept' : `Client work · ${d.client}`} · {d.type}</p>
       <h1 class="case__title">{d.title}</h1>
       <p class="case__summary">{d.summary}</p>
@@ -58,7 +58,7 @@ const schema = site.url
       </figure>
       <dl class="case__facts">
         <div><dt>Sector</dt><dd>{d.sector}</dd></div>
-        <div><dt>Services</dt><dd>{d.categories.map((c, i) => <>{i > 0 && ', '}<a href={`/work/?filter=${c}`}>{serviceById[c].name}</a></>)}</dd></div>
+        <div><dt>Services</dt><dd>{d.categories.map((c, i) => <>{i > 0 && ', '}<a href={`/projects/?filter=${c}`}>{serviceById[c].name}</a></>)}</dd></div>
         {isConcept
           ? <div><dt>Status</dt><dd>Concept, not commissioned work</dd></div>
           : <div><dt>Client</dt><dd>{d.client}{d.year ? `, ${d.year}` : ''}</dd></div>}
@@ -156,7 +156,7 @@ const schema = site.url
     </div>
 
     <nav class="next wrap" aria-label="Next project">
-      <a class="next__link" href={`/work/${next.id}/`}>
+      <a class="next__link" href={`/projects/${next.id}/`}>
         <div class="next__media"><Image src={next.data.cover} alt="" loading="lazy" /></div>
         <div class="next__text">
           <span class="eyebrow">Next project</span>

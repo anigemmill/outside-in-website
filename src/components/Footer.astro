@@ -4,16 +4,20 @@ import ViewToggle from './ViewToggle.astro';
 import BookingLink from './BookingLink.astro';
 import { nav, site } from '../config/site';
 
+interface Props { slim?: boolean }
+const { slim = false } = Astro.props;
 const socials = Object.entries(site.social).filter(([, url]) => Boolean(url));
 const labels: Record<string, string> = { instagram: 'Instagram', linkedin: 'LinkedIn', facebook: 'Facebook', behance: 'Behance' };
 const year = new Date().getFullYear();
 ---
-<footer class="site-footer">
+<footer class:list={['site-footer', { 'site-footer--slim': slim }]}>
   <div class="wrap">
-    <div class="site-footer__cta">
-      <p class="site-footer__big">Too close to see it?<br />Let’s look from outside.</p>
-      <BookingLink class="btn btn--light" />
-    </div>
+    {!slim && (
+      <div class="site-footer__cta">
+        <p class="site-footer__big">Too close to see it?<br />Let’s look from outside.</p>
+        <BookingLink class="btn btn--light" />
+      </div>
+    )}
 
     <div class="site-footer__grid">
       <Logo id="oi-foot" class="site-footer__mark" decorative />
@@ -47,6 +51,8 @@ const year = new Date().getFullYear();
     --fg: var(--pink); --bg: var(--ink); --muted: var(--lilac); --accent: var(--green);
     --line: rgba(255, 153, 220, 0.2);
   }
+  .site-footer--slim { padding-top: clamp(2.5rem, 5vw, 4rem); }
+  .site-footer--slim .site-footer__grid { border-top: 0; padding-top: 0; }
   :root[data-view='inside'] .site-footer { background: #0e0b14; }
   .site-footer a { text-decoration: none; color: inherit; }
   .site-footer a:hover { text-decoration: underline; text-underline-offset: 4px; }

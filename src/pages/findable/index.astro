@@ -1,0 +1,188 @@
+---
+/**
+ * FINDABLE: public landing page for Outside In's tourism growth platform.
+ * The application itself is hosted separately (see site.findableAppUrl).
+ *
+ * Every claim here describes something Findable does today (see the Findable
+ * repository's docs/GROWTH_OS.md). Don't add capabilities, results, pricing
+ * or testimonials until they exist and can be supported.
+ */
+import Base from '../../layouts/Base.astro';
+import PilotForm from '../../components/PilotForm.astro';
+import Note from '../../components/Note.astro';
+import { site } from '../../config/site';
+
+const signIn = `${site.findableAppUrl}/login`;
+
+const steps = [
+  {
+    n: '01', name: 'An honest look',
+    text: 'We start with an assessment of how your business shows up today: your website, your listings and reviews, and how you compare with the businesses visitors weigh you against.',
+  },
+  {
+    n: '02', name: 'A short plan',
+    text: 'What we find becomes an action plan, ranked by effort and likely value, so you know what to do first and what can wait.',
+  },
+  {
+    n: '03', name: 'Measured changes',
+    text: 'Before a change goes in, we record where things stand. Afterwards you can see what moved and what didn’t, and decide whether to keep going, adjust or stop.',
+  },
+  {
+    n: '04', name: 'A weekly brief',
+    text: 'A short growth brief built from your business’s signals each week. A person checks every brief before it reaches you.',
+  },
+];
+
+const forWho = ['Accommodation', 'Activities and attractions', 'Tour operators', 'Food and drink', 'Transport'];
+
+const value = [
+  { t: 'Know where to start', d: 'A ranked list of next moves replaces a long list of things you could do.' },
+  { t: 'See what worked', d: 'Every change has a before and after, so decisions rest on evidence rather than gut feel.' },
+  { t: 'One place for it all', d: 'Your overview, action plan, reports and team access live in one secure portal.' },
+  { t: 'People in the loop', d: 'Findable is backed by the Outside In team. Nothing reaches you without a person checking it first.' },
+];
+---
+<Base
+  title="Findable"
+  description="Findable is Outside In’s growth platform for tourism operators: an honest assessment, a prioritised action plan, measured changes and a weekly brief. Register interest in the pilot."
+>
+  <header class="fhero">
+    <div class="wrap fhero__inner">
+      <p class="fhero__eyebrow"><span class="fhero__badge">In pilot</span> A product by Outside In</p>
+      <h1 class="fhero__title">Help more visitors find your tourism business.</h1>
+      <p class="fhero__lede">Findable is a growth platform for tourism operators. It turns an honest look at your business into a short, prioritised plan, then tracks whether each change worked.</p>
+      <div class="btn-row fhero__ctas">
+        <a class="btn fhero__primary" href="#pilot">Join the pilot <span class="btn__arrow" aria-hidden="true">↓</span></a>
+        <a class="btn btn--ghost fhero__secondary" href={signIn}>Sign in to Findable <span class="btn__arrow" aria-hidden="true">→</span></a>
+      </div>
+      <span class="fhero__bars" aria-hidden="true"><i></i><i></i><i></i></span>
+    </div>
+  </header>
+
+  <section class="wrap frow" aria-labelledby="how-title">
+    <div class="frow__label"><p class="eyebrow" style="--dot: var(--purple)">How it works</p></div>
+    <div class="frow__body">
+      <h2 id="how-title" class="frow__title">Four steps, repeated.</h2>
+      <ol role="list" class="steps">
+        {steps.map((s) => (
+          <li class="step">
+            <span class="step__n">{s.n}</span>
+            <div>
+              <h3 class="step__name">{s.name}</h3>
+              <p class="step__text">{s.text}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+      <Note>The product’s own loop (assess, prioritise, act, measure, report) told in plain language, so operators can see what they’d actually get each week.</Note>
+    </div>
+  </section>
+
+  <section class="wrap frow" aria-labelledby="who-title">
+    <div class="frow__label"><p class="eyebrow" style="--dot: var(--green)">Who it’s for</p></div>
+    <div class="frow__body">
+      <h2 id="who-title" class="frow__title">Tourism operators who want more from the visitors already looking.</h2>
+      <p class="frow__lede">Findable is built for owners and small teams running tourism businesses, without a marketing department to lean on.</p>
+      <ul role="list" class="chips">
+        {forWho.map((w) => <li class="chip">{w}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="wrap frow" aria-labelledby="value-title">
+    <div class="frow__label"><p class="eyebrow" style="--dot: var(--pink)">What you get</p></div>
+    <div class="frow__body">
+      <h2 id="value-title" class="frow__title">Clear priorities, and proof of what’s working.</h2>
+      <ul role="list" class="value">
+        {value.map((v) => <li class="value__item"><h3 class="value__t">{v.t}</h3><p class="value__d">{v.d}</p></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="pilot" id="pilot" aria-labelledby="pilot-title">
+    <div class="wrap pilot__inner">
+      <div class="pilot__intro">
+        <p class="eyebrow pilot__eyebrow">The pilot</p>
+        <h2 id="pilot-title" class="pilot__title">Help shape Findable.</h2>
+        <p class="pilot__lede">We’re running a small pilot with tourism operators, starting in Rotorua. Pilot businesses use Findable with support from the Outside In team, and what they tell us shapes what we build next.</p>
+        <ul role="list" class="pilot__points">
+          <li>Register your interest below. It takes a minute.</li>
+          <li>We’ll get in touch to talk about fit and timing.</li>
+          <li>Registering doesn’t commit you to anything.</li>
+        </ul>
+        <p class="pilot__contact">Questions first? Email <a class="text-link" href={`mailto:${site.email}`} data-contact-email>{site.email}</a>.</p>
+        <Note>Findable is in pilot, and the page says so. Asking for interest (not payment) keeps the first step small for a busy operator.</Note>
+      </div>
+      <div class="pilot__form">
+        <PilotForm />
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap signin" aria-labelledby="signin-title">
+    <h2 id="signin-title" class="signin__title">Already in the pilot?</h2>
+    <p class="signin__text">Sign in to see your overview, action plan and weekly briefs.</p>
+    <a class="btn btn--accent" href={signIn}>Sign in to Findable <span class="btn__arrow" aria-hidden="true">→</span></a>
+  </section>
+</Base>
+
+<style>
+  /* Hero: Findable's one colour moment on this page. Ink with green type. */
+  .fhero { background: var(--ink); color: var(--white); overflow: hidden; }
+  .fhero__inner { position: relative; display: grid; gap: 1.5rem; justify-items: start; padding-block: clamp(6rem, 13vw, 11rem) clamp(4rem, 9vw, 7rem); }
+  .fhero__eyebrow { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; color: var(--lilac); font-size: var(--step--1); font-weight: 500; }
+  .fhero__badge { background: var(--green); color: var(--ink); font-weight: 600; padding: 0.3rem 0.7rem; border-radius: var(--pill); }
+  .fhero__title { font-size: clamp(2.4rem, 1.3rem + 4.2vw, 5.6rem); font-weight: 600; line-height: 1.02; letter-spacing: -0.035em; max-width: 16ch; color: var(--white); }
+  .fhero__lede { font-size: var(--step-1); line-height: 1.45; max-width: 46ch; color: var(--lilac); }
+  .fhero__ctas { margin-top: 0.5rem; position: relative; z-index: 1; }
+  .fhero__primary { --btn-bg: var(--green); --btn-fg: var(--ink); --fill: var(--white); --fill-fg: var(--ink); }
+  .fhero__secondary { --btn-fg: var(--white); --btn-border: var(--white); --fill: var(--white); --fill-fg: var(--ink); }
+  .fhero__bars { position: absolute; right: var(--gutter); bottom: clamp(2rem, 5vw, 4rem); width: min(34vw, 380px); display: grid; grid-template-rows: repeat(3, 10px); gap: 8px; }
+  .fhero__bars i { display: block; background: var(--purple); }
+  .fhero__bars i:nth-child(2) { background: var(--green); transform: translateX(14%); }
+  @media (max-width: 760px) { .fhero__bars { position: static; width: 70%; margin-top: 1.5rem; } }
+  :root[data-view='inside'] .fhero { background: #0e0b14; }
+
+  /* Rows: label left, content right (as on the other inner pages). */
+  .frow { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); gap: 1.5rem clamp(2rem, 5vw, 5rem); padding-block: clamp(4rem, 8vw, 7rem); border-bottom: 1px solid var(--line); }
+  .frow__label { padding-top: 0.4rem; }
+  .frow__body { display: grid; gap: 1.5rem; }
+  .frow__title { font-size: var(--step-3); max-width: 22ch; }
+  .frow__lede { font-size: var(--step-1); color: var(--muted); max-width: 46ch; line-height: 1.45; }
+  @media (max-width: 860px) { .frow { grid-template-columns: 1fr; } }
+
+  .steps { display: grid; gap: 0; margin-top: 0.5rem; }
+  .step { display: grid; grid-template-columns: 3.5rem 1fr; gap: 1rem; padding-block: 1.5rem; border-top: 1px solid var(--line); }
+  .step__n { font-family: var(--font-mono); font-size: var(--step--1); color: var(--accent); padding-top: 0.35rem; }
+  .step__name { font-size: var(--step-2); margin-bottom: 0.5rem; }
+  .step__text { color: var(--muted); max-width: 56ch; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .chip { padding: 0.5rem 1rem; border-radius: var(--pill); background: var(--lilac); color: var(--ink); font-weight: 500; }
+
+  .value { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem clamp(1.5rem, 4vw, 3rem); margin-top: 0.5rem; }
+  .value__item { display: grid; gap: 0.5rem; padding-top: 1.25rem; border-top: 2px solid var(--fg); }
+  .value__t { font-size: var(--step-1); line-height: 1.15; }
+  .value__d { color: var(--muted); }
+  @media (max-width: 640px) { .value { grid-template-columns: 1fr; } }
+
+  /* Pilot */
+  .pilot { background: var(--lilac); color: var(--ink); --fg: var(--ink); --muted: var(--ink-soft); --line: rgb(23 19 31 / 0.15); --bg: var(--white); --link: var(--purple-ink); }
+  :root[data-view='inside'] .pilot { background: var(--ink-deep); color: var(--white); --fg: var(--white); --muted: var(--green); --line: rgb(255 255 255 / 0.2); --bg: var(--ink-deep); --link: var(--green); }
+  .pilot__inner { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(2.5rem, 6vw, 6rem); padding-block: clamp(5rem, 10vw, 9rem); align-items: start; }
+  .pilot__intro { display: grid; gap: 1.25rem; }
+  .pilot__eyebrow { --dot: var(--red); color: var(--fg); }
+  .pilot__title { font-size: var(--step-4); line-height: 0.98; letter-spacing: -0.035em; }
+  .pilot__lede { font-size: var(--step-1); line-height: 1.45; }
+  .pilot__points { display: grid; gap: 0.6rem; padding: 0; }
+  .pilot__points li { padding-left: 1.5rem; position: relative; }
+  .pilot__points li::before { content: ''; position: absolute; left: 0; top: 0.6em; width: 0.7rem; height: 3px; background: var(--fg); }
+  .pilot__contact { font-size: var(--step--1); color: var(--muted); }
+  .pilot__form { background: var(--white); color: var(--ink); padding: clamp(1.5rem, 4vw, 2.75rem); border-radius: var(--radius); --fg: var(--ink); --bg: var(--white); --muted: var(--ink-soft); --link: var(--purple-ink); }
+  :root[data-view='inside'] .pilot__form { background: var(--ink); color: var(--white); --fg: var(--white); --bg: var(--ink); --muted: var(--green); --link: var(--green); }
+  @media (max-width: 900px) { .pilot__inner { grid-template-columns: 1fr; } }
+
+  .signin { display: grid; gap: 1rem; justify-items: start; padding-block: clamp(5rem, 10vw, 8rem); }
+  .signin__title { font-size: var(--step-3); }
+  .signin__text { color: var(--muted); font-size: var(--step-1); }
+</style>

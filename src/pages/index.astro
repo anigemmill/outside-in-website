@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Logo from '../components/Logo.astro';
 import Note from '../components/Note.astro';
+import FindableFeature from '../components/FindableFeature.astro';
 import { services } from '../data/services';
 import { home } from '../data/home';
 import { getWork } from '../data/work';
@@ -36,12 +37,12 @@ const featured = (published.some((p) => p.data.featured) ? published.filter((p) 
   <section class="work wrap" aria-labelledby="work-title">
     <div class="row-head">
       <h2 id="work-title" class="row-head__title">{home.work.title}</h2>
-      <a class="text-link" href="/work/">All projects <span aria-hidden="true">→</span></a>
+      <a class="text-link" href="/projects/">All projects <span aria-hidden="true">→</span></a>
     </div>
     <ul role="list" class="work__grid">
       {featured.map((p, i) => (
         <li data-reveal style={`--reveal-delay:${i * 0.08}s`}>
-          <a href={`/work/${p.id}/`} class="work__item">
+          <a href={`/projects/${p.id}/`} class="work__item">
             <div class="work__media" style={`view-transition-name: cover-${p.id}`}>
               <Image src={p.data.cover} alt="" loading="lazy" class="work__img" />
             </div>
@@ -56,7 +57,13 @@ const featured = (published.some((p) => p.data.featured) ? published.filter((p) 
     <p class="work__note">{home.work.note}</p>
   </section>
 
-  <!-- 4. Three services, one line each -->
+  <!-- 4. Our own product -->
+  <section class="product wrap" aria-label="Findable, our product">
+    <FindableFeature />
+    <Note>One product, shown once. Findable is the studio’s AI and marketing thinking made into something operators can use every week.</Note>
+  </section>
+
+  <!-- 5. Three services, one line each -->
   <section class="svc wrap" aria-labelledby="svc-title">
     <div class="row-head">
       <h2 id="svc-title" class="row-head__title">{home.services.title}</h2>
@@ -117,6 +124,9 @@ const featured = (published.some((p) => p.data.featured) ? published.filter((p) 
   .work__type { color: var(--muted); font-size: var(--step--1); }
   .work__note { margin-top: 2rem; color: var(--muted); font-size: var(--step--1); }
   @media (max-width: 760px) { .work__grid { grid-template-columns: 1fr; } }
+
+  /* Findable */
+  .product { padding-bottom: clamp(6rem, 12vw, 12rem); }
 
   /* Services */
   .svc { padding-bottom: clamp(6rem, 12vw, 12rem); }

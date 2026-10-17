@@ -11,7 +11,7 @@ const site = (PUBLIC_SITE_URL || DEFAULT_SITE).replace(/\/$/, '');
 export default defineConfig({
   site,
   trailingSlash: 'always',
-  integrations: [sitemap({ filter: (page) => !page.includes('/contact/thanks/') })],
+  integrations: [sitemap({ filter: (page) => !page.includes('/contact/thanks/') && !page.includes('/findable/thanks/') })],
   build: { inlineStylesheets: 'auto' },
   prefetch: { prefetchAll: false, defaultStrategy: 'hover' },
 });

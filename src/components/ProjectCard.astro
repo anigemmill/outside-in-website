@@ -13,7 +13,7 @@ const H = headingLevel;
 const imgOpts = d.cover.format === 'svg' ? {} : { widths: [640, 960, 1400], sizes: '(max-width: 760px) 100vw, 50vw' };
 ---
 <article class:list={['tile', { 'tile--tall': tall }]} data-reveal data-categories={d.categories.join(' ')} data-status={d.status}>
-  <a class="tile__link" href={`/work/${project.id}/`}>
+  <a class="tile__link" href={`/projects/${project.id}/`}>
     <div class="tile__media" style={`view-transition-name: cover-${project.id}`}>
       <Image src={d.cover} alt="" {...imgOpts} loading={priority ? 'eager' : 'lazy'} class="tile__img" />
     </div>

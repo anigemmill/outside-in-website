@@ -124,12 +124,16 @@ import { site } from '../config/site';
     0% { transform: translate(0px, 0px) scale(1); animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1); }
     100% { transform: translate(var(--g-dx, 0px), var(--g-dy, 0px)) scale(var(--g-s, 1)); }
   }
-  /* Slices close over 0–70%; colour shifts to the header logo's colour over 80–100%. */
+  /* Slices close over 0–70%; colour shifts to the header logo's colour over 80–100%.
+     The colour is mixed through --glide-ink rather than animated directly, so the
+     hero's colour cycle keeps control of the logo colour until the glide starts. */
+  @property --glide-ink { syntax: '<number>'; inherits: true; initial-value: 0; }
+  :global(.glide-live) :global(.hero__logo) { color: color-mix(in srgb, var(--brand-color) calc(var(--glide-ink) * 100%), var(--hero-fg)); }
   @keyframes glide-logo {
-    0% { --oi-close: 0; color: var(--hero-fg); }
+    0% { --oi-close: 0; --glide-ink: 0; }
     70% { --oi-close: 1; }
-    80% { color: var(--hero-fg); }
-    100% { --oi-close: 1; color: var(--brand-color); }
+    80% { --glide-ink: 0; }
+    100% { --oi-close: 1; --glide-ink: 1; }
   }
   @keyframes glide-line { 0% { opacity: 1; } 30%, 100% { opacity: 0; } }
 

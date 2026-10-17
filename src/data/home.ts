@@ -25,7 +25,7 @@ export const home = {
       image: `stack-${String(i + 1).padStart(2, '0')}`,
       client: `[Project ${i + 1}]`,
       type: '[Type]',
-      href: '/work/',
+      href: '/projects/',
     })),
   },
 

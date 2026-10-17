@@ -24,6 +24,7 @@ import BeliefStrip from '../components/home/BeliefStrip.astro';
 import Statements from '../components/home/Statements.astro';
 import SocialFan from '../components/home/SocialFan.astro';
 import CtaCard from '../components/home/CtaCard.astro';
+import FindableFeature from '../components/FindableFeature.astro';
 import { home } from '../data/home';
 import { site } from '../config/site';
 ---
@@ -56,6 +57,12 @@ import { site } from '../config/site';
 
   <!-- 4. Featured work: the Outside/Inside lens -->
   <Featured />
+
+  <!-- 4b. Our own product (quiet, between two effect sections) -->
+  <section class="product wrap" aria-label="Findable, our product">
+    <FindableFeature />
+    <Note>One product, shown once. Findable is the studio’s AI and marketing thinking made into something operators can use every week.</Note>
+  </section>
 
   <!-- 5. How we work: the drift field -->
   <Drift />
@@ -125,6 +132,9 @@ import { site } from '../config/site';
     100% { --oi-close: 1; color: var(--brand-color); }
   }
   @keyframes glide-line { 0% { opacity: 1; } 30%, 100% { opacity: 0; } }
+
+  /* Findable */
+  .product { padding-bottom: clamp(6rem, 12vw, 12rem); }
 
   /* Intro */
   .intro { padding-block: clamp(6rem, 14vw, 14rem); display: grid; gap: 2rem; }

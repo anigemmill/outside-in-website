@@ -1,0 +1,144 @@
+---
+/**
+ * FINDABLE: About, from the About mockup, with the contact form
+ * (Netlify Forms, form name "findable-contact"). The founder section stays a
+ * visible placeholder until Ani supplies a real photo and bio.
+ */
+import FindableLayout from '../../layouts/FindableLayout.astro';
+import { site } from '../../config/site';
+
+const values = [
+  { t: 'Grounded', d: 'Real places, real operators, real results. No hype.', cls: 'v1' },
+  { t: 'Sharp', d: 'Clear advice you can act on this week, in plain English.', cls: 'v2' },
+  { t: 'Proven', d: 'Every claim backed by a test you can see. No guarantees we can’t keep.', cls: 'v3' },
+];
+const types = ['Tourism operator', 'Destination / RTO', 'Agency', 'Other'];
+---
+<FindableLayout title="About" current="about" description="Findable is made in New Zealand tourism, for tourism. Get in touch about AI visibility for your business, destination or clients.">
+
+  <section class="f-wrap head" aria-labelledby="about-title">
+    <div class="f-stack">
+      <span class="f-lbl c-forest">About</span>
+      <h1 id="about-title" class="f-d head__t">Made in tourism, for tourism.</h1>
+    </div>
+    <p class="head__p">Findable started inside New Zealand tourism, not a tech company. We saw visitors planning trips with AI, and great local operators missing from the answers. Our job is to close that gap, practically and honestly.</p>
+  </section>
+
+  <ul role="list" class="f-wrap values">
+    {values.map((v, i) => (
+      <li class={v.cls}>
+        <span class="f-d values__n" aria-hidden="true">0{i + 1}</span>
+        <h2 class="values__t">{v.t}</h2>
+        <p>{v.d}</p>
+      </li>
+    ))}
+  </ul>
+
+  <section class="f-wrap founder" aria-labelledby="founder-title">
+    <div class="founder__photo" role="img" aria-label="Photo placeholder: founder on a Rotorua trail">
+      <span class="f-lbl c-forest f-ph">[Founder photo, real, on location]</span>
+    </div>
+    <div class="f-stack founder__text">
+      <span class="f-lbl c-forest">Who’s behind it</span>
+      <h2 id="founder-title" class="f-d founder__name"><span class="f-ph">[Founder name]</span></h2>
+      <p><span class="f-ph">[Short bio: tourism marketing background, operators worked with, why this matters to you. Keep it credible and specific.]</span></p>
+    </div>
+  </section>
+
+  <section id="contact" class="contact" aria-labelledby="contact-title">
+    <div class="f-wrap contact__in">
+      <div class="f-stack">
+        <span class="f-lbl c-lime">Contact</span>
+        <h2 id="contact-title" class="f-d f-hlg">Let’s make you findable.</h2>
+        <p class="contact__p">Destinations, agencies and operators wanting help with fixes: tell us a little and we’ll be in touch within two working days.</p>
+        <a class="contact__mail" href={`mailto:${site.email}`}>{site.email}</a>
+      </div>
+
+      <div class="contact__box f-on-dark">
+        <form
+          name="findable-contact" method="POST" action="/findable/thanks/" novalidate
+          data-netlify="true" netlify-honeypot="company_website"
+          data-f-form data-done="contact-done" data-email={site.email}
+          class="contact__form"
+        >
+          <input type="hidden" name="form-name" value="findable-contact" />
+          <p class="f-hp" aria-hidden="true"><label>Leave this empty <input name="company_website" tabindex="-1" autocomplete="off" /></label></p>
+          <div class="contact__row">
+            <div class="f-field">
+              <label for="cn">Name</label>
+              <input id="cn" name="name" class="f-in" type="text" autocomplete="name" required maxlength="120"
+                aria-describedby="cn-err" data-err="cn-err" data-missing="Please tell us your name." />
+              <p class="f-err" id="cn-err"></p>
+            </div>
+            <div class="f-field">
+              <label for="ce">Email</label>
+              <input id="ce" name="email" class="f-in" type="email" autocomplete="email" required maxlength="200"
+                aria-describedby="ce-err" data-err="ce-err" data-missing="Please add your email so we can reply." data-invalid="That email address doesn’t look quite right." />
+              <p class="f-err" id="ce-err"></p>
+            </div>
+          </div>
+          <div class="f-field">
+            <label for="ct">I’m a…</label>
+            <select id="ct" name="type" class="f-in">{types.map((t) => <option>{t}</option>)}</select>
+          </div>
+          <div class="f-field">
+            <label for="cm">How can we help?</label>
+            <textarea id="cm" name="message" class="f-in" rows="4" required maxlength="3000"
+              aria-describedby="cm-err" data-err="cm-err" data-missing="Please tell us a little about what you need."></textarea>
+            <p class="f-err" id="cm-err"></p>
+          </div>
+          <p class="contact__small">We’ll only use these details to reply. See our <a href="/privacy/">privacy notice</a>.</p>
+          <div class="f-row f-row-t">
+            <button type="submit" class="f-btn f-btn-p" data-submit><span data-submit-label>Send message</span> <span aria-hidden="true">→</span></button>
+            <p class="contact__status" role="status" aria-live="polite" data-status></p>
+          </div>
+        </form>
+        <div id="contact-done" class="done" hidden tabindex="-1">
+          <span class="f-lbl c-lime">Sent</span>
+          <p class="f-d done__t">Thanks. We’ve got your message.</p>
+          <p>We’ll reply by email.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</FindableLayout>
+
+<script>import '../../scripts/findable-form';</script>
+
+<style>
+  .head { padding-block: clamp(48px, 7vw, 72px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 48px; align-items: end; }
+  .head__t { margin: 0; font-size: clamp(48px, 8vw, 104px); line-height: 0.9; }
+  .head__p { margin: 0; font-size: 19px; line-height: 1.6; color: var(--f-ink-2); }
+
+  .values { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; margin: 0 auto; padding-bottom: 72px; list-style: none; }
+  .values li { border-radius: var(--f-radius); padding: 32px; display: flex; flex-direction: column; gap: 12px; min-height: 220px; }
+  .values p { margin: 0; font-size: 15px; line-height: 1.55; }
+  .values__n { font-size: 40px; font-weight: 600; }
+  .values__t { margin: 0; font-size: 22px; }
+  .v1 { background: var(--f-forest); color: var(--f-paper); }
+  .v1 .values__n { color: var(--f-lime); }
+  .v2 { background: var(--f-lime); }
+  .v3 { background: var(--f-blue); color: #fff; }
+
+  .founder { padding-bottom: 72px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 32px; align-items: center; }
+  .founder__photo { background: var(--f-mint); border-radius: var(--f-radius); min-height: clamp(260px, 30vw, 380px); display: flex; align-items: center; justify-content: center; padding: 24px; text-align: center; }
+  .founder__text { gap: 16px; }
+  .founder__name { margin: 0; font-size: clamp(36px, 4vw, 48px); line-height: 1; }
+  .founder__text p { margin: 0; font-size: 17px; line-height: 1.6; color: var(--f-ink-2); }
+
+  .contact { background: var(--f-ink); color: var(--f-paper); scroll-margin-top: 0; }
+  .contact__in { padding-block: clamp(64px, 8vw, 96px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 48px; }
+  .contact__p { margin: 0; font-size: 17px; line-height: 1.6; color: #c9cacf; }
+  :global(.findable) .contact__mail { color: var(--f-paper); font-size: 16px; align-self: start; }
+  :global(.findable) .contact__mail:hover { color: var(--f-lime); }
+  .contact__box { background: #1c1d22; border-radius: var(--f-radius); padding: clamp(20px, 3vw, 32px); }
+  .contact__form { display: flex; flex-direction: column; gap: 18px; }
+  .contact__row { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); gap: 16px; }
+  .contact__small { margin: 0; font-size: 13px; color: #c9cacf; }
+  :global(.findable) .contact__small a { color: var(--f-paper); }
+  .contact__status { margin: 0; font-size: 14px; }
+  .done { display: flex; flex-direction: column; gap: 12px; }
+  .done:focus { outline: none; }
+  .done p { margin: 0; }
+  .done__t { font-size: 32px; line-height: 1.05; }
+</style>

@@ -1,0 +1,139 @@
+---
+/** FINDABLE: How it works, from the HowItWorks mockup. See the note in index.astro. */
+import FindableLayout from '../../layouts/FindableLayout.astro';
+
+const questions = [
+  'Best guided mountain bike tour in Rotorua?',
+  'Beginner-friendly MTB trails near Rotorua with a guide',
+  'Things to do in Rotorua for active couples',
+];
+const scores = [
+  { t: 'Mentioned', d: 'Your name appears in the answer.', bg: 'var(--f-mint)' },
+  { t: 'Recommended', d: 'You’re a top pick, not a footnote.', bg: 'var(--f-lime)' },
+  { t: 'Accurate', d: 'Prices, hours and offer are right.', bg: '#fff' },
+];
+const fixes = [
+  'Add an FAQ page answering the top visitor questions',
+  'Correct hours and pricing on your Google Business Profile',
+  'Get listed on the regional tourism site’s activity directory',
+];
+const months = [30, 38, 52, 61, 78];
+const terms = [
+  { t: 'AI visibility', d: 'How often, and how well, AI assistants mention and recommend you.' },
+  { t: 'AEO', d: 'Answer engine optimisation: making your information easy for AI to quote as the answer.' },
+  { t: 'GEO', d: 'Generative engine optimisation: shaping how AI describes and recommends you.' },
+];
+---
+<FindableLayout title="How it works" current="how" description="How Findable works: we test the questions visitors ask AI assistants, score how your tourism business shows up, give you a ranked fix list and track the change.">
+
+  <section class="f-wrap f-stack head">
+    <span class="f-lbl c-forest">How it works</span>
+    <h1 class="f-d head__t">We test the answers, then fix the sources.</h1>
+    <p class="f-lede head__lede">AI assistants build their answers from what’s published about you: your website, listings, reviews and articles. We find what they’re getting wrong and help you fix it at the source.</p>
+  </section>
+
+  <ol role="list" class="f-wrap steps">
+    <li class="step">
+      <div class="f-stack step__text">
+        <span class="f-d step__n" aria-hidden="true">01</span>
+        <h2 class="f-d step__t">Ask what visitors ask</h2>
+        <p>We build a question set for your region and category (“best family activity in Rotorua”, “where to stay near the lakes”) and put each one to every major AI.</p>
+      </div>
+      <div class="qs">
+        <span class="f-lbl c-violet-ink">Question set · example</span>
+        <ul role="list">{questions.map((q) => <li>{q}</li>)}</ul>
+      </div>
+    </li>
+    <li class="step">
+      <div class="f-stack step__text">
+        <span class="f-d step__n" aria-hidden="true">02</span>
+        <h2 class="f-d step__t">Score how you show up</h2>
+        <p>Each answer is scored on three things: are you mentioned, are you recommended, and is what the AI says about you correct?</p>
+      </div>
+      <ul role="list" class="scores">
+        {scores.map((s) => <li style={`background:${s.bg}`}><span class="f-lbl">{s.t}</span><span>{s.d}</span></li>)}
+      </ul>
+    </li>
+    <li class="step">
+      <div class="f-stack step__text">
+        <span class="f-d step__n" aria-hidden="true">03</span>
+        <h2 class="f-d step__t">Fix the sources</h2>
+        <p>You get a ranked fix list (the few changes most likely to move your score) with plain-English steps. Do them yourself, or have us do them.</p>
+      </div>
+      <ol role="list" class="fixes" aria-label="Example fix list">
+        {fixes.map((f, i) => <li><span class="f-d" aria-hidden="true">{i + 1}</span>{f}</li>)}
+      </ol>
+    </li>
+    <li class="step">
+      <div class="f-stack step__text">
+        <span class="f-d step__n" aria-hidden="true">04</span>
+        <h2 class="f-d step__t">Track the change</h2>
+        <p>We re-run your question set every month. You see your score move, which fixes worked and where competitors are gaining.</p>
+      </div>
+      <figure class="trend">
+        <span class="f-lbl">Score over time · illustrative</span>
+        <div class="trend__bars" aria-hidden="true">
+          {months.map((h, i) => <span style={`height:${h}%`} class={i === months.length - 1 ? 'is-now' : ''}></span>)}
+        </div>
+        <figcaption>Month 1 → Month 5</figcaption>
+      </figure>
+    </li>
+  </ol>
+
+  <section class="f-wrap gloss-wrap" aria-labelledby="gloss-title">
+    <div class="gloss">
+      <div class="f-stack f-stack-s">
+        <span class="f-lbl c-lime">Plain-English glossary</span>
+        <h2 id="gloss-title" class="f-d f-hmd">Three terms, explained once.</h2>
+      </div>
+      <dl class="gloss__list">
+        {terms.map((t) => <div><dt>{t.t}</dt><dd>{t.d}</dd></div>)}
+      </dl>
+    </div>
+  </section>
+
+  <section class="f-wrap end" aria-labelledby="end-title">
+    <h2 id="end-title" class="f-d f-hmd">Start with your free check.</h2>
+    <a href="/findable/check/" class="f-btn f-btn-s">Run my free check <span aria-hidden="true">→</span></a>
+  </section>
+</FindableLayout>
+
+<style>
+  .head { padding-block: clamp(48px, 7vw, 72px); }
+  .head__t { margin: 0; font-size: clamp(48px, 8vw, 112px); line-height: 0.9; max-width: 1000px; }
+  .head__lede { max-width: 640px; }
+
+  .steps { margin-block: 0 72px; list-style: none; }
+  .step { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 40px; align-items: center; padding-block: 48px; border-top: 1px solid var(--f-line); }
+  .step:last-child { border-bottom: 1px solid var(--f-line); }
+  .step__text { gap: 16px; }
+  .step__text p { margin: 0; font-size: 17px; line-height: 1.6; color: var(--f-ink-2); }
+  .step__n { font-size: clamp(64px, 8vw, 96px); line-height: 0.9; color: var(--f-forest); }
+  .step__t { margin: 0; font-size: clamp(30px, 3.4vw, 40px); line-height: 1; }
+
+  .qs { background: var(--f-cream); border-radius: var(--f-radius); padding: clamp(20px, 3vw, 32px); }
+  .qs ul { margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  .qs li { background: #fff; border-radius: 12px; padding: 14px 18px; font-size: 15px; }
+
+  .scores { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0; padding: 0; }
+  .scores li { border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 14px; line-height: 1.5; border: 1px solid transparent; }
+  .scores li:last-child { border-color: var(--f-line); }
+
+  .fixes { margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  .fixes li { background: #fff; border: 1px solid var(--f-line); border-radius: 16px; padding: 16px 20px; display: flex; gap: 16px; align-items: center; font-size: 15px; }
+  .fixes .f-d { font-size: 24px; font-weight: 600; flex: none; }
+
+  .trend { margin: 0; background: var(--f-blue); color: #fff; border-radius: var(--f-radius); padding: clamp(20px, 3vw, 32px); display: flex; flex-direction: column; gap: 20px; font-size: 14px; }
+  .trend__bars { display: flex; align-items: end; gap: 12px; height: 160px; }
+  .trend__bars span { flex: 1; background: rgb(255 255 255 / 0.35); border-radius: 8px 8px 0 0; }
+  .trend__bars .is-now { background: var(--f-lime); }
+
+  .gloss-wrap { padding-bottom: 72px; }
+  .gloss { background: var(--f-forest); color: var(--f-paper); border-radius: var(--f-radius); padding: clamp(24px, 4vw, 48px); display: flex; flex-direction: column; gap: 32px; }
+  .gloss__list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 16px; margin: 0; }
+  .gloss__list div { background: var(--f-cream); color: var(--f-ink); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 10px; }
+  .gloss__list dt { font-size: 20px; font-weight: 700; }
+  .gloss__list dd { margin: 0; font-size: 15px; line-height: 1.55; }
+
+  .end { padding-bottom: clamp(72px, 9vw, 112px); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 24px; }
+</style>

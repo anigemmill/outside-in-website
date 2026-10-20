@@ -1,12 +1,16 @@
 ---
-import Base from '../../layouts/Base.astro';
+/** Where the Findable forms land when JavaScript is off. Not indexed or in the sitemap. */
+import FindableLayout from '../../layouts/FindableLayout.astro';
 ---
-<Base title="Thanks" description="Your interest in the Findable pilot has been registered." noindex>
-  <section class="wrap thanks">
-    <p class="eyebrow" style="--dot: var(--green)">Registered</p>
-    <h1 class="h-xl">Thanks. You’re on the list.</h1>
-    <p class="lede">We’ll be in touch by email to talk about the Findable pilot and whether it’s a good fit for your business.</p>
-    <div class="btn-row"><a class="btn btn--accent" href="/findable/">Back to Findable</a><a class="btn btn--ghost" href="/">Outside In home</a></div>
+<FindableLayout title="Thanks" description="Your details have reached the Findable team." noindex>
+  <section class="f-wrap f-stack thanks">
+    <span class="f-lbl c-forest">Received</span>
+    <h1 class="f-d f-hxl">Thanks. We’ve got your details.</h1>
+    <p class="f-lede">We’ll be in touch by email.</p>
+    <div class="f-row">
+      <a class="f-btn f-btn-s" href="/findable/">Back to Findable</a>
+      <a class="f-btn f-btn-g" href="/">Outside In home</a>
+    </div>
   </section>
-</Base>
-<style>.thanks { display: grid; gap: 1.5rem; justify-items: start; padding-block: var(--section); }</style>
+</FindableLayout>
+<style>.thanks { padding-block: clamp(72px, 12vw, 160px); align-items: start; }</style>

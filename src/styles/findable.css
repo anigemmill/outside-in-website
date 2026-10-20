@@ -1,0 +1,110 @@
+/* =========================================================================
+   FINDABLE: the product's own look, from the "Findable — Website Mockups"
+   canvas and the Findable design system (lavender ground, forest green,
+   lime, ink; Inter Tight display, Inter body, JetBrains Mono labels).
+   Everything is scoped under body.findable and prefixed f- so it never
+   collides with the Outside In styles in global.css.
+   ========================================================================= */
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/inter-tight';
+
+body.findable {
+  --f-lav: #e7e4fc;
+  --f-ink: #15161a;
+  --f-ink-2: #3a3b40;
+  --f-ink-3: #5a5b60;
+  --f-forest: #1e4b3a;
+  --f-lime: #d6f36b;
+  --f-lime-2: #c8e85a;
+  --f-mint: #ddfbb3;
+  --f-cream: #fffff2;
+  --f-paper: #f4f3ec;
+  --f-line: #dcdad0;
+  --f-blue: #2d5bea;
+  --f-violet: #7c6cf2;
+  --f-violet-ink: #3a3470;
+  --f-alert: #b8391f;
+  --f-radius: 28px;
+  margin: 0;
+  background: var(--f-lav);
+  color: var(--f-ink);
+  font-family: 'Inter Variable', system-ui, sans-serif;
+  font-variation-settings: normal;
+}
+.findable :where(h1, h2, h3) { font-family: inherit; line-height: inherit; letter-spacing: inherit; text-wrap: balance; }
+.findable a { color: var(--f-ink); }
+.findable a:hover { color: var(--f-forest); }
+.findable :focus-visible { outline: 3px solid var(--f-violet); outline-offset: 3px; }
+.findable ::selection { background: var(--f-lime); color: var(--f-ink); }
+
+.f-d { font-family: 'Inter Tight Variable', 'Inter Variable', sans-serif; font-weight: 700; letter-spacing: -0.04em; }
+.f-lbl { font: 500 12px/16px 'JetBrains Mono Variable', ui-monospace, monospace; letter-spacing: 0.08em; text-transform: uppercase; }
+.f-wrap { max-width: 1200px; margin: 0 auto; padding-inline: clamp(16px, 4vw, 32px); box-sizing: border-box; }
+
+.f-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; box-sizing: border-box;
+  padding: 12px 24px; border-radius: 999px; font: 600 15px/1 'Inter Variable', sans-serif; text-decoration: none;
+  border: 1.5px solid transparent; cursor: pointer; transition: background-color 0.15s, color 0.15s;
+}
+.findable .f-btn-p { background: var(--f-lime); color: var(--f-ink); }
+.findable .f-btn-p:hover { background: var(--f-lime-2); color: var(--f-ink); }
+.findable .f-btn-s { background: var(--f-ink); color: var(--f-paper); }
+.findable .f-btn-s:hover { color: var(--f-lime); }
+.findable .f-btn-g { background: transparent; color: var(--f-ink); border-color: var(--f-ink-3); }
+.findable .f-btn-g:hover { border-color: var(--f-ink); color: var(--f-ink); }
+.findable .f-btn-w { background: #fff; color: var(--f-ink); }
+.findable .f-btn-w:hover { color: var(--f-forest); }
+.f-btn[disabled] { opacity: 0.6; cursor: progress; }
+.f-tag { display: inline-block; font: 500 12px/16px 'JetBrains Mono Variable', monospace; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 999px; padding: 4px 12px; }
+
+/* Shared page utilities */
+.c-forest { color: var(--f-forest); }
+.c-ink3 { color: var(--f-ink-3); }
+.c-lime { color: var(--f-lime); }
+.c-violet-ink { color: var(--f-violet-ink); display: block; margin-bottom: 8px; }
+.t-violet { background: var(--f-violet); color: var(--f-ink); }
+.t-lime { background: var(--f-lime); color: var(--f-ink); }
+.t-mint { background: var(--f-mint); color: var(--f-ink); }
+.t-alert { border: 1.5px solid var(--f-alert); color: var(--f-alert); flex: none; }
+.f-hxl { margin: 0; font-size: clamp(40px, 6vw, 80px); line-height: 0.92; }
+.f-hlg { margin: 0; font-size: clamp(40px, 6vw, 72px); line-height: 0.95; }
+.f-hmd { margin: 0; font-size: clamp(36px, 5vw, 64px); line-height: 0.95; }
+.f-stack { display: flex; flex-direction: column; gap: 24px; }
+.f-stack-s { gap: 12px; }
+.f-row { display: flex; flex-wrap: wrap; gap: 16px; }
+.f-row-t { gap: 8px 12px; align-items: center; }
+.f-split { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 32px; }
+.f-split-end { align-items: end; }
+.f-lede { margin: 0; font-size: clamp(18px, 1.6vw, 20px); line-height: 1.5; max-width: 540px; color: var(--f-ink-2); }
+.f-body { margin: 0; font-size: 18px; line-height: 1.6; color: var(--f-ink-2); }
+
+/* Forms */
+.f-field { display: flex; flex-direction: column; gap: 8px; }
+.f-field label { font-weight: 600; font-size: 15px; }
+.f-hint { font-size: 13px; color: var(--f-ink-3); }
+.f-in {
+  width: 100%; box-sizing: border-box; min-height: 52px; padding: 12px 16px; border: 1.5px solid #8a8b90; border-radius: 12px;
+  font: 400 16px 'Inter Variable', sans-serif; background: #fff; color: var(--f-ink);
+}
+.findable .f-in:focus-visible { outline: 3px solid var(--f-violet); outline-offset: 2px; }
+.f-in[aria-invalid='true'] { border-color: var(--f-alert); }
+textarea.f-in { resize: vertical; min-height: 110px; }
+.f-err { font-size: 13px; font-weight: 600; color: var(--f-alert); }
+.f-err:empty { display: none; }
+.f-on-dark .f-err { color: #ffb4a6; }
+.f-hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+
+/* Screen-reader text */
+.f-sr { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* Placeholders the mockups mark with [square brackets] stay visible on purpose. */
+.f-ph { background: rgb(21 22 26 / 0.08); border-radius: 4px; padding: 0 0.2em; }
+
+@media (prefers-reduced-motion: reduce) {
+  .findable *, .findable *::before, .findable *::after { transition-duration: 0.001ms !important; animation-duration: 0.001ms !important; }
+}
+
+/* Components set display on panels that start hidden; keep [hidden] winning. */
+.findable [hidden] { display: none !important; }
+/* global.css resets list padding; lists used as page columns keep the gutter. */
+.findable .f-wrap[role='list'] { padding-inline: clamp(16px, 4vw, 32px); }

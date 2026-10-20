@@ -36,7 +36,8 @@ The core idea comes from the name and the logo: see a business from the outside,
 | About copy, team (empty) | `src/data/about.ts` |
 | Approach stages | top of `src/pages/approach.astro` |
 | Portfolio (shown at `/projects/`; `/work/*` redirects there) | `src/content/work/<slug>/index.md` + images in the same folder |
-| Findable landing page and pilot form | `src/pages/findable/`, `src/components/PilotForm.astro`, `src/components/FindableFeature.astro` |
+| Findable pages (own brand, from the mockups) | `src/pages/findable/`, `src/layouts/FindableLayout.astro`, `src/styles/findable.css`, `src/scripts/findable-form.ts` |
+| Findable feature card on the Outside In pages | `src/components/FindableFeature.astro` |
 | Findable app address (Sign in links) | `findableAppUrl` in `src/config/site.ts` |
 | Portfolio field rules | `src/content.config.ts` |
 | Published-work loader (excludes drafts) | `src/data/work.ts` |
@@ -99,7 +100,11 @@ Everything else: white `#FFFFFF` background, ink `#17131F` text, ink-soft `#4B45
 
 ## Findable
 
-Findable is Outside In's own tourism growth platform, in pilot. The app lives in a separate repo and Vercel project (`anigemmill/Tourism-AI-Growth-Platform`); this site only has the public page `/findable/`, the pilot registration form (Netlify Forms, form name `findable-pilot`) and Sign in links. Keep every claim on `/findable/` to what the app does today: assessment, prioritised action plan, measured changes against a baseline, and a weekly brief a person checks before it's shared. Sign in links point at the Vercel address until `app.theoutsidein.nz` is live, then switch `findableAppUrl`.
+Findable is Outside In's own tourism product. The app lives in a separate repo and Vercel project (`anigemmill/Tourism-AI-Growth-Platform`). This site carries Findable's public pages under `/findable/` in Findable's own brand (lavender, forest, lime; Inter Tight and Inter), built from Ani's "Findable — Website Mockups" canvas: landing page, How it works, Pricing, About (with contact form) and Free check. Forms are Netlify Forms named `findable-check` and `findable-contact`; both land on `/findable/thanks/` without JavaScript. Sign in links go to the app; there is no sign-up page because the app has no self-service sign-up.
+
+**Before these pages go to production:** the mockup copy describes the planned AI-visibility product (testing six AI platforms, scores, monthly re-tests, accuracy alerts, competitor view, paid plans). The app today does assessments, a prioritised action plan, measured changes against a baseline and a person-checked weekly brief. Ani must confirm each claim, or the copy must be cut back. Text in [square brackets] is a mockup placeholder, highlighted with `.f-ph`, and must be replaced with real figures and sources or removed: the stats and their sources, prices, GST, [n], [00], [TIMEFRAME], and the founder photo and bio. The About intro is a founding story and the "two working days" reply time is a promise; both need Ani's sign-off. Free checks are run by a person: don't promise instant results.
+
+Sign in links point at the Vercel address until `app.theoutsidein.nz` is live, then switch `findableAppUrl`.
 
 ## SEO and launch
 

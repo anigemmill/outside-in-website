@@ -45,6 +45,12 @@ const nav = [
   </head>
   <body class="findable">
     <a class="skip-link" href="#main">Skip to content</a>
+    <div class="f-by">
+      <div class="f-wrap f-by__in">
+        <span>Findable is a product by Outside In</span>
+        <a href="/">Visit Outside In <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
     <header class="f-wrap f-head">
       <a href="/findable/" class="f-d f-logo" aria-label="Findable home">Findable<span aria-hidden="true">.</span></a>
       <nav aria-label="Findable" class="f-nav">
@@ -77,6 +83,7 @@ const nav = [
             <a href="/findable/about/">About</a>
             <a href="/findable/about/#contact">Contact</a>
             <a href={signIn}>Sign in</a>
+            <a href="/">Outside In</a>
           </nav>
         </div>
         <div class="f-foot__base">
@@ -86,6 +93,10 @@ const nav = [
       </div>
     </footer>
     <style is:global>
+      .f-by { background: var(--f-ink); color: var(--f-paper); font-size: 13px; }
+      .f-by__in { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 4px 16px; padding-block: 6px; }
+      .findable .f-by a { color: var(--f-lime); font-weight: 600; padding-block: 6px; }
+      .findable .f-by a:hover { color: #fff; }
       .findable main:focus { outline: none; }
       .f-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding-block: 24px; }
       .findable .f-logo { font-size: 28px; text-decoration: none; color: var(--f-ink); }

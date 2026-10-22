@@ -12,7 +12,7 @@ import { site } from '../config/site';
 interface Props { title: string; description: string; current?: 'how' | 'pricing' | 'about' | 'check' | 'home'; noindex?: boolean }
 const { title, description, current, noindex = false } = Astro.props;
 
-const pageTitle = title === 'Findable' ? 'Findable | AI visibility for tourism' : `${title} | Findable`;
+const pageTitle = title === 'Findable' ? 'Findable | AI visibility and accuracy for tourism' : `${title} | Findable`;
 const canonical = new URL(Astro.url.pathname, site.url + '/').href;
 const robots = noindex || !site.indexable ? 'noindex, nofollow' : 'index, follow';
 const signIn = `${site.findableAppUrl}/login`;

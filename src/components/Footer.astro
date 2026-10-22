@@ -4,8 +4,9 @@ import ViewToggle from './ViewToggle.astro';
 import BookingLink from './BookingLink.astro';
 import { nav, site } from '../config/site';
 
-const socials = Object.entries(site.social).filter(([, url]) => Boolean(url));
-const labels: Record<string, string> = { instagram: 'Instagram', linkedin: 'LinkedIn', facebook: 'Facebook', behance: 'Behance' };
+// Behance is a content source for the projects, not a footer link: Ani doesn't want visitors sent off the site.
+const socials = Object.entries(site.social).filter(([k, url]) => Boolean(url) && k !== 'behance');
+const labels: Record<string, string> = { instagram: 'Instagram', linkedin: 'LinkedIn', facebook: 'Facebook' };
 const year = new Date().getFullYear();
 ---
 <footer class="site-footer">
@@ -22,7 +23,7 @@ const year = new Date().getFullYear();
           {nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
         </ul>
       </nav>
-      <ul role="list">
+      <ul role="list" class="site-footer__contact">
         <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
         {socials.map(([k, url]) => <li><a href={url} target="_blank" rel="noopener">{labels[k] ?? k}</a></li>)}
         <li class="site-footer__loc">{site.location}</li>
@@ -65,4 +66,5 @@ const year = new Date().getFullYear();
   .site-footer__hint { font-size: var(--step--1); color: var(--lilac); }
   .site-footer__base { display: flex; justify-content: space-between; gap: 1rem; padding-top: 1.5rem; border-top: 1px solid var(--line); font-size: var(--step--1); color: var(--lilac); }
   @media (max-width: 860px) { .site-footer__grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 520px) { .site-footer__contact, .site-footer__toggle { grid-column: 1 / -1; } }
 </style>

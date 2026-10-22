@@ -17,6 +17,12 @@ export const sources = {
     cite: 'Tourism New Zealand research, as reported by TRAVELinc, 7 August 2026',
     url: 'https://www.travelinc.co.nz/content/news/hot-topics/9724-majority-of-travellers-using-ai-but-traditional-channels-growing-too-event-hears',
   },
+  guideGeek: {
+    figure: '200,000+',
+    text: 'unique users have tried GuideGeek, Tourism New Zealand’s AI trip-planning tool.',
+    cite: 'NZ tourism research summary, July 2026 (zhangyuqian.com)',
+    url: 'https://zhangyuqian.com/nz-tourism-nowcasting/summary.html',
+  },
   excited: {
     figure: '81%',
     text: 'of surveyed New Zealand consumers said they were excited about AI.',
@@ -34,7 +40,7 @@ export const sources = {
 export const freeCheck = {
   questions: 3,
   // Publish only while Ani can consistently meet it.
-  delivery: 'We aim to send it within one working day.',
+  delivery: 'We’ll send it within one working day.',
   includes: [
     'Three traveller-style questions for your region and category, put to AI assistants',
     'Whether you’re mentioned, recommended and described accurately in each answer',
@@ -56,7 +62,7 @@ export const offers = [
   {
     id: 'subscription',
     name: 'Monthly subscription',
-    price: 'Pricing to come',
+    price: 'Pricing on request',
     note: 'Month to month · cancel any time',
     blurb: 'Ongoing support to act on what the check finds, through the Findable platform.',
     // What the Findable app does today. Confirm what the subscription includes before launch.
@@ -66,7 +72,7 @@ export const offers = [
       'A growth brief, checked by a person before it reaches you',
       'Your own sign-in to the Findable platform',
     ],
-    cta: { href: '/findable/about/#contact', label: 'Register interest' },
+    cta: { href: '/findable/about/#contact', label: 'Ask about pricing' },
   },
   {
     id: 'done-for-you',
@@ -83,6 +89,6 @@ export const offers = [
 ];
 
 export const pilot = {
-  title: 'Now in pilot, in Rotorua',
-  text: 'Findable is being piloted with tourism operators in Rotorua. The pilot is still running: we’re using it to test the method, the delivery time and the monthly pricing. Early findings will be shared with the sample size, dates, AI tools and method spelled out.',
+  title: 'An ongoing pilot in Rotorua',
+  text: 'Findable is being piloted with 10 tourism operators in Rotorua. Audits are still under way, so there are no final results yet. We’re using the pilot to test the method, the delivery time and the monthly pricing, and we’ll share findings with the sample size, dates, AI tools and method spelled out.',
 };

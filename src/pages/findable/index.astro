@@ -23,18 +23,18 @@ const sample = [
 ];
 const faqs = [
   { q: 'What is “AI visibility”?', a: 'How often, and how well, AI assistants mention and recommend your business when people ask them for places to go and things to do.' },
-  { q: 'What does the free check include?', a: `${freeCheck.questions} traveller-style questions, a look at whether each answer mentions, recommends and correctly describes you, any wrong details we find, and your top fixes. It comes as a short branded report by email. One free check per business.` },
+  { q: 'What does the free check include?', a: `${freeCheck.questions} traveller-style questions, a look at whether each answer mentions, recommends and correctly describes you, any wrong details we find, and your top fixes. It comes as a short branded report by email, within one working day. One free check per business.` },
   { q: 'Is this just SEO with a new name?', a: 'It builds on good SEO, but AI answers draw on a wider mix of sources: your website, listings, reviews and articles. We look at the answers themselves, not just your rankings.' },
   { q: 'Do I need to know anything about AI?', a: 'No. Every fix comes with plain-English steps, and most are things you already control.' },
   { q: 'Can you guarantee AI will recommend me?', a: 'No one honestly can. We show you what AI says today, help you fix what’s in your control, and measure what changes.' },
 ];
 ---
-<FindableLayout title="Findable" current="home" description="62% of travellers are using AI to help decide where to go and what to do. Findable shows New Zealand tourism businesses whether AI tools recommend them, and what to fix. Get a free AI visibility check.">
+<FindableLayout title="Findable" current="home" description="62% of travellers are using AI to help decide where to go and what to do. Findable shows New Zealand tourism businesses whether AI tools recommend them and describe them accurately, and what to fix. Get a free AI visibility check.">
 
   <section class="f-wrap hero" aria-labelledby="hero-title">
     <h1 id="hero-title" class="f-d hero__title">Be the<br />answer<span>.</span></h1>
     <div class="hero__base">
-      <span class="f-lbl">AI visibility for tourism · Aotearoa NZ</span>
+      <span class="f-lbl">AI visibility &amp; accuracy for tourism · Aotearoa NZ</span>
       <div class="hero__ctas">
         <a href="#why" class="f-lbl hero__scroll">Scroll <span aria-hidden="true">↓</span></a>
         <a href="/findable/check/" class="f-btn f-btn-p">Get my free check <span aria-hidden="true">→</span></a>
@@ -49,6 +49,8 @@ const faqs = [
         <h2 id="shift-title" class="f-d f-hxl">Travellers are asking AI where to go.</h2>
         <p class="f-lede shift__stat"><strong>{sources.travellersUsingAi.figure} {sources.travellersUsingAi.text}</strong> Is your tourism business showing up in the answers?</p>
         <Source s={sources.travellersUsingAi} />
+        <p class="f-body">Tourism New Zealand’s own AI trip-planning tool, GuideGeek, has attracted over 200,000 unique users.</p>
+        <Source s={sources.guideGeek} />
         <p class="f-body">Findable checks what AI tools say about your business, flags anything that’s wrong, and shows you what to improve.</p>
         <div class="f-row">
           <a href="/findable/check/" class="f-btn f-btn-s">Get my free check <span aria-hidden="true">→</span></a>

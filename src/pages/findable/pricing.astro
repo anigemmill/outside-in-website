@@ -1,84 +1,52 @@
 ---
 /**
- * FINDABLE: Pricing, from the Pricing mockup. Prices are placeholders
- * ([PRICE], GST) until Ani sets them. There's no self-service sign-up yet, so
- * "Start Operator" goes to the contact form rather than a sign-up page.
+ * FINDABLE: Pricing. Three separate things: the free one-off check, the monthly
+ * subscription and done-for-you work. Offers live in src/data/findable.ts.
+ * No subscription price is published until Ani confirms one; done-for-you is
+ * quote on request. Findable isn't GST-registered (confirm wording before launch).
  */
 import FindableLayout from '../../layouts/FindableLayout.astro';
+import { offers } from '../../data/findable';
 
-const plans = [
-  {
-    name: 'Free check', price: '$0', blurb: 'A one-off snapshot of how AI sees you.', theme: 'free',
-    items: ['Visibility score across 6 AI platforms', 'Up to [n] visitor questions tested', 'Your top 3 fixes'],
-    cta: { href: '/findable/check/', label: 'Run my free check', cls: 'f-btn-g' },
-  },
-  {
-    name: 'Operator', price: '$[PRICE]', per: ' /month', blurb: 'For one business that wants to be recommended.', theme: 'op', tag: 'Most popular',
-    items: ['Everything in Free check', 'Monthly re-test and score history', 'Full AI answers + competitor view', 'Complete ranked fix list with how-to steps', 'Accuracy alerts when AI gets you wrong'],
-    cta: { href: '/findable/about/#contact', label: 'Start Operator', cls: 'f-btn-p', arrow: true },
-  },
-  {
-    name: 'Destination & agency', price: 'Custom', blurb: 'For regions and teams managing many brands.', theme: 'dest',
-    items: ['Multiple businesses in one dashboard', 'Region-level visibility reporting', 'Operator workshops and training', 'Quarterly strategy session'],
-    cta: { href: '/findable/about/#contact', label: 'Talk to us', cls: 'f-btn-s' },
-  },
-];
-// Shows any [bracketed] placeholder as a highlighted span.
-const ph = (s: string) => s.split(/(\[[^\]]+\])/).map((part) => ({ part, ph: /^\[.*\]$/.test(part) }));
 const faqs = [
-  { q: 'Is there a contract?', a: 'No. Plans are month to month.' },
-  { q: 'How fast will my score move?', a: 'It varies by platform. Most changes show over one to three monthly re-tests.' },
-  { q: 'Do prices include GST?', a: '[Confirm GST treatment.]' },
+  { q: 'Is there a contract?', a: 'No. The subscription is month to month, and you can cancel any time.' },
+  { q: 'Why is there no monthly price yet?', a: 'Findable is in pilot. We’re using it to set the monthly price. Register your interest and we’ll tell you as soon as it’s confirmed.' },
+  { q: 'Is GST included?', a: 'Findable isn’t registered for GST, so no GST is added to our prices.' },
+  { q: 'Do I have to subscribe after the free check?', a: 'No. The free check is yours to keep and act on, with no obligation.' },
 ];
 ---
-<FindableLayout title="Pricing" current="pricing" description="Findable pricing: start with a free AI visibility check, then choose a monthly plan for your tourism business, or talk to us about destinations and agencies.">
+<FindableLayout title="Pricing" current="pricing" description="Findable pricing: start with a free AI visibility check for your tourism business. Monthly subscription pricing is being set during the pilot; done-for-you work is quoted on request.">
 
   <section class="f-wrap f-stack head">
     <span class="f-lbl c-forest">Pricing</span>
-    <h1 class="f-d head__t">Start free. Pay to keep score.</h1>
-    <p class="f-lede">Every plan is in NZD and month to month. Cancel any time.</p>
+    <h1 class="f-d head__t">Start free. Go further when you’re ready.</h1>
+    <p class="f-lede">Three separate options: a free one-off check, an optional monthly subscription, and done-for-you work if you’d rather we made the changes.</p>
   </section>
 
   <ul role="list" class="f-wrap plans">
-    {plans.map((p) => (
-      <li class={`plan plan--${p.theme}`}>
+    {offers.map((p) => (
+      <li class={`plan plan--${p.id}`}>
         <div class="plan__top">
-          <div class="plan__name">
-            <h2 class="f-lbl">{p.name}</h2>
-            {p.tag && <span class="f-tag t-lime">{p.tag}</span>}
-          </div>
-          <p class="f-d plan__price">
-            {ph(p.price).map((x) => x.ph ? <span class="f-ph">{x.part}</span> : x.part)}
-            {p.per && <span class="plan__per">{p.per}</span>}
-          </p>
+          <h2 class="f-lbl plan__name">{p.name}</h2>
+          <p class="f-d plan__price">{p.price}</p>
+          <p class="plan__note">{p.note}</p>
           <p class="plan__blurb">{p.blurb}</p>
         </div>
         <ul role="list" class="plan__list">
-          {p.items.map((i) => (
-            <li><span aria-hidden="true" class="plan__tick">✓</span><span>{ph(i).map((x) => x.ph ? <span class="f-ph">{x.part}</span> : x.part)}</span></li>
-          ))}
+          {p.items.map((i) => <li><span aria-hidden="true" class="plan__tick">✓</span><span>{i}</span></li>)}
         </ul>
-        <a href={p.cta.href} class={`f-btn ${p.cta.cls} plan__cta`}>{p.cta.label}{p.cta.arrow && <span aria-hidden="true"> →</span>}</a>
+        <a href={p.cta.href} class={`f-btn ${p.id === 'check' ? 'f-btn-p' : p.id === 'subscription' ? 'f-btn-w' : 'f-btn-s'} plan__cta`}>{p.cta.label} <span aria-hidden="true">→</span></a>
       </li>
     ))}
   </ul>
 
-  <section class="f-wrap addon-wrap" aria-labelledby="addon-title">
-    <div class="addon">
-      <div class="f-stack f-stack-s addon__text">
-        <span class="f-lbl">Add-on</span>
-        <h2 id="addon-title" class="f-d addon__t">Done-for-you fixes</h2>
-        <p>Short on time? We’ll make the changes on your website and listings for you. From $<span class="f-ph">[PRICE]</span> per fix pack.</p>
-      </div>
-      <a href="/findable/about/#contact" class="f-btn f-btn-s">Ask about fixes</a>
-    </div>
-  </section>
+  <p class="f-wrap more">Regional tourism organisation or agency? <a href="/findable/about/#contact">Talk to us</a> about checks across several businesses.</p>
 
   <section class="f-wrap qa" aria-label="Pricing questions">
     {faqs.map((f) => (
       <div>
         <h2 class="qa__q">{f.q}</h2>
-        <p>{ph(f.a).map((x) => x.ph ? <span class="f-ph">{x.part}</span> : x.part)}</p>
+        <p>{f.a}</p>
       </div>
     ))}
   </section>
@@ -86,37 +54,30 @@ const faqs = [
 
 <style>
   .head { padding-block: clamp(48px, 7vw, 72px) 56px; align-items: center; text-align: center; gap: 20px; }
-  .head__t { margin: 0; font-size: clamp(48px, 8vw, 104px); line-height: 0.9; }
+  .head__t { margin: 0; font-size: clamp(44px, 7vw, 96px); line-height: 0.9; max-width: 14ch; }
+  .head .f-lede { max-width: 620px; }
 
-  .plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 16px; align-items: stretch; margin: 0 auto; padding-bottom: 72px; list-style: none; }
+  .plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 16px; align-items: stretch; margin: 0 auto; padding-bottom: 40px; list-style: none; }
   .plan { border-radius: var(--f-radius); padding: 36px clamp(20px, 3vw, 32px); display: flex; flex-direction: column; gap: 24px; }
-  .plan--free { background: #fff; border: 1px solid var(--f-line); }
-  .plan--op { background: var(--f-forest); color: var(--f-paper); }
-  .plan--dest { background: var(--f-cream); }
+  .plan--check { background: var(--f-lime); }
+  .plan--subscription { background: var(--f-forest); color: var(--f-paper); }
+  .plan--done-for-you { background: var(--f-cream); }
   .plan__top { display: flex; flex-direction: column; gap: 8px; }
-  .plan__name { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
-  .plan__name h2 { margin: 0; color: var(--f-ink-3); }
-  .plan--op .plan__name h2 { color: var(--f-lime); }
-  .plan--dest .plan__name h2 { color: var(--f-violet-ink); }
-  .plan__price { margin: 0; font-size: clamp(48px, 5vw, 64px); line-height: 1; }
-  .plan--op .f-ph { background: rgb(255 255 255 / 0.15); }
-  .plan__per { font-size: 20px; font-weight: 600; letter-spacing: 0; }
-  .plan__blurb { margin: 0; font-size: 15px; color: var(--f-ink-2); }
-  .plan--op .plan__blurb { color: #dfe6dc; }
+  .plan__name { margin: 0; }
+  .plan--subscription .plan__name { color: var(--f-lime); }
+  .plan__price { margin: 0; font-size: clamp(36px, 4vw, 48px); line-height: 1; }
+  .plan__note { margin: 0; font-size: 14px; font-weight: 600; }
+  .plan__blurb { margin: 0; font-size: 15px; line-height: 1.5; color: var(--f-ink-2); }
+  .plan--subscription .plan__blurb { color: #dfe6dc; }
   .plan__list { margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; font-size: 15px; line-height: 1.45; }
   .plan__list li { display: flex; gap: 10px; align-items: start; }
   .plan__tick { font-weight: 700; color: var(--f-forest); }
-  .plan--op .plan__tick { color: var(--f-lime); }
-  .plan--dest .plan__tick { color: var(--f-ink); }
+  .plan--subscription .plan__tick { color: var(--f-lime); }
   .plan__cta { margin-top: auto; align-self: stretch; }
 
-  .addon-wrap { padding-bottom: 72px; }
-  .addon { background: var(--f-lime); border-radius: var(--f-radius); padding: 40px clamp(20px, 4vw, 48px); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 24px; }
-  .addon__text { max-width: 640px; gap: 8px; }
-  .addon__text p { margin: 0; font-size: 16px; line-height: 1.5; }
-  .addon__t { margin: 0; font-size: clamp(32px, 4vw, 40px); line-height: 1; }
+  .more { margin-block: 0 72px; font-size: 16px; text-align: center; }
 
-  .qa { padding-bottom: clamp(72px, 9vw, 112px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 32px; }
+  .qa { padding-bottom: clamp(72px, 9vw, 112px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 32px; }
   .qa div { display: flex; flex-direction: column; gap: 8px; }
   .qa__q { margin: 0; font-size: 18px; font-weight: 700; }
   .qa p { margin: 0; font-size: 15px; line-height: 1.55; color: var(--f-ink-2); }

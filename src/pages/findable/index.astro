@@ -1,43 +1,35 @@
 ---
 /**
- * FINDABLE: landing page, built from the "Findable — Website Mockups" canvas.
- *
- * Copy follows the mockup. Text in [square brackets] is a placeholder from the
- * mockup and is shown highlighted (.f-ph) until Ani supplies the real figure
- * or source. Several lines describe the planned AI-visibility product (testing
- * six AI platforms, monthly re-tests) rather than what the app does today;
- * confirm before this page goes to production.
+ * FINDABLE: landing page. Design from the "Findable — Website Mockups" canvas;
+ * copy from the Findable working brief. Facts, sources and offers live in
+ * src/data/findable.ts. Main call to action: the free AI visibility check.
  */
 import FindableLayout from '../../layouts/FindableLayout.astro';
+import Source from '../../components/FindableSource.astro';
+import { sources, offers, freeCheck, pilot } from '../../data/findable';
 
-const platforms = ['ChatGPT', 'Perplexity', 'Gemini', 'Google AI Overviews', 'Copilot', 'Claude'];
+const platforms = ['ChatGPT', 'Google AI Overviews', 'Gemini', 'Perplexity', 'Copilot', 'Claude'];
 const steps = [
-  { n: '01', t: 'Ask', d: 'We put the questions your visitors really ask to every major AI.' },
-  { n: '02', t: 'Score', d: 'You get a visibility score: are you mentioned, recommended, accurate?' },
-  { n: '03', t: 'Fix', d: 'A prioritised fix list for your website, listings and content.' },
-  { n: '04', t: 'Track', d: 'We re-test monthly so you can see the change, not just hope for it.' },
+  { n: '01', t: 'Free check', d: `We put ${freeCheck.questions} traveller-style questions about your region and category to AI assistants.` },
+  { n: '02', t: 'Your mini-report', d: 'See whether you’re mentioned, recommended and described accurately, and what’s wrong or missing.' },
+  { n: '03', t: 'Fix it', d: 'Make the changes yourself with plain-English steps, or ask us for a quote to do them for you.' },
+  { n: '04', t: 'Keep going', d: 'A monthly subscription gives you an action plan and measures each change against a baseline.' },
 ];
-const gets = [
-  'Visibility score across six AI platforms',
-  'The exact answers AI gives about you, and about your competitors',
-  'Accuracy check: hours, prices, location, what you offer',
-  'A ranked fix list with plain-English instructions',
-];
-// Bar widths are illustrative, as the card says.
-const bars = [['ChatGPT', 78], ['Perplexity', 55], ['Gemini', 40], ['AI Overviews', 66], ['Claude', 60], ['Copilot', 48]] as const;
-const who = [
-  { t: 'Operators', d: 'Tours, attractions, accommodation and activities that want more direct bookings from AI-assisted trip planning.', bg: 'var(--f-mint)' },
-  { t: 'Destinations', d: 'Regional tourism organisations that want their whole region, and its operators, described well by AI.', bg: 'var(--f-cream)' },
-  { t: 'Agencies & marketers', d: 'Teams managing several tourism brands who need one clear view of AI visibility across clients.', bg: 'var(--f-lime)' },
+// Illustrative sample: not a real business or a real result.
+const sample = [
+  { q: 'Best guided mountain bike tour in Rotorua?', r: 'Recommended', cls: 't-lime' },
+  { q: 'Beginner-friendly MTB trails near Rotorua with a guide', r: 'Mentioned', cls: 't-white' },
+  { q: 'Things to do in Rotorua for active couples', r: 'Not found', cls: 't-alert' },
 ];
 const faqs = [
-  { q: 'What is “AI visibility”?', a: 'How often, and how well, AI assistants mention and recommend your business when people ask for things to do.' },
-  { q: 'Is this just SEO with a new name?', a: 'It builds on good SEO, but AI answers pull from different signals. We test the answers directly, not just your rankings.' },
+  { q: 'What is “AI visibility”?', a: 'How often, and how well, AI assistants mention and recommend your business when people ask them for places to go and things to do.' },
+  { q: 'What does the free check include?', a: `${freeCheck.questions} traveller-style questions, a look at whether each answer mentions, recommends and correctly describes you, any wrong details we find, and your top fixes. It comes as a short branded report by email. One free check per business.` },
+  { q: 'Is this just SEO with a new name?', a: 'It builds on good SEO, but AI answers draw on a wider mix of sources: your website, listings, reviews and articles. We look at the answers themselves, not just your rankings.' },
   { q: 'Do I need to know anything about AI?', a: 'No. Every fix comes with plain-English steps, and most are things you already control.' },
-  { q: 'Can you guarantee AI will recommend me?', a: 'No one honestly can. We measure, fix what’s in your control, and show you the change month by month.' },
+  { q: 'Can you guarantee AI will recommend me?', a: 'No one honestly can. We show you what AI says today, help you fix what’s in your control, and measure what changes.' },
 ];
 ---
-<FindableLayout title="Findable" current="home" description="Findable shows tourism businesses in Aotearoa New Zealand whether AI assistants recommend them, and what to fix so they do. Run a free visibility check.">
+<FindableLayout title="Findable" current="home" description="62% of travellers are using AI to help decide where to go and what to do. Findable shows New Zealand tourism businesses whether AI tools recommend them, and what to fix. Get a free AI visibility check.">
 
   <section class="f-wrap hero" aria-labelledby="hero-title">
     <h1 id="hero-title" class="f-d hero__title">Be the<br />answer<span>.</span></h1>
@@ -45,7 +37,7 @@ const faqs = [
       <span class="f-lbl">AI visibility for tourism · Aotearoa NZ</span>
       <div class="hero__ctas">
         <a href="#why" class="f-lbl hero__scroll">Scroll <span aria-hidden="true">↓</span></a>
-        <a href="/findable/check/" class="f-btn f-btn-p">Run my free check <span aria-hidden="true">→</span></a>
+        <a href="/findable/check/" class="f-btn f-btn-p">Get my free check <span aria-hidden="true">→</span></a>
       </div>
     </div>
   </section>
@@ -54,34 +46,32 @@ const faqs = [
     <div class="f-wrap shift__in">
       <div class="f-stack">
         <span class="f-lbl c-forest">The shift</span>
-        <h2 id="shift-title" class="f-d f-hxl">Visitors don’t search any more. They ask.</h2>
-        <p class="f-lede">They ask ChatGPT, Perplexity and Google’s AI where to go, and get two or three names back, not ten links. Findable shows you whether you’re one of them, and exactly what to fix so you are.</p>
+        <h2 id="shift-title" class="f-d f-hxl">Travellers are asking AI where to go.</h2>
+        <p class="f-lede shift__stat"><strong>{sources.travellersUsingAi.figure} {sources.travellersUsingAi.text}</strong> Is your tourism business showing up in the answers?</p>
+        <Source s={sources.travellersUsingAi} />
+        <p class="f-body">Findable checks what AI tools say about your business, flags anything that’s wrong, and shows you what to improve.</p>
         <div class="f-row">
-          <a href="/findable/check/" class="f-btn f-btn-s">Run my free check <span aria-hidden="true">→</span></a>
+          <a href="/findable/check/" class="f-btn f-btn-s">Get my free check <span aria-hidden="true">→</span></a>
           <a href="/findable/how-it-works/" class="f-btn f-btn-g">How it works</a>
         </div>
-        <span class="f-lbl c-ink3">Free · 2 minutes · No card needed</span>
+        <span class="f-lbl c-ink3">Free · One check per business · No card needed</span>
       </div>
 
-      <figure class="ask" aria-label="Example: a visitor asks an AI assistant">
-        <span class="f-lbl c-lime">A visitor asks</span>
+      <figure class="ask" aria-label="Illustrative example: a traveller asks an AI assistant">
+        <span class="f-lbl c-lime">Illustrative example · a traveller asks</span>
         <p class="ask__q">“What’s the best guided mountain bike experience in Rotorua?”</p>
-        <div class="f-row f-row-t">
-          <span class="f-tag t-violet">ChatGPT</span><span class="f-tag t-violet">Perplexity</span><span class="f-tag t-violet">AI Overviews</span>
-        </div>
         <div class="ask__a">
           <span class="f-lbl c-violet-ink">AI answer</span>
-          For a guided ride, <strong class="ask__you">[Your business]</strong> is a top pick: local guides, trails for every level and gear included. Other options include …
+          For a guided ride, <strong class="ask__you">your business</strong> could be the top pick, or missing from the answer altogether. Do you know which?
         </div>
         <div class="f-row f-row-t ask__foot">
-          <span class="f-tag t-lime">Recommended</span>
-          <span>Mentioned first · described accurately</span>
+          <span class="f-tag t-lime">Mentioned?</span><span class="f-tag t-lime">Recommended?</span><span class="f-tag t-lime">Accurate?</span>
         </div>
       </figure>
     </div>
     <div class="plat">
       <div class="f-wrap plat__in">
-        <span class="f-lbl">We test what visitors ask on</span>
+        <span class="f-lbl">Where travellers are asking</span>
         <ul role="list" class="plat__list">
           {platforms.map((p) => <li class="f-d">{p}</li>)}
         </ul>
@@ -92,24 +82,20 @@ const faqs = [
   <section class="stakes" aria-labelledby="stakes-title">
     <div class="f-wrap stakes__in">
       <div class="f-split f-split-end">
-        <h2 id="stakes-title" class="f-d f-hlg">Not in the answer? Not in the running.</h2>
-        <p class="stakes__lede">If the AI doesn’t know you, or gets your hours, prices or location wrong, visitors book someone else without ever seeing your website.</p>
+        <h2 id="stakes-title" class="f-d f-hlg">Being in the answer starts with accurate information.</h2>
+        <p class="stakes__lede">AI answers are built from what’s published about you: your website, listings, reviews and articles. If that’s missing, thin or out of date, the answer can be too. And travellers notice.</p>
       </div>
       <ul role="list" class="stats">
-        <li class="stat" style="background: var(--f-lime)">
-          <span class="f-d stat__n"><span class="f-ph">[X]</span>%</span>
-          <span>of travellers now use AI tools to plan trips</span>
-          <span class="f-lbl stat__src">Source · <span class="f-ph">[research source]</span></span>
-        </li>
-        <li class="stat" style="background: var(--f-cream)">
-          <span class="f-d stat__n">2–3</span>
-          <span>businesses typically named in a single AI recommendation</span>
-          <span class="f-lbl stat__src">Source · <span class="f-ph">[our testing]</span></span>
-        </li>
+        {[sources.excited, sources.concerned].map((s, i) => (
+          <li class="stat" style={`background:${i ? 'var(--f-cream)' : 'var(--f-lime)'}`}>
+            <span class="f-d stat__n">{s.figure}</span>
+            <span>{s.text}</span>
+            <Source s={s} class="stat__src" />
+          </li>
+        ))}
         <li class="stat" style="background: var(--f-lav)">
-          <span class="f-d stat__n"><span class="f-ph">[X]</span> of 10</span>
-          <span>operators we tested had wrong details in AI answers</span>
-          <span class="f-lbl stat__src">Source · <span class="f-ph">[our audits]</span></span>
+          <span class="f-d stat__n stat__n--s">What we check</span>
+          <span>Are you mentioned? Are you recommended? Is what the AI says about your hours, prices, location and offer correct?</span>
         </li>
       </ul>
     </div>
@@ -120,7 +106,7 @@ const faqs = [
       <div class="steps__head">
         <div class="f-stack f-stack-s">
           <span class="f-lbl">How it works</span>
-          <h2 id="steps-title" class="f-d f-hmd">Four steps to findable.</h2>
+          <h2 id="steps-title" class="f-d f-hmd">From free check to findable.</h2>
         </div>
         <a href="/findable/how-it-works/" class="f-btn f-btn-w">See the full process <span aria-hidden="true">→</span></a>
       </div>
@@ -138,49 +124,59 @@ const faqs = [
 
   <section class="f-wrap get" aria-labelledby="get-title">
     <div class="f-stack">
-      <span class="f-lbl c-forest">What you get</span>
-      <h2 id="get-title" class="f-d f-hmd">A report you can act on this week.</h2>
-      <p class="f-body">No jargon, no 80-page audit. Your score, what each AI says about you, and the handful of fixes that will move it.</p>
+      <span class="f-lbl c-forest">The free check</span>
+      <h2 id="get-title" class="f-d f-hmd">A short report you can act on this week.</h2>
+      <p class="f-body">No jargon, no 80-page audit. What AI says about you, what it gets wrong, and the handful of fixes most worth making.</p>
       <ul role="list" class="dots">
-        {gets.map((g) => <li>{g}</li>)}
+        {freeCheck.includes.map((g) => <li>{g}</li>)}
       </ul>
+      <a href="/findable/check/" class="f-btn f-btn-s get__cta">Get my free check <span aria-hidden="true">→</span></a>
     </div>
     <figure class="report" aria-labelledby="report-cap">
       <div class="report__top">
-        <span class="f-lbl c-ink3">Visibility report · sample</span>
+        <span class="f-lbl c-ink3">Mini-report · sample</span>
         <span class="f-tag t-mint">Rotorua · Adventure</span>
       </div>
-      <div class="report__score">
-        <span class="f-d report__n f-ph">[00]</span>
-        <span class="c-ink3">/ 100 visibility score</span>
-      </div>
-      <ul role="list" class="bars" aria-hidden="true">
-        {bars.map(([name, w]) => (
-          <li><span>{name}</span><span class="bars__track"><span style={`width:${w}%`}></span></span></li>
+      <ul role="list" class="qs">
+        {sample.map((s) => (
+          <li><span>{s.q}</span><span class={`f-tag ${s.cls}`}>{s.r}</span></li>
         ))}
       </ul>
       <div class="report__fix">
         <span class="f-tag t-alert">Fix #1</span>
-        <span>Your opening hours are wrong in two AI answers. Update your Google Business Profile and website FAQ.</span>
+        <span>Your opening hours are wrong in one AI answer. Update your Google Business Profile and the FAQ on your website.</span>
       </div>
-      <figcaption id="report-cap" class="f-lbl c-ink3">Illustrative layout · real scores come from your check</figcaption>
+      <figcaption id="report-cap" class="f-lbl c-ink3">Illustrative example · not a real customer result</figcaption>
     </figure>
   </section>
 
-  <section class="f-wrap pad-b" aria-labelledby="who-title">
-    <div class="f-stack f-stack-s">
-      <span class="f-lbl c-forest">Who it’s for</span>
-      <h2 id="who-title" class="f-d f-hmd">Built for tourism.</h2>
+  <section class="f-wrap pad-b" aria-labelledby="offers-title">
+    <div class="f-split f-split-end">
+      <div class="f-stack f-stack-s">
+        <span class="f-lbl c-forest">Ways to work with us</span>
+        <h2 id="offers-title" class="f-d f-hmd">Start free. Go further when you’re ready.</h2>
+      </div>
+      <p class="f-body">Built for New Zealand attractions, accommodation, tours and experiences.</p>
     </div>
-    <ul role="list" class="who">
-      {who.map((w, i) => (
-        <li style={`background:${w.bg}`}>
-          <span class="f-d who__n" aria-hidden="true">0{i + 1}</span>
-          <h3 class="who__t">{w.t}</h3>
-          <p>{w.d}</p>
+    <ul role="list" class="offers">
+      {offers.map((o, i) => (
+        <li class={`offer offer--${o.id}`}>
+          <span class="f-d offer__n" aria-hidden="true">0{i + 1}</span>
+          <h3 class="offer__t">{o.name}</h3>
+          <p class="offer__price">{o.price} <span>· {o.note}</span></p>
+          <p>{o.blurb}</p>
         </li>
       ))}
     </ul>
+    <a href="/findable/pricing/" class="f-btn f-btn-g offers__more">Compare what’s included <span aria-hidden="true">→</span></a>
+  </section>
+
+  <section class="f-wrap pad-b" aria-labelledby="pilot-title">
+    <div class="pilot">
+      <span class="f-lbl c-violet-ink">Pilot</span>
+      <h2 id="pilot-title" class="f-d pilot__t">{pilot.title}</h2>
+      <p>{pilot.text}</p>
+    </div>
   </section>
 
   <section class="f-wrap pad-b faq" aria-labelledby="faq-title">
@@ -206,9 +202,9 @@ const faqs = [
         <label for="cta-site" class="cta__label">Your website</label>
         <div class="f-row f-row-t">
           <input id="cta-site" name="website" class="f-in cta__in" type="text" inputmode="url" autocomplete="url" placeholder="yourbusiness.co.nz" />
-          <button type="submit" class="f-btn f-btn-s">Run my free check <span aria-hidden="true">→</span></button>
+          <button type="submit" class="f-btn f-btn-s">Get my free check <span aria-hidden="true">→</span></button>
         </div>
-        <span class="cta__note">Results in your inbox. No card needed.</span>
+        <span class="cta__note">Free. One check per business. Results by email. No card needed.</span>
       </form>
     </div>
   </section>
@@ -246,7 +242,7 @@ const faqs = [
   .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 16px; margin: 0; padding: 0; }
   .stat { color: var(--f-ink); border-radius: var(--f-radius); padding: 32px 24px; display: flex; flex-direction: column; gap: 12px; min-height: 200px; font-size: 15px; line-height: 1.5; }
   .stat__n { font-size: 56px; line-height: 1; font-weight: 600; }
-  .stat__src { margin-top: auto; }
+  .stat :global(.stat__src) { margin-top: auto; }
 
   /* Steps */
   .steps { background: var(--f-blue); color: #fff; border-radius: var(--f-radius); padding: clamp(24px, 4vw, 48px); display: flex; flex-direction: column; gap: 40px; }
@@ -264,21 +260,9 @@ const faqs = [
   .dots li::before { content: ''; width: 10px; height: 10px; border-radius: 999px; background: var(--f-forest); flex: none; transform: translateY(-1px); }
   .report { margin: 0; background: #fff; border-radius: var(--f-radius); padding: clamp(20px, 3vw, 32px); display: flex; flex-direction: column; gap: 24px; border: 1px solid var(--f-line); }
   .report__top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
-  .report__score { display: flex; align-items: end; gap: 12px; flex-wrap: wrap; font-size: 18px; }
-  .report__score > span:last-child { padding-bottom: 10px; }
-  .report__n { font-size: clamp(64px, 8vw, 96px); line-height: 0.9; }
-  .bars { display: flex; flex-direction: column; gap: 14px; margin: 0; padding: 0; }
-  .bars li { display: grid; grid-template-columns: minmax(90px, 130px) 1fr; gap: 12px; align-items: center; font-size: 14px; }
-  .bars__track { height: 12px; border-radius: 999px; background: var(--f-mint); }
-  .bars__track span { display: block; height: 12px; border-radius: 999px; background: var(--f-forest); }
   .report__fix { border-radius: 16px; padding: 16px 20px; display: flex; gap: 12px; align-items: start; background: var(--f-lav); font-size: 14px; line-height: 1.5; }
 
   /* Who */
-  .who { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; margin: 0; padding: 0; }
-  .who li { border-radius: var(--f-radius); padding: 32px; display: flex; flex-direction: column; gap: 12px; min-height: 240px; }
-  .who p { margin: 0; font-size: 15px; line-height: 1.55; }
-  .who__n { font-size: 40px; font-weight: 600; line-height: 1; }
-  .who__t { margin: 0; font-size: 22px; }
 
   /* FAQ */
   .faq { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 48px; }
@@ -295,4 +279,29 @@ const faqs = [
   .cta__label { font-weight: 600; font-size: 15px; }
   :global(.findable) .cta__in { flex: 1 1 240px; width: auto; border-radius: 999px; border-color: var(--f-ink); padding-inline: 20px; }
   .cta__note { font-size: 14px; }
+
+  .shift__stat strong { color: var(--f-ink); font-weight: 700; }
+  .t-white { background: #fff; color: var(--f-ink); }
+  .stat__n--s { font-size: 32px; }
+  .get__cta { align-self: start; }
+
+  .qs { margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  .qs li { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; background: var(--f-paper); border-radius: 12px; padding: 14px 16px; font-size: 15px; }
+  .qs .f-tag { flex: none; }
+
+  .offers { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; margin: 0; padding: 0; }
+  .offer { border-radius: var(--f-radius); padding: 32px; display: flex; flex-direction: column; gap: 12px; }
+  .offer p { margin: 0; font-size: 15px; line-height: 1.55; }
+  .offer--check { background: var(--f-lime); }
+  .offer--subscription { background: var(--f-forest); color: var(--f-paper); }
+  .offer--done-for-you { background: var(--f-cream); }
+  .offer__n { font-size: 40px; font-weight: 600; line-height: 1; }
+  .offer__t { margin: 0; font-size: 22px; }
+  .findable .offer .offer__price { font-weight: 700; font-size: 16px; }
+  .offer__price span { font-weight: 400; }
+  .offers__more { align-self: start; }
+
+  .pilot { background: var(--f-cream); border-radius: var(--f-radius); padding: clamp(24px, 4vw, 48px); display: flex; flex-direction: column; gap: 12px; max-width: 860px; }
+  .pilot__t { margin: 0; font-size: clamp(28px, 3.4vw, 40px); line-height: 1; }
+  .pilot p { margin: 0; font-size: 17px; line-height: 1.6; color: var(--f-ink-2); }
 </style>

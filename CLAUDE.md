@@ -102,7 +102,16 @@ Everything else: white `#FFFFFF` background, ink `#17131F` text, ink-soft `#4B45
 
 Findable is Outside In's own tourism product. The app lives in a separate repo and Vercel project (`anigemmill/Tourism-AI-Growth-Platform`). This site carries Findable's public pages under `/findable/` in Findable's own brand (lavender, forest, lime; Inter Tight and Inter), built from Ani's "Findable — Website Mockups" canvas: landing page, How it works, Pricing, About (with contact form) and Free check. Forms are Netlify Forms named `findable-check` and `findable-contact`; both land on `/findable/thanks/` without JavaScript. Sign in links go to the app; there is no sign-up page because the app has no self-service sign-up.
 
-**Before these pages go to production:** the mockup copy describes the planned AI-visibility product (testing six AI platforms, scores, monthly re-tests, accuracy alerts, competitor view, paid plans). The app today does assessments, a prioritised action plan, measured changes against a baseline and a person-checked weekly brief. Ani must confirm each claim, or the copy must be cut back. Text in [square brackets] is a mockup placeholder, highlighted with `.f-ph`, and must be replaced with real figures and sources or removed: the stats and their sources, prices, GST, [n], [00], [TIMEFRAME], and the founder photo and bio. The About intro is a founding story and the "two working days" reply time is a promise; both need Ani's sign-off. Free checks are run by a person: don't promise instant results.
+**Copy rules (from Ani's Findable working brief, 22 Oct 2026).** Facts, sources and offers live in `src/data/findable.ts`.
+- Lead statistic: 62% of travellers are using AI to help decide where to go and what to do (Tourism New Zealand research as reported by TRAVELinc, 7 Aug 2026). It is not about bookings and not NZ-domestic only. The Booking.com 81% / 92% figures (IT Brief NZ, July 2025) are only for the trust and accuracy point. Every statistic links to its source.
+- The GuideGeek 200,000-user figure is left out until an official Tourism New Zealand source is found.
+- Three separate offers: the free one-off check (3 traveller-style questions, one per business, branded mini-report), the monthly subscription (no price until Ani confirms one; month to month, cancel any time; describe only what the app delivers today) and done-for-you work ("Quote on request").
+- Findable is not GST-registered, so no GST is added.
+- The sample report is illustrative and labelled as such. There is no score, because there is no defined scoring method yet.
+- Findable is in pilot with Rotorua operators and not all audits are done. Don't publish pilot numbers, error rates, "2–3 businesses per answer", testimonials or case studies without documented results.
+- Founder: Ani Gemmill. No photo for now. The founding story is tourism and digital marketing experience plus AI research; don't claim observed visitor behaviour.
+- Contact: anigemmill@theoutsidein.nz, reply within two working days (confirmed).
+- Still to confirm before launch: the "within one working day" delivery target, which AI assistants the check uses, what the subscription includes, and the GST wording.
 
 Sign in links point at the Vercel address until `app.theoutsidein.nz` is live, then switch `findableAppUrl`.
 

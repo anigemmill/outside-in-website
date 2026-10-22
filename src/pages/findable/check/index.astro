@@ -2,26 +2,28 @@
 /**
  * FINDABLE: Free visibility check, from the FreeCheck mockup. The form is a
  * request (Netlify Forms, form name "findable-check"); the check itself is run
- * by a person, so nothing here promises an instant result. [TIMEFRAME] and the
- * [00] / [n] preview figures stay visible placeholders.
+ * by a person, so nothing here promises an instant result. The offer and the
+ * delivery target come from src/data/findable.ts.
  * ?website= (from the landing page's call to action) prefills the website field.
  */
 import FindableLayout from '../../../layouts/FindableLayout.astro';
 import { site } from '../../../config/site';
+import { freeCheck, offers } from '../../../data/findable';
 
 const regions = ['Rotorua', 'Taupō', 'Queenstown', 'Auckland', 'Other'];
 const categories = ['Adventure & activities', 'Culture & attractions', 'Accommodation', 'Food & drink', 'Tours & transport'];
 const next = [
-  'We ask ChatGPT, Claude, Perplexity, Gemini, Copilot and Google AI Overviews the questions visitors ask.',
-  'We score whether you’re mentioned, recommended and described accurately.',
+  `We write ${freeCheck.questions} traveller-style questions for your region and category, and put them to AI assistants.`,
+  'We check whether each answer mentions you, recommends you and describes you accurately.',
+  `You get a short branded report with what we found and your top fixes. ${freeCheck.delivery}`,
 ];
 ---
-<FindableLayout title="Free visibility check" current="check" description="Find out what AI assistants say about your tourism business. Tell us who you are and what visitors ask, and we’ll send your score and top three fixes.">
+<FindableLayout title="Free visibility check" current="check" description="Find out what AI assistants say about your tourism business. A free check of three traveller-style questions, with a short report and your top fixes. One free check per business.">
 
   <section class="f-wrap f-stack head">
     <span class="f-lbl c-forest">Free visibility check</span>
     <h1 class="f-d head__t">What does AI say about you?</h1>
-    <p class="f-lede head__lede">Tell us who you are and what visitors ask. We’ll test it across six AI platforms and send your score and top three fixes.</p>
+    <p class="f-lede head__lede">Tell us about your business. We’ll put three traveller-style questions to AI assistants and send you a short report: what they said about you, what’s wrong or missing, and your top fixes. Free, one check per business.</p>
   </section>
 
   <section class="f-wrap body" aria-label="Request your free check">
@@ -61,7 +63,7 @@ const next = [
         <div class="f-field">
           <label for="q">What would a visitor ask AI to find you?</label>
           <textarea id="q" name="question" class="f-in" rows="3" maxlength="500" aria-describedby="q-hint" placeholder="e.g. Best guided mountain bike tour in Rotorua for beginners"></textarea>
-          <span class="f-hint" id="q-hint">Optional. We’ll also test the common questions for your category.</span>
+          <span class="f-hint" id="q-hint">Optional. We’ll use it as one of your three questions if it fits.</span>
         </div>
         <div class="f-field">
           <label for="em">Email for your results</label>
@@ -70,15 +72,15 @@ const next = [
           <p class="f-err" id="em-err"></p>
         </div>
         <div class="f-row f-row-t">
-          <button type="submit" class="f-btn f-btn-p" data-submit><span data-submit-label>Run my free check</span> <span aria-hidden="true">→</span></button>
+          <button type="submit" class="f-btn f-btn-p" data-submit><span data-submit-label>Request my free check</span> <span aria-hidden="true">→</span></button>
           <p class="form__status" role="status" aria-live="polite" data-status></p>
         </div>
-        <p class="f-hint">We’ll only use these details to run your check and send your results. We never share your details. See our <a href="/privacy/">privacy notice</a>.</p>
+        <p class="f-hint">One free check per business. We’ll only use these details to run your check, send your report and follow up about it. We never share your details. See our <a href="/privacy/">privacy notice</a>.</p>
       </form>
       <div id="check-done" class="done" hidden tabindex="-1">
         <span class="f-lbl c-forest">Request received</span>
         <p class="f-d done__t">Thanks. Your check is in the queue.</p>
-        <p>We’ll email your score and top three fixes within <span class="f-ph">[TIMEFRAME]</span>.</p>
+        <p>We’ll email your report and top fixes. {freeCheck.delivery}</p>
       </div>
     </div>
 
@@ -87,18 +89,15 @@ const next = [
         <h2 class="f-lbl c-lime">What happens next</h2>
         <ol role="list">
           {next.map((n, i) => <li><span class="f-d" aria-hidden="true">0{i + 1}</span><span>{n}</span></li>)}
-          <li><span class="f-d" aria-hidden="true">03</span><span>Your score and top three fixes land in your inbox within <span class="f-ph">[TIMEFRAME]</span>.</span></li>
         </ol>
       </div>
       <div class="preview">
-        <h2 class="f-lbl c-violet-ink">Preview of your results</h2>
-        <p class="preview__score"><span class="f-d preview__n f-ph">[00]</span><span>/ 100</span></p>
-        <div class="f-row f-row-t">
-          <span class="f-tag t-lime">Recommended ×<span class="f-ph">[n]</span></span>
-          <span class="f-tag preview__w">Mentioned ×<span class="f-ph">[n]</span></span>
-          <span class="f-tag t-alert">Not found ×<span class="f-ph">[n]</span></span>
-        </div>
-        <p class="preview__p">Plus the exact AI answers for each question, and which competitors were named instead.</p>
+        <h2 class="f-lbl c-violet-ink">After your report</h2>
+        <p class="preview__p">Act on the fixes yourself, or take it further:</p>
+        <ul role="list" class="preview__list">
+          {offers.slice(1).map((o) => <li><strong>{o.name}</strong> <span>({o.price})</span>: {o.blurb}</li>)}
+        </ul>
+        <a href="/findable/pricing/" class="preview__more">Compare the options <span aria-hidden="true">→</span></a>
       </div>
     </aside>
   </section>
@@ -134,11 +133,8 @@ const next = [
   .next ol { margin: 0; padding: 0; display: flex; flex-direction: column; gap: 20px; }
   .next li { display: flex; gap: 16px; align-items: start; font-size: 16px; line-height: 1.5; }
   .next .f-d { font-size: 32px; line-height: 1; color: var(--f-lime); font-weight: 600; flex: none; }
-  .next .f-ph { background: rgb(255 255 255 / 0.15); }
   .preview { background: var(--f-cream); border-radius: var(--f-radius); padding: clamp(20px, 3vw, 32px); display: flex; flex-direction: column; gap: 16px; }
-  .preview__score { margin: 0; display: flex; align-items: end; gap: 8px; color: var(--f-ink-2); }
-  .preview__score > span:last-child { padding-bottom: 8px; }
-  .preview__n { font-size: 72px; line-height: 0.9; color: var(--f-ink); }
-  .preview__w { background: #fff; color: var(--f-ink); }
-  .preview__p { margin: 0; font-size: 14px; line-height: 1.5; }
+  .preview__p { margin: 0; font-size: 15px; line-height: 1.5; }
+  .preview__list { margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; font-size: 15px; line-height: 1.5; }
+  .preview__more { font-weight: 600; font-size: 15px; }
 </style>

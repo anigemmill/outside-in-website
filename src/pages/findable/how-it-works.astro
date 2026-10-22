@@ -1,6 +1,7 @@
 ---
 /** FINDABLE: How it works, from the HowItWorks mockup. See the note in index.astro. */
 import FindableLayout from '../../layouts/FindableLayout.astro';
+import { offers, freeCheck } from '../../data/findable';
 
 const questions = [
   'Best guided mountain bike tour in Rotorua?',
@@ -17,14 +18,13 @@ const fixes = [
   'Correct hours and pricing on your Google Business Profile',
   'Get listed on the regional tourism site’s activity directory',
 ];
-const months = [30, 38, 52, 61, 78];
 const terms = [
   { t: 'AI visibility', d: 'How often, and how well, AI assistants mention and recommend you.' },
   { t: 'AEO', d: 'Answer engine optimisation: making your information easy for AI to quote as the answer.' },
   { t: 'GEO', d: 'Generative engine optimisation: shaping how AI describes and recommends you.' },
 ];
 ---
-<FindableLayout title="How it works" current="how" description="How Findable works: we test the questions visitors ask AI assistants, score how your tourism business shows up, give you a ranked fix list and track the change.">
+<FindableLayout title="How it works" current="how" description="How Findable works: we put traveller-style questions to AI assistants, check whether your tourism business is mentioned, recommended and described accurately, and give you a ranked fix list.">
 
   <section class="f-wrap f-stack head">
     <span class="f-lbl c-forest">How it works</span>
@@ -37,7 +37,7 @@ const terms = [
       <div class="f-stack step__text">
         <span class="f-d step__n" aria-hidden="true">01</span>
         <h2 class="f-d step__t">Ask what visitors ask</h2>
-        <p>We build a question set for your region and category (“best family activity in Rotorua”, “where to stay near the lakes”) and put each one to every major AI.</p>
+        <p>We write traveller-style questions for your region and category (“best family activity in Rotorua”, “where to stay near the lakes”) and put them to AI assistants. The free check covers {freeCheck.questions} questions.</p>
       </div>
       <div class="qs">
         <span class="f-lbl c-violet-ink">Question set · example</span>
@@ -47,8 +47,8 @@ const terms = [
     <li class="step">
       <div class="f-stack step__text">
         <span class="f-d step__n" aria-hidden="true">02</span>
-        <h2 class="f-d step__t">Score how you show up</h2>
-        <p>Each answer is scored on three things: are you mentioned, are you recommended, and is what the AI says about you correct?</p>
+        <h2 class="f-d step__t">Check how you show up</h2>
+        <p>Each answer is checked for three things: are you mentioned, are you recommended, and is what the AI says about you correct?</p>
       </div>
       <ul role="list" class="scores">
         {scores.map((s) => <li style={`background:${s.bg}`}><span class="f-lbl">{s.t}</span><span>{s.d}</span></li>)}
@@ -58,7 +58,7 @@ const terms = [
       <div class="f-stack step__text">
         <span class="f-d step__n" aria-hidden="true">03</span>
         <h2 class="f-d step__t">Fix the sources</h2>
-        <p>You get a ranked fix list (the few changes most likely to move your score) with plain-English steps. Do them yourself, or have us do them.</p>
+        <p>You get a short, ranked fix list with plain-English steps: usually changes to your website, Google Business Profile and listings. Do them yourself, or ask us for a quote to do them for you.</p>
       </div>
       <ol role="list" class="fixes" aria-label="Example fix list">
         {fixes.map((f, i) => <li><span class="f-d" aria-hidden="true">{i + 1}</span>{f}</li>)}
@@ -67,16 +67,14 @@ const terms = [
     <li class="step">
       <div class="f-stack step__text">
         <span class="f-d step__n" aria-hidden="true">04</span>
-        <h2 class="f-d step__t">Track the change</h2>
-        <p>We re-run your question set every month. You see your score move, which fixes worked and where competitors are gaining.</p>
+        <h2 class="f-d step__t">Keep going</h2>
+        <p>If you want ongoing help, the monthly subscription turns what we found into an action plan and measures each change against a baseline, so you can see what moved and what didn’t. Month to month, cancel any time.</p>
       </div>
-      <figure class="trend">
-        <span class="f-lbl">Score over time · illustrative</span>
-        <div class="trend__bars" aria-hidden="true">
-          {months.map((h, i) => <span style={`height:${h}%`} class={i === months.length - 1 ? 'is-now' : ''}></span>)}
-        </div>
-        <figcaption>Month 1 → Month 5</figcaption>
-      </figure>
+      <div class="sub">
+        <span class="f-lbl c-lime">{offers[1].name}</span>
+        <ul role="list">{offers[1].items.map((i) => <li>{i}</li>)}</ul>
+        <a href="/findable/pricing/" class="f-btn f-btn-p">See pricing and options <span aria-hidden="true">→</span></a>
+      </div>
     </li>
   </ol>
 
@@ -94,7 +92,7 @@ const terms = [
 
   <section class="f-wrap end" aria-labelledby="end-title">
     <h2 id="end-title" class="f-d f-hmd">Start with your free check.</h2>
-    <a href="/findable/check/" class="f-btn f-btn-s">Run my free check <span aria-hidden="true">→</span></a>
+    <a href="/findable/check/" class="f-btn f-btn-s">Get my free check <span aria-hidden="true">→</span></a>
   </section>
 </FindableLayout>
 
@@ -123,10 +121,10 @@ const terms = [
   .fixes li { background: #fff; border: 1px solid var(--f-line); border-radius: 16px; padding: 16px 20px; display: flex; gap: 16px; align-items: center; font-size: 15px; }
   .fixes .f-d { font-size: 24px; font-weight: 600; flex: none; }
 
-  .trend { margin: 0; background: var(--f-blue); color: #fff; border-radius: var(--f-radius); padding: clamp(20px, 3vw, 32px); display: flex; flex-direction: column; gap: 20px; font-size: 14px; }
-  .trend__bars { display: flex; align-items: end; gap: 12px; height: 160px; }
-  .trend__bars span { flex: 1; background: rgb(255 255 255 / 0.35); border-radius: 8px 8px 0 0; }
-  .trend__bars .is-now { background: var(--f-lime); }
+  .sub { background: var(--f-forest); color: var(--f-paper); border-radius: var(--f-radius); padding: clamp(20px, 3vw, 32px); display: flex; flex-direction: column; gap: 20px; align-items: start; }
+  .sub ul { margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; font-size: 15px; line-height: 1.45; }
+  .sub li { display: flex; gap: 10px; }
+  .sub li::before { content: '✓'; color: var(--f-lime); font-weight: 700; }
 
   .gloss-wrap { padding-bottom: 72px; }
   .gloss { background: var(--f-forest); color: var(--f-paper); border-radius: var(--f-radius); padding: clamp(24px, 4vw, 48px); display: flex; flex-direction: column; gap: 32px; }

@@ -1,27 +1,28 @@
 ---
 /**
  * FINDABLE: About, from the About mockup, with the contact form
- * (Netlify Forms, form name "findable-contact"). The founder section stays a
- * visible placeholder until Ani supplies a real photo and bio.
+ * (Netlify Forms, form name "findable-contact"). No founder photo for now.
+ * The founding story must stay to what Ani confirms: tourism and digital
+ * marketing experience plus AI research; no claimed visitor observations.
  */
 import FindableLayout from '../../layouts/FindableLayout.astro';
 import { site } from '../../config/site';
 
 const values = [
-  { t: 'Grounded', d: 'Real places, real operators, real results. No hype.', cls: 'v1' },
+  { t: 'Grounded', d: 'Built in and for New Zealand tourism. No hype, no scare tactics.', cls: 'v1' },
   { t: 'Sharp', d: 'Clear advice you can act on this week, in plain English.', cls: 'v2' },
-  { t: 'Proven', d: 'Every claim backed by a test you can see. No guarantees we can’t keep.', cls: 'v3' },
+  { t: 'Honest', d: 'We show you the AI answers we found, not just a verdict. No guarantees we can’t keep.', cls: 'v3' },
 ];
 const types = ['Tourism operator', 'Destination / RTO', 'Agency', 'Other'];
 ---
-<FindableLayout title="About" current="about" description="Findable is made in New Zealand tourism, for tourism. Get in touch about AI visibility for your business, destination or clients.">
+<FindableLayout title="About" current="about" description="Findable is made in New Zealand tourism, for tourism, by Ani Gemmill of Outside In. Get in touch about AI visibility for your tourism business.">
 
   <section class="f-wrap head" aria-labelledby="about-title">
     <div class="f-stack">
       <span class="f-lbl c-forest">About</span>
       <h1 id="about-title" class="f-d head__t">Made in tourism, for tourism.</h1>
     </div>
-    <p class="head__p">Findable started inside New Zealand tourism, not a tech company. We saw visitors planning trips with AI, and great local operators missing from the answers. Our job is to close that gap, practically and honestly.</p>
+    <p class="head__p">Findable comes from tourism and digital marketing experience, and from research into how AI is changing the way travellers discover where to go. Its job is practical: help New Zealand tourism businesses see what AI tools say about them, and fix what’s wrong.</p>
   </section>
 
   <ul role="list" class="f-wrap values">
@@ -35,14 +36,9 @@ const types = ['Tourism operator', 'Destination / RTO', 'Agency', 'Other'];
   </ul>
 
   <section class="f-wrap founder" aria-labelledby="founder-title">
-    <div class="founder__photo" role="img" aria-label="Photo placeholder: founder on a Rotorua trail">
-      <span class="f-lbl c-forest f-ph">[Founder photo, real, on location]</span>
-    </div>
-    <div class="f-stack founder__text">
-      <span class="f-lbl c-forest">Who’s behind it</span>
-      <h2 id="founder-title" class="f-d founder__name"><span class="f-ph">[Founder name]</span></h2>
-      <p><span class="f-ph">[Short bio: tourism marketing background, operators worked with, why this matters to you. Keep it credible and specific.]</span></p>
-    </div>
+    <span class="f-lbl c-forest">Who’s behind it</span>
+    <h2 id="founder-title" class="f-d founder__name">Ani Gemmill</h2>
+    <p>Ani is the founder of Findable and of <a href="/">Outside In</a>, a creative, marketing and AI studio in Aotearoa New Zealand. Findable brings together her experience in tourism and digital marketing with a close interest in AI and how it is changing the way travellers decide where to go and what to do.</p>
   </section>
 
   <section id="contact" class="contact" aria-labelledby="contact-title">
@@ -120,11 +116,9 @@ const types = ['Tourism operator', 'Destination / RTO', 'Agency', 'Other'];
   .v2 { background: var(--f-lime); }
   .v3 { background: var(--f-blue); color: #fff; }
 
-  .founder { padding-bottom: 72px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 32px; align-items: center; }
-  .founder__photo { background: var(--f-mint); border-radius: var(--f-radius); min-height: clamp(260px, 30vw, 380px); display: flex; align-items: center; justify-content: center; padding: 24px; text-align: center; }
-  .founder__text { gap: 16px; }
+  .founder { padding-bottom: 72px; display: flex; flex-direction: column; gap: 16px; }
   .founder__name { margin: 0; font-size: clamp(36px, 4vw, 48px); line-height: 1; }
-  .founder__text p { margin: 0; font-size: 17px; line-height: 1.6; color: var(--f-ink-2); }
+  .founder p { margin: 0; font-size: 17px; line-height: 1.6; color: var(--f-ink-2); max-width: 680px; }
 
   .contact { background: var(--f-ink); color: var(--f-paper); scroll-margin-top: 0; }
   .contact__in { padding-block: clamp(64px, 8vw, 96px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 48px; }

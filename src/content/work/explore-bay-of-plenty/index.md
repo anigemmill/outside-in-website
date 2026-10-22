@@ -1,5 +1,5 @@
 ---
-# Selected work, from Ani's portfolio brief (22 Oct 2026). Cover is a placeholder until the real image arrives.
+# Selected work, from Ani's portfolio brief (22 Oct 2026). Images supplied by Ani, 22 Oct 2026.
 title: "Explore Bay of Plenty"
 summary: "A free destination app helping visitors and locals discover more of the Bay of Plenty."
 status: client
@@ -7,8 +7,8 @@ client: "Explore Bay of Plenty"
 sector: "Tourism"
 type: "Destination App, Content Strategy & Digital Marketing"
 categories: ["marketing-growth", "design-creative"]
-cover: ./cover.svg
-coverAlt: "Placeholder cover for Explore Bay of Plenty; project image to come."
+cover: ./cover.jpg
+coverAlt: "The Explore Bay of Plenty app held up over a kayak on a bush-lined river, showing activities, food and drink, tracks and deals."
 featured: false
 order: 3
 role: "Contributed across product planning, content, design and the digital marketing rollout, helping translate the region\u2019s tourism offering into a useful, accessible mobile experience."

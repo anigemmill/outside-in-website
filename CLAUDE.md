@@ -75,7 +75,7 @@ Everything else: white `#FFFFFF` background, ink `#17131F` text, ink-soft `#4B45
 - **Contrast rule:** ink reads on all four colours (4.6:1 or better). The colour pairs themselves are only 2–3:1, so use them for the logo and large colour fields only, never for text.
 
 **Layout.**
-- **Homepage:** full-screen hero (logo animation and one line) → one statement → two large work images → Findable feature → three services in a row → footer call to action. Keep it this simple; Ani found earlier versions too busy.
+- **Homepage (the "Showcase" effects version, which Ani asked to keep on 22 Oct 2026):** the hero logo glides into the header → statement with a colour wipe → project stack (pinned scroll, real project covers) → Outside/Inside lens on two featured projects → Findable feature (in Findable's own brand) → drift field → notched service cards → line-by-line statements → call-to-action card → slim footer. The section list and spec are at the top of `src/pages/index.astro` and in `docs/homepage-v2-spec.md`. The "How we think" strip and the social fan are hidden (`show: false` in `src/data/home.ts`) until Ani writes the beliefs and supplies posts. Some homepage images (lens inside layers, drift, service cards) are still labelled placeholders listed in `src/assets/home/manifest.json`.
 - **Header:** logo on the left (hidden on the homepage until you scroll past the hero), plain text links, and one ink "Let's talk" pill.
 - **Footer:** ink background with pink text, call to action, links, email and the Outside/Inside switch. No Behance link (Ani doesn't want visitors sent off the site).
 - **Inner pages:** quiet page headers; two-column rows (label left, content right); one colour moment per page.
@@ -95,10 +95,10 @@ Everything else: white `#FFFFFF` background, ink `#17131F` text, ink-soft `#4B45
 
 - **16 selected projects (published, `status: client`)** from Ani's portfolio brief of 22 Oct 2026, in her order: Ride Retreat, Ride Retreat | The Journey, Explore Bay of Plenty, Digital Visitor Information Kiosks (Tourism Bay of Plenty), Flavours of Plenty 2025, Te Puia Digital Marketing & Growth, Te Puia China-Facing Website, Rotorua Walking Tours, Empty Plate Club, CrossFit Nationals, Run for Reido 2025, Wings for Life World Run, Negative Split Carbon, Our Tauranga Region, Grassroots Trust Velodrome, Athlete Experience (Nduro Events). The copy is Ani's own; don't add to it.
 - These include in-house roles, collaborations and her own venture, so pages say "Selected work", not "Client work".
-- **Covers:** placeholder SVGs labelled "Image to come" until Ani sends the images. Replace each `cover.svg` with the real image, update `cover` and `coverAlt`, and add `gallery` images.
+- **Images (22 Oct 2026):** real covers and galleries for The Journey, Explore Bay of Plenty, Kiosks, Flavours of Plenty (includes the Sunseeker can, a festival collaboration), Rotorua Walking Tours, Empty Plate Club, Run for Reido, Wings for Life and Negative Split Carbon. Covers are 1600×1000 JPGs (cropped, or padded with the image's own background). Still placeholders ("Image to come"): Ride Retreat, both Te Puia projects, CrossFit Nationals, Our Tauranga Region, Grassroots Trust Velodrome, Nduro.
 - **Te Puia results** are held behind `resultsConfirmed: false`. They show on previews only, flagged, until Ani confirms the measurement periods and attribution.
 - **Concepts:** Quiet Machine and Field Notes stay published (they carry the AI story). After Steam, Loud Weekend, Off Season and Tidewater are `draft: true`. Sunseeker beer label stays a draft; it wasn't in the brief.
-- Homepage featured work: Ride Retreat and Flavours of Plenty.
+- Homepage featured work: Flavours of Plenty and Rotorua Walking Tours. The homepage project stack shows only projects with real covers.
 
 ## Findable
 

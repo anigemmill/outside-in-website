@@ -1,5 +1,5 @@
 ---
-# Selected work, from Ani's portfolio brief (22 Oct 2026). Cover is a placeholder until the real image arrives.
+# Selected work, from Ani's portfolio brief (22 Oct 2026). Images supplied by Ani, 22 Oct 2026.
 title: "Digital Visitor Information Kiosks"
 summary: "A network of 24/7 touchscreen visitor information kiosks across Tauranga."
 status: client
@@ -7,8 +7,8 @@ client: "Tourism Bay of Plenty"
 sector: "Tourism"
 type: "Digital Experience, Content Strategy & Wayfinding"
 categories: ["marketing-growth", "design-creative"]
-cover: ./cover.svg
-coverAlt: "Placeholder cover for Digital Visitor Information Kiosks; project image to come."
+cover: ./cover.jpg
+coverAlt: "A visitor using the touchscreen visitor information kiosk at Tauranga Airport."
 featured: false
 order: 4
 approach: "Developed and maintained digital visitor information designed to help people navigate the region, discover attractions and experiences, find events and engage with local stories. The project focused on making useful tourism information accessible at the moments people need it, including when arriving in the region."

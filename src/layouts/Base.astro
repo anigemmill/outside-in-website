@@ -15,9 +15,11 @@ interface Props {
   schema?: Record<string, unknown>[];
   /** Homepage: the header floats over the full-screen hero. */
   home?: boolean;
+  /** Footer without its big call to action (the page has its own). */
+  slimFooter?: boolean;
 }
 
-const { title, description = site.seo.defaultDescription, image = site.seo.ogImage, noindex = false, schema = [], home = false } = Astro.props;
+const { title, description = site.seo.defaultDescription, image = site.seo.ogImage, noindex = false, schema = [], home = false, slimFooter = false } = Astro.props;
 
 const pageTitle = title ? `${title} | ${site.name}` : site.seo.defaultTitle;
 const hasDomain = Boolean(site.url);
@@ -86,7 +88,7 @@ const todo = import.meta.env.DEV ? outstandingPlaceholders() : [];
     <main id="main" tabindex="-1">
       <slot />
     </main>
-    <Footer />
+    <Footer slim={slimFooter} />
 
     <script>
       import '../scripts/site';

@@ -1,0 +1,145 @@
+---
+/**
+ * 04 Project stack (work index). Website screenshots in a stack tilted back.
+ * The section pins while you scroll; each project rises flat to the centre,
+ * then flies up and out as the next one rises.
+ *
+ * Without JavaScript, or with reduced motion, it's a flat two-column grid of links.
+ * The per-card keyframes are generated below from the number of projects, so the
+ * stack shortens itself when there are fewer projects.
+ */
+import { Image } from 'astro:assets';
+import { home } from '../../data/home';
+import Note from '../Note.astro';
+import { getWork } from '../../data/work';
+
+// Up to ten selected projects, in portfolio order, that have a real cover image
+// (placeholder SVG covers are skipped). The stack grows as images are added.
+const projects = (await getWork())
+  .filter((p) => p.data.status === 'client' && p.data.cover.format !== 'svg')
+  .slice(0, 10)
+  .map((p) => ({ cover: p.data.cover, client: p.data.title, type: p.data.sector, href: `/projects/${p.id}/` }));
+const n = projects.length;
+const nMobile = Math.min(5, n);
+
+/** Card i's timeline. Cards start 0.6 units apart, so the next card rises while
+    the current one flies out. Each card: pile → flat at the centre → out. */
+function keyframes(prefix: string, count: number) {
+  const T = 0.6 * (count - 1) + 0.8;
+  const opacity = (d: number) => (d <= 3 ? 1 : d >= 4 ? 0 : 4 - d);
+  const pile = (d: number) =>
+    `transform: translateY(calc(var(--pile-y) + ${d.toFixed(3)} * var(--gap-y))) translateZ(${(-d * 70).toFixed(1)}px) rotateX(var(--tilt)) scale(0.7); opacity: ${opacity(d).toFixed(3)};`;
+  const flat = 'transform: translateY(0px) translateZ(0px) rotateX(0deg) scale(1); opacity: 1;';
+  const out = 'transform: translateY(-130vh) translateZ(0px) rotateX(-12deg) scale(1); opacity: 1;';
+  let css = '';
+  for (let i = 0; i < count; i++) {
+    const at = (u: number) => (u + 0.6 * i) / T;
+    const pts: [number, string][] = [[0, pile(i)]];
+    for (const d of [4, 3]) if (i > d) pts.push([at(-0.6 * d), pile(d)]);
+    pts.push([at(0), pile(0) + ' animation-timing-function: cubic-bezier(0.3, 0, 0.2, 1);']);
+    pts.push([at(0.6), flat + (i < count - 1 ? ' animation-timing-function: cubic-bezier(0.55, 0, 0.8, 0.4);' : '')]);
+    if (i < count - 1) pts.push([at(1), out]);
+    const last = pts[pts.length - 1][1].split(' animation-timing-function:')[0];
+    if (pts[pts.length - 1][0] < 1) pts.push([1, last]);
+    const frames = pts
+      .filter(([p]) => p >= 0 && p <= 1)
+      .map(([p, s]) => (p * 100).toFixed(3) + '% { ' + s + ' }')
+      .join(' ');
+    css += '@keyframes ' + prefix + '-' + i + ' { ' + frames + ' }\n';
+  }
+  return { css, T };
+}
+const desk = keyframes('stack-d', n);
+const mob = keyframes('stack-m', nMobile);
+const stackCss = desk.css + mob.css;
+---
+<section
+  class="stack"
+  id="work"
+  data-stack
+  data-t-desk={desk.T}
+  data-t-mob={mob.T}
+  style={`--n: ${n}; --n-mob: ${nMobile};`}
+  aria-labelledby="stack-title"
+>
+  <div class="stack__stage">
+    <div class="stack__head wrap">
+      <h2 id="stack-title" class="stack__label mono">{home.stack.label}</h2>
+      <p class="stack__now mono" aria-hidden="true">
+        <span data-stack-count>01</span>
+        <span data-stack-client>{projects[0].client}</span>
+        <span data-stack-type>{projects[0].type}</span>
+      </p>
+      <p class="stack__total mono"><span data-stack-total>{n}</span> projects</p>
+    </div>
+    <ul class="stack__list wrap" role="list">
+      {projects.map((p, i) => (
+          <li
+            class:list={['stack__item', { 'stack__item--desk': i >= nMobile }]}
+            style={`--i: ${i}; --kd: stack-d-${i}; --km: stack-m-${Math.min(i, nMobile - 1)};`}
+            data-stack-item
+            data-client={p.client}
+            data-type={p.type}
+          >
+            <a class="stack__card scrub" href={p.href} aria-label={`${p.client}, ${p.type}`}>
+              <Image
+                src={p.cover}
+                alt=""
+                {...(p.cover.format === 'svg' ? {} : { widths: [640, 1024, 1600], sizes: '(max-width: 760px) 86vw, min(64vw, 960px)' })}
+                loading={i < 3 ? 'eager' : 'lazy'}
+                class="stack__img"
+              />
+              <span class="stack__cap"><span>{p.client}</span><span>{p.type}</span></span>
+            </a>
+          </li>
+      ))}
+    </ul>
+  </div>
+  <div class="wrap"><Note>Projects in a pile, one at a time. Range shows faster than a list, and the pinned scroll makes people slow down for each one.</Note></div>
+</section>
+
+<style is:inline set:html={stackCss}></style>
+
+<style>
+  /* Flat grid: no JavaScript, reduced motion, or before the script runs. */
+  .stack { padding-block: clamp(4rem, 8vw, 7rem); }
+  .stack__head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin-bottom: 2rem; }
+  .stack__label { font-family: var(--font-mono); font-size: var(--step--1); font-weight: 500; letter-spacing: 0.02em; }
+  .stack__now { display: none; }
+  .stack__total { color: var(--muted); }
+  .stack__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1rem, 2.5vw, 2rem); }
+  .stack__card { display: grid; gap: 0.6rem; text-decoration: none; color: var(--fg); }
+  .stack__img { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 10px; box-shadow: 0 0 0 1px var(--line); }
+  .stack__cap { display: flex; justify-content: space-between; gap: 1rem; font-size: var(--step--1); }
+  .stack__cap span + span { color: var(--muted); }
+  .stack__card:hover .stack__cap span:first-child { color: var(--link); }
+  @media (max-width: 760px) { .stack__list { grid-template-columns: 1fr; } }
+
+  /* Live: pinned stack. Added by src/scripts/home.ts. */
+  .stack.is-live {
+    --tl: --stack; --range: contain 0% contain 100%;
+    --tilt: 55deg; --pile-y: 26vh; --gap-y: 3.2vh;
+    view-timeline: --stack block;
+    height: calc(100vh + var(--n) * 50vh); padding: 0;
+  }
+  .is-live .stack__stage { position: sticky; top: 0; height: 100vh; overflow: clip; display: grid; grid-template-rows: auto 1fr; padding-top: 6rem; }
+  .is-live .stack__head { position: relative; z-index: 2; margin: 0; }
+  .is-live .stack__now { display: flex; gap: 1.25rem; transition: opacity 0.15s linear; }
+  .is-live .stack__now.is-swapping { opacity: 0; }
+  .is-live .stack__now [data-stack-count] { color: var(--accent); }
+  .is-live .stack__list { position: relative; display: block; perspective: 1400px; perspective-origin: 50% 10%; }
+  .is-live .stack__item { position: absolute; left: 50%; top: 46%; width: min(64vw, 960px, 112vh); translate: -50% -50%; z-index: calc(100 - var(--i)); }
+  .is-live .stack__card { animation-name: var(--kd); transform-origin: 50% 100%; pointer-events: none; will-change: transform; }
+  .is-live .stack__item.is-active .stack__card { pointer-events: auto; }
+  .is-live .stack__img { box-shadow: 0 30px 60px -30px rgb(23 19 31 / 0.45), 0 0 0 1px var(--line); }
+  .is-live .stack__cap { display: none; }
+
+  @media (max-width: 760px) {
+    .stack.is-live { --tilt: 35deg; --pile-y: 20vh; --gap-y: 2.6vh; height: calc(100vh + var(--n-mob) * 50vh); }
+    .is-live .stack__item { width: 86vw; }
+    .is-live .stack__item--desk { display: none; }
+    .is-live .stack__card { animation-name: var(--km); }
+    .is-live .stack__now { gap: 0.75rem; }
+    .is-live .stack__total { display: none; }
+  }
+</style>

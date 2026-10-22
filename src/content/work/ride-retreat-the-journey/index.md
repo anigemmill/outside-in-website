@@ -1,5 +1,5 @@
 ---
-# Selected work, from Ani's portfolio brief (22 Oct 2026). Cover is a placeholder until the real image arrives.
+# Selected work, from Ani's portfolio brief (22 Oct 2026). Images supplied by Ani, 22 Oct 2026.
 title: "Ride Retreat | The Journey"
 summary: "A mobile-first digital concierge that brings the whole retreat experience into one place."
 status: client
@@ -7,8 +7,8 @@ client: "Ride Retreat"
 sector: "Tourism"
 type: "Digital Product, UX & Guest Experience"
 categories: ["design-creative"]
-cover: ./cover.svg
-coverAlt: "Placeholder cover for Ride Retreat | The Journey; project image to come."
+cover: ./cover.jpg
+coverAlt: "The Journey app welcome screen for Ride Retreat on a phone, showing a rider in the Redwoods and a “Let’s ride” button."
 featured: false
 order: 2
 approach: "The Journey was designed around the guest, making everything needed before, during and after a retreat easy to access."

@@ -1,48 +1,60 @@
 ---
 /**
  * A featured block introducing Findable, linking to /findable/.
- * Used on the homepage and at the top of /projects.
+ * Used on the homepage and at the top of /projects. It wears Findable's own
+ * brand (lavender, forest, lime; Inter Tight), not Outside In's, so it reads as
+ * a separate product inside the studio's site.
  */
+import '@fontsource-variable/inter';
+import '@fontsource-variable/inter-tight';
+
 interface Props { headingLevel?: 'h2' | 'h3' }
 const { headingLevel: H = 'h2' } = Astro.props;
 ---
 <a class="ffeat" href="/findable/">
   <span class="ffeat__mark" aria-hidden="true">
-    <span class="ffeat__word">Findable</span>
-    <span class="ffeat__bars"><i></i><i></i><i></i></span>
+    <span class="ffeat__word">Be the<br />answer<span>.</span></span>
   </span>
   <span class="ffeat__body">
-    <span class="ffeat__tags"><span class="tag ffeat__tag">Our own product</span><span class="tag ffeat__tag">Tourism</span></span>
-    <H class="ffeat__title">Findable</H>
-    <span class="ffeat__text">AI visibility for tourism. Visitors now ask AI assistants where to go; Findable shows tourism businesses whether they’re in the answer, and what to fix so they are.</span>
-    <span class="ffeat__more">See Findable <span aria-hidden="true">→</span></span>
+    <span class="ffeat__lbl">Our own product · AI visibility for tourism</span>
+    <H class="ffeat__title">Findable<span aria-hidden="true">.</span></H>
+    <span class="ffeat__text">Travellers are asking AI where to go. Findable shows New Zealand tourism businesses whether AI tools recommend them and describe them accurately, and what to fix.</span>
+    <span class="ffeat__btn">See Findable <span aria-hidden="true">→</span></span>
   </span>
 </a>
 
 <style>
   .ffeat {
+    --f-lav: #e7e4fc; --f-ink: #15161a; --f-ink-2: #3a3b40; --f-forest: #1e4b3a; --f-lime: #d6f36b;
     display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(1.5rem, 4vw, 3.5rem); align-items: center;
-    text-decoration: none; color: var(--fg);
+    padding: clamp(1rem, 2vw, 1.5rem); border-radius: 28px; background: var(--f-lav); color: var(--f-ink); text-decoration: none;
+    font-family: 'Inter Variable', system-ui, sans-serif;
   }
   .ffeat__mark {
-    position: relative; display: grid; place-items: center; aspect-ratio: 4 / 3; overflow: hidden;
-    background: var(--ink); color: var(--green); border-radius: var(--radius);
+    display: flex; align-items: flex-end; aspect-ratio: 4 / 3; overflow: hidden; padding: clamp(1.25rem, 3vw, 2.25rem);
+    background: var(--f-forest); color: var(--f-lime); border-radius: 20px;
   }
-  .ffeat__word { font-family: var(--font-display); font-weight: 600; font-size: clamp(2.2rem, 1.2rem + 4vw, 4.6rem); letter-spacing: -0.04em; position: relative; z-index: 1; }
-  /* The logo's slice, in Findable's colours: three bars, the middle one shifted. */
-  .ffeat__bars { position: absolute; left: 12%; right: 12%; bottom: 18%; display: grid; grid-template-rows: 6px 6px 6px; gap: 5px; }
-  .ffeat__bars i { display: block; background: var(--purple); width: 70%; }
-  .ffeat__bars i:nth-child(2) { background: var(--green); transform: translateX(18%); transition: transform 0.5s var(--ease-out-back); }
-  .ffeat__bars i:nth-child(3) { width: 45%; }
-  .ffeat:hover .ffeat__bars i:nth-child(2), .ffeat:focus-visible .ffeat__bars i:nth-child(2) { transform: translateX(40%); }
-  .ffeat__body { display: grid; gap: 1rem; justify-items: start; }
-  .ffeat__tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-  .ffeat__tag { background: var(--lilac); color: var(--ink); border-color: var(--lilac); }
-  .ffeat__title { font-size: var(--step-3); }
-  .ffeat__text { color: var(--muted); font-size: var(--step-1); line-height: 1.45; max-width: 40ch; }
-  .ffeat__more { color: var(--link); font-weight: 600; text-decoration: underline; text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
-  .ffeat:hover .ffeat__more { text-decoration-thickness: 2px; }
-  .ffeat:hover .ffeat__title { color: var(--link); }
-  @media (max-width: 760px) { .ffeat { grid-template-columns: 1fr; } }
-  @media (prefers-reduced-motion: reduce) { .ffeat__bars i:nth-child(2) { transition: none; } }
+  .ffeat__word {
+    font-family: 'Inter Tight Variable', 'Inter Variable', sans-serif; font-weight: 700; letter-spacing: -0.055em;
+    font-size: clamp(2.6rem, 1.2rem + 5vw, 5.6rem); line-height: 0.86;
+    transition: transform 0.5s var(--ease-out-back);
+  }
+  .ffeat__word span { color: #fff; }
+  .ffeat:hover .ffeat__word, .ffeat:focus-visible .ffeat__word { transform: translateY(-0.4rem); }
+  .ffeat__body { display: grid; gap: 1rem; justify-items: start; padding: clamp(0.5rem, 2vw, 1.5rem) clamp(0.5rem, 2vw, 1.5rem) clamp(0.5rem, 2vw, 1.5rem) 0; }
+  .ffeat__lbl { font: 500 12px/16px 'JetBrains Mono Variable', ui-monospace, monospace; letter-spacing: 0.08em; text-transform: uppercase; color: var(--f-forest); }
+  .ffeat__title { font-family: 'Inter Tight Variable', 'Inter Variable', sans-serif; font-weight: 700; letter-spacing: -0.04em; font-size: clamp(2.4rem, 1.4rem + 3vw, 4rem); line-height: 1; color: var(--f-ink); }
+  .ffeat__title span { color: var(--f-forest); }
+  .ffeat__text { color: var(--f-ink-2); font-size: var(--step-1); line-height: 1.45; max-width: 40ch; }
+  .ffeat__btn {
+    display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 12px 24px; border-radius: 999px;
+    background: var(--f-lime); color: var(--f-ink); font-weight: 600; font-size: 15px; transition: background-color 0.15s;
+  }
+  .ffeat:hover .ffeat__btn, .ffeat:focus-visible .ffeat__btn { background: #c8e85a; }
+  .ffeat:focus-visible { outline: 3px solid #7c6cf2; outline-offset: 3px; }
+  @media (max-width: 760px) {
+    .ffeat { grid-template-columns: 1fr; }
+    .ffeat__body { padding: 0.5rem; }
+  }
+  @media (prefers-reduced-motion: reduce) { .ffeat__word { transition: none; } }
 </style>

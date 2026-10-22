@@ -77,9 +77,11 @@ const ring = `M${cx - R},${cy}a${R},${R} 0 1,0 ${2 * R},0a${R},${R} 0 1,0 ${-2 *
 </svg>
 
 <style is:global>
+  @property --oi-close { syntax: '<number>'; inherits: true; initial-value: 0; }
   .oi-logo { display: block; height: auto; overflow: visible; }
   .oi-slice {
-    transform: translateX(calc(var(--oi-shift) * var(--oi-k, 1)));
+    /* --oi-k: pointer position (hero). --oi-close: 1 closes the slices (hero glide). */
+    transform: translateX(calc(var(--oi-shift) * var(--oi-k, 1) * (1 - var(--oi-close, 0))));
     transition: transform 0.55s var(--ease-out-back, cubic-bezier(0.34, 1.4, 0.64, 1));
   }
 

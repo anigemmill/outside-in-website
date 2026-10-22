@@ -19,6 +19,18 @@ const concepts = readdirSync('src/content/work').filter((d) => {
   return existsSync(f) && /status:\s*concept/.test(readFileSync(f, 'utf8'));
 });
 if (concepts.length) items.push(`${concepts.length} portfolio projects are concepts (${concepts.join(', ')}). Fine to launch with; replace or add client work when approved.`);
+// Homepage v2 placeholder images (src/assets/home/manifest.json).
+const manifestPath = 'src/assets/home/manifest.json';
+const stillPlaceholder = existsSync(manifestPath)
+  ? JSON.parse(readFileSync(manifestPath, 'utf8')).assets.filter((a) => a.placeholder)
+  : [];
+if (stillPlaceholder.length) {
+  items.push(`${stillPlaceholder.length} homepage images are still placeholders:\n` +
+    stillPlaceholder.map((a) => `     - src/assets/home/${a.file} (${a.usedIn}): ${a.replaceWith}`).join('\n'));
+}
+// Homepage copy still in [square brackets].
+const bracketed = (readFileSync('src/data/home.ts', 'utf8').match(/'[^'\n]*\[[^\]\n]+\][^'\n]*'/g) || []);
+if (bracketed.length) items.push(`${bracketed.length} homepage copy placeholders in [brackets] in src/data/home.ts.`);
 if (!val('PUBLIC_FINDABLE_APP_URL') && site.includes("'https://tourism-ai-growth-platform.vercel.app'")) items.push('Findable "Sign in" links still point at the Vercel address. Switch findableAppUrl in src/config/site.ts to https://app.theoutsidein.nz once that domain is live.');
 items.push('Review the privacy notice in src/pages/privacy.astro, especially if you add analytics.');
 items.push('Turn on form notifications in Netlify (Forms > Form notifications) so enquiries reach your inbox.');
@@ -26,3 +38,9 @@ items.push('Turn on form notifications in Netlify (Forms > Form notifications) s
 console.log('\nOutside In: pre-launch checklist\n');
 items.forEach((i) => console.log(' • ' + i));
 console.log('');
+
+// Never ship placeholder images to the live site.
+if (process.env.CONTEXT === 'production' && stillPlaceholder.length) {
+  console.error(`✗ ${stillPlaceholder.length} placeholder images remain. Replace them (and set "placeholder": false) before a production deploy.\n`);
+  process.exit(1);
+}

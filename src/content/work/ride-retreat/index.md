@@ -9,7 +9,7 @@ type: "Brand Development, Digital Strategy & Guest Experience"
 categories: ["design-creative", "marketing-growth"]
 cover: ./cover.svg
 coverAlt: "Placeholder cover for Ride Retreat; project image to come."
-featured: true
+featured: false
 order: 1
 approach: "The focus was on translating the feeling of a great riding experience into a cohesive brand and end-to-end customer journey. From positioning and storytelling to digital touchpoints, every element was designed to make the experience feel considered, premium and effortless."
 developed:

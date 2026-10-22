@@ -37,6 +37,7 @@
   --fill-fg: var(--ink);
   --slice: var(--purple-ink);    /* colour of the shifted band in headlines */
   --link: var(--purple-ink);
+  --brand-color: var(--ink);     /* header logo */
 
   /* Type ------------------------------------------------------------------ */
   --font-display: 'Bricolage Grotesque Variable', 'Arial Narrow', system-ui, sans-serif;
@@ -78,6 +79,7 @@
   --fill-fg: var(--ink);
   --slice: var(--green);
   --link: var(--green);
+  --brand-color: var(--white);
   color-scheme: dark;
 }
 
@@ -267,6 +269,17 @@ ul[role='list'], ol[role='list'] { list-style: none; padding: 0; }
 /* Reveal on scroll ---------------------------------------------------------- */
 .js [data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out); transition-delay: var(--reveal-delay, 0s); }
 .js [data-reveal].is-in { opacity: 1; transform: none; }
+
+/* Scroll-scrubbed animations ------------------------------------------------
+   An element with .scrub plays its animation-name against scroll position.
+   Where the browser supports CSS scroll-driven animations (html.sda) it uses
+   the timeline and range set by its section (--tl, --range). Elsewhere
+   (html.nosda) a small script sets --p (0 to 1) on the section and the
+   paused animation is scrubbed with a negative delay. Same keyframes either way.
+   ---------------------------------------------------------------------------- */
+.scrub { animation-duration: 1s; animation-timing-function: linear; animation-fill-mode: both; }
+.sda .scrub { animation-timeline: var(--tl); animation-range: var(--range); }
+.nosda .scrub { animation-play-state: paused; animation-delay: calc(var(--p, 0) * -1s); }
 
 /* Cross-page transitions (progressive enhancement, no JS) */
 @view-transition { navigation: auto; }

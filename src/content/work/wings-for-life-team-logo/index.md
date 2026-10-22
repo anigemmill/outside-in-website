@@ -1,5 +1,5 @@
 ---
-# Selected work, from Ani's portfolio brief (22 Oct 2026). Cover is a placeholder until the real image arrives.
+# Selected work, from Ani's portfolio brief (22 Oct 2026). Images supplied by Ani, 22 Oct 2026.
 title: "Wings for Life World Run"
 summary: "A fun, cartoon-style team logo for the Wings for Life World Run."
 status: client
@@ -7,8 +7,8 @@ client: "Wings for Life World Run team"
 sector: "Sport"
 type: "Team Logo & Illustration"
 categories: ["design-creative"]
-cover: ./cover.svg
-coverAlt: "Placeholder cover for Wings for Life World Run; project image to come."
+cover: ./cover.jpg
+coverAlt: "The team’s cartoon poster on yellow: a winged character on a cloud with the line “We’ve got the runs”."
 featured: false
 order: 12
 approach: "Created an expressive visual identity that brought personality and approachability to the team, using a bold palette and graphic elements inspired by the global running event."

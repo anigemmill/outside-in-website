@@ -1,0 +1,140 @@
+---
+/**
+ * FINDABLE: Free visibility check, from the FreeCheck mockup. The form is a
+ * request (Netlify Forms, form name "findable-check"); the check itself is run
+ * by a person, so nothing here promises an instant result. The offer and the
+ * delivery target come from src/data/findable.ts.
+ * ?website= (from the landing page's call to action) prefills the website field.
+ */
+import FindableLayout from '../../../layouts/FindableLayout.astro';
+import { site } from '../../../config/site';
+import { freeCheck, offers } from '../../../data/findable';
+
+const regions = ['Rotorua', 'Taupō', 'Queenstown', 'Auckland', 'Other'];
+const categories = ['Adventure & activities', 'Culture & attractions', 'Accommodation', 'Food & drink', 'Tours & transport'];
+const next = [
+  `We write ${freeCheck.questions} traveller-style questions for your region and category, and put them to AI assistants.`,
+  'We check whether each answer mentions you, recommends you and describes you accurately.',
+  `You get a short branded report with what we found and your top fixes. ${freeCheck.delivery}`,
+];
+---
+<FindableLayout title="Free visibility check" current="check" description="Find out what AI assistants say about your tourism business. A free check of three traveller-style questions, with a short report and your top fixes. One free check per business.">
+
+  <section class="f-wrap f-stack head">
+    <span class="f-lbl c-forest">Free visibility check</span>
+    <h1 class="f-d head__t">What does AI say about you?</h1>
+    <p class="f-lede head__lede">Tell us about your business. We’ll put three traveller-style questions to AI assistants and send you a short report: what they said about you, what’s wrong or missing, and your top fixes. Free, one check per business.</p>
+  </section>
+
+  <section class="f-wrap body" aria-label="Request your free check">
+    <div class="card">
+      <form
+        name="findable-check" method="POST" action="/findable/thanks/" novalidate
+        data-netlify="true" netlify-honeypot="company_website"
+        data-f-form data-done="check-done" data-email={site.email}
+        class="form"
+      >
+        <input type="hidden" name="form-name" value="findable-check" />
+        <p class="f-hp" aria-hidden="true"><label>Leave this empty <input name="company_website" tabindex="-1" autocomplete="off" /></label></p>
+        <p class="form__step">About your business</p>
+        <div class="f-field">
+          <label for="bn">Business name</label>
+          <input id="bn" name="business" class="f-in" type="text" placeholder="e.g. Redwoods Bike Tours" autocomplete="organization" required maxlength="160"
+            aria-describedby="bn-err" data-err="bn-err" data-missing="Please add your business name." />
+          <p class="f-err" id="bn-err"></p>
+        </div>
+        <div class="f-field">
+          <label for="web">Website</label>
+          <input id="web" name="website" class="f-in" type="text" inputmode="url" placeholder="yourbusiness.co.nz" autocomplete="url" required maxlength="300"
+            pattern={String.raw`\s*(https?://)?[^\s\/.]+(\.[^\s\/.]+)+.*`} aria-describedby="web-err" data-err="web-err"
+            data-missing="Please add your website so we know who to look for." data-invalid="That doesn’t look like a web address, e.g. yourbusiness.co.nz" />
+          <p class="f-err" id="web-err"></p>
+        </div>
+        <div class="form__row">
+          <div class="f-field">
+            <label for="reg">Region</label>
+            <select id="reg" name="region" class="f-in">{regions.map((r) => <option>{r}</option>)}</select>
+          </div>
+          <div class="f-field">
+            <label for="cat">Category</label>
+            <select id="cat" name="category" class="f-in">{categories.map((c) => <option>{c}</option>)}</select>
+          </div>
+        </div>
+        <div class="f-field">
+          <label for="q">What would a visitor ask AI to find you?</label>
+          <textarea id="q" name="question" class="f-in" rows="3" maxlength="500" aria-describedby="q-hint" placeholder="e.g. Best guided mountain bike tour in Rotorua for beginners"></textarea>
+          <span class="f-hint" id="q-hint">Optional. We’ll use it as one of your three questions if it fits.</span>
+        </div>
+        <div class="f-field">
+          <label for="em">Email for your results</label>
+          <input id="em" name="email" class="f-in" type="email" placeholder="you@yourbusiness.co.nz" autocomplete="email" required maxlength="200"
+            aria-describedby="em-err" data-err="em-err" data-missing="Please add the email we should send your results to." data-invalid="That email address doesn’t look quite right." />
+          <p class="f-err" id="em-err"></p>
+        </div>
+        <div class="f-row f-row-t">
+          <button type="submit" class="f-btn f-btn-p" data-submit><span data-submit-label>Request my free check</span> <span aria-hidden="true">→</span></button>
+          <p class="form__status" role="status" aria-live="polite" data-status></p>
+        </div>
+        <p class="f-hint">One free check per business. We’ll only use these details to run your check, send your report and follow up about it. We never share your details. See our <a href="/privacy/">privacy notice</a>.</p>
+      </form>
+      <div id="check-done" class="done" hidden tabindex="-1">
+        <span class="f-lbl c-forest">Request received</span>
+        <p class="f-d done__t">Thanks. Your check is in the queue.</p>
+        <p>We’ll email your report and top fixes. {freeCheck.delivery}</p>
+      </div>
+    </div>
+
+    <aside class="aside" aria-label="About the check">
+      <div class="next">
+        <h2 class="f-lbl c-lime">What happens next</h2>
+        <ol role="list">
+          {next.map((n, i) => <li><span class="f-d" aria-hidden="true">0{i + 1}</span><span>{n}</span></li>)}
+        </ol>
+      </div>
+      <div class="preview">
+        <h2 class="f-lbl c-violet-ink">After your report</h2>
+        <p class="preview__p">Act on the fixes yourself, or take it further:</p>
+        <ul role="list" class="preview__list">
+          {offers.slice(1).map((o) => <li><strong>{o.name}</strong> <span>({o.price})</span>: {o.blurb}</li>)}
+        </ul>
+        <a href="/findable/pricing/" class="preview__more">Compare the options <span aria-hidden="true">→</span></a>
+      </div>
+    </aside>
+  </section>
+</FindableLayout>
+
+<script>
+  import '../../../scripts/findable-form';
+  const site = new URLSearchParams(location.search).get('website');
+  const field = document.querySelector<HTMLInputElement>('#web');
+  if (site && field && !field.value) field.value = site.slice(0, 300);
+</script>
+
+<style>
+  .head { padding-block: clamp(40px, 6vw, 56px) 48px; gap: 20px; }
+  .head__t { margin: 0; font-size: clamp(44px, 7vw, 96px); line-height: 0.92; max-width: 900px; }
+  .head__lede { max-width: 640px; }
+
+  .body { padding-bottom: clamp(72px, 9vw, 112px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr)); gap: 32px; align-items: start; }
+  .card { background: #fff; border: 1px solid var(--f-line); border-radius: var(--f-radius); padding: clamp(20px, 4vw, 40px); }
+  .form { display: flex; flex-direction: column; gap: 24px; }
+  .form__step { margin: 0; font-size: 14px; color: var(--f-ink-3); }
+  .form__row { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 16px; }
+  .form__status { margin: 0; font-size: 14px; }
+  .done { display: flex; flex-direction: column; gap: 12px; }
+  .done:focus { outline: none; }
+  .done p:not(.done__t) { margin: 0; font-size: 16px; line-height: 1.5; }
+  .done__t { margin: 0; }
+  .done__t { font-size: clamp(28px, 3vw, 36px); line-height: 1.05; }
+
+  .aside { display: flex; flex-direction: column; gap: 16px; }
+  .next { background: var(--f-forest); color: var(--f-paper); border-radius: var(--f-radius); padding: clamp(20px, 3vw, 32px); display: flex; flex-direction: column; gap: 20px; }
+  .next h2, .preview h2 { margin: 0; }
+  .next ol { margin: 0; padding: 0; display: flex; flex-direction: column; gap: 20px; }
+  .next li { display: flex; gap: 16px; align-items: start; font-size: 16px; line-height: 1.5; }
+  .next .f-d { font-size: 32px; line-height: 1; color: var(--f-lime); font-weight: 600; flex: none; }
+  .preview { background: var(--f-cream); border-radius: var(--f-radius); padding: clamp(20px, 3vw, 32px); display: flex; flex-direction: column; gap: 16px; }
+  .preview__p { margin: 0; font-size: 15px; line-height: 1.5; }
+  .preview__list { margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; font-size: 15px; line-height: 1.5; }
+  .preview__more { font-weight: 600; font-size: 15px; }
+</style>

@@ -1,0 +1,16 @@
+---
+/** Where the Findable forms land when JavaScript is off. Not indexed or in the sitemap. */
+import FindableLayout from '../../layouts/FindableLayout.astro';
+---
+<FindableLayout title="Thanks" description="Your details have reached the Findable team." noindex>
+  <section class="f-wrap f-stack thanks">
+    <span class="f-lbl c-forest">Received</span>
+    <h1 class="f-d f-hxl">Thanks. We’ve got your details.</h1>
+    <p class="f-lede">We’ll be in touch by email.</p>
+    <div class="f-row">
+      <a class="f-btn f-btn-s" href="/findable/">Back to Findable</a>
+      <a class="f-btn f-btn-g" href="/">Outside In home</a>
+    </div>
+  </section>
+</FindableLayout>
+<style>.thanks { padding-block: clamp(72px, 12vw, 160px); align-items: start; }</style>

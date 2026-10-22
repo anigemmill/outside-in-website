@@ -7,8 +7,9 @@ type: Event campaign · Content system
 categories: [design-creative, marketing-growth]
 cover: ./cover.svg
 coverAlt: Bold red artwork of pink equaliser bars of varying heights under small green stars, cut by a shifted horizontal band.
-featured: true
+featured: false
 order: 4
+draft: true
 challenge: >-
   Regional festivals have a short window to sell tickets and a shorter one to
   capture the weekend. Content is often planned the week before, shot on the

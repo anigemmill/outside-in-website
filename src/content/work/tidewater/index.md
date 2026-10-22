@@ -9,6 +9,7 @@ cover: ./cover.svg
 coverAlt: Black artwork of wavy kelp-like lines in green, pink and lilac rising from the bottom, with a ringed orange dot, cut by a shifted horizontal band.
 featured: false
 order: 6
+draft: true
 challenge: >-
   A science-led startup has to convince two very different audiences at once.
   Farmers want proof it works on their land. Investors want to see a business

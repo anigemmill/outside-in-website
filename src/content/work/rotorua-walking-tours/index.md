@@ -1,23 +1,27 @@
 ---
-# DRAFT: hidden from the site until `draft` is removed. To publish:
-#   1. Replace cover.svg with the real cover image (cover.jpg/png) and update `cover`.
-#   2. Add gallery images to this folder and list them under `gallery`.
-#   3. Confirm client, sector and summary, and write 2-3 sentences below.
-#   4. Confirm you have permission to show this work, then delete `draft: true`.
-# Source: https://www.behance.net/gallery/225715055/Rotorua-Walking-Tours
-title: Rotorua Walking Tours
-summary: Design work for Rotorua Walking Tours.  # CONFIRM / expand
+# Selected work, from Ani's portfolio brief (22 Oct 2026). Images supplied by Ani, 22 Oct 2026.
+title: "Rotorua Walking Tours"
+summary: "An illustrated identity and website rooted in Rotorua\u2019s architecture and stories."
 status: client
-client: Rotorua Walking Tours  # CONFIRM exact client name
-sector: Tourism  # CONFIRM
-type: Brand & visual identity
-categories: ['design-creative']
-cover: ./cover.svg
-coverAlt: Cover image for Rotorua Walking Tours.  # UPDATE to describe the real image
-featured: false
-order: 3
-draft: true
-gallery: []
+client: "Rotorua Walking Tours"
+sector: "Tourism"
+type: "Brand Identity, Logo Design & Website"
+categories: ["design-creative"]
+cover: ./cover.jpg
+card: ./card.jpg
+coverAlt: "Rotorua Walking Tours website pages on a white background, with the illustrated logo in the header."
+featured: true
+order: 8
+approach: "The illustrated identity brings local architectural references into the brand, while the website translates the experience into a clean, intuitive digital presence."
+developed:
+  - "Custom logo design"
+  - "Brand identity development"
+  - "Website design and development"
+  - "Visual storytelling"
+  - "User-friendly digital experience"
+highlight: "A destination-led identity combining local character with a straightforward, accessible website experience."
+gallery:
+  - src: ./gallery-01.jpg
+    alt: "The Rotorua Walking Tours logo, an illustrated row of Rotorua landmarks and footprints, embossed on pink paper."
 ---
-
-<!-- TODO: 2-3 sentences. Who was it for, what did they need, what did you make? -->
+Developed a custom logo and website for Rotorua Walking Tours, creating a visual identity rooted in the destination’s architecture, character and cultural storytelling.

@@ -7,7 +7,7 @@ type: AI marketing intelligence
 categories: [ai-systems, marketing-growth]
 cover: ./cover.svg
 coverAlt: Abstract data artwork with three rows of bars in black, red and purple on lime green, with a pink summary card in the corner, cut by a shifted horizontal band.
-featured: true
+featured: false
 order: 2
 challenge: >-
   Marketing teams watch social trends, search demand, competitors and industry

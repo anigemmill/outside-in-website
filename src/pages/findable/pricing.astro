@@ -1,0 +1,84 @@
+---
+/**
+ * FINDABLE: Pricing. Three separate things: the free one-off check, the monthly
+ * subscription and done-for-you work. Offers live in src/data/findable.ts.
+ * No subscription price is published until Ani confirms one; done-for-you is
+ * quote on request. Findable isn't GST-registered (confirm wording before launch).
+ */
+import FindableLayout from '../../layouts/FindableLayout.astro';
+import { offers } from '../../data/findable';
+
+const faqs = [
+  { q: 'Is there a contract?', a: 'No. The subscription is month to month, and you can cancel any time.' },
+  { q: 'How much is the subscription?', a: 'Pricing is on request while we finish the pilot. Get in touch and we’ll talk it through for your business.' },
+  { q: 'Is GST included?', a: 'Findable isn’t registered for GST, so no GST is added to our prices.' },
+  { q: 'Do I have to subscribe after the free check?', a: 'No. The free check is yours to keep and act on, with no obligation.' },
+];
+---
+<FindableLayout title="Pricing" current="pricing" description="Findable pricing: start with a free AI visibility check for your tourism business. Monthly subscription pricing is on request; done-for-you work is quoted on request.">
+
+  <section class="f-wrap f-stack head">
+    <span class="f-lbl c-forest">Pricing</span>
+    <h1 class="f-d head__t">Start free. Go further when you’re ready.</h1>
+    <p class="f-lede">Three separate options: a free one-off check, an optional monthly subscription, and done-for-you work if you’d rather we made the changes.</p>
+  </section>
+
+  <ul role="list" class="f-wrap plans">
+    {offers.map((p) => (
+      <li class={`plan plan--${p.id}`}>
+        <div class="plan__top">
+          <h2 class="f-lbl plan__name">{p.name}</h2>
+          <p class="f-d plan__price">{p.price}</p>
+          <p class="plan__note">{p.note}</p>
+          <p class="plan__blurb">{p.blurb}</p>
+        </div>
+        <ul role="list" class="plan__list">
+          {p.items.map((i) => <li><span aria-hidden="true" class="plan__tick">✓</span><span>{i}</span></li>)}
+        </ul>
+        <a href={p.cta.href} class={`f-btn ${p.id === 'check' ? 'f-btn-p' : p.id === 'subscription' ? 'f-btn-w' : 'f-btn-s'} plan__cta`}>{p.cta.label} <span aria-hidden="true">→</span></a>
+      </li>
+    ))}
+  </ul>
+
+  <p class="f-wrap more">Regional tourism organisation or agency? <a href="/findable/about/#contact">Talk to us</a> about checks across several businesses.</p>
+
+  <section class="f-wrap qa" aria-label="Pricing questions">
+    {faqs.map((f) => (
+      <div>
+        <h2 class="qa__q">{f.q}</h2>
+        <p>{f.a}</p>
+      </div>
+    ))}
+  </section>
+</FindableLayout>
+
+<style>
+  .head { padding-block: clamp(48px, 7vw, 72px) 56px; align-items: center; text-align: center; gap: 20px; }
+  .head__t { margin: 0; font-size: clamp(44px, 7vw, 96px); line-height: 0.9; max-width: 14ch; }
+  .head .f-lede { max-width: 620px; }
+
+  .plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 16px; align-items: stretch; margin: 0 auto; padding-bottom: 40px; list-style: none; }
+  .plan { border-radius: var(--f-radius); padding: 36px clamp(20px, 3vw, 32px); display: flex; flex-direction: column; gap: 24px; }
+  .plan--check { background: var(--f-lime); }
+  .plan--subscription { background: var(--f-forest); color: var(--f-paper); }
+  .plan--done-for-you { background: var(--f-cream); }
+  .plan__top { display: flex; flex-direction: column; gap: 8px; }
+  .plan__name { margin: 0; }
+  .plan--subscription .plan__name { color: var(--f-lime); }
+  .plan__price { margin: 0; font-size: clamp(36px, 4vw, 48px); line-height: 1; }
+  .plan__note { margin: 0; font-size: 14px; font-weight: 600; }
+  .plan__blurb { margin: 0; font-size: 15px; line-height: 1.5; color: var(--f-ink-2); }
+  .plan--subscription .plan__blurb { color: #dfe6dc; }
+  .plan__list { margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; font-size: 15px; line-height: 1.45; }
+  .plan__list li { display: flex; gap: 10px; align-items: start; }
+  .plan__tick { font-weight: 700; color: var(--f-forest); }
+  .plan--subscription .plan__tick { color: var(--f-lime); }
+  .plan__cta { margin-top: auto; align-self: stretch; }
+
+  .more { margin-block: 0 72px; font-size: 16px; text-align: center; }
+
+  .qa { padding-bottom: clamp(72px, 9vw, 112px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 32px; }
+  .qa div { display: flex; flex-direction: column; gap: 8px; }
+  .qa__q { margin: 0; font-size: 18px; font-weight: 700; }
+  .qa p { margin: 0; font-size: 15px; line-height: 1.55; color: var(--f-ink-2); }
+</style>

@@ -1,23 +1,32 @@
 ---
-# DRAFT: hidden from the site until `draft` is removed. To publish:
-#   1. Replace cover.svg with the real cover image (cover.jpg/png) and update `cover`.
-#   2. Add gallery images to this folder and list them under `gallery`.
-#   3. Confirm client, sector and summary, and write 2-3 sentences below.
-#   4. Confirm you have permission to show this work, then delete `draft: true`.
-# Source: https://www.behance.net/gallery/225713579/NSC-Wheel-Design
-title: NSC Wheel Design
-summary: Wheel graphic design for NSC.  # CONFIRM / expand
+# Selected work, from Ani's portfolio brief (22 Oct 2026). Images supplied by Ani, 22 Oct 2026.
+title: "Negative Split Carbon"
+summary: "Race-ready wheel graphics for a performance cycling product."
 status: client
-client: NSC  # CONFIRM exact client name
-sector: Sport  # CONFIRM
-type: Product graphics
-categories: ['design-creative']
-cover: ./cover.svg
-coverAlt: Cover image for NSC Wheel Design.  # UPDATE to describe the real image
+client: "Negative Split Carbon"
+sector: "Cycling"
+type: "Wheel Graphics & Product Design"
+categories: ["design-creative"]
+cover: ./cover.jpg
+card: ./card.jpg
+coverAlt: "A Negative Split Carbon disc wheel with large overlapping NSC letterforms in gloss and matte black."
 featured: false
-order: 8
-draft: true
-gallery: []
+order: 13
+approach: "Combined technical precision with a clean, race-ready aesthetic, ensuring the graphics complemented the product\u2019s performance positioning."
+developed:
+  - "Wheel graphic design"
+  - "Product visual development"
+  - "Graphic application"
+  - "Performance-led visual direction"
+highlight: "Product graphics that balance technical clarity with a distinctive cycling identity."
+gallery:
+  - src: ./gallery-01.jpg
+    alt: "A pair of Negative Split Carbon shallow-rim wheels with tonal black graphics."
+  - src: ./gallery-02.jpg
+    alt: "A pair of Negative Split Carbon Tempo 65 deep-rim wheels with tonal black graphics."
+  - src: ./gallery-03.jpg
+    alt: "A Negative Split Carbon tri-spoke wheel with letterforms wrapping the rim and spokes."
+  - src: ./gallery-04.jpg
+    alt: "The tri-spoke wheel from a second angle, showing the matte and gloss contrast."
 ---
-
-<!-- TODO: 2-3 sentences. Who was it for, what did they need, what did you make? -->
+Created wheel graphics for Negative Split Carbon, developing a bold visual treatment for a performance-focused cycling product.

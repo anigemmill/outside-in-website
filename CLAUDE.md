@@ -15,7 +15,7 @@ The core idea comes from the name and the logo: see a business from the outside,
 - **Domain:** https://theoutsidein.nz (built in as the default)
 - **Contact email:** anigemmill@theoutsidein.nz
 - **Booking:** https://cal.com/ani-gemmill-yg4gmo (all "Book a discovery call" buttons)
-- **Behance:** https://www.behance.net/anigemmill99 (in the footer)
+- **Behance:** https://www.behance.net/anigemmill99 (content source for projects only; not linked in the footer, at Ani's request)
 - **Repo:** https://github.com/anigemmill/outside-in-website (branch `main`, public)
 - **Hosting:** Netlify, connected to the GitHub repo. Not yet connected or live as of 14 Oct 2026.
 
@@ -35,12 +35,17 @@ The core idea comes from the name and the logo: see a business from the outside,
 | Services, combinations, partnership | `src/data/services.ts` |
 | About copy, team (empty) | `src/data/about.ts` |
 | Approach stages | top of `src/pages/approach.astro` |
-| Portfolio | `src/content/work/<slug>/index.md` + images in the same folder |
+| Portfolio (shown at `/projects/`; `/work/*` redirects there) | `src/content/work/<slug>/index.md` + images in the same folder |
+| Findable pages (own brand, from the mockups) | `src/pages/findable/`, `src/layouts/FindableLayout.astro`, `src/styles/findable.css`, `src/scripts/findable-form.ts` |
+| Findable feature card on the Outside In pages | `src/components/FindableFeature.astro` |
+| Findable app address (Sign in links) | `findableAppUrl` in `src/config/site.ts` |
 | Portfolio field rules | `src/content.config.ts` |
 | Published-work loader (excludes drafts) | `src/data/work.ts` |
 | Design tokens and shared styles | `src/styles/global.css` |
 | Site behaviour (menu, logo, hero cycle, reveals) | `src/scripts/site.ts` |
 | Logo (live SVG + animation) | `src/components/Logo.astro` |
+
+**Font trial (temporary, 22 Oct 2026):** `/fonts/` compares type options, and `?font=host|geist|inter|archivo|current` switches the whole preview site (previews only). When Ani chooses, set `--font-display`/`--font-body` in `global.css`, update the preloads in `Base.astro`, then delete `src/pages/fonts.astro`, `src/styles/font-trial.css`, the trial script in `Base.astro` and the unused font packages.
 
 ## Design decisions (settled; don't change without Ani asking)
 
@@ -72,9 +77,9 @@ Everything else: white `#FFFFFF` background, ink `#17131F` text, ink-soft `#4B45
 - **Contrast rule:** ink reads on all four colours (4.6:1 or better). The colour pairs themselves are only 2–3:1, so use them for the logo and large colour fields only, never for text.
 
 **Layout.**
-- **Homepage:** full-screen hero (logo animation and one line) → one statement → two large work images → three services in a row → footer call to action. Keep it this simple; Ani found earlier versions too busy.
+- **Homepage (the "Showcase" effects version, which Ani asked to keep on 22 Oct 2026):** the hero logo glides into the header → statement with a colour wipe → project stack (pinned scroll, real project covers; Explore Bay of Plenty and the kiosks are excluded via `home.stack.exclude`) → Featured work as a fan of project cards (hover or tap lifts and grows a card; set in `home.featured.cards`, each project needs a 4:5 `card.jpg`) → Findable feature (in Findable's own brand) → drift field → notched service cards → line-by-line statements → call-to-action card → slim footer. The section list and spec are at the top of `src/pages/index.astro` and in `docs/homepage-v2-spec.md`. The "How we think" strip and the social fan are hidden (`show: false` in `src/data/home.ts`) until Ani writes the beliefs and supplies posts. Some homepage images (drift, service cards) are still labelled placeholders listed in `src/assets/home/manifest.json`.
 - **Header:** logo on the left (hidden on the homepage until you scroll past the hero), plain text links, and one ink "Let's talk" pill.
-- **Footer:** ink background with pink text, call to action, links, email, Behance, and the Outside/Inside switch.
+- **Footer:** ink background with pink text, call to action, links, email and the Outside/Inside switch. No Behance link (Ani doesn't want visitors sent off the site).
 - **Inner pages:** quiet page headers; two-column rows (label left, content right); one colour moment per page.
 - **Case studies:** one big cover, short rows, and an Outside/Inside map (pink and green) for concepts.
 
@@ -90,10 +95,29 @@ Everything else: white `#FFFFFF` background, ink `#17131F` text, ink-soft `#4B45
 
 ## Portfolio status
 
-- **6 concept projects (published):** After Steam (tourism after-dark experience), Field Notes (AI marketing intelligence brief), Quiet Machine (AI enquiry triage, with an interactive in-browser demo), Loud Weekend (festival campaign), Off Season (winter accommodation campaign), Tidewater (agritech startup brand). Covers are generated SVG art in the palette.
-- **8 real Behance projects (hidden drafts, `draft: true`):** Flavours of Plenty 2025, NZ CrossFit Nationals merch, Rotorua Walking Tours, Empty Plate Club branding, Sunseeker beer label, Run for Reido 2025 tee, Wings for Life World Run team logo (renamed from "Red Bull Wings for Life"), NSC wheel design. Each has a placeholder cover and `# CONFIRM` comments. Behance blocks automated downloads, so images must come from Ani.
-- **To publish a draft:** add a real cover and gallery images, confirm the client name, sector and summary, write 2–3 sentences, get Ani's permission confirmed, then delete `draft: true`.
-- **Recommended next:** publish the 3–4 strongest real projects first (Rotorua Walking Tours, Flavours of Plenty, NZ CrossFit Nationals, Empty Plate Club), then cut the concepts down to Quiet Machine and Field Notes, which carry the AI story. Ride Retreat (Ani's own MTB retreat business in Rotorua) is a strong future case study.
+- **16 selected projects (published, `status: client`)** from Ani's portfolio brief of 22 Oct 2026, in her order: Ride Retreat, Ride Retreat | The Journey, Explore Bay of Plenty, Digital Visitor Information Kiosks (Tourism Bay of Plenty), Flavours of Plenty 2025, Te Puia Digital Marketing & Growth, Te Puia China-Facing Website, Rotorua Walking Tours, Empty Plate Club, CrossFit Nationals, Run for Reido 2025, Wings for Life World Run, Negative Split Carbon, Our Tauranga Region, Grassroots Trust Velodrome, Athlete Experience (Nduro Events). The copy is Ani's own; don't add to it.
+- These include in-house roles, collaborations and her own venture, so pages say "Selected work", not "Client work".
+- **Images (22 Oct 2026):** real covers and galleries for The Journey, Explore Bay of Plenty, Kiosks, Flavours of Plenty (includes the Sunseeker can, a festival collaboration), Rotorua Walking Tours, Empty Plate Club, Run for Reido, Wings for Life and Negative Split Carbon. Covers are 1600×1000 JPGs (cropped, or padded with the image's own background). Still placeholders ("Image to come"): Ride Retreat, both Te Puia projects, CrossFit Nationals, Our Tauranga Region, Grassroots Trust Velodrome, Nduro.
+- **Te Puia results** are held behind `resultsConfirmed: false`. They show on previews only, flagged, until Ani confirms the measurement periods and attribution.
+- **Concepts:** Quiet Machine and Field Notes stay published (they carry the AI story). After Steam, Loud Weekend, Off Season and Tidewater are `draft: true`. Sunseeker beer label stays a draft; it wasn't in the brief.
+- Homepage featured work: Flavours of Plenty and Rotorua Walking Tours. The homepage project stack shows only projects with real covers.
+
+## Findable
+
+Findable is Outside In's own tourism product. The app lives in a separate repo and Vercel project (`anigemmill/Tourism-AI-Growth-Platform`). This site carries Findable's public pages under `/findable/` in Findable's own brand (lavender, forest, lime; Inter Tight and Inter), built from Ani's "Findable — Website Mockups" canvas: landing page, How it works, Pricing, About (with contact form) and Free check. Forms are Netlify Forms named `findable-check` and `findable-contact`; both land on `/findable/thanks/` without JavaScript. Sign in links go to the app; there is no sign-up page because the app has no self-service sign-up.
+
+**Copy rules (from Ani's Findable working brief, 22 Oct 2026).** Facts, sources and offers live in `src/data/findable.ts`.
+- Lead statistic: 62% of travellers are using AI to help decide where to go and what to do (Tourism New Zealand research as reported by TRAVELinc, 7 Aug 2026). It is not about bookings and not NZ-domestic only. The Booking.com 81% / 92% figures (IT Brief NZ, July 2025) are only for the trust and accuracy point. Every statistic links to its source.
+- GuideGeek (200,000+ unique users, July 2026 research summary) is supporting context only, attributed to its source; not evidence of bookings. Swap in an official Tourism New Zealand source if one appears.
+- Three separate offers: the free one-off check (3 traveller-style questions, one per business, branded report within one working day, confirmed by Ani), the monthly subscription ("Pricing on request" until Ani sets a price; month to month, cancel any time; describe only what the app delivers today) and done-for-you work ("Quote on request").
+- Findable is not GST-registered, so no GST is added.
+- The sample report is illustrative and labelled as such. There is no score, because there is no defined scoring method yet.
+- Findable is in an ongoing pilot with 10 Rotorua operators; audits are still under way. Don't publish pilot numbers, error rates, "2–3 businesses per answer", testimonials or case studies without documented results.
+- Founder: Ani Gemmill. No photo for now. The founding story is tourism and digital marketing experience plus AI research; don't claim observed visitor behaviour.
+- Contact: anigemmill@theoutsidein.nz, reply within two working days (confirmed).
+- Still open: which AI assistants the check names, and exactly what the subscription includes (currently described with the app's real features).
+
+Sign in links point at the Vercel address until `app.theoutsidein.nz` is live, then switch `findableAppUrl`.
 
 ## SEO and launch
 

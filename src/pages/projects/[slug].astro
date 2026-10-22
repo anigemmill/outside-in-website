@@ -1,0 +1,281 @@
+---
+import { render } from 'astro:content';
+import { getWork } from '../../data/work';
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Note from '../../components/Note.astro';
+import TriageDemo from '../../components/TriageDemo.astro';
+import BookingLink from '../../components/BookingLink.astro';
+import { serviceById } from '../../data/services';
+import { site } from '../../config/site';
+
+export async function getStaticPaths() {
+  const all = await getWork();
+  return all.map((project, i) => ({
+    params: { slug: project.id },
+    props: { project, next: all[(i + 1) % all.length] },
+  }));
+}
+
+const { project, next } = Astro.props;
+const d = project.data;
+const { Content } = await render(project);
+const isConcept = d.status === 'concept';
+const isSvg = d.cover.format === 'svg';
+// Body text, ignoring HTML comments (drafts carry TODO comments only).
+const hasBody = Boolean((project.body ?? '').replace(/<!--[\s\S]*?-->/g, '').trim());
+// Unconfirmed results show on previews only (flagged), never on the live site.
+const showResults = !isConcept && d.results.length > 0 && (d.resultsConfirmed || !site.indexable);
+const imgOpts = (svg: boolean) => (svg ? {} : { widths: [800, 1280, 1920], sizes: '(max-width: 1440px) 100vw, 1440px' });
+
+const schema = site.url
+  ? [{
+      '@context': 'https://schema.org',
+      '@type': 'CreativeWork',
+      name: d.title,
+      description: d.summary,
+      creator: { '@type': 'Organization', name: site.name, url: site.url },
+      url: new URL(`/projects/${project.id}/`, site.url + '/').href,
+      ...(isConcept ? { creativeWorkStatus: 'Concept' } : {}),
+    }]
+  : [];
+---
+<Base
+  title={isConcept ? `${d.title} (concept)` : d.title === d.client ? d.title : `${d.title} | ${d.client}`}
+  description={d.seoDescription ?? d.summary}
+  image={isSvg ? undefined : d.cover.src}
+  schema={schema}
+>
+  <article class="case">
+    <header class="wrap case__head">
+      <a class="case__back" href="/projects/"><span aria-hidden="true">←</span> All projects</a>
+      <p class="eyebrow">{isConcept ? 'Concept' : 'Selected work'} · {d.type}</p>
+      <h1 class="case__title">{d.title}</h1>
+      <p class="case__summary">{d.summary}</p>
+    </header>
+
+    <div class="wrap">
+      <figure class="case__cover" style={`view-transition-name: cover-${project.id}`}>
+        <Image src={d.cover} alt={d.coverAlt} {...imgOpts(isSvg)} loading="eager" />
+      </figure>
+      <dl class="case__facts">
+        <div><dt>Sector</dt><dd>{d.sector}</dd></div>
+        <div><dt>Services</dt><dd>{d.categories.map((c, i) => <>{i > 0 && ', '}<a href={`/projects/?filter=${c}`}>{serviceById[c].name}</a></>)}</dd></div>
+        {isConcept
+          ? <div><dt>Status</dt><dd>Concept, not commissioned work</dd></div>
+          : <div><dt>For</dt><dd>{d.client}{d.year ? `, ${d.year}` : ''}</dd></div>}
+      </dl>
+    </div>
+
+    <div class="wrap case__body">
+      {d.challenge && (
+        <section class="row" aria-labelledby="challenge">
+          <h2 id="challenge" class="row__label">The challenge</h2>
+          <div class="row__content"><p class="case__big">{d.challenge}</p></div>
+        </section>
+      )}
+
+      {!isConcept && hasBody && (
+        <section class="row" aria-labelledby="overview">
+          <h2 id="overview" class="row__label">Overview</h2>
+          <div class="row__content prose case__notes case__notes--lead"><Content /></div>
+        </section>
+      )}
+
+      {!isConcept && d.approach && (
+        <section class="row" aria-labelledby="approach">
+          <h2 id="approach" class="row__label">The approach</h2>
+          <div class="row__content"><p class="case__big">{d.approach}</p></div>
+        </section>
+      )}
+
+      {!isConcept && d.role && (
+        <section class="row" aria-labelledby="role">
+          <h2 id="role" class="row__label">My role</h2>
+          <div class="row__content"><p class="case__big">{d.role}</p></div>
+        </section>
+      )}
+
+      {isConcept && (d.approach || hasBody) && (
+      <section class="row" aria-labelledby="approach">
+        <h2 id="approach" class="row__label">{d.approach ? 'The approach' : 'About the project'}</h2>
+        <div class="row__content">
+          {d.approach && <p class="case__big">{d.approach}</p>}
+          <div class:list={['prose', 'case__notes', { 'case__notes--lead': !d.approach }]}><Content /></div>
+        </div>
+      </section>
+      )}
+
+      {d.developed.length > 0 && (
+      <section class="row" aria-labelledby="developed">
+        <h2 id="developed" class="row__label">{isConcept ? 'What we’d develop' : 'Deliverables'}</h2>
+        <ol class="row__content developed" role="list">
+          {d.developed.map((item, i) => (
+            <li data-reveal style={`--reveal-delay:${i * 0.04}s`}><span class="developed__n">{String(i + 1).padStart(2, '0')}</span><span>{item}</span></li>
+          ))}
+        </ol>
+      </section>
+      )}
+
+      {d.map && (
+      <section class="map-wrap" aria-labelledby="map">
+        <div class="map-wrap__head">
+          <h2 id="map" class="row__label">Outside / Inside</h2>
+          <p class="muted">What customers would see, and what runs behind it.</p>
+        </div>
+        <div class="map" data-reveal>
+          <div class="map__lane map__lane--out">
+            <p class="map__label">Outside</p>
+            <ul role="list">{d.map.outside.map((m) => <li>{m}</li>)}</ul>
+          </div>
+          <div class="map__lane map__lane--in">
+            <p class="map__label">Inside</p>
+            <ul role="list">{d.map.inside.map((m) => <li>{m}</li>)}</ul>
+          </div>
+        </div>
+        <Note>Every case study shows both layers. It makes the agency’s point without saying it: we design what people see and build what makes it work.</Note>
+      </section>
+      )}
+
+      {d.demo === 'triage' && (
+        <section class="demo" id="demo" aria-labelledby="demo-title">
+          <h2 id="demo-title" class="row__label">Try it</h2>
+          <TriageDemo />
+        </section>
+      )}
+
+      {d.gallery.length > 0 && (
+        <section class="gallery" aria-label="Project images">
+          {d.gallery.map((g) => (
+            <figure>
+              <Image src={g.src} alt={g.alt} widths={[640, 1024, 1600]} sizes="(max-width: 860px) 100vw, 50vw" />
+              {g.caption && <figcaption>{g.caption}</figcaption>}
+            </figure>
+          ))}
+        </section>
+      )}
+
+      {d.objectives.length > 0 && (
+      <section class="row" aria-labelledby="value">
+        <h2 id="value" class="row__label">{isConcept ? 'Intended value' : 'Business value'}</h2>
+        <div class="row__content">
+          <ul role="list" class="value">{d.objectives.map((o) => <li>{o}</li>)}</ul>
+          {isConcept && <p class="value__note">These are the objectives the concept is designed to test. They are hypotheses, not results.</p>}
+        </div>
+      </section>
+      )}
+
+      {!isConcept && d.scale && (
+        <section class="row" aria-labelledby="scale">
+          <h2 id="scale" class="row__label">Selected scale</h2>
+          <div class="row__content"><p class="case__big">{d.scale}</p></div>
+        </section>
+      )}
+
+      {showResults && (
+        <section class="row" aria-labelledby="results">
+          <h2 id="results" class="row__label">Selected results</h2>
+          <div class="row__content">
+            {!d.resultsConfirmed && <p class="confirm">Preview only: these figures stay off the live site until the measurement periods and attribution are confirmed.</p>}
+            <ul role="list" class="value">{d.results.map((r) => <li>{r}</li>)}</ul>
+            {d.resultsNote && d.resultsConfirmed && <p class="value__note">{d.resultsNote}</p>}
+          </div>
+        </section>
+      )}
+
+      {!isConcept && d.highlight && (
+        <section class="row" aria-labelledby="highlight">
+          <h2 id="highlight" class="row__label">Project highlight</h2>
+          <div class="row__content"><p class="case__big case__highlight">{d.highlight}</p></div>
+        </section>
+      )}
+
+      <div class="row case__ask">
+        <p class="row__label">{isConcept ? 'Have a version of this problem?' : 'Want work like this?'}</p>
+        <div class="row__content"><BookingLink label="Talk it through" /></div>
+      </div>
+    </div>
+
+    <nav class="next wrap" aria-label="Next project">
+      <a class="next__link" href={`/projects/${next.id}/`}>
+        <div class="next__media"><Image src={next.data.cover} alt="" loading="lazy" /></div>
+        <div class="next__text">
+          <span class="eyebrow">Next project</span>
+          <span class="next__title">{next.data.title} <span aria-hidden="true">→</span></span>
+          <span class="muted">{next.data.summary}</span>
+        </div>
+      </a>
+    </nav>
+  </article>
+</Base>
+
+<style>
+  .case__head { display: grid; gap: 1.25rem; padding-block: clamp(3rem, 7vw, 6rem) clamp(2.5rem, 5vw, 4rem); }
+  .case__back { justify-self: start; color: var(--muted); text-decoration: none; font-size: var(--step--1); padding-block: 0.5rem; }
+  .case__back:hover { color: var(--fg); }
+  .case__title { font-size: clamp(2.8rem, 1.4rem + 6vw, 7.5rem); font-weight: 600; line-height: 0.98; letter-spacing: -0.04em; }
+  .case__summary { font-size: var(--step-1); color: var(--muted); max-width: 44ch; }
+
+  .case__cover { margin: 0; border-radius: var(--radius); overflow: hidden; background: var(--surface); }
+  .case__cover :global(img) { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+  .case__facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem var(--gutter); padding-block: 1.5rem; }
+  .case__facts dt { font-size: var(--step--1); color: var(--muted); }
+  .case__facts dd { margin: 0.25rem 0 0; }
+  .case__facts a { color: var(--fg); text-underline-offset: 0.2em; }
+  .case__facts a:hover { color: var(--link); }
+  @media (max-width: 640px) { .case__facts { grid-template-columns: 1fr; } }
+
+  .case__body { padding-block: clamp(4rem, 9vw, 8rem) 0; }
+  .row { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 1rem var(--gutter); padding-block: clamp(2.5rem, 5vw, 4rem); border-top: 1px solid var(--line); }
+  .row__label { font-family: var(--font-body); font-size: var(--step-0); font-weight: 600; letter-spacing: 0; }
+  .row__content { min-width: 0; }
+  @media (max-width: 860px) { .row { grid-template-columns: 1fr; } }
+  .case__big { font-family: var(--font-display); font-weight: 500; font-size: var(--step-2); line-height: 1.25; letter-spacing: -0.015em; max-width: 34ch; }
+  .case__notes { margin-top: 1.5rem; color: var(--muted); }
+  .case__notes--lead { margin-top: 0; color: var(--fg); font-size: var(--step-1); line-height: 1.5; }
+
+  .developed { display: grid; padding: 0; }
+  .developed li { display: grid; grid-template-columns: 2.5rem 1fr; gap: 1rem; padding-block: 0.9rem; border-bottom: 1px solid var(--line); font-size: var(--step-1); line-height: 1.35; }
+  .developed li:first-child { padding-top: 0; }
+  .developed li:last-child { border-bottom: 0; }
+  .developed__n { color: var(--muted); font-size: var(--step--1); padding-top: 0.35rem; }
+
+  .map-wrap { padding-block: clamp(2.5rem, 5vw, 4rem); border-top: 1px solid var(--line); }
+  .map-wrap__head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 2rem; margin-bottom: 1.5rem; }
+  .map { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .map__lane { padding: clamp(1.5rem, 3vw, 2.5rem); border-radius: var(--radius); color: var(--ink); }
+  .map__lane--out { background: var(--pink); }
+  .map__lane--in { background: var(--green); }
+  .map__label { font-family: var(--font-display); font-weight: 600; font-size: var(--step-3); letter-spacing: -0.03em; margin-bottom: 1.25rem; }
+  .map__lane ul { display: grid; padding: 0; }
+  .map__lane li { padding-block: 0.7rem; border-top: 1px solid rgba(23, 19, 31, 0.2); }
+  @media (max-width: 760px) { .map { grid-template-columns: 1fr; } }
+
+  .demo { display: grid; gap: 1.5rem; padding-block: clamp(2.5rem, 5vw, 4rem); border-top: 1px solid var(--line); scroll-margin-top: 6rem; }
+
+  .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--gutter); padding-block: clamp(2.5rem, 5vw, 4rem); }
+  .gallery figure:first-child:nth-last-child(odd) { grid-column: 1 / -1; }
+  .gallery :global(img) { width: 100%; height: auto; border-radius: var(--radius); }
+  .gallery figure { margin: 0; display: grid; gap: 0.5rem; }
+  .gallery figcaption { color: var(--muted); font-size: var(--step--1); }
+  @media (max-width: 760px) { .gallery { grid-template-columns: 1fr; } }
+
+  .value { display: grid; padding: 0; }
+  .value li { padding-block: 0.8rem; border-bottom: 1px solid var(--line); font-size: var(--step-1); line-height: 1.35; }
+  .value li:first-child { padding-top: 0; }
+  .value__note { margin-top: 1rem; color: var(--muted); font-size: var(--step--1); }
+  .confirm { margin-bottom: 1.25rem; padding: 0.75rem 1rem; border-radius: 12px; background: var(--lilac); color: var(--ink); font-size: var(--step--1); font-weight: 600; }
+  .case__highlight { color: var(--link); }
+
+  .case__ask .row__label { font-family: var(--font-display); font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; }
+
+  .next { padding-block: clamp(4rem, 9vw, 8rem); }
+  .next__link { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--gutter); align-items: center; text-decoration: none; color: var(--fg); padding-top: clamp(2.5rem, 5vw, 4rem); border-top: 1px solid var(--line); }
+  .next__media { aspect-ratio: 4 / 3; border-radius: var(--radius); overflow: hidden; }
+  .next__media :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform 1s var(--ease-out); }
+  .next__link:hover .next__media :global(img) { transform: scale(1.04); }
+  .next__text { display: grid; gap: 0.75rem; justify-items: start; }
+  .next__title { font-family: var(--font-display); font-weight: 600; font-size: var(--step-4); letter-spacing: -0.035em; line-height: 1; }
+  .next__link:hover .next__title { color: var(--link); }
+  @media (max-width: 760px) { .next__link { grid-template-columns: 1fr; } }
+</style>

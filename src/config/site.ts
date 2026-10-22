@@ -32,6 +32,15 @@ export const site = {
   bookingUrl: env.PUBLIC_BOOKING_URL || 'https://cal.com/ani-gemmill-yg4gmo',
 
   /**
+   * Findable, Outside In's tourism growth platform. The public page is /findable/;
+   * the application itself is hosted separately (Vercel).
+   * DEMO: the app subdomain (app.theoutsidein.nz) isn't connected yet, so "Sign in"
+   * points at the app's current Vercel address. Switch to https://app.theoutsidein.nz
+   * (or set PUBLIC_FINDABLE_APP_URL) once that domain is verified. `npm run check` flags it.
+   */
+  findableAppUrl: (env.PUBLIC_FINDABLE_APP_URL || 'https://tourism-ai-growth-platform.vercel.app').replace(/\/$/, ''),
+
+  /**
    * Optional third-party form endpoint (e.g. Formspree: https://formspree.io/f/xxxx).
    * Leave empty when hosting on Netlify: the form then uses Netlify Forms.
    * A form endpoint is public by design; never put a private API key here.
@@ -58,7 +67,8 @@ export const site = {
 };
 
 export const nav = [
-  { label: 'Work', href: '/work/' },
+  { label: 'Projects', href: '/projects/' },
+  { label: 'Findable', href: '/findable/' },
   { label: 'Services', href: '/services/' },
   { label: 'Approach', href: '/approach/' },
   { label: 'About', href: '/about/' },

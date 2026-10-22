@@ -1,0 +1,24 @@
+---
+/**
+ * 09 Social fan. Phone-shaped cards start as a neat pile, then deal out into a fan
+ * when the pile comes into view. Hover or focus lifts a card and shows its client
+ * and campaign; the neighbours lean away. On touch, tapping flicks the top card to
+ * the back. Reduced motion: already fanned, no lift.
+ */
+import Fan from './Fan.astro';
+import Note from '../Note.astro';
+import { home } from '../../data/home';
+import { asset } from '../../data/homeAssets';
+
+const cards = home.social.posts.map((p) => ({ src: asset(p.image).src, label: p.client, sub: p.campaign }));
+---
+<section class="fan-sec wrap" aria-labelledby="fan-title" data-fan>
+  <h2 id="fan-title" class="row-head__title fan-sec__title">{home.social.title}</h2>
+  <Fan cards={cards} />
+  <Note>Social work is made to be swiped, so it's shown as a hand of phones you can flick through.</Note>
+</section>
+
+<style>
+  .fan-sec { padding-bottom: clamp(6rem, 12vw, 12rem); }
+  .fan-sec__title { margin-bottom: clamp(1rem, 3vw, 2rem); }
+</style>

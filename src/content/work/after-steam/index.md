@@ -7,8 +7,9 @@ type: Visitor experience · Brand · Digital
 categories: [design-creative, marketing-growth, ai-systems]
 cover: ./cover.svg
 coverAlt: Abstract artwork of white steam rings rising from dark ground under a large lime-green moon, on purple, cut by a shifted horizontal band.
-featured: true
+featured: false
 order: 1
+draft: true
 challenge: >-
   Geothermal attractions are built around the daytime visit. By evening the
   car park empties, while thousands of visitors staying in town are looking

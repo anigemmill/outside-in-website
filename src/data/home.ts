@@ -15,7 +15,7 @@ export const home = {
 
   work: {
     title: 'Selected work',
-    note: 'Concept projects are clearly labelled. Client work is added with permission.',
+    note: 'Brand, digital and marketing work across tourism, events and sport.',
   },
 
   services: {

@@ -15,7 +15,7 @@ The core idea comes from the name and the logo: see a business from the outside,
 - **Domain:** https://theoutsidein.nz (built in as the default)
 - **Contact email:** anigemmill@theoutsidein.nz
 - **Booking:** https://cal.com/ani-gemmill-yg4gmo (all "Book a discovery call" buttons)
-- **Behance:** https://www.behance.net/anigemmill99 (in the footer)
+- **Behance:** https://www.behance.net/anigemmill99 (content source for projects only; not linked in the footer, at Ani's request)
 - **Repo:** https://github.com/anigemmill/outside-in-website (branch `main`, public)
 - **Hosting:** Netlify, connected to the GitHub repo. Not yet connected or live as of 14 Oct 2026.
 
@@ -77,7 +77,7 @@ Everything else: white `#FFFFFF` background, ink `#17131F` text, ink-soft `#4B45
 **Layout.**
 - **Homepage:** full-screen hero (logo animation and one line) → one statement → two large work images → Findable feature → three services in a row → footer call to action. Keep it this simple; Ani found earlier versions too busy.
 - **Header:** logo on the left (hidden on the homepage until you scroll past the hero), plain text links, and one ink "Let's talk" pill.
-- **Footer:** ink background with pink text, call to action, links, email, Behance, and the Outside/Inside switch.
+- **Footer:** ink background with pink text, call to action, links, email and the Outside/Inside switch. No Behance link (Ani doesn't want visitors sent off the site).
 - **Inner pages:** quiet page headers; two-column rows (label left, content right); one colour moment per page.
 - **Case studies:** one big cover, short rows, and an Outside/Inside map (pink and green) for concepts.
 
@@ -93,10 +93,12 @@ Everything else: white `#FFFFFF` background, ink `#17131F` text, ink-soft `#4B45
 
 ## Portfolio status
 
-- **6 concept projects (published):** After Steam (tourism after-dark experience), Field Notes (AI marketing intelligence brief), Quiet Machine (AI enquiry triage, with an interactive in-browser demo), Loud Weekend (festival campaign), Off Season (winter accommodation campaign), Tidewater (agritech startup brand). Covers are generated SVG art in the palette.
-- **8 real Behance projects (hidden drafts, `draft: true`):** Flavours of Plenty 2025, NZ CrossFit Nationals merch, Rotorua Walking Tours, Empty Plate Club branding, Sunseeker beer label, Run for Reido 2025 tee, Wings for Life World Run team logo (renamed from "Red Bull Wings for Life"), NSC wheel design. Each has a placeholder cover and `# CONFIRM` comments. Behance blocks automated downloads, so images must come from Ani.
-- **To publish a draft:** add a real cover and gallery images, confirm the client name, sector and summary, write 2–3 sentences, get Ani's permission confirmed, then delete `draft: true`.
-- **Recommended next:** publish the 3–4 strongest real projects first (Rotorua Walking Tours, Flavours of Plenty, NZ CrossFit Nationals, Empty Plate Club), then cut the concepts down to Quiet Machine and Field Notes, which carry the AI story. Ride Retreat (Ani's own MTB retreat business in Rotorua) is a strong future case study.
+- **16 selected projects (published, `status: client`)** from Ani's portfolio brief of 22 Oct 2026, in her order: Ride Retreat, Ride Retreat | The Journey, Explore Bay of Plenty, Digital Visitor Information Kiosks (Tourism Bay of Plenty), Flavours of Plenty 2025, Te Puia Digital Marketing & Growth, Te Puia China-Facing Website, Rotorua Walking Tours, Empty Plate Club, CrossFit Nationals, Run for Reido 2025, Wings for Life World Run, Negative Split Carbon, Our Tauranga Region, Grassroots Trust Velodrome, Athlete Experience (Nduro Events). The copy is Ani's own; don't add to it.
+- These include in-house roles, collaborations and her own venture, so pages say "Selected work", not "Client work".
+- **Covers:** placeholder SVGs labelled "Image to come" until Ani sends the images. Replace each `cover.svg` with the real image, update `cover` and `coverAlt`, and add `gallery` images.
+- **Te Puia results** are held behind `resultsConfirmed: false`. They show on previews only, flagged, until Ani confirms the measurement periods and attribution.
+- **Concepts:** Quiet Machine and Field Notes stay published (they carry the AI story). After Steam, Loud Weekend, Off Season and Tidewater are `draft: true`. Sunseeker beer label stays a draft; it wasn't in the brief.
+- Homepage featured work: Ride Retreat and Flavours of Plenty.
 
 ## Findable
 

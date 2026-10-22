@@ -12,6 +12,12 @@ import { glob } from 'astro/loaders';
  *                     Client projects only need a summary, cover and gallery; the longer
  *                     write-up fields (challenge, approach, developed, map) are optional.
  * draft: true        → kept in the repo but not published anywhere on the site.
+ *
+ * Selected work (status 'client') comes from Ani's portfolio brief. It covers studio work,
+ * in-house roles, collaborations and her own ventures, so pages say "Selected work", not
+ * "Client work". Body = overview; approach, role, developed (deliverables), highlight and
+ * scale are shown as rows. results need resultsConfirmed: true to appear on the live site;
+ * until then they show only on previews, flagged for confirmation.
  */
 const work = defineCollection({
   loader: glob({ pattern: '**/index.md', base: './src/content/work' }),
@@ -38,6 +44,11 @@ const work = defineCollection({
         map: z.object({ outside: z.array(z.string()), inside: z.array(z.string()) }).optional(),
         objectives: z.array(z.string()).default([]),
         results: z.array(z.string()).default([]),
+        resultsConfirmed: z.boolean().default(false),
+        resultsNote: z.string().optional(),
+        role: z.string().optional(),
+        highlight: z.string().optional(),
+        scale: z.string().optional(),
         gallery: z.array(z.object({ src: image(), alt: z.string(), caption: z.string().optional() })).default([]),
         demo: z.enum(['triage']).optional(),
         seoDescription: z.string().optional(),

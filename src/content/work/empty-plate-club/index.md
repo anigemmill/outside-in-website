@@ -1,23 +1,23 @@
 ---
-# DRAFT: hidden from the site until `draft` is removed. To publish:
-#   1. Replace cover.svg with the real cover image (cover.jpg/png) and update `cover`.
-#   2. Add gallery images to this folder and list them under `gallery`.
-#   3. Confirm client, sector and summary, and write 2-3 sentences below.
-#   4. Confirm you have permission to show this work, then delete `draft: true`.
-# Source: https://www.behance.net/gallery/225715303/Empty-Plate-Club-branding
-title: Empty Plate Club branding
-summary: Branding for Empty Plate Club.  # CONFIRM / expand
+# Selected work, from Ani's portfolio brief (22 Oct 2026). Cover is a placeholder until the real image arrives.
+title: "Empty Plate Club"
+summary: "A playful, illustrated brand for a food-focused Instagram concept."
 status: client
-client: Empty Plate Club  # CONFIRM exact client name
-sector: Hospitality  # CONFIRM
-type: Branding
-categories: ['design-creative']
+client: "Empty Plate Club"
+sector: "Food"
+type: "Brand Identity, Logo Design & Video Content"
+categories: ["design-creative"]
 cover: ./cover.svg
-coverAlt: Cover image for Empty Plate Club branding.  # UPDATE to describe the real image
+coverAlt: "Placeholder cover for Empty Plate Club; project image to come."
 featured: false
-order: 4
-draft: true
+order: 9
+approach: "Created a distinctive illustrated logo and visual direction designed to express the personality of the concept and stand out in a busy social media environment."
+developed:
+  - "Logo design"
+  - "Brand identity"
+  - "Visual direction"
+  - "Video content"
+highlight: "A characterful food brand built around playful illustration and social-first creative."
 gallery: []
 ---
-
-<!-- TODO: 2-3 sentences. Who was it for, what did they need, what did you make? -->
+Developed a playful, vibrant brand identity for Empty Plate Club, a food-focused Instagram concept sharing creative recipes and meal ideas.

@@ -24,6 +24,8 @@ const isConcept = d.status === 'concept';
 const isSvg = d.cover.format === 'svg';
 // Body text, ignoring HTML comments (drafts carry TODO comments only).
 const hasBody = Boolean((project.body ?? '').replace(/<!--[\s\S]*?-->/g, '').trim());
+// Unconfirmed results show on previews only (flagged), never on the live site.
+const showResults = !isConcept && d.results.length > 0 && (d.resultsConfirmed || !site.indexable);
 const imgOpts = (svg: boolean) => (svg ? {} : { widths: [800, 1280, 1920], sizes: '(max-width: 1440px) 100vw, 1440px' });
 
 const schema = site.url
@@ -39,7 +41,7 @@ const schema = site.url
   : [];
 ---
 <Base
-  title={isConcept ? `${d.title} (concept)` : `${d.title} for ${d.client}`}
+  title={isConcept ? `${d.title} (concept)` : d.title === d.client ? d.title : `${d.title} | ${d.client}`}
   description={d.seoDescription ?? d.summary}
   image={isSvg ? undefined : d.cover.src}
   schema={schema}
@@ -47,7 +49,7 @@ const schema = site.url
   <article class="case">
     <header class="wrap case__head">
       <a class="case__back" href="/projects/"><span aria-hidden="true">←</span> All projects</a>
-      <p class="eyebrow">{isConcept ? 'Concept' : `Client work · ${d.client}`} · {d.type}</p>
+      <p class="eyebrow">{isConcept ? 'Concept' : 'Selected work'} · {d.type}</p>
       <h1 class="case__title">{d.title}</h1>
       <p class="case__summary">{d.summary}</p>
     </header>
@@ -61,7 +63,7 @@ const schema = site.url
         <div><dt>Services</dt><dd>{d.categories.map((c, i) => <>{i > 0 && ', '}<a href={`/projects/?filter=${c}`}>{serviceById[c].name}</a></>)}</dd></div>
         {isConcept
           ? <div><dt>Status</dt><dd>Concept, not commissioned work</dd></div>
-          : <div><dt>Client</dt><dd>{d.client}{d.year ? `, ${d.year}` : ''}</dd></div>}
+          : <div><dt>For</dt><dd>{d.client}{d.year ? `, ${d.year}` : ''}</dd></div>}
       </dl>
     </div>
 
@@ -73,7 +75,28 @@ const schema = site.url
         </section>
       )}
 
-      {(d.approach || hasBody) && (
+      {!isConcept && hasBody && (
+        <section class="row" aria-labelledby="overview">
+          <h2 id="overview" class="row__label">Overview</h2>
+          <div class="row__content prose case__notes case__notes--lead"><Content /></div>
+        </section>
+      )}
+
+      {!isConcept && d.approach && (
+        <section class="row" aria-labelledby="approach">
+          <h2 id="approach" class="row__label">The approach</h2>
+          <div class="row__content"><p class="case__big">{d.approach}</p></div>
+        </section>
+      )}
+
+      {!isConcept && d.role && (
+        <section class="row" aria-labelledby="role">
+          <h2 id="role" class="row__label">My role</h2>
+          <div class="row__content"><p class="case__big">{d.role}</p></div>
+        </section>
+      )}
+
+      {isConcept && (d.approach || hasBody) && (
       <section class="row" aria-labelledby="approach">
         <h2 id="approach" class="row__label">{d.approach ? 'The approach' : 'About the project'}</h2>
         <div class="row__content">
@@ -85,7 +108,7 @@ const schema = site.url
 
       {d.developed.length > 0 && (
       <section class="row" aria-labelledby="developed">
-        <h2 id="developed" class="row__label">{isConcept ? 'What we’d develop' : 'What we developed'}</h2>
+        <h2 id="developed" class="row__label">{isConcept ? 'What we’d develop' : 'Deliverables'}</h2>
         <ol class="row__content developed" role="list">
           {d.developed.map((item, i) => (
             <li data-reveal style={`--reveal-delay:${i * 0.04}s`}><span class="developed__n">{String(i + 1).padStart(2, '0')}</span><span>{item}</span></li>
@@ -142,10 +165,28 @@ const schema = site.url
       </section>
       )}
 
-      {!isConcept && d.results.length > 0 && (
+      {!isConcept && d.scale && (
+        <section class="row" aria-labelledby="scale">
+          <h2 id="scale" class="row__label">Selected scale</h2>
+          <div class="row__content"><p class="case__big">{d.scale}</p></div>
+        </section>
+      )}
+
+      {showResults && (
         <section class="row" aria-labelledby="results">
-          <h2 id="results" class="row__label">Results</h2>
-          <ul role="list" class="row__content value">{d.results.map((r) => <li>{r}</li>)}</ul>
+          <h2 id="results" class="row__label">Selected results</h2>
+          <div class="row__content">
+            {!d.resultsConfirmed && <p class="confirm">Preview only: these figures stay off the live site until the measurement periods and attribution are confirmed.</p>}
+            <ul role="list" class="value">{d.results.map((r) => <li>{r}</li>)}</ul>
+            {d.resultsNote && d.resultsConfirmed && <p class="value__note">{d.resultsNote}</p>}
+          </div>
+        </section>
+      )}
+
+      {!isConcept && d.highlight && (
+        <section class="row" aria-labelledby="highlight">
+          <h2 id="highlight" class="row__label">Project highlight</h2>
+          <div class="row__content"><p class="case__big case__highlight">{d.highlight}</p></div>
         </section>
       )}
 
@@ -223,6 +264,8 @@ const schema = site.url
   .value li { padding-block: 0.8rem; border-bottom: 1px solid var(--line); font-size: var(--step-1); line-height: 1.35; }
   .value li:first-child { padding-top: 0; }
   .value__note { margin-top: 1rem; color: var(--muted); font-size: var(--step--1); }
+  .confirm { margin-bottom: 1.25rem; padding: 0.75rem 1rem; border-radius: 12px; background: var(--lilac); color: var(--ink); font-size: var(--step--1); font-weight: 600; }
+  .case__highlight { color: var(--link); }
 
   .case__ask .row__label { font-family: var(--font-display); font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; }
 

@@ -12,23 +12,23 @@ const conceptCount = projects.filter((p) => p.data.status === 'concept').length;
 const filters = [
   { id: 'all', label: 'All' },
   ...services.map((s) => ({ id: s.id, label: s.name })),
-  { id: 'client', label: 'Client work' },
+  { id: 'client', label: 'Selected work' },
 ];
 ---
 <Base
   title="Projects"
-  description="Brand, campaign, digital and AI projects by Outside In. Concept projects are clearly labelled and show how we approach real business problems."
+  description="Selected brand, digital and marketing work by Ani Gemmill of Outside In, across tourism, events and sport, plus two clearly labelled AI concept projects."
 >
   <PageHero
     eyebrow="Projects"
     dot="red"
     title="Ideas, built."
-    lede="Each project starts with a business problem and ends with something real: a brand, a campaign, a working system."
+    lede="Brand, digital and marketing work across tourism, events and sport: identities, campaigns, destination apps and the digital journeys behind them."
   />
 
   <section class="wrap product" aria-label="Our product">
     <FindableFeature />
-    <Note>Findable is Outside In’s own product, so it sits above client and concept work rather than in the grid.</Note>
+    <Note>Findable is Outside In’s own product, so it sits above the selected work and concepts rather than in the grid.</Note>
   </section>
 
   <section class="wrap work-index" aria-label="Projects">
@@ -39,7 +39,7 @@ const filters = [
         ))}
       </div>
       {conceptCount > 0 && (
-        <p class="disclosure">Projects marked Concept are self-initiated proof-of-concept work, not client commissions. They show how we’d approach a real brief and claim no results.</p>
+        <p class="disclosure">Projects marked Concept are self-initiated AI proof-of-concept work, not client commissions. They show how we’d approach a real brief and claim no results.</p>
       )}
     </div>
     <p class="visually-hidden" aria-live="polite" data-filter-status></p>

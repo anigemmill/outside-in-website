@@ -375,12 +375,10 @@ function setupSay() {
   });
 }
 
-/* ---------- 09 Social fan ---------- */
-function setupFan() {
-  const sec = q('[data-fan]');
-  if (!sec) return;
+/* ---------- 09 Card fan (featured work, social) ---------- */
+function setupFan(sec: HTMLElement) {
   const deck = q('[data-fan-deck]', sec)!;
-  const cards = qa<HTMLButtonElement>('[data-fan-card]', sec);
+  const cards = qa<HTMLElement>('[data-fan-card]', sec);
   const caption = q('[data-fan-caption]', sec)!;
   const n = cards.length, mid = (n - 1) / 2;
   // Position k in the fan for each card (DOM order to start with).
@@ -390,38 +388,44 @@ function setupFan() {
     cards[cardIndex].style.setProperty('--i', String(k));
   });
 
-  const lift = (card: HTMLButtonElement | null) => {
+  const lift = (card: HTMLElement | null) => {
     const k = card ? order.indexOf(cards.indexOf(card)) : -1;
     cards.forEach((c) => {
       const kc = order.indexOf(cards.indexOf(c));
       c.classList.toggle('is-lift', c === card);
       c.style.setProperty('--lean', !card || reduce || c === card ? '0' : String(Math.sign(kc - k)));
     });
-    caption.textContent = card ? card.dataset.caption ?? '' : ' ';
+    caption.textContent = card ? card.dataset.caption ?? '' : ' ';
   };
   cards.forEach((c) => {
     c.addEventListener('focus', () => lift(c));
     c.addEventListener('blur', () => lift(null));
     if (fine) {
       c.addEventListener('pointerenter', () => lift(c));
-      c.addEventListener('pointerleave', () => lift(document.activeElement && cards.includes(document.activeElement as HTMLButtonElement) ? document.activeElement as HTMLButtonElement : null));
+      c.addEventListener('pointerleave', () => lift(document.activeElement && cards.includes(document.activeElement as HTMLElement) ? document.activeElement as HTMLElement : null));
     }
   });
 
   if (!fine) {
-    // Touch: tapping or swiping the top card flicks it to the back.
-    const flick = () => {
-      order.unshift(order.pop()!);
-      layout();
-      const top = cards[order[order.length - 1]];
-      caption.textContent = top.dataset.caption ?? ' ';
+    // Touch: swiping flicks the front card to the back. Tapping a card brings it
+    // to the front; tapping the front card opens it (if it's a link).
+    const front = () => cards[order[order.length - 1]];
+    const toFront = (c: HTMLElement) => {
+      const idx = cards.indexOf(c);
+      order.splice(order.indexOf(idx), 1); order.push(idx);
+      layout(); lift(c);
     };
     let startX = 0, swiped = 0;
     deck.addEventListener('pointerdown', (e) => { startX = e.clientX; });
     deck.addEventListener('pointerup', (e) => {
-      if (Math.abs(e.clientX - startX) > 40) { swiped = Date.now(); flick(); }
+      if (Math.abs(e.clientX - startX) > 40) { swiped = Date.now(); order.unshift(order.pop()!); layout(); lift(front()); }
     });
-    cards.forEach((c) => c.addEventListener('click', () => { if (Date.now() - swiped > 400) flick(); }));
+    cards.forEach((c) => c.addEventListener('click', (e) => {
+      if (Date.now() - swiped < 400) { e.preventDefault(); return; }
+      if (c === front() && c.classList.contains('is-lift') && c.tagName === 'A') return; // open it
+      e.preventDefault();
+      toFront(c);
+    }));
   }
 
   if (reduce) return;
@@ -454,7 +458,7 @@ setupDrift();
 setupCards();
 setupStrip();
 setupSay();
-setupFan();
+qa<HTMLElement>('[data-fan]').forEach(setupFan);
 setupCta();
 frame();
 

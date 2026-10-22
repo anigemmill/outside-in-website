@@ -45,6 +45,8 @@ The core idea comes from the name and the logo: see a business from the outside,
 | Site behaviour (menu, logo, hero cycle, reveals) | `src/scripts/site.ts` |
 | Logo (live SVG + animation) | `src/components/Logo.astro` |
 
+**Font trial (temporary, 22 Oct 2026):** `/fonts/` compares type options, and `?font=host|geist|inter|archivo|current` switches the whole preview site (previews only). When Ani chooses, set `--font-display`/`--font-body` in `global.css`, update the preloads in `Base.astro`, then delete `src/pages/fonts.astro`, `src/styles/font-trial.css`, the trial script in `Base.astro` and the unused font packages.
+
 ## Design decisions (settled; don't change without Ani asking)
 
 These were reached over several rounds with Ani. Treat them as decided.
@@ -75,7 +77,7 @@ Everything else: white `#FFFFFF` background, ink `#17131F` text, ink-soft `#4B45
 - **Contrast rule:** ink reads on all four colours (4.6:1 or better). The colour pairs themselves are only 2–3:1, so use them for the logo and large colour fields only, never for text.
 
 **Layout.**
-- **Homepage (the "Showcase" effects version, which Ani asked to keep on 22 Oct 2026):** the hero logo glides into the header → statement with a colour wipe → project stack (pinned scroll, real project covers) → Outside/Inside lens on two featured projects → Findable feature (in Findable's own brand) → drift field → notched service cards → line-by-line statements → call-to-action card → slim footer. The section list and spec are at the top of `src/pages/index.astro` and in `docs/homepage-v2-spec.md`. The "How we think" strip and the social fan are hidden (`show: false` in `src/data/home.ts`) until Ani writes the beliefs and supplies posts. Some homepage images (lens inside layers, drift, service cards) are still labelled placeholders listed in `src/assets/home/manifest.json`.
+- **Homepage (the "Showcase" effects version, which Ani asked to keep on 22 Oct 2026):** the hero logo glides into the header → statement with a colour wipe → project stack (pinned scroll, real project covers; Explore Bay of Plenty and the kiosks are excluded via `home.stack.exclude`) → Featured work as a fan of project cards (hover or tap lifts and grows a card; set in `home.featured.cards`, each project needs a 4:5 `card.jpg`) → Findable feature (in Findable's own brand) → drift field → notched service cards → line-by-line statements → call-to-action card → slim footer. The section list and spec are at the top of `src/pages/index.astro` and in `docs/homepage-v2-spec.md`. The "How we think" strip and the social fan are hidden (`show: false` in `src/data/home.ts`) until Ani writes the beliefs and supplies posts. Some homepage images (drift, service cards) are still labelled placeholders listed in `src/assets/home/manifest.json`.
 - **Header:** logo on the left (hidden on the homepage until you scroll past the hero), plain text links, and one ink "Let's talk" pill.
 - **Footer:** ink background with pink text, call to action, links, email and the Outside/Inside switch. No Behance link (Ani doesn't want visitors sent off the site).
 - **Inner pages:** quiet page headers; two-column rows (label left, content right); one colour moment per page.

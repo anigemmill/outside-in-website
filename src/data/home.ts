@@ -21,13 +21,15 @@ export const home = {
       (src/content/work), shown with their covers. */
   stack: {
     label: 'Selected work',
+    // Kept on the Projects page but left out of the stack.
+    exclude: ['explore-bay-of-plenty', 'visitor-information-kiosks'],
   },
 
   /** 03 Featured work. The two projects come from the portfolio (featured: true). */
   featured: {
     title: 'Featured work',
-    // What the inside layer shows, per featured slot.
-    inside: ['the thinking behind the work', 'the thinking behind the work'],
+    // The card fan: project slugs in order. Each needs a 4:5 `card` image in its folder.
+    cards: ['ride-retreat-the-journey', 'flavours-of-plenty', 'rotorua-walking-tours', 'empty-plate-club', 'run-for-reido', 'wings-for-life-team-logo', 'nsc-wheel-design'],
     note: 'Brand, digital and marketing work across tourism, events and sport.',
   },
 

@@ -8,7 +8,7 @@
  *  1 Hero (01 logo glide) · loud       7 How we think (07 colour strip) · medium
  *  2 Statement (02 wipe) · quiet       8 What we do (08 statements + trail) · quiet
  *  3 Work index (04 stack) · loud      9 Social (09 fan) · loud
- *  4 Featured (03 lens) · medium      10 Call to action (10 corner squares) · medium
+ *  4 Featured (09 card fan) · medium     10 Call to action (10 corner squares) · medium
  *  5 How we work (05 drift) · loud    11 Footer (slim) · quiet
  *  6 Services (06 notched cards) · medium
  */
@@ -17,7 +17,7 @@ import Logo from '../components/Logo.astro';
 import Note from '../components/Note.astro';
 import WipeHeading from '../components/home/WipeHeading.astro';
 import WorkStack from '../components/home/WorkStack.astro';
-import Featured from '../components/home/Featured.astro';
+import FeaturedFan from '../components/home/FeaturedFan.astro';
 import Drift from '../components/home/Drift.astro';
 import ServiceCards from '../components/home/ServiceCards.astro';
 import BeliefStrip from '../components/home/BeliefStrip.astro';
@@ -55,8 +55,8 @@ import { site } from '../config/site';
   <!-- 3. Work index: the project stack -->
   <WorkStack />
 
-  <!-- 4. Featured work: the Outside/Inside lens -->
-  <Featured />
+  <!-- 4. Featured work: a fan of project cards -->
+  <FeaturedFan />
 
   <!-- 4b. Our own product (quiet, between two effect sections) -->
   <section class="product wrap" aria-label="Findable, our product">

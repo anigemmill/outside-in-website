@@ -1,0 +1,15 @@
+/* FONT TRIAL (previews only). Loaded by Base.astro when the site isn't the live,
+   indexed build, so Ani can compare type across the real pages with ?font=<id>.
+   Delete this file and its import once a font is chosen. */
+@import '@fontsource-variable/inter-tight';
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/host-grotesk';
+@import '@fontsource-variable/geist';
+@import '@fontsource-variable/archivo/wdth.css';
+
+:root[data-font='host'] { --font-display: 'Host Grotesk Variable', sans-serif; --font-body: 'Host Grotesk Variable', sans-serif; }
+:root[data-font='geist'] { --font-display: 'Geist Variable', sans-serif; --font-body: 'Geist Variable', sans-serif; }
+:root[data-font='inter'] { --font-display: 'Inter Tight Variable', sans-serif; --font-body: 'Inter Variable', sans-serif; }
+:root[data-font='archivo'] { --font-display: 'Archivo Variable', sans-serif; --font-body: 'Instrument Sans Variable', sans-serif; }
+:root[data-font='archivo'] :is(h1, h2, h3) { font-weight: 800; font-stretch: 112%; text-transform: uppercase; letter-spacing: -0.01em; }
+:root[data-font] :is(h1, h2, h3) { letter-spacing: -0.035em; }

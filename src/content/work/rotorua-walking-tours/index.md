@@ -8,6 +8,7 @@ sector: "Tourism"
 type: "Brand Identity, Logo Design & Website"
 categories: ["design-creative"]
 cover: ./cover.jpg
+card: ./card.jpg
 coverAlt: "Rotorua Walking Tours website pages on a white background, with the illustrated logo in the header."
 featured: true
 order: 8

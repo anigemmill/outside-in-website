@@ -8,6 +8,7 @@ sector: "Tourism"
 type: "Digital Product, UX & Guest Experience"
 categories: ["design-creative"]
 cover: ./cover.jpg
+card: ./card.jpg
 coverAlt: "The Journey app welcome screen for Ride Retreat on a phone, showing a rider in the Redwoods and a “Let’s ride” button."
 featured: false
 order: 2

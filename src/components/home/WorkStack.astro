@@ -16,7 +16,7 @@ import { getWork } from '../../data/work';
 // Up to ten selected projects, in portfolio order, that have a real cover image
 // (placeholder SVG covers are skipped). The stack grows as images are added.
 const projects = (await getWork())
-  .filter((p) => p.data.status === 'client' && p.data.cover.format !== 'svg')
+  .filter((p) => p.data.status === 'client' && p.data.cover.format !== 'svg' && !home.stack.exclude.includes(p.id))
   .slice(0, 10)
   .map((p) => ({ cover: p.data.cover, client: p.data.title, type: p.data.sector, href: `/projects/${p.id}/` }));
 const n = projects.length;

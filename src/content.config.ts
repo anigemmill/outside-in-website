@@ -34,6 +34,8 @@ const work = defineCollection({
         year: z.number().optional(),
         cover: image(),
         coverAlt: z.string(),
+        /** Optional 4:5 portrait crop, used on the homepage card fan. */
+        card: image().optional(),
         featured: z.boolean().default(false),
         draft: z.boolean().default(false),
         order: z.number().default(100),

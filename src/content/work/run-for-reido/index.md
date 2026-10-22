@@ -9,6 +9,7 @@ type: "Charity Illustration, Logo Design & Visual Storytelling"
 categories: ["design-creative"]
 year: 2025
 cover: ./cover.jpg
+card: ./card.jpg
 coverAlt: "The Run for Reido 2025 illustrated wordmark in navy on a cream tee, with a starry cowboy hat and boots."
 featured: false
 order: 11

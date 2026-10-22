@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import '../styles/font-trial.css';
 import displayFont from '@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-wdth-normal.woff2?url';
 import bodyFont from '@fontsource-variable/instrument-sans/files/instrument-sans-latin-wdth-normal.woff2?url';
 import Header from '../components/Header.astro';
@@ -58,6 +59,17 @@ const todo = import.meta.env.DEV ? outstandingPlaceholders() : [];
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="preload" href={displayFont} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={bodyFont} as="font" type="font/woff2" crossorigin />
+    {!site.indexable && (
+      <script is:inline>
+        // Font trial on previews: ?font=host|geist|inter|archivo (remembered for this tab; ?font=current resets).
+        try {
+          var f = new URLSearchParams(location.search).get('font');
+          if (f) sessionStorage.setItem('oi-font', f);
+          f = sessionStorage.getItem('oi-font');
+          if (f && f !== 'current') document.documentElement.dataset.font = f;
+        } catch (e) {}
+      </script>
+    )}
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />

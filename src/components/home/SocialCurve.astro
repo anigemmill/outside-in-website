@@ -1,0 +1,104 @@
+---
+/**
+ * 13 Curved social gallery (homepage v3, section 7). Posts at 4:5, curved as if
+ * around the viewer: each step from the centre turns about 16° and grows a little
+ * toward the edges. Seven visible on desktop, five on phones.
+ *
+ * Motion (script): it turns on its own, about one post every 4s, but only while
+ * in view; drag or a horizontal wheel turns it directly with a short glide (the
+ * vertical page scroll is never captured); hover pauses it and lifts the post,
+ * with the client and campaign shown below. A pause button sits bottom right.
+ * Previous/next buttons and the arrow keys always work. Reduced motion: no
+ * auto-turn. Without JavaScript: a plain row of posts that scrolls sideways.
+ * Behaviour: setupSocial() in src/scripts/home.ts.
+ */
+import { Image } from 'astro:assets';
+import Note from '../Note.astro';
+import { home } from '../../data/home';
+import { asset } from '../../data/homeAssets';
+import { site } from '../../config/site';
+
+const posts = home.social.posts.map((p) => ({ ...p, img: asset(p.image) }));
+const labels: Record<string, string> = { instagram: 'Instagram', linkedin: 'LinkedIn' };
+const socials = Object.entries(site.social).filter(([k, url]) => Boolean(url) && k in labels);
+---
+<section class="soc" aria-labelledby="soc-title" data-social>
+  <div class="col soc__head">
+    <p class="label soc__label">{home.social.label}</p>
+    <h2 id="soc-title" class="soc__title">{home.social.title}</h2>
+  </div>
+
+  <div class="soc__stage" data-social-stage tabindex="0" role="group" aria-roledescription="carousel" aria-label="Social posts. Use the arrow keys or the buttons to turn.">
+    <ul role="list" class="soc__ring" data-social-ring>
+      {posts.map((p, i) => (
+        <li class="soc__post" style={`--i: ${i}`} data-social-post data-caption={`${p.client} · ${p.campaign}`}>
+          <Image src={p.img.src} alt={p.img.alt} widths={[320, 640]} sizes="(max-width: 760px) 40vw, 16rem" loading="lazy" draggable="false" />
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <div class="col soc__bar">
+    <p class="soc__caption label" data-social-caption aria-hidden="true">&nbsp;</p>
+    <div class="soc__controls">
+      <button type="button" class="soc__btn" data-social-prev aria-label="Previous post"><span aria-hidden="true">←</span></button>
+      <button type="button" class="soc__btn" data-social-next aria-label="Next post"><span aria-hidden="true">→</span></button>
+      <button type="button" class="soc__btn soc__pause" data-social-pause aria-pressed="false" hidden>
+        <span class="soc__pause-ico" aria-hidden="true"></span><span data-social-pause-label>Pause</span>
+      </button>
+    </div>
+  </div>
+  {socials.length > 0 && (
+    <ul role="list" class="col soc__links">
+      {socials.map(([k, url]) => <li><a class="text-link" href={url} target="_blank" rel="noopener">{labels[k]}<span class="visually-hidden"> (opens in a new tab)</span></a></li>)}
+    </ul>
+  )}
+  <div class="col"><Note>Social work is seen in a feed, so it's shown as one: a slow carousel you can stop, drag or step through.</Note></div>
+</section>
+
+<style>
+  .soc__head { display: grid; gap: 1rem; margin-bottom: clamp(2rem, 4vw, 3rem); }
+  .soc__label { color: var(--muted); }
+  .soc__title { font-size: var(--step-4); }
+
+  /* Without the script: a row of posts you can scroll sideways. */
+  .soc__stage { overflow-x: auto; padding-inline: var(--gutter); scroll-snap-type: x mandatory; }
+  .soc__stage:focus-visible { outline-offset: -3px; }
+  .soc__ring { display: flex; gap: 12px; margin: 0; padding: 0; }
+  .soc__post { flex: none; width: clamp(9rem, 22vw, 16rem); aspect-ratio: 4 / 5; scroll-snap-align: center; }
+  .soc__post :global(img) { width: 100%; height: 100%; object-fit: cover; user-select: none; -webkit-user-drag: none; }
+
+  .soc__bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1.25rem; }
+  .soc__caption { color: var(--muted); min-height: 1.4em; }
+  .soc__controls { display: flex; gap: 0.5rem; margin-left: auto; }
+  .soc__btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; min-width: 44px; min-height: 44px; padding: 0 0.9rem;
+    border: 1px solid var(--line); border-radius: var(--pill); background: var(--bg); color: var(--fg); font-weight: 600; font-size: 0.85rem;
+  }
+  .soc__btn:hover { border-color: var(--fg); }
+  .soc__btn[hidden] { display: none; }
+  .soc__pause-ico { width: 10px; height: 11px; border-inline: 3px solid currentColor; }
+  .soc__pause[aria-pressed='true'] .soc__pause-ico { border: 0; width: 0; height: 0; border-left: 10px solid currentColor; border-block: 6px solid transparent; }
+  .soc__links { display: flex; gap: 1.5rem; margin-top: 1rem; }
+
+  /* Live: the curved ring. Each post's offset from the centre (--o) is set by the
+     script; transform does the rest. */
+  .soc:global(.is-live) .soc__stage {
+    overflow: hidden; padding: 0; scroll-snap-type: none; perspective: 1400px;
+    height: calc(var(--pw) * 1.25 * 1.3 + 4rem); position: relative; touch-action: pan-y; cursor: grab;
+    --pw: clamp(9rem, 17vw, 16rem); --step: calc(var(--pw) * 1.02);
+  }
+  .soc:global(.is-live.is-dragging) .soc__stage { cursor: grabbing; }
+  .soc:global(.is-live) .soc__ring { display: block; position: absolute; inset: 0; transform-style: preserve-3d; }
+  .soc:global(.is-live) .soc__post {
+    position: absolute; left: 50%; top: 50%; width: var(--pw); margin: calc(var(--pw) * -0.625) 0 0 calc(var(--pw) / -2);
+    transform: translateX(calc(var(--o, 0) * var(--step))) rotateY(calc(var(--o, 0) * -16deg)) scale(calc(1 + var(--a, 0) * 0.07)) translateY(calc(var(--lift, 0) * -18px));
+    opacity: var(--vis, 1); transition: opacity 0.2s, translate 0.2s;
+    z-index: calc(20 - var(--zi, 0));
+  }
+  .soc:global(.is-live) .soc__post:global(.is-lift) { --lift: 1; }
+  .soc:global(.is-live) .soc__post :global(img) { box-shadow: 0 24px 50px -28px rgb(23 19 31 / 0.6); pointer-events: none; }
+  @media (max-width: 760px) {
+    .soc:global(.is-live) .soc__stage { --pw: 40vw; --step: calc(var(--pw) * 0.98); }
+  }
+</style>

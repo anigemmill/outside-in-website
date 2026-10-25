@@ -139,11 +139,11 @@ Bookings use Cal.com: https://cal.com/ani-gemmill-yg4gmo. Every “Book a discov
 3. Hero only: the slices follow the pointer (or a finger on touch screens), and every six seconds while idle and on screen the slices give a short blink.
 Reduced-motion users see the finished logo with no movement. Timings are in the `<style>` block of `Logo.astro`; the idle interval is in `src/scripts/site.ts`.
 
-**Homepage.** Deliberately minimal, with lots of white space: a full-screen hero that is only the animated plum logo and one line, then one statement, two large work images, three services in a row, and the footer call to action. Homepage copy lives in `src/data/home.ts`.
+**Homepage (v3, "Editorial").** Built to `HOMEPAGE-V3-SPEC.md`: the logo hero, a scroll-filled statement, a full-width work grid with the Outside/Inside lens, the drift field, numbered service rows, a sticky approach image, a curved social gallery and the corner-square call to action. Homepage copy lives in `src/data/home.ts`; homepage images in `src/assets/home/` (see `manifest.json`).
 
 **Header.** Logo on the left, plain text links and one plum “Let’s talk” button on the right. On the homepage the header logo appears once you scroll past the hero logo.
 
-**Inside view switch.** Lives in the footer (“See the thinking behind every page”).
+**Inside view switch.** Lives in the header, on every screen size.
 
 **The slice.** The logo’s cut runs through the whole site: headline text, card hovers, rules and the eyebrow markers.
 
@@ -166,7 +166,7 @@ Supporting tokens: Purple Ink `#4F3ACB` (links, 7.5:1 on white), Red Ink `#B8320
 
 **Shapes.** Buttons, tags, filters and stickers are pills (`--pill`); cards and panels use a 16px radius (`--radius`).
 
-**Type.** Bricolage Grotesque (display), Instrument Sans (body), JetBrains Mono (labels and Inside-view notes). All self-hosted; no requests to Google.
+**Type.** League Spartan 800 in capitals for headings and wordmarks (a free stand-in for Kilimanjaro Sans), Instrument Sans for all copy and labels. The Findable pages keep Findable's own type (Inter Tight, Inter, JetBrains Mono). All self-hosted; no requests to Google.
 
 **Inside view.** The toggle in the header flips the site into a blueprint layer that explains the thinking behind each section. The visitor’s choice is remembered in their browser only.
 

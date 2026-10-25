@@ -11,7 +11,7 @@ import { site } from '../config/site';
   title="About"
   description="Why Outside In brings creativity, marketing and AI together, and what that means for the businesses we work with."
 >
-  <PageHero eyebrow="About" dot="purple" title="Close enough to care. Far enough to see." lede={about.lede} />
+  <PageHero eyebrow="About" dot="red" title="Close enough to care. Far enough to see." lede={about.lede} />
 
   <figure class="wrap mark-panel">
     <div class="mark-panel__inner">
@@ -82,7 +82,7 @@ import { site } from '../config/site';
 
   .name-cols { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gutter); }
   .name-cols > div { display: grid; gap: 0.6rem; align-content: start; }
-  .name-cols__h { font-size: var(--step-3); font-weight: 600; letter-spacing: -0.03em; }
+  .name-cols__h { font-size: var(--step-3); letter-spacing: -0.02em; }
   @media (max-width: 640px) { .name-cols { grid-template-columns: 1fr; } }
 
   .people { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--gutter); padding: 0; }

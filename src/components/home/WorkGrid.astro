@@ -1,0 +1,174 @@
+---
+/**
+ * 12 Work grid + 03 Lens (homepage v3, section 3). Full width, 8px gaps (4px on
+ * phones), square corners, rows of two, one, two, one. Each tile: "N° 01" top
+ * left, the name bottom left, its disciplines bottom right, over a dark gradient.
+ *
+ * - Rise: each row's images rise 12% into their frames when the row reaches 90%
+ *   of the screen (600ms, the second tile 100ms later). Once.
+ * - Drift: each image is 10% taller than its frame and moves −5% → +5% as it
+ *   crosses the screen (CSS scroll-driven, script fallback).
+ * - Lens (fine pointer): a 220px feathered circle follows the pointer and shows
+ *   the tile's inside image, aligned exactly beneath. The caption adds "Inside: …".
+ * - Touch: a slice-shaped band (three strips, the middle one offset right)
+ *   reveals the inside image as the tile crosses the screen.
+ * - A small Outside/Inside toggle under each tile swaps the whole layer. It shows
+ *   on focus and on touch, and is the only behaviour with reduced motion.
+ * Behaviour: setupWork() in src/scripts/home.ts.
+ */
+import { Image } from 'astro:assets';
+import WipeHeading from './WipeHeading.astro';
+import Note from '../Note.astro';
+import { home } from '../../data/home';
+import { asset } from '../../data/homeAssets';
+import { getWork } from '../../data/work';
+import { serviceById } from '../../data/services';
+
+const work = await getWork();
+const tiles = home.work.tiles.flatMap((t, i) => {
+  const p = work.find((w) => w.id === t.slug);
+  if (!p) return [];
+  const out = asset(t.image);
+  const inside = asset(`${t.image}-inside`);
+  const full = out.src.width / out.src.height > 2;
+  return [{
+    n: String(i + 1).padStart(2, '0'), href: `/projects/${p.id}/`, title: p.data.title,
+    concept: p.data.status === 'concept',
+    disciplines: p.data.categories.map((c) => serviceById[c].name).join(' · '),
+    out, inside, insideCap: t.inside, full,
+  }];
+});
+// Column within its row (0 or 1), for the rise stagger.
+let col = 0;
+const withCol = tiles.map((t) => { const c = t.full ? 0 : col; col = t.full ? 0 : (col + 1) % 2; return { ...t, col: c }; });
+---
+<section class="work" aria-labelledby="work-title" data-work>
+  <div class="col work__head">
+    <p class="label work__label">{home.work.label}</p>
+    <div class="work__row">
+      <WipeHeading id="work-title" class="work__title" text={home.work.title} colour="pink" />
+      <a class="text-link" href="/projects/">All work <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+
+  <ul role="list" class="work__grid">
+    {withCol.map((t) => (
+      <li class:list={['wtile', t.full ? 'wtile--full' : 'wtile--half']} style={`--col: ${t.col}`} data-tile>
+        <a class="wtile__link" href={t.href}>
+          <div class="wtile__media" data-tile-media style={`aspect-ratio: ${t.out.src.width} / ${t.out.src.height}`}>
+            <div class="wtile__rise">
+              <div class="wtile__img wtile__drift">
+                <Image src={t.out.src} alt={t.out.alt} widths={t.full ? [800, 1600, 2400] : [640, 1024, 1600]} sizes={t.full ? '100vw' : '(max-width: 760px) 100vw, 50vw'} loading="lazy" />
+              </div>
+              <div class="wtile__inside" data-tile-inside aria-hidden="true">
+                <div class="wtile__img wtile__drift">
+                  <Image src={t.inside.src} alt="" widths={t.full ? [800, 1600, 2400] : [640, 1024, 1600]} sizes={t.full ? '100vw' : '(max-width: 760px) 100vw, 50vw'} loading="lazy" />
+                </div>
+              </div>
+            </div>
+            <span class="wtile__shade" aria-hidden="true"></span>
+            <span class="wtile__no label">N° {t.n}</span>
+            <span class="wtile__foot">
+              <span class="wtile__names">
+                <span class="wtile__name">{t.title}</span>
+                <span class="wtile__inside-cap label" aria-hidden="true">Inside: {t.insideCap}</span>
+              </span>
+              <span class="wtile__disc label">{t.concept ? 'Concept · ' : ''}{t.disciplines}</span>
+            </span>
+          </div>
+        </a>
+        <button type="button" class="wtile__toggle label" aria-pressed="false" data-tile-switch>
+          <span>Outside</span><span class="wtile__track" aria-hidden="true"><i></i></span><span>Inside</span>
+          <span class="visually-hidden"> layer for {t.title}</span>
+        </button>
+      </li>
+    ))}
+  </ul>
+  <div class="col"><Note>Each tile has two layers: the work as people see it, and the thinking behind it. Hover with the lens, or flip the switch, to look inside.</Note></div>
+</section>
+
+<style>
+  .work__head { display: grid; gap: 1rem; margin-bottom: clamp(2rem, 4vw, 3.5rem); }
+  .work__label { color: var(--muted); }
+  .work__row { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.5rem 1.5rem; }
+  .work :global(.work__title) { font-size: var(--step-4); }
+
+  .work__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0; padding: 0; }
+  .wtile { position: relative; min-width: 0; }
+  .wtile--full { grid-column: 1 / -1; }
+  .wtile__link { display: block; color: var(--white); text-decoration: none; }
+  .wtile__media { position: relative; overflow: hidden; background: var(--surface); }
+  .wtile__rise { position: absolute; inset: 0; }
+  /* Each image is 10% taller than its frame so it can drift ±5%. */
+  .wtile__img { position: absolute; left: 0; right: 0; top: -5%; height: 110%; }
+  .wtile__img :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .wtile__inside { position: absolute; inset: 0; opacity: 0; transition: opacity 0.2s; }
+  .wtile.is-inside .wtile__inside { opacity: 1; mask-image: none; -webkit-mask-image: none; }
+
+  .wtile__shade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to bottom, rgb(23 19 31 / 0.55), transparent 28%, transparent 52%, rgb(23 19 31 / 0.78)); }
+  .wtile__no { position: absolute; top: clamp(0.9rem, 2vw, 1.5rem); left: clamp(0.9rem, 2vw, 1.5rem); color: var(--white); }
+  .wtile__foot { position: absolute; left: clamp(0.9rem, 2vw, 1.5rem); right: clamp(0.9rem, 2vw, 1.5rem); bottom: clamp(0.9rem, 2vw, 1.5rem); display: flex; align-items: end; justify-content: space-between; gap: 0.5rem 1.5rem; flex-wrap: wrap; }
+  .wtile__names { display: grid; gap: 0.35rem; }
+  .wtile__name { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; letter-spacing: -0.02em; line-height: 0.9; font-size: clamp(1.5rem, 1rem + 1.8vw, 2.6rem); text-wrap: balance; }
+  .wtile--full .wtile__name { font-size: clamp(1.8rem, 1rem + 2.6vw, 3.6rem); }
+  .wtile__inside-cap { display: none; color: var(--green); }
+  .wtile.is-inside .wtile__inside-cap, .wtile.is-lens .wtile__inside-cap { display: block; }
+  .wtile__disc { color: var(--white); text-align: right; }
+  .wtile__link:focus-visible { outline-offset: -6px; outline-color: var(--white); }
+
+  /* Outside/Inside toggle: visible on focus, on touch and with reduced motion. */
+  /* Sits on the tile's top-right corner, so it never adds space between rows. */
+  .wtile__toggle {
+    position: absolute; top: clamp(0.5rem, 1.4vw, 1rem); right: clamp(0.5rem, 1.4vw, 1rem); z-index: 2;
+    display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px;
+    padding: 0 0.85rem; background: var(--white); border: 0; border-radius: var(--pill); color: var(--ink);
+    opacity: 0; pointer-events: none; transition: opacity 0.2s;
+  }
+  .wtile__toggle:focus-visible { outline-color: var(--white); }
+  .wtile__toggle:focus-visible, .wtile:focus-within .wtile__toggle, .work:global(.lens-touch) .wtile__toggle { opacity: 1; pointer-events: auto; }
+  .wtile__track { position: relative; width: 34px; height: 18px; border: 1.5px solid currentColor; border-radius: 2px; }
+  .wtile__track i { position: absolute; top: 2px; left: 2px; width: 12px; height: 11px; background: var(--ink); transition: transform 0.25s var(--ease-out-back); }
+  .wtile__toggle[aria-pressed='true'] .wtile__track i { transform: translateX(15px); }
+  @media (prefers-reduced-motion: reduce) { .wtile__toggle { opacity: 1; pointer-events: auto; } }
+
+  /* Rise (script + motion): images start 12% low and rise once their row arrives. */
+  .work:global(.is-live) .wtile__rise { transform: translateY(12%); transition: transform 0.6s var(--ease-out); transition-delay: calc(var(--col) * 100ms); }
+  .work:global(.is-live) .wtile:global(.is-up) .wtile__rise { transform: none; }
+
+  /* Drift: CSS scroll-driven where supported, else --d from the script. */
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .work:global(.is-live) .wtile__drift { animation: wtile-drift linear both; animation-timeline: view(block); }
+    }
+    .work:global(.is-live.no-sda) .wtile__drift { transform: translateY(calc(var(--d, 0) * 1%)); }
+  }
+  @keyframes wtile-drift { from { transform: translateY(-5%); } to { transform: translateY(5%); } }
+
+  /* 03 Lens (fine pointer): a 220px circle with a 24px feathered edge. */
+  @property --lens-r { syntax: '<length>'; inherits: true; initial-value: 0px; }
+  .work:global(.lens-fine) .wtile__inside {
+    opacity: 1;
+    --lens-r: 0px;
+    -webkit-mask-image: radial-gradient(circle at var(--lx, 50%) var(--ly, 50%), #000 calc(var(--lens-r) - 24px), transparent var(--lens-r));
+            mask-image: radial-gradient(circle at var(--lx, 50%) var(--ly, 50%), #000 calc(var(--lens-r) - 24px), transparent var(--lens-r));
+    transition: --lens-r 0.16s var(--ease-out);
+  }
+  .work:global(.lens-fine) .wtile:global(.is-lens) .wtile__inside { --lens-r: 110px; transition-duration: 0.2s; }
+  .work:global(.lens-fine) .wtile.is-inside .wtile__inside { -webkit-mask-image: none; mask-image: none; }
+
+  /* Touch: a slice-shaped band, three strips with the middle one offset right. */
+  .work:global(.lens-touch) .wtile__inside {
+    opacity: 1;
+    --w: calc(var(--t, 0) * 100%);
+    -webkit-mask: linear-gradient(#000 0 0) 0 0 / var(--w) 40% no-repeat, linear-gradient(#000 0 0) 0 50% / calc(var(--w) + 8%) 20% no-repeat, linear-gradient(#000 0 0) 0 100% / var(--w) 40% no-repeat;
+            mask: linear-gradient(#000 0 0) 0 0 / var(--w) 40% no-repeat, linear-gradient(#000 0 0) 0 50% / calc(var(--w) + 8%) 20% no-repeat, linear-gradient(#000 0 0) 0 100% / var(--w) 40% no-repeat;
+  }
+  .work:global(.lens-touch) .wtile.is-inside .wtile__inside { -webkit-mask: none; mask: none; }
+
+  @media (max-width: 760px) {
+    .work__grid { grid-template-columns: 1fr; gap: 4px; }
+    /* Full-width tiles would be a thin strip on a phone: give them a 4:3 frame. */
+    .wtile--full .wtile__media { aspect-ratio: 4 / 3 !important; }
+    .wtile__disc { text-align: left; }
+  }
+</style>

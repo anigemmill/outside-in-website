@@ -1,5 +1,6 @@
 ---
 import Logo from './Logo.astro';
+import ViewToggle from './ViewToggle.astro';
 import { nav, site, bookingHref, bookingIsExternal } from '../config/site';
 
 const path = Astro.url.pathname;
@@ -20,6 +21,7 @@ const isCurrent = (href: string) => (href === '/' ? path === '/' : path.startsWi
       </ul>
     </nav>
 
+    <ViewToggle id="view-toggle-header" class="site-header__view" />
     <a class="btn btn--accent btn--sm hide-sm" href="/contact/">Let’s talk</a>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-open>
       <span class="menu-btn__label">Menu</span>
@@ -54,7 +56,7 @@ const isCurrent = (href: string) => (href === '/' ? path === '/' : path.startsWi
   /* Homepage: the header floats over the logo hero and stays clear until the hero
      logo has glided into the logo slot (see src/scripts/home.ts). */
   :global(.is-home) .site-header { position: fixed; left: 0; right: 0; }
-  :global(.is-home) .site-header:not(.is-past-hero) { --fg: var(--ink); --bg: var(--white); }
+  :global(.is-home) .site-header:not(.is-past-hero) { --fg: var(--ink); --bg: var(--white); --muted: var(--ink); }
   :global(.is-home) .site-header:not(.is-past-hero) .site-header__bg { opacity: 0; }
   /* While the glide runs, the background fades in over the last 20% of it. */
   :global(.is-home.glide-live) .site-header__bg { animation-name: header-bg-in; --tl: --hero; --range: cover var(--g-r0, 50%) cover var(--g-r1, 80%); }
@@ -98,10 +100,14 @@ const isCurrent = (href: string) => (href === '/' ? path === '/' : path.startsWi
   .mobile-menu[hidden] { display: none; }
   .mobile-menu ul { display: grid; gap: 0.4rem; }
   .mobile-menu li { animation: menu-in 0.5s var(--ease-out) both; animation-delay: calc(var(--i) * 45ms); }
-  .mobile-menu nav a { display: block; font-family: var(--font-display); font-weight: 600; font-size: clamp(2.2rem, 10vw, 3.2rem); letter-spacing: -0.03em; line-height: 1.15; text-decoration: none; color: var(--fg); }
+  .mobile-menu nav a { display: block; font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: clamp(2.2rem, 10vw, 3.2rem); letter-spacing: -0.02em; line-height: 1.05; text-decoration: none; color: var(--fg); }
   .mobile-menu nav a[aria-current='page'] { color: var(--link); }
   .mobile-menu__foot { display: grid; gap: 1rem; justify-items: start; }
   @keyframes menu-in { from { opacity: 0; transform: translateY(8px); } }
+
+  /* The Outside/Inside switch lives in the header (v3), on every screen size. */
+  :global(.site-header__view) { flex: none; }
+  @media (max-width: 400px) { :global(.site-header__view) { gap: 0.35rem; } }
 
   @media (max-width: 960px) {
     .site-nav { display: none; }

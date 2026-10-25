@@ -1,10 +1,10 @@
 /**
- * Homepage v2 effects. Spec: docs/homepage-v2-spec.md.
+ * Homepage v3 effects. Spec: HOMEPAGE-V3-SPEC.md.
  *
  * Every section works without this script (finished state, plain links). The
  * script switches each effect on by adding a class, and does nothing for people
  * who prefer reduced motion beyond the few controls that must still work (the
- * Outside/Inside switch, the touch row highlight, the social captions).
+ * tile Outside/Inside switches, the gallery buttons and arrow keys).
  *
  * Scroll-linked motion uses CSS scroll-driven animations where supported
  * (html.sda). Elsewhere (html.nosda) the paused CSS animations are scrubbed
@@ -158,37 +158,83 @@ function playWipe(h: HTMLElement) {
   Promise.all(anims.map((a) => a.finished)).catch(() => {});
 }
 
-/* ---------- 03 Outside/Inside lens ---------- */
-function setupLens() {
-  const sec = q('[data-featured]');
+/* ---------- 11 Scroll-filled statement ---------- */
+function setupFill() {
+  const sec = q('[data-fill]');
+  if (!sec || reduce) return;
+  const words = qa('.fill__w', sec);
+  const text = q('.fill__text', sec)!;
+  sec.classList.add('is-live');
+  let last = -1;
+  onFrame.push(() => {
+    // From the block's top at 80% of the screen to its bottom at 40%.
+    const r = text.getBoundingClientRect(), v = vh();
+    const p = clamp((0.8 * v - r.top) / (0.4 * v + r.height));
+    const k = Math.round(p * words.length);
+    if (k === last) return;
+    last = k;
+    words.forEach((w, i) => {
+      w.classList.toggle('is-on', i < k - 2);
+      w.classList.toggle('is-edge', i >= k - 2 && i < k);
+    });
+  });
+}
+
+/* ---------- 12 Work grid + 03 Lens ---------- */
+function setupWork() {
+  const sec = q('[data-work]');
   if (!sec) return;
-  const items = qa('[data-lens-item]', sec);
+  const tiles = qa('[data-tile]', sec);
   // The switch works in every mode, and is the only behaviour with reduced motion.
-  items.forEach((item) => {
-    const btn = q<HTMLButtonElement>('[data-lens-switch]', item)!;
+  tiles.forEach((tile) => {
+    const btn = q<HTMLButtonElement>('[data-tile-switch]', tile)!;
     btn.addEventListener('click', () => {
-      const on = !item.classList.contains('is-inside');
-      item.classList.toggle('is-inside', on);
+      const on = !tile.classList.contains('is-inside');
+      tile.classList.toggle('is-inside', on);
       btn.setAttribute('aria-pressed', String(on));
     });
   });
   if (reduce) return;
+  sec.classList.add('is-live');
+
+  // Rise: once, when a tile's row reaches 90% of the screen.
+  const rise = new IntersectionObserver((entries) => entries.forEach((en) => {
+    if (!en.isIntersecting) return;
+    en.target.classList.add('is-up');
+    rise.unobserve(en.target);
+  }), { rootMargin: '0px 0px -10% 0px' });
+  tiles.forEach((t) => {
+    // A tile already on screen at load starts in place.
+    if (t.getBoundingClientRect().top < vh() * 0.9) t.classList.add('is-up');
+    else rise.observe(t);
+  });
+
+  // Drift fallback where CSS scroll-driven animations aren't available.
+  if (!CSS.supports('animation-timeline: view()')) {
+    sec.classList.add('no-sda');
+    const medias = qa('[data-tile-media]', sec);
+    onFrame.push(() => medias.forEach((m) => {
+      const r = m.getBoundingClientRect();
+      const p = clamp((vh() - r.top) / (vh() + r.height));
+      m.style.setProperty('--d', (-5 + 10 * p).toFixed(2));
+    }));
+  }
 
   if (fine) {
     sec.classList.add('lens-fine');
     let inView = true;
     new IntersectionObserver(([en]) => {
       inView = en.isIntersecting;
-      if (!inView) items.forEach((i) => i.classList.remove('is-lens'));
+      if (!inView) tiles.forEach((t) => t.classList.remove('is-lens'));
     }).observe(sec);
-    items.forEach((item) => {
-      const media = q('[data-lens-media]', item)!;
-      const inside = q('[data-lens-inside]', item)!;
+    tiles.forEach((tile) => {
+      const media = q('[data-tile-media]', tile)!;
+      const inside = q('[data-tile-inside]', tile)!;
       let x = 0, y = 0, tx = 0, ty = 0, last = 0, raf = 0, hovering = false;
       const loop = (t: number) => {
         const dt = last ? t - last : 16;
         last = t;
-        const k = 1 - Math.exp(-dt / 80); // eases after the pointer with about 80ms lag
+        const k = 1 - Math.exp(-dt / 80); // about 80ms lag behind the pointer
         x += (tx - x) * k;
         y += (ty - y) * k;
         inside.style.setProperty('--lx', `${x.toFixed(1)}px`);
@@ -197,88 +243,29 @@ function setupLens() {
         else raf = 0;
       };
       const kick = () => { if (!raf) { last = 0; raf = requestAnimationFrame(loop); } };
+      // The inside image drifts with the outside one, so measure against the frame.
+      const at = (e: PointerEvent) => { const r = media.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
       media.addEventListener('pointerenter', (e) => {
-        const r = media.getBoundingClientRect();
-        x = tx = e.clientX - r.left;
-        y = ty = e.clientY - r.top;
+        [x, y] = at(e); tx = x; ty = y;
         hovering = true;
         inside.style.setProperty('--lx', `${x}px`);
         inside.style.setProperty('--ly', `${y}px`);
-        item.classList.add('is-lens');
+        tile.classList.add('is-lens');
       });
-      media.addEventListener('pointermove', (e) => {
-        const r = media.getBoundingClientRect();
-        tx = e.clientX - r.left;
-        ty = e.clientY - r.top;
-        kick();
-      });
-      media.addEventListener('pointerleave', () => {
-        hovering = false;
-        item.classList.remove('is-lens');
-      });
+      media.addEventListener('pointermove', (e) => { [tx, ty] = at(e); kick(); });
+      media.addEventListener('pointerleave', () => { hovering = false; tile.classList.remove('is-lens'); });
     });
   } else {
+    // Touch: the slice band reveals the inside image as the tile crosses the
+    // screen (its centre moving from 85% to 25% of the viewport).
     sec.classList.add('lens-touch');
-    // The wipe runs while the image centre moves from 85% to 25% of the viewport.
-    const medias = qa('[data-lens-media]', sec);
-    const measure = () => medias.forEach((m) => {
-      const h = m.offsetHeight, v = vh();
-      m.style.setProperty('--r0', `${((0.15 * v + h / 2) / (v + h)) * 100}%`);
-      m.style.setProperty('--r1', `${((0.75 * v + h / 2) / (v + h)) * 100}%`);
-    });
-    measure();
-    onResize.push(measure);
-    medias.forEach((m) => scrub({
-      el: m,
-      progress: () => {
-        const r = m.getBoundingClientRect();
-        return (0.85 * vh() - (r.top + r.height / 2)) / (0.6 * vh());
-      },
+    const medias = qa('[data-tile-media]', sec);
+    onFrame.push(() => medias.forEach((m) => {
+      const r = m.getBoundingClientRect();
+      const t = clamp((0.85 * vh() - (r.top + r.height / 2)) / (0.6 * vh()));
+      q('[data-tile-inside]', m)!.style.setProperty('--t', t.toFixed(3));
     }));
   }
-}
-
-/* ---------- 04 Project stack ---------- */
-function setupStack() {
-  const sec = q('[data-stack]');
-  if (!sec || reduce) return;
-  sec.classList.add('is-live');
-  const items = qa('[data-stack-item]', sec);
-  const now = q('.stack__now', sec)!;
-  const countEl = q('[data-stack-count]', sec)!;
-  const clientEl = q('[data-stack-client]', sec)!;
-  const typeEl = q('[data-stack-type]', sec)!;
-  const progress = containOf(sec);
-  const pad = (n: number) => String(n).padStart(2, '0');
-  let active = -1, swapTimer = 0;
-  const show = (i: number, n: number) => {
-    countEl.textContent = `${pad(i + 1)} / ${pad(n)}`;
-    clientEl.textContent = items[i].dataset.client ?? '';
-    typeEl.textContent = items[i].dataset.type ?? '';
-  };
-  const update = () => {
-    const mob = isMobile();
-    const n = mob ? Math.min(5, items.length) : items.length;
-    const T = Number(mob ? sec.dataset.tMob : sec.dataset.tDesk);
-    // Card i is flat at the centre when progress × T = 0.6 × (i + 1).
-    const i = clamp(Math.round((clamp(progress()) * T) / 0.6 - 1), 0, n - 1);
-    if (i === active) return;
-    const first = active === -1;
-    active = i;
-    items.forEach((it, k) => {
-      it.classList.toggle('is-active', k === i);
-      q('a', it)!.tabIndex = k === i ? 0 : -1;
-    });
-    if (first) { show(i, n); return; }
-    // Labels swap with a 150ms fade.
-    now.classList.add('is-swapping');
-    clearTimeout(swapTimer);
-    swapTimer = window.setTimeout(() => { show(active, n); now.classList.remove('is-swapping'); }, 150);
-  };
-  update();
-  onFrame.push(update);
-  onResize.push(() => { active = -1; update(); });
-  scrub({ el: sec, progress });
 }
 
 /* ---------- 05 Drift field ---------- */
@@ -289,154 +276,132 @@ function setupDrift() {
   scrub({ el: sec, progress: containOf(sec) });
 }
 
-/* ---------- 06 Notched cards: on touch, the row crossing the middle lights up ---------- */
-function setupCards() {
-  const sec = q('[data-cards]');
-  if (!sec || fine) return;
-  const io = new IntersectionObserver((entries) => entries.forEach((en) => {
-    en.target.classList.toggle('is-hot', en.isIntersecting);
-  }), { rootMargin: '-50% 0px -50% 0px' });
-  qa('[data-row]', sec).forEach((r) => io.observe(r));
-}
-
-/* ---------- 07 Colour card strip ---------- */
-function setupStrip() {
-  const sec = q('[data-strip]');
+/* ---------- Approach: sticky stage image ---------- */
+function setupApproach() {
+  const sec = q('[data-approach]');
   if (!sec || reduce) return;
-  const viewport = q('[data-strip-viewport]', sec)!;
-  const row = q('[data-strip-row]', sec)!;
+  const stages = qa('[data-stage]', sec);
+  const imgs = qa('[data-stage-img]', sec);
   sec.classList.add('is-live');
-  if (fine) {
-    sec.classList.add('strip--slide');
-    const measure = () => {
-      const cs = getComputedStyle(viewport);
-      const visible = viewport.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
-      sec.style.setProperty('--overflow', `${Math.max(0, row.scrollWidth - visible)}px`);
-    };
-    measure();
-    onResize.push(measure);
-    scrub({ el: sec, progress: coverOf(sec, 0.15, 0.85) });
-  } else {
-    sec.classList.add('strip--swipe');
-    viewport.tabIndex = 0;
-    viewport.setAttribute('role', 'region');
-    viewport.setAttribute('aria-label', 'How we think, scrolls sideways');
-    const dots = qa('[data-strip-dots] span', sec);
-    const items = [...row.children] as HTMLElement[];
-    const update = () => {
-      const x = viewport.scrollLeft;
-      let best = 0;
-      items.forEach((it, i) => { if (Math.abs(it.offsetLeft - x) < Math.abs(items[best].offsetLeft - x)) best = i; });
-      dots.forEach((d, i) => d.classList.toggle('is-on', i === best));
-    };
-    viewport.addEventListener('scroll', () => requestAnimationFrame(update), { passive: true });
-    update();
-  }
-}
-
-/* ---------- 08 Line-by-line statements + tag trail ---------- */
-function setupSay() {
-  const sec = q('[data-say]');
-  if (!sec || reduce) return;
-  sec.classList.add('is-live');
-  const list = q('[data-say-list]', sec)!;
-  const io = new IntersectionObserver(([en]) => {
-    if (en.isIntersecting) { sec.classList.add('is-in'); io.disconnect(); }
-  }, { rootMargin: '0px 0px -30% 0px' });
-  io.observe(list);
-  if (!fine) return;
-
-  sec.classList.add('has-trail');
-  const trail = q('[data-trail]', sec)!;
-  const words: [string, string][] = JSON.parse(sec.dataset.trailWords || '[]');
-  let inView = false, lastX = 0, lastY = 0, travelled = 0, next = 0, primed = false;
-  new IntersectionObserver(([en]) => { inView = en.isIntersecting; }).observe(sec);
-  sec.addEventListener('pointerleave', () => { primed = false; });
-  sec.addEventListener('pointermove', (e) => {
-    if (!inView) return;
-    const r = sec.getBoundingClientRect();
-    const x = e.clientX - r.left, y = e.clientY - r.top;
-    if (!primed) { primed = true; lastX = x; lastY = y; return; }
-    travelled += Math.hypot(x - lastX, y - lastY);
-    lastX = x; lastY = y;
-    // A tag every 60px of pointer travel; at most 8 on screen.
-    while (travelled >= 60) {
-      travelled -= 60;
-      const [word, colour] = words[next++ % words.length];
-      const tag = document.createElement('span');
-      tag.className = 'say__trail-tag';
-      tag.textContent = word;
-      tag.style.setProperty('--c', `var(--${colour})`);
-      tag.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
-      tag.addEventListener('animationend', () => tag.remove(), { once: true });
-      trail.appendChild(tag);
-      while (trail.children.length > 8) trail.firstElementChild!.remove();
-    }
-  });
-}
-
-/* ---------- 09 Card fan (featured work, social) ---------- */
-function setupFan(sec: HTMLElement) {
-  const deck = q('[data-fan-deck]', sec)!;
-  const cards = qa<HTMLElement>('[data-fan-card]', sec);
-  const caption = q('[data-fan-caption]', sec)!;
-  const n = cards.length, mid = (n - 1) / 2;
-  // Position k in the fan for each card (DOM order to start with).
-  const order = cards.map((_, i) => i);
-  const layout = () => order.forEach((cardIndex, k) => {
-    cards[cardIndex].style.setProperty('--o', String(k - mid));
-    cards[cardIndex].style.setProperty('--i', String(k));
-  });
-
-  const lift = (card: HTMLElement | null) => {
-    const k = card ? order.indexOf(cards.indexOf(card)) : -1;
-    cards.forEach((c) => {
-      const kc = order.indexOf(cards.indexOf(c));
-      c.classList.toggle('is-lift', c === card);
-      c.style.setProperty('--lean', !card || reduce || c === card ? '0' : String(Math.sign(kc - k)));
-    });
-    caption.textContent = card ? card.dataset.caption ?? '' : ' ';
+  const show = (i: number) => {
+    stages.forEach((s, k) => s.classList.toggle('is-on', k === i));
+    imgs.forEach((im, k) => im.classList.toggle('is-on', k === Math.min(i, imgs.length - 1)));
   };
-  cards.forEach((c) => {
-    c.addEventListener('focus', () => lift(c));
-    c.addEventListener('blur', () => lift(null));
-    if (fine) {
-      c.addEventListener('pointerenter', () => lift(c));
-      c.addEventListener('pointerleave', () => lift(document.activeElement && cards.includes(document.activeElement as HTMLElement) ? document.activeElement as HTMLElement : null));
-    }
+  // A stage becomes current as it reaches the middle of the screen.
+  const io = new IntersectionObserver((entries) => entries.forEach((en) => {
+    if (en.isIntersecting) show(stages.indexOf(en.target as HTMLElement));
+  }), { rootMargin: '-50% 0px -50% 0px' });
+  stages.forEach((s) => io.observe(s));
+}
+
+/* ---------- 13 Curved social gallery ---------- */
+function setupSocial() {
+  const sec = q('[data-social]');
+  if (!sec) return;
+  const stage = q('[data-social-stage]', sec)!;
+  const posts = qa('[data-social-post]', sec);
+  const caption = q('[data-social-caption]', sec)!;
+  const pauseBtn = q<HTMLButtonElement>('[data-social-pause]', sec)!;
+  const pauseLabel = q('[data-social-pause-label]', sec)!;
+  const n = posts.length;
+  sec.classList.add('is-live');
+
+  let pos = 0;          // the post at the centre (fractional while moving)
+  let target = 0;       // where a glide is heading
+  let raf = 0, inView = false, paused = reduce, hoverPause = false, dragging = false;
+  let lifted: HTMLElement | null = null;
+
+  const wrap = (o: number) => ((o % n) + n + n / 2) % n - n / 2;
+  const render = () => {
+    const visible = isMobile() ? 2 : 3;
+    posts.forEach((p, i) => {
+      const o = wrap(i - pos);
+      const a = Math.abs(o);
+      p.style.setProperty('--o', o.toFixed(3));
+      p.style.setProperty('--a', a.toFixed(3));
+      p.style.setProperty('--zi', String(Math.round(a * 2)));
+      p.style.setProperty('--vis', a <= visible + 0.5 ? '1' : String(clamp(visible + 1 - a)));
+      p.setAttribute('aria-hidden', a > visible + 0.5 ? 'true' : 'false');
+    });
+  };
+  const centre = () => posts[((Math.round(pos) % n) + n) % n];
+  const setCaption = (p: HTMLElement | null) => { caption.textContent = p?.dataset.caption ?? ' '; };
+
+  // A short glide towards `target`.
+  const glide = () => {
+    const d = target - pos;
+    if (Math.abs(d) < 0.002) { pos = target; render(); raf = 0; return; }
+    pos += d * 0.14;
+    render();
+    raf = requestAnimationFrame(glide);
+  };
+  const go = (t: number) => { target = t; if (!raf) raf = requestAnimationFrame(glide); };
+  const step = (dir: number) => { go(Math.round(target) + dir); setCaption(null); };
+
+  q('[data-social-prev]', sec)!.addEventListener('click', () => step(-1));
+  q('[data-social-next]', sec)!.addEventListener('click', () => step(1));
+  stage.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
   });
 
-  if (!fine) {
-    // Touch: swiping flicks the front card to the back. Tapping a card brings it
-    // to the front; tapping the front card opens it (if it's a link).
-    const front = () => cards[order[order.length - 1]];
-    const toFront = (c: HTMLElement) => {
-      const idx = cards.indexOf(c);
-      order.splice(order.indexOf(idx), 1); order.push(idx);
-      layout(); lift(c);
-    };
-    let startX = 0, swiped = 0;
-    deck.addEventListener('pointerdown', (e) => { startX = e.clientX; });
-    deck.addEventListener('pointerup', (e) => {
-      if (Math.abs(e.clientX - startX) > 40) { swiped = Date.now(); order.unshift(order.pop()!); layout(); lift(front()); }
-    });
-    cards.forEach((c) => c.addEventListener('click', (e) => {
-      if (Date.now() - swiped < 400) { e.preventDefault(); return; }
-      if (c === front() && c.classList.contains('is-lift') && c.tagName === 'A') return; // open it
-      e.preventDefault();
-      toFront(c);
-    }));
-  }
+  // Drag (pointer) turns it directly; release glides to the nearest post.
+  let startX = 0, startPos = 0, stepPx = 1;
+  stage.addEventListener('pointerdown', (e) => {
+    if (e.button !== 0) return;
+    dragging = true; sec.classList.add('is-dragging');
+    startX = e.clientX; startPos = pos;
+    stepPx = posts[0].getBoundingClientRect().width * 1.02 || 200;
+    stage.setPointerCapture(e.pointerId);
+    cancelAnimationFrame(raf); raf = 0;
+  });
+  stage.addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+    pos = startPos - (e.clientX - startX) / stepPx;
+    target = pos;
+    render();
+  });
+  const endDrag = () => { if (!dragging) return; dragging = false; sec.classList.remove('is-dragging'); go(Math.round(pos)); };
+  stage.addEventListener('pointerup', endDrag);
+  stage.addEventListener('pointercancel', endDrag);
+  // Horizontal wheel only: vertical page scroll is never captured.
+  stage.addEventListener('wheel', (e) => {
+    if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+    e.preventDefault();
+    go(target + e.deltaX / 240);
+    clearTimeout(wheelTimer);
+    wheelTimer = window.setTimeout(() => go(Math.round(target)), 140);
+  }, { passive: false });
+  let wheelTimer = 0;
 
-  if (reduce) return;
-  deck.classList.add('is-live', 'is-piled');
-  const io = new IntersectionObserver(([en]) => {
-    if (!en.isIntersecting) return;
-    io.disconnect();
-    deck.classList.remove('is-piled');
-    window.setTimeout(() => deck.classList.add('is-dealt'), 600 + 60 * n + 100);
-  }, { rootMargin: '0px 0px -30% 0px' });
-  io.observe(deck);
+  // Hover pauses the turn and lifts the post, with its client and campaign below.
+  if (fine) posts.forEach((p) => {
+    p.addEventListener('pointerenter', () => {
+      if (dragging) return;
+      hoverPause = true; lifted?.classList.remove('is-lift'); lifted = p; p.classList.add('is-lift'); setCaption(p);
+    });
+    p.addEventListener('pointerleave', () => { hoverPause = false; p.classList.remove('is-lift'); lifted = null; setCaption(null); });
+  });
+
+  // Auto-turn: one post every 4s, only while in view and not paused.
+  if (!reduce) {
+    pauseBtn.hidden = false;
+    pauseBtn.addEventListener('click', () => {
+      paused = !paused;
+      pauseBtn.setAttribute('aria-pressed', String(paused));
+      pauseLabel.textContent = paused ? 'Play' : 'Pause';
+    });
+    new IntersectionObserver(([en]) => { inView = en.isIntersecting; }, { threshold: 0.25 }).observe(stage);
+    stage.addEventListener('focusin', () => { hoverPause = true; });
+    stage.addEventListener('focusout', () => { hoverPause = false; });
+    window.setInterval(() => {
+      if (inView && !paused && !hoverPause && !dragging && !document.hidden) go(Math.round(target) + 1);
+    }, 4000);
+  }
+  onResize.push(render);
+  render();
+  setCaption(null);
+  void centre;
 }
 
 /* ---------- 10 Corner-square call to action ---------- */
@@ -452,13 +417,11 @@ function setupCta() {
 
 setupGlide();
 setupWipes();
-setupLens();
-setupStack();
+setupFill();
+setupWork();
 setupDrift();
-setupCards();
-setupStrip();
-setupSay();
-qa<HTMLElement>('[data-fan]').forEach(setupFan);
+setupApproach();
+setupSocial();
 setupCta();
 frame();
 

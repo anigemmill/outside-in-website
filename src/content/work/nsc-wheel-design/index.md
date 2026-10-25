@@ -8,7 +8,6 @@ sector: "Cycling"
 type: "Wheel Graphics & Product Design"
 categories: ["design-creative"]
 cover: ./cover.jpg
-card: ./card.jpg
 coverAlt: "A Negative Split Carbon disc wheel with large overlapping NSC letterforms in gloss and matte black."
 featured: false
 order: 13

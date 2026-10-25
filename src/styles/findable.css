@@ -7,6 +7,7 @@
    ========================================================================= */
 @import '@fontsource-variable/inter';
 @import '@fontsource-variable/inter-tight';
+@import '@fontsource-variable/jetbrains-mono/wght.css'; /* Findable's label face (Outside In no longer uses it) */
 
 body.findable {
   --f-lav: #e7e4fc;
@@ -31,7 +32,7 @@ body.findable {
   font-family: 'Inter Variable', system-ui, sans-serif;
   font-variation-settings: normal;
 }
-.findable :where(h1, h2, h3) { font-family: inherit; line-height: inherit; letter-spacing: inherit; text-wrap: balance; }
+.findable :where(h1, h2, h3) { font-family: inherit; font-weight: inherit; text-transform: none; line-height: inherit; letter-spacing: inherit; text-wrap: balance; }
 .findable a { color: var(--f-ink); }
 .findable a:hover { color: var(--f-forest); }
 .findable :focus-visible { outline: 3px solid var(--f-violet); outline-offset: 3px; }

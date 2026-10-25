@@ -8,7 +8,6 @@ sector: "Sport"
 type: "Team Logo & Illustration"
 categories: ["design-creative"]
 cover: ./cover.jpg
-card: ./card.jpg
 coverAlt: "The team’s cartoon poster on yellow: a winged character on a cloud with the line “We’ve got the runs”."
 featured: false
 order: 12

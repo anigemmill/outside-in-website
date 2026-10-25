@@ -9,7 +9,6 @@ type: "Creative Direction, Festival Branding & Campaign Design"
 categories: ["design-creative"]
 year: 2025
 cover: ./cover.jpg
-card: ./card.jpg
 coverAlt: "The Flavours of Plenty 2025 festival programme cover and an open spread, with illustrated food characters on pink."
 featured: true
 order: 5

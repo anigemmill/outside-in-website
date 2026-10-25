@@ -1,34 +1,30 @@
 ---
 /**
- * HOMEPAGE v2 ("Showcase"). Build spec: docs/homepage-v2-spec.md.
- * Loud sections alternate with quieter ones, and only one effect animates on
+ * HOMEPAGE v3 ("Editorial"). Build spec: HOMEPAGE-V3-SPEC.md.
+ * White and ink everywhere, big type and big images, one strong motion per
+ * section. Loud and quiet sections alternate and only one effect animates on
  * screen at a time. Effects are switched on by src/scripts/home.ts; without
  * JavaScript or with reduced motion every section shows its finished state.
  *
- *  1 Hero (01 logo glide) · loud       7 How we think (07 colour strip) · medium
- *  2 Statement (02 wipe) · quiet       8 What we do (08 statements + trail) · quiet
- *  3 Work index (04 stack) · loud      9 Social (09 fan) · loud
- *  4 Featured (09 card fan) · medium     10 Call to action (10 corner squares) · medium
- *  5 How we work (05 drift) · loud    11 Footer (slim) · quiet
- *  6 Services (06 notched cards) · medium
+ *  1 Hero (01 logo glide) · loud            6 Approach (sticky stage image) · quiet
+ *  2 Introduction (11 scroll fill) · quiet  7 Social (13 curved gallery) · loud
+ *  3 Selected work (12 grid + 03 lens)      8 Call to action (10 corner squares)
+ *  4 How we work (05 drift) · loud          9 Footer (scroll-linked wordmark)
+ *  5 Services (numbered rows) · quiet
  */
 import Base from '../layouts/Base.astro';
 import Logo from '../components/Logo.astro';
-import Note from '../components/Note.astro';
-import WipeHeading from '../components/home/WipeHeading.astro';
-import WorkStack from '../components/home/WorkStack.astro';
-import FeaturedFan from '../components/home/FeaturedFan.astro';
+import ScrollFill from '../components/home/ScrollFill.astro';
+import WorkGrid from '../components/home/WorkGrid.astro';
 import Drift from '../components/home/Drift.astro';
-import ServiceCards from '../components/home/ServiceCards.astro';
-import BeliefStrip from '../components/home/BeliefStrip.astro';
-import Statements from '../components/home/Statements.astro';
-import SocialFan from '../components/home/SocialFan.astro';
+import ServiceRows from '../components/home/ServiceRows.astro';
+import ApproachStages from '../components/home/ApproachStages.astro';
+import SocialCurve from '../components/home/SocialCurve.astro';
 import CtaCard from '../components/home/CtaCard.astro';
-import FindableFeature from '../components/FindableFeature.astro';
 import { home } from '../data/home';
 import { site } from '../config/site';
 ---
-<Base description={site.seo.defaultDescription} home slimFooter>
+<Base description={site.seo.defaultDescription} home>
 
   <!-- 1. The logo. As the hero scrolls away it glides into the header. -->
   <section class="hero" data-logo-zone data-hero data-pair="0" aria-labelledby="hero-title">
@@ -43,44 +39,28 @@ import { site } from '../config/site';
     <p class="hero__line scrub" aria-hidden="true">{home.hero.descriptor}</p>
   </section>
 
-  <!-- 2. One sentence -->
-  <section id="intro" class="intro wrap" aria-labelledby="intro-title">
-    <WipeHeading id="intro-title" class="intro__statement" text={home.intro.statement} colour="red" />
-    <p class="intro__lede">
-      {home.intro.lede} <a class="text-link" href="/contact/">Start a conversation <span aria-hidden="true">→</span></a>
-    </p>
-    <Note>The hero carries no text but the name. This line does the work: what we do and why it matters, then one way to act on it.</Note>
-  </section>
+  <div class="sections">
+    <!-- 2. Introduction: the statement fills word by word -->
+    <ScrollFill id="intro-label" label={home.intro.label} text={home.intro.statement} />
 
-  <!-- 3. Work index: the project stack -->
-  <WorkStack />
+    <!-- 3. Selected work: full-width grid with the Outside/Inside lens -->
+    <WorkGrid />
 
-  <!-- 4. Featured work: a fan of project cards -->
-  <FeaturedFan />
+    <!-- 4. How we work: the drift field (full width) -->
+    <Drift />
 
-  <!-- 4b. Our own product (quiet, between two effect sections) -->
-  <section class="product wrap" aria-label="Findable, our product">
-    <FindableFeature />
-    <Note>One product, shown once. Findable is the studio’s AI and marketing thinking made into something operators can use every week.</Note>
-  </section>
+    <!-- 5. Services: numbered rows -->
+    <ServiceRows />
 
-  <!-- 5. How we work: the drift field -->
-  <Drift />
+    <!-- 6. Approach: sticky stage image -->
+    <ApproachStages />
 
-  <!-- 6. Services: notched cards -->
-  <ServiceCards />
+    <!-- 7. Social: curved gallery -->
+    <SocialCurve />
 
-  <!-- 7. How we think: colour card strip (hidden until the statements are written) -->
-  {home.beliefs.show && <BeliefStrip />}
-
-  <!-- 8. What we do: line-by-line statements and the tag trail -->
-  <Statements />
-
-  <!-- 9. Social fan (hidden until real posts are supplied) -->
-  {home.social.show && <SocialFan />}
-
-  <!-- 10. Call to action -->
-  <CtaCard />
+    <!-- 8. Call to action -->
+    <CtaCard />
+  </div>
 </Base>
 
 <script>
@@ -94,6 +74,7 @@ import { site } from '../config/site';
   .hero[data-pair='2'] { --hero-bg: var(--purple); --hero-fg: var(--pink); }
   .hero[data-pair='3'] { --hero-bg: var(--green);  --hero-fg: var(--purple); }
   .hero {
+    position: relative; isolation: isolate;
     background: var(--hero-bg); color: var(--hero-fg);
     transition: background-color 0.06s linear, color 0.06s linear;
     min-height: 100svh; display: grid; place-items: center; align-content: center; gap: clamp(2rem, 4vw, 3.5rem);
@@ -137,16 +118,13 @@ import { site } from '../config/site';
   }
   @keyframes glide-line { 0% { opacity: 1; } 30%, 100% { opacity: 0; } }
 
-  /* Findable */
-  .product { padding-bottom: clamp(6rem, 12vw, 12rem); }
 
-  /* Intro */
-  .intro { padding-block: clamp(6rem, 14vw, 14rem); display: grid; gap: 2rem; }
-  :global(.intro__statement) { font-size: clamp(2.2rem, 1.2rem + 3.6vw, 4.8rem); font-weight: 600; line-height: 1.05; letter-spacing: -0.03em; max-width: 20ch; }
-  .intro__lede { font-size: var(--step-1); color: var(--muted); }
-  .intro__lede .text-link { margin-left: 0.3em; white-space: nowrap; }
+  /* Light grain on the hero's colour field only (never on text or photos). */
+  .hero::before {
+    content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0.14; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.7 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
 
-  /* Section heads, shared by the section components */
-  :global(.row-head) { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: clamp(2rem, 4vw, 3.5rem); }
-  :global(.row-head__title) { font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; }
+  /* Section rhythm (Linear Studio): about 240px between sections on desktop, 120px on phones. */
+  .sections { display: grid; gap: var(--gap-section); padding-block: var(--gap-section) clamp(4rem, 8vw, 7rem); }
 </style>

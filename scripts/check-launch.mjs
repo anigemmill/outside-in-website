@@ -13,13 +13,14 @@ const items = [];
 
 if (!val('PUBLIC_CONTACT_EMAIL') && site.includes("'hello@your-domain.co.nz'")) items.push('Contact email is still the placeholder (hello@your-domain.co.nz).');
 if (!val('PUBLIC_BOOKING_URL') && site.includes("bookingUrl: env.PUBLIC_BOOKING_URL || ''")) items.push('No booking URL: "Book a discovery call" opens the contact form instead (works, but a calendar link is smoother).');
-if (/instagram: '',\s*linkedin: '',\s*facebook: '',\s*behance: ''/.test(site)) items.push('No social links set in src/config/site.ts (the footer hides the Follow column until you add one).');
+if (/instagram: '',\s*linkedin: ''/.test(site)) items.push('No Instagram or LinkedIn URL in src/config/site.ts (the footer and the social section hide those links until you add them).');
 const concepts = readdirSync('src/content/work').filter((d) => {
   const f = `src/content/work/${d}/index.md`;
-  return existsSync(f) && /status:\s*concept/.test(readFileSync(f, 'utf8'));
+  const md = existsSync(f) ? readFileSync(f, 'utf8') : '';
+  return /status:\s*concept/.test(md) && !/^draft:\s*true/m.test(md);
 });
 if (concepts.length) items.push(`${concepts.length} portfolio projects are concepts (${concepts.join(', ')}). Fine to launch with; replace or add client work when approved.`);
-// Homepage v2 placeholder images (src/assets/home/manifest.json).
+// Homepage v3 placeholder images (src/assets/home/manifest.json). Fails a production deploy (below).
 const manifestPath = 'src/assets/home/manifest.json';
 const stillPlaceholder = existsSync(manifestPath)
   ? JSON.parse(readFileSync(manifestPath, 'utf8')).assets.filter((a) => a.placeholder)

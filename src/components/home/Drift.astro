@@ -58,7 +58,7 @@ const photos = [
 
 <style>
   /* Still collage (no JavaScript, reduced motion) */
-  .drift { padding-block: clamp(4rem, 8vw, 7rem); }
+  .drift { padding-block: 0; }
   .drift__stage { position: relative; display: grid; gap: 2rem; padding-inline: var(--gutter); max-width: var(--max); margin-inline: auto; }
   .drift__contours { display: none; }
   .drift__photos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; order: 2; }
@@ -67,7 +67,7 @@ const photos = [
   .drift__text { display: grid; gap: 1rem; order: 1; }
   .drift__strip { display: none; }
   .drift__label { color: var(--muted); }
-  .drift__line { font-size: var(--step-4); line-height: 0.98; letter-spacing: -0.035em; max-width: 18ch; }
+  .drift__line { font-size: var(--step-3); max-width: 22ch; }
   @media (max-width: 760px) { .drift__photos { grid-template-columns: repeat(2, minmax(0, 1fr)); } .drift__ph--desk { display: none; } }
 
   /* Live: tall section, sticky stage, photos drifting at three speeds. */
@@ -87,7 +87,7 @@ const photos = [
   .is-live .drift__text { position: relative; z-index: 5; justify-items: center; text-align: center; padding: 2rem clamp(1.25rem, 4vw, 3rem); max-width: min(92vw, 60rem); }
   .is-live .drift__strip { display: block; position: absolute; inset: 0; border-radius: 6px; animation-name: drift-strip; }
   .is-live .drift__label, .is-live .drift__line { position: relative; animation-name: drift-text; }
-  .is-live .drift__line { max-width: 20ch; }
+  .is-live .drift__line { max-width: 22ch; }
   .is-live .drift__note { position: absolute; }
 
   /* Background: deep ink → white over the middle 60%, steep through the greys. */
@@ -112,6 +112,6 @@ const photos = [
     .is-live .drift__ph { width: calc(var(--w) * 2.2); }
     .is-live .drift__ph--back { --travel: -72vh; }
     .is-live .drift__ph--desk { display: none; }
-    .is-live .drift__line { font-size: var(--step-3); }
+    .is-live .drift__line { font-size: var(--step-2); }
   }
 </style>

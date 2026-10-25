@@ -7,6 +7,7 @@
  */
 import '@fontsource-variable/inter';
 import '@fontsource-variable/inter-tight';
+import '@fontsource-variable/jetbrains-mono/wght.css';
 
 interface Props { headingLevel?: 'h2' | 'h3' }
 const { headingLevel: H = 'h2' } = Astro.props;
@@ -43,7 +44,7 @@ const { headingLevel: H = 'h2' } = Astro.props;
   .ffeat:hover .ffeat__word, .ffeat:focus-visible .ffeat__word { transform: translateY(-0.4rem); }
   .ffeat__body { display: grid; gap: 1rem; justify-items: start; padding: clamp(0.5rem, 2vw, 1.5rem) clamp(0.5rem, 2vw, 1.5rem) clamp(0.5rem, 2vw, 1.5rem) 0; }
   .ffeat__lbl { font: 500 12px/16px 'JetBrains Mono Variable', ui-monospace, monospace; letter-spacing: 0.08em; text-transform: uppercase; color: var(--f-forest); }
-  .ffeat__title { font-family: 'Inter Tight Variable', 'Inter Variable', sans-serif; font-weight: 700; letter-spacing: -0.04em; font-size: clamp(2.4rem, 1.4rem + 3vw, 4rem); line-height: 1; color: var(--f-ink); }
+  .ffeat__title { text-transform: none; font-family: 'Inter Tight Variable', 'Inter Variable', sans-serif; font-weight: 700; letter-spacing: -0.04em; font-size: clamp(2.4rem, 1.4rem + 3vw, 4rem); line-height: 1; color: var(--f-ink); }
   .ffeat__title span { color: var(--f-forest); }
   .ffeat__text { color: var(--f-ink-2); font-size: var(--step-1); line-height: 1.45; max-width: 40ch; }
   .ffeat__btn {

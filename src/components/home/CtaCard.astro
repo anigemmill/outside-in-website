@@ -9,7 +9,7 @@ import { site, bookingHref, bookingIsExternal } from '../../config/site';
 import { home } from '../../data/home';
 import Note from '../Note.astro';
 ---
-<section class="cta-sec wrap" aria-label="Get in touch" data-cta>
+<section class="cta-sec col" aria-label="Get in touch" data-cta>
   <a class="cta" href={bookingHref} {...(bookingIsExternal ? { target: '_blank', rel: 'noopener' } : {})}>
     <span class="cta__sq cta__sq--tl" aria-hidden="true"></span>
     <span class="cta__sq cta__sq--tr" aria-hidden="true"></span>
@@ -26,7 +26,7 @@ import Note from '../Note.astro';
 </section>
 
 <style>
-  .cta-sec { padding-block: clamp(4rem, 10vw, 9rem); }
+  .cta-sec { padding-block: clamp(2rem, 4vw, 3rem); }
   .cta {
     --sq: clamp(2.25rem, 5vw, 3.5rem);
     position: relative; display: grid; gap: clamp(2rem, 5vw, 4rem); align-content: space-between;
@@ -34,7 +34,7 @@ import Note from '../Note.astro';
     padding: clamp(2rem, 6vw, 4.5rem); background: var(--ink); color: var(--pink); border-radius: 4px;
     text-decoration: none;
   }
-  .cta__line { font-family: var(--font-display); font-weight: 600; font-size: var(--step-4); line-height: 0.98; letter-spacing: -0.035em; max-width: 14ch; }
+  .cta__line { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: var(--step-4); line-height: 0.9; letter-spacing: -0.02em; max-width: 14ch; }
   .cta__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem 2rem; }
   .cta__email { color: var(--lilac); overflow-wrap: anywhere; }
   .cta__btn { display: inline-flex; align-items: center; gap: 0.6em; background: var(--pink); color: var(--ink); font-weight: 600; padding: 0.85rem 1.5rem; border-radius: var(--pill); }

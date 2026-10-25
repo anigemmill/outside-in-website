@@ -3,36 +3,9 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Note from '../components/Note.astro';
 import BookingLink from '../components/BookingLink.astro';
+import { stages } from '../data/approach';
 
-// Edit the approach here.
-const stages = [
-  {
-    n: '01', name: 'Look outside',
-    text: 'We start where your customers are. How do they find you, what do they compare you with, and what do they see that you might not? We look at your audience, your market and your competitors with fresh eyes.',
-    youGet: 'A clear picture of how you’re seen from outside',
-  },
-  {
-    n: '02', name: 'Look inside',
-    text: 'Then we look at how the business works: goals, team, tools, data and the jobs that eat time. This is where we agree what success means and how we’ll measure it.',
-    youGet: 'An agreed goal, a baseline and a measure',
-  },
-  {
-    n: '03', name: 'Decide',
-    text: 'The strategy lives where the two views meet. We recommend what to do, what to leave alone and in what order, with effort and value spelled out so the choice is yours.',
-    youGet: 'A prioritised plan you can say yes or no to',
-  },
-  {
-    n: '04', name: 'Build',
-    text: 'Then we make it: brand, website, campaign, content, automation or AI system. You see work early and often, so there are no big reveals that miss the point.',
-    youGet: 'Finished work, documented and handed over',
-  },
-  {
-    n: '05', name: 'Measure and refine',
-    text: 'We check results against the goal we agreed in stage two and improve what isn’t working. For ongoing partners, this becomes the monthly rhythm.',
-    youGet: 'A report that ends with a recommendation',
-  },
-];
-
+// Edit the stages in src/data/approach.ts (the homepage uses them too).
 const tracks = [
   {
     name: 'Creative projects',
@@ -54,7 +27,7 @@ const tracks = [
 >
   <PageHero
     eyebrow="Approach"
-    dot="green"
+    dot="red"
     title="First we look out. Then we look in."
     lede="Good work starts with seeing the problem clearly. We move from your customers’ view to your business’s inner workings, and back out again with something that works."
   />
@@ -104,7 +77,7 @@ const tracks = [
   }
   .stage:last-child { border-bottom: 1px solid var(--line); }
   .stage__n { color: var(--muted); font-size: var(--step--1); padding-top: 0.7rem; }
-  .stage__name { font-size: var(--step-3); font-weight: 600; letter-spacing: -0.03em; }
+  .stage__name { font-size: var(--step-3); letter-spacing: -0.02em; }
   .stage__body { display: grid; gap: 1rem; font-size: var(--step-1); line-height: 1.45; max-width: 52ch; }
   .stage__get { font-size: var(--step-0); color: var(--muted); }
   .stage__get span { color: var(--fg); font-weight: 600; margin-right: 0.35rem; }
@@ -115,7 +88,7 @@ const tracks = [
 
   .tracks { padding-bottom: clamp(6rem, 12vw, 12rem); }
   .tracks__head { margin-bottom: clamp(2.5rem, 5vw, 4rem); }
-  .tracks__title { font-size: var(--step-3); font-weight: 600; letter-spacing: -0.03em; max-width: 20ch; }
+  .tracks__title { font-size: var(--step-3); letter-spacing: -0.02em; max-width: 20ch; }
   .tracks__list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gutter); padding: 0; }
   .tracks__list li { display: grid; gap: 0.75rem; align-content: start; }
   .tracks__swatch { width: 100%; aspect-ratio: 16 / 9; border-radius: var(--radius); background: var(--c); margin-bottom: 0.5rem; }

@@ -8,7 +8,6 @@ sector: "Food"
 type: "Brand Identity, Logo Design & Video Content"
 categories: ["design-creative"]
 cover: ./cover.jpg
-card: ./card.jpg
 coverAlt: "The Empty Plate Club logo, a plate on walking legs in red on pink, as a framed print."
 featured: false
 order: 9

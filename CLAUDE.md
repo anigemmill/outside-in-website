@@ -15,14 +15,14 @@ The core idea comes from the name and the logo: see a business from the outside,
 - **Domain:** https://theoutsidein.nz (built in as the default)
 - **Contact email:** anigemmill@theoutsidein.nz
 - **Booking:** https://cal.com/ani-gemmill-yg4gmo (all "Book a discovery call" buttons)
-- **Behance:** https://www.behance.net/anigemmill99 (content source for projects only; not linked in the footer, at Ani's request)
+- **Behance:** https://www.behance.net/anigemmill99 (content source for projects only; not linked anywhere on the site, and removed from `site.ts`)
 - **Repo:** https://github.com/anigemmill/outside-in-website (branch `main`, public)
 - **Hosting:** Netlify, connected to the GitHub repo. Not yet connected or live as of 14 Oct 2026.
 
 ## Stack
 
 - Astro 5, static output. No backend, no CMS, no client framework.
-- Fonts self-hosted via Fontsource: Bricolage Grotesque (display), Instrument Sans (body), JetBrains Mono (small labels).
+- Fonts self-hosted via Fontsource: League Spartan 800 (headings and wordmarks, in capitals) and Instrument Sans (all copy and labels). Findable's pages keep Inter Tight, Inter and JetBrains Mono.
 - Netlify Forms for the contact form (honeypot spam trap). Config in `netlify.toml`.
 - Node 20.3+. Commands: `npm run dev`, `npm run build`, `npm run preview`, `npm run check` (launch checklist), `npm run og` (regenerates logo files, favicons and social image).
 
@@ -45,11 +45,10 @@ The core idea comes from the name and the logo: see a business from the outside,
 | Site behaviour (menu, logo, hero cycle, reveals) | `src/scripts/site.ts` |
 | Logo (live SVG + animation) | `src/components/Logo.astro` |
 
-**Font trial (temporary, 22 Oct 2026):** `/fonts/` compares type options, and `?font=host|geist|inter|archivo|current` switches the whole preview site (previews only). When Ani chooses, set `--font-display`/`--font-body` in `global.css`, update the preloads in `Base.astro`, then delete `src/pages/fonts.astro`, `src/styles/font-trial.css`, the trial script in `Base.astro` and the unused font packages.
 
 ## Design decisions (settled; don't change without Ani asking)
 
-These were reached over several rounds with Ani. Treat them as decided.
+These were reached over several rounds with Ani. Treat them as decided. **Homepage v3 (24 Oct 2026, `HOMEPAGE-V3-SPEC.md`) supersedes the earlier direction where they differ:** an editorial site, white and ink everywhere (about 70% white, 18% ink), big type and images, one strong motion per section. Colour roles: red is the studio (hero, logo, closing card); pink, green and purple only ever mean Design, Marketing and AI; at most one colour field per screen (the hero cycle excepted); text on colour is always ink. Content sits in a centred column of about 1080px (`.col`), with about 240px between sections on desktop and 120px on phones; the work grid and drift field break out to full width.
 
 **Overall feel.** Calm, white and spacious, with one show-stopping moment at the door. The references Ani wants pages to keep following:
 - **Together** (wearetogether.co.nz): white space, calm stacked sections, big images with little text.
@@ -77,13 +76,13 @@ Everything else: white `#FFFFFF` background, ink `#17131F` text, ink-soft `#4B45
 - **Contrast rule:** ink reads on all four colours (4.6:1 or better). The colour pairs themselves are only 2–3:1, so use them for the logo and large colour fields only, never for text.
 
 **Layout.**
-- **Homepage (the "Showcase" effects version, which Ani asked to keep on 22 Oct 2026):** the hero logo glides into the header → statement with a colour wipe → project stack (pinned scroll, real project covers; Explore Bay of Plenty and the kiosks are excluded via `home.stack.exclude`) → Featured work as a fan of project cards (hover or tap lifts and grows a card; set in `home.featured.cards`, each project needs a 4:5 `card.jpg`) → Findable feature (in Findable's own brand) → drift field → notched service cards → line-by-line statements → call-to-action card → slim footer. The section list and spec are at the top of `src/pages/index.astro` and in `docs/homepage-v2-spec.md`. The "How we think" strip and the social fan are hidden (`show: false` in `src/data/home.ts`) until Ani writes the beliefs and supplies posts. Some homepage images (drift, service cards) are still labelled placeholders listed in `src/assets/home/manifest.json`.
-- **Header:** logo on the left (hidden on the homepage until you scroll past the hero), plain text links, and one ink "Let's talk" pill.
-- **Footer:** ink background with pink text, call to action, links, email and the Outside/Inside switch. No Behance link (Ani doesn't want visitors sent off the site).
+- **Homepage (v3, "Editorial"):** hero (01 logo glide) → introduction (11 scroll-filled statement) → selected work (12 full-width grid of six real projects + 03 lens + pink heading wipe) → how we work (05 drift) → services (numbered rows, purple wipe) → approach (sticky stage image) → social (13 curved gallery) → call to action (10 corner squares) → footer (scroll-linked wordmark). Copy and tile choices: `src/data/home.ts`. Images: `src/assets/home/` + `manifest.json`; the six work images are real, the lens inside layers, drift, service, approach and social images are still labelled placeholders, and `npm run check` fails a production deploy while any remain. The spec has no Findable section on the homepage; Findable stays in the nav and on /projects.
+- **Header:** logo on the left (hidden on the homepage until you scroll past the hero), plain text links (Work, Findable, Services, Approach, About), the Outside/Inside switch, and one ink "Let's talk" pill.
+- **Footer:** ink background with pink text: links, "Rotorua, Aotearoa · live NZ time" and the email, then a huge scroll-linked "OUTSIDE IN" wordmark. No Behance and no Outside/Inside switch (it's in the header). Instagram and LinkedIn appear only once their URLs are set in `site.ts`.
 - **Inner pages:** quiet page headers; two-column rows (label left, content right); one colour moment per page.
-- **Case studies:** one big cover, short rows, and an Outside/Inside map (pink and green) for concepts.
+- **Case studies:** one big cover, short rows, and an Outside/Inside map (red and ink) for concepts.
 
-**Inside view.** A switch in the footer flips the site to a dark blueprint version in which `<Note>` blocks explain why each section exists. It's kept as proof of thinking.
+**Inside view.** A switch in the header flips the site to a dark blueprint version in which `<Note>` blocks explain why each section exists. It's kept as proof of thinking.
 
 ## Content and honesty rules (strict)
 
@@ -100,7 +99,7 @@ Everything else: white `#FFFFFF` background, ink `#17131F` text, ink-soft `#4B45
 - **Images (22 Oct 2026):** real covers and galleries for The Journey, Explore Bay of Plenty, Kiosks, Flavours of Plenty (includes the Sunseeker can, a festival collaboration), Rotorua Walking Tours, Empty Plate Club, Run for Reido, Wings for Life and Negative Split Carbon. Covers are 1600×1000 JPGs (cropped, or padded with the image's own background). Still placeholders ("Image to come"): Ride Retreat, both Te Puia projects, CrossFit Nationals, Our Tauranga Region, Grassroots Trust Velodrome, Nduro.
 - **Te Puia results** are held behind `resultsConfirmed: false`. They show on previews only, flagged, until Ani confirms the measurement periods and attribution.
 - **Concepts:** Quiet Machine and Field Notes stay published (they carry the AI story). After Steam, Loud Weekend, Off Season and Tidewater are `draft: true`. Sunseeker beer label stays a draft; it wasn't in the brief.
-- Homepage featured work: Flavours of Plenty and Rotorua Walking Tours. The homepage project stack shows only projects with real covers.
+- Homepage work grid (v3): Rotorua Walking Tours, The Journey, Flavours of Plenty, Empty Plate Club, Run for Reido, Negative Split Carbon. Their tile images are `src/assets/home/work/work-0N.jpg`, cut from Ani's images.
 
 ## Findable
 

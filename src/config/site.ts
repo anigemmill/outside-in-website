@@ -50,12 +50,14 @@ export const site = {
   /** How quickly you reply to enquiries. Shown on the contact page. Set it to a promise you can keep. */
   replyWithin: 'two working days',
 
-  /** Social links. Leave a value empty to hide it. PLACEHOLDER until supplied. */
+  /** Where the studio is, as the footer shows it next to the live NZ time. */
+  place: 'Rotorua, Aotearoa',
+
+  /** Social links. Leave a value empty to hide it; nothing shows until a URL is set.
+      (Behance is a content source only and isn't linked anywhere, at Ani's request.) */
   social: {
     instagram: '',
     linkedin: '',
-    facebook: '',
-    behance: 'https://www.behance.net/anigemmill99',
   } as Record<string, string>,
 
   seo: {
@@ -67,7 +69,7 @@ export const site = {
 };
 
 export const nav = [
-  { label: 'Projects', href: '/projects/' },
+  { label: 'Work', href: '/projects/' },
   { label: 'Findable', href: '/findable/' },
   { label: 'Services', href: '/services/' },
   { label: 'Approach', href: '/approach/' },

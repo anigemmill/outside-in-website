@@ -1,76 +1,111 @@
 ---
-import Logo from './Logo.astro';
-import ViewToggle from './ViewToggle.astro';
-import BookingLink from './BookingLink.astro';
+/**
+ * Site footer (homepage v3 spec, section 9). Ink with pink text: links on the
+ * left; the place, the live NZ time and the email on the right; then a huge
+ * "OUTSIDE IN · OUTSIDE IN" wordmark that slides sideways as you scroll into the
+ * footer. The slide is scroll-linked (it never moves on its own, so it needs no
+ * pause button) and static with reduced motion. The Outside/Inside switch lives
+ * in the header, and Behance isn't linked anywhere.
+ */
 import { nav, site } from '../config/site';
 
-interface Props { slim?: boolean }
-const { slim = false } = Astro.props;
-// Behance is a content source for the projects, not a footer link: Ani doesn't want visitors sent off the site.
-const socials = Object.entries(site.social).filter(([k, url]) => Boolean(url) && k !== 'behance');
-const labels: Record<string, string> = { instagram: 'Instagram', linkedin: 'LinkedIn', facebook: 'Facebook' };
+const labels: Record<string, string> = { instagram: 'Instagram', linkedin: 'LinkedIn' };
+const socials = Object.entries(site.social).filter(([k, url]) => Boolean(url) && k in labels);
 const year = new Date().getFullYear();
 ---
-<footer class:list={['site-footer', { 'site-footer--slim': slim }]}>
-  <div class="wrap">
-    {!slim && (
-      <div class="site-footer__cta">
-        <p class="site-footer__big">Too close to see it?<br />Let’s look from outside.</p>
-        <BookingLink class="btn btn--light" />
-      </div>
-    )}
-
-    <div class="site-footer__grid">
-      <Logo id="oi-foot" class="site-footer__mark" decorative />
-      <nav aria-label="Footer">
-        <ul role="list">
-          {nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
-        </ul>
-      </nav>
-      <ul role="list" class="site-footer__contact">
-        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
-        {socials.map(([k, url]) => <li><a href={url} target="_blank" rel="noopener">{labels[k] ?? k}</a></li>)}
-        <li class="site-footer__loc">{site.location}</li>
+<footer class="site-footer" data-footer>
+  <div class="wrap site-footer__top">
+    <nav aria-label="Footer">
+      <ul role="list" class="site-footer__links">
+        {nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
+        {socials.map(([k, url]) => <li><a href={url} target="_blank" rel="noopener">{labels[k]}<span class="visually-hidden"> (opens in a new tab)</span></a></li>)}
       </ul>
-      <div class="site-footer__toggle">
-        <ViewToggle id="view-toggle-footer" />
-        <p class="site-footer__hint">See the thinking behind every page.</p>
-      </div>
+    </nav>
+    <div class="site-footer__where">
+      <p class="label">{site.place}<span data-clock-wrap hidden> · <time data-clock></time></span></p>
+      <a class="site-footer__email" href={`mailto:${site.email}`}>{site.email}</a>
     </div>
+  </div>
 
-    <div class="site-footer__base">
-      <p>© {year} {site.name}</p>
-      <p><a href="/privacy/">Privacy</a></p>
-    </div>
+  <div class="site-footer__mark" aria-hidden="true">
+    <!-- Decorative: drawn with CSS content so it isn't read out or measured as text. -->
+    <p class="site-footer__word display" data-footer-word data-text="Outside In · Outside In · Outside In"></p>
+  </div>
+
+  <div class="wrap site-footer__base">
+    <p>© {year} {site.name}</p>
+    <p><a href="/privacy/">Privacy</a></p>
   </div>
 </footer>
 
+<script>
+  // Live NZ time, updated once a minute.
+  const wrap = document.querySelector<HTMLElement>('[data-clock-wrap]');
+  const clock = document.querySelector<HTMLTimeElement>('[data-clock]');
+  if (wrap && clock) {
+    const fmt = new Intl.DateTimeFormat('en-NZ', { timeZone: 'Pacific/Auckland', hour: 'numeric', minute: '2-digit' });
+    const tick = () => {
+      const now = new Date();
+      clock.textContent = fmt.format(now).toUpperCase();
+      clock.dateTime = now.toISOString();
+    };
+    tick();
+    wrap.hidden = false;
+    window.setTimeout(() => { tick(); window.setInterval(tick, 60_000); }, (60 - new Date().getSeconds()) * 1000);
+  }
+
+  // Wordmark slide: CSS scroll-driven where supported, otherwise this small fallback.
+  const footer = document.querySelector<HTMLElement>('[data-footer]');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (footer && !reduce && !CSS.supports('animation-timeline: view()')) {
+    let queued = false;
+    const update = () => {
+      queued = false;
+      const r = footer.getBoundingClientRect();
+      const p = Math.min(1, Math.max(0, (window.innerHeight - r.top) / Math.max(1, r.height)));
+      footer.style.setProperty('--fp', p.toFixed(4));
+    };
+    footer.classList.add('is-scrubbed');
+    window.addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(update); } }, { passive: true });
+    update();
+  }
+</script>
+
 <style>
   .site-footer {
-    background: var(--ink); color: var(--pink);
-    padding-block: clamp(5rem, 10vw, 9rem) 2rem;
-    --fg: var(--pink); --bg: var(--ink); --muted: var(--lilac); --accent: var(--green);
-    --line: rgba(255, 153, 220, 0.2);
+    background: var(--ink); color: var(--pink); overflow: clip;
+    padding-block: clamp(4rem, 8vw, 7rem) 2rem;
+    --fg: var(--pink); --bg: var(--ink); --muted: var(--lilac); --line: rgba(255, 153, 220, 0.2);
   }
-  .site-footer--slim { padding-top: clamp(2.5rem, 5vw, 4rem); }
-  .site-footer--slim .site-footer__grid { border-top: 0; padding-top: 0; }
   :root[data-view='inside'] .site-footer { background: #0e0b14; }
   .site-footer a { text-decoration: none; color: inherit; }
   .site-footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
-  .site-footer__cta { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 2rem; padding-bottom: clamp(4rem, 8vw, 7rem); }
-  .site-footer__big { font-family: var(--font-display); font-weight: 600; font-size: clamp(2rem, 1.2rem + 3vw, 4rem); line-height: 1.05; letter-spacing: -0.03em; }
-  :global(.btn--light) { --btn-bg: var(--pink); --btn-fg: var(--ink); --fill: var(--green); --fill-fg: var(--ink); }
-  .site-footer__grid {
-    display: grid; gap: 2.5rem; padding-block: 2.5rem; border-top: 1px solid var(--line);
-    grid-template-columns: 1fr 1fr 1.3fr 1.2fr; align-items: start;
+
+  .site-footer__top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: start; gap: 2.5rem var(--gutter); }
+  .site-footer__links { display: flex; flex-wrap: wrap; gap: 0.25rem 1.75rem; }
+  .site-footer__links a { display: inline-block; padding-block: 0.45rem; font-weight: 500; }
+  .site-footer__where { display: grid; gap: 0.6rem; justify-items: end; text-align: right; }
+  .site-footer__email { overflow-wrap: anywhere; }
+
+  /* The wordmark: one line, far wider than the screen. */
+  .site-footer__mark { margin-block: clamp(3rem, 7vw, 6rem) clamp(1.5rem, 3vw, 2.5rem); }
+  .site-footer__word {
+    font-size: clamp(5rem, 2rem + 16vw, 17rem); line-height: 0.82; white-space: nowrap; color: var(--pink);
+    width: max-content; transform: translateX(var(--wx, 0));
   }
-  :global(.site-footer__mark) { width: 4.5rem; color: var(--pink); }
-  .site-footer ul { display: grid; gap: 0.5rem; }
-  .site-footer li a { display: inline-block; padding-block: 0.1rem; overflow-wrap: anywhere; }
-  .site-footer__loc { color: var(--lilac); }
-  .site-footer__toggle { display: grid; gap: 0.25rem; justify-items: start; }
-  .site-footer__hint { font-size: var(--step--1); color: var(--lilac); }
+  .site-footer__word::before { content: attr(data-text); }
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .site-footer__word { animation: footer-word linear both; animation-timeline: view(); animation-range: entry 0% exit 0%; }
+    }
+    .site-footer.is-scrubbed .site-footer__word { --wx: calc(var(--fp, 0) * -40vw); }
+  }
+  @keyframes footer-word { from { transform: translateX(0); } to { transform: translateX(-40vw); } }
+
   .site-footer__base { display: flex; justify-content: space-between; gap: 1rem; padding-top: 1.5rem; border-top: 1px solid var(--line); font-size: var(--step--1); color: var(--lilac); }
-  @media (max-width: 860px) { .site-footer__grid { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 520px) { .site-footer__contact, .site-footer__toggle { grid-column: 1 / -1; } }
+  .site-footer__base a { color: var(--lilac); }
+
+  @media (max-width: 640px) {
+    .site-footer__where { justify-items: start; text-align: left; }
+  }
 </style>

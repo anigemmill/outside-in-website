@@ -14,7 +14,7 @@ const colour: Record<string, string> = { 'design-creative': 'pink', 'marketing-g
 >
   <PageHero
     eyebrow="Services"
-    dot="pink"
+    dot="red"
     title="Three disciplines, built to work together."
     lede="Hire us for one thing or all three. Either way, you get people who understand how a brand, a campaign and the systems behind them affect each other."
   >
@@ -103,15 +103,15 @@ const colour: Record<string, string> = { 'design-creative': 'pink', 'marketing-g
   .svc__swatch {
     display: grid; place-items: end start; width: clamp(5rem, 9vw, 7rem); aspect-ratio: 1; padding: 0.7rem;
     background: var(--c); color: var(--ink); border-radius: var(--radius);
-    font-family: var(--font-display); font-weight: 600; font-size: var(--step-1);
+    font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: var(--step-1);
   }
   .svc__layer { color: var(--muted); font-size: var(--step--1); margin-top: 0.5rem; }
-  .svc__name { font-size: var(--step-4); font-weight: 600; letter-spacing: -0.035em; line-height: 1; }
+  .svc__name { font-size: var(--step-4); letter-spacing: -0.02em; line-height: 0.92; }
   .svc__lead { font-size: var(--step-1); color: var(--muted); max-width: 30ch; line-height: 1.4; }
   .svc__detail { display: grid; gap: clamp(2.5rem, 4vw, 3.5rem); }
   .svc__h { font-family: var(--font-body); font-size: var(--step-0); font-weight: 600; letter-spacing: 0; margin-bottom: 1rem; }
   .svc__problems { display: grid; padding: 0; }
-  .svc__problems li { font-family: var(--font-display); font-weight: 500; font-size: var(--step-2); line-height: 1.2; letter-spacing: -0.015em; padding-block: 0.7rem; border-bottom: 1px solid var(--line); }
+  .svc__problems li { font-weight: 500; font-size: var(--step-2); line-height: 1.2; letter-spacing: -0.015em; padding-block: 0.7rem; border-bottom: 1px solid var(--line); }
   .svc__problems li:first-child { padding-top: 0; }
   .svc__included { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem var(--gutter); padding: 0; }
   .svc__expect { display: grid; gap: 0.6rem; padding: 0; }
@@ -125,7 +125,7 @@ const colour: Record<string, string> = { 'design-creative': 'pink', 'marketing-g
 
   .together { padding-block: clamp(4rem, 8vw, 7rem) clamp(6rem, 12vw, 12rem); border-top: 1px solid var(--line); }
   .together__head { display: grid; gap: 1rem; max-width: 52ch; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
-  .together__title { font-size: var(--step-3); font-weight: 600; letter-spacing: -0.03em; }
+  .together__title { font-size: var(--step-3); letter-spacing: -0.02em; }
   .combos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gutter); padding: 0; }
   .combos li { display: grid; gap: 0.6rem; align-content: start; padding-top: 1.25rem; border-top: 1px solid var(--line); }
   .combo__name { font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; }

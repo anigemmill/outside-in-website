@@ -39,6 +39,8 @@ The core idea comes from the name and the logo: see a business from the outside,
 | Findable pages (own brand, from the mockups) | `src/pages/findable/`, `src/layouts/FindableLayout.astro`, `src/styles/findable.css`, `src/scripts/findable-form.ts` |
 | Findable feature card on the Outside In pages | `src/components/FindableFeature.astro` |
 | Findable app address (Sign in links) | `findableAppUrl` in `src/config/site.ts` |
+| Work page tiles, hero copy, marquee | `src/data/workPage.ts` (images in `src/assets/work-page/`; behaviour in `src/scripts/work.ts`) |
+| Looping films (pause button, WebM fallback) | `src/components/LoopVideo.astro`; files in `public/media/` |
 | Portfolio field rules | `src/content.config.ts` |
 | Published-work loader (excludes drafts) | `src/data/work.ts` |
 | Design tokens and shared styles | `src/styles/global.css` |
@@ -80,7 +82,8 @@ Everything else: white `#FFFFFF` background, ink `#17131F` text, ink-soft `#4B45
 - **Header:** logo on the left (hidden on the homepage until you scroll past the hero), plain text links (Work, Findable, Services, Approach, About), the Outside/Inside switch, and one ink "Let's talk" pill.
 - **Footer:** ink background with pink text: links, "Rotorua, Aotearoa · live NZ time" and the email, then a huge scroll-linked "OUTSIDE IN" wordmark. No Behance and no Outside/Inside switch (it's in the header). Instagram and LinkedIn appear only once their URLs are set in `site.ts`.
 - **Inner pages:** quiet page headers; two-column rows (label left, content right); one colour moment per page.
-- **Case studies:** one big cover, short rows, and an Outside/Inside map (red and ink) for concepts.
+- **Work page (Ani's design, 26 Oct 2026):** big headline with a red "impossible" pill, discipline filter chips, a services marquee, eight hand-picked tiles on a 12-column grid (rounded 28px media, numbered captions with discipline dots), a purple "Yours could sit right here" card as the next tile, then every other published project under "More work", then Findable. One "Pause motion" button stops the marquee, the spinning NSC wheel, films and the Wings for Life flight; nothing moves with reduced motion.
+- **Case studies (Ani's Ride Retreat template):** badge + "Case study", huge title, big intro, four facts (Client, What we did, Built with or Services, Where or Sector), big cover (or the phones-and-film band), "The idea" in display type, then optional purple stat tiles (feature facts, not results), a green brand band, the three-screen feature row, "What we made", the result and the live link, and a next-case-study card in the next project's discipline colour. All extras are optional fields in `content.config.ts`, so every project uses the same template.
 
 **Inside view.** A switch in the header flips the site to a dark blueprint version in which `<Note>` blocks explain why each section exists. It's kept as proof of thinking.
 
@@ -96,9 +99,11 @@ Everything else: white `#FFFFFF` background, ink `#17131F` text, ink-soft `#4B45
 
 - **16 selected projects (published, `status: client`)** from Ani's portfolio brief of 22 Oct 2026, in her order: Ride Retreat, Ride Retreat | The Journey, Explore Bay of Plenty, Digital Visitor Information Kiosks (Tourism Bay of Plenty), Flavours of Plenty 2025, Te Puia Digital Marketing & Growth, Te Puia China-Facing Website, Rotorua Walking Tours, Empty Plate Club, CrossFit Nationals, Run for Reido 2025, Wings for Life World Run, Negative Split Carbon, Our Tauranga Region, Grassroots Trust Velodrome, Athlete Experience (Nduro Events). The copy is Ani's own; don't add to it.
 - These include in-house roles, collaborations and her own venture, so pages say "Selected work", not "Client work".
-- **Images (22 Oct 2026):** real covers and galleries for The Journey, Explore Bay of Plenty, Kiosks, Flavours of Plenty (includes the Sunseeker can, a festival collaboration), Rotorua Walking Tours, Empty Plate Club, Run for Reido, Wings for Life and Negative Split Carbon. Covers are 1600×1000 JPGs (cropped, or padded with the image's own background). Still placeholders ("Image to come"): Ride Retreat, both Te Puia projects, CrossFit Nationals, Our Tauranga Region, Grassroots Trust Velodrome, Nduro.
+- **Images (22 Oct 2026):** real covers and galleries for The Journey, Explore Bay of Plenty, Kiosks, Flavours of Plenty (includes the Sunseeker can, a festival collaboration), Rotorua Walking Tours, Empty Plate Club, Run for Reido, Wings for Life and Negative Split Carbon. Covers are 1600×1000 JPGs (cropped, or padded with the image's own background). Ride Retreat's cover and screens came with the Work page design (26 Oct). Still placeholders ("Image to come"): both Te Puia projects, CrossFit Nationals, Our Tauranga Region, Grassroots Trust Velodrome, Nduro.
 - **Te Puia results** are held behind `resultsConfirmed: false`. They show on previews only, flagged, until Ani confirms the measurement periods and attribution.
 - **Concepts:** Quiet Machine and Field Notes stay published (they carry the AI story). After Steam, Loud Weekend, Off Season and Tidewater are `draft: true`. Sunseeker beer label stays a draft; it wasn't in the brief.
+- **Ride Retreat (26 Oct 2026)** now carries Ani's full case study (brand, website, guest app, launch film). Its result is a placeholder (`resultTodo`): flagged on previews, hidden live until she supplies one real outcome. The Journey stays a separate project for now.
+- **Work page tiles:** Flavours, Ride Retreat, Butter Dog, Wings for Life, Empty Plate Club (links to its Instagram), Run for Reido, Rotorua Walking Tours, Negative Split Carbon. Butter Dog is `previewOnly` until Ani confirms rights to the rider photo (a Red Bull athlete); production builds also delete its image files. The Wings for Life tile is labelled Concept per Ani's note, but its case study still describes a team logo for a real team: to confirm with Ani.
 - Homepage work grid (v3): Rotorua Walking Tours, The Journey, Flavours of Plenty, Empty Plate Club, Run for Reido, Negative Split Carbon. Their tile images are `src/assets/home/work/work-0N.jpg`, cut from Ani's images.
 
 ## Findable

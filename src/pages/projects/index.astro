@@ -1,118 +1,377 @@
 ---
+/**
+ * Work page, from Ani's design (26 Oct 2026): a big headline with a red pill,
+ * discipline filters, a services marquee, hand-picked tiles on a 12-column
+ * grid ending in a purple "next project" card, then every other published
+ * project under "More work", then Findable. Copy and tiles: src/data/workPage.ts.
+ * Behaviour (filters, Pause motion, marquee, the Wings for Life flight):
+ * src/scripts/work.ts.
+ */
+import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
-import PageHero from '../../components/PageHero.astro';
-import ProjectCard from '../../components/ProjectCard.astro';
 import Note from '../../components/Note.astro';
+import LoopVideo from '../../components/LoopVideo.astro';
 import FindableFeature from '../../components/FindableFeature.astro';
 import { services } from '../../data/services';
 import { getWork } from '../../data/work';
+import { workPage, tiles as allTiles, dotService } from '../../data/workPage';
+import { site, bookingHref, bookingIsExternal } from '../../config/site';
+import poopCutout from '../../assets/work-page/poop-cutout.png';
+import poopBody from '../../assets/work-page/poop-body.png';
+import wingLeft from '../../assets/work-page/poop-wing-left.png';
+import wingRight from '../../assets/work-page/poop-wing-right.png';
+
+// Preview-only tiles drop out of the live site; their row partner then takes the full width.
+const tiles = allTiles
+  .map((t, i) => {
+    const partner = allTiles[i ^ 1];
+    const alone = site.indexable && partner?.previewOnly && t.span + partner.span === 12;
+    return { ...t, span: alone ? 12 : t.span };
+  })
+  .filter((t) => !(t.previewOnly && site.indexable));
 
 const projects = await getWork();
-const conceptCount = projects.filter((p) => p.data.status === 'concept').length;
-const filters = [
-  { id: 'all', label: 'All' },
-  ...services.map((s) => ({ id: s.id, label: s.name })),
-  { id: 'client', label: 'Selected work' },
-];
+const tileSlugs = new Set(tiles.map((t) => t.slug).filter(Boolean));
+const more = projects.filter((p) => !tileSlugs.has(p.id));
+const conceptCount = more.filter((p) => p.data.status === 'concept').length;
+const pad = (n: number) => String(n).padStart(2, '0');
+const dotOf: Record<string, string> = { 'design-creative': 'pink', 'marketing-growth': 'green', 'ai-systems': 'purple' };
+const sizes = (span: number) => `(max-width: 900px) 100vw, ${Math.round((span / 12) * 100)}vw`;
 ---
 <Base
-  title="Projects"
-  description="Selected brand, digital and marketing work by Ani Gemmill of Outside In, across tourism, events and sport, plus two clearly labelled AI concept projects."
+  title="Work"
+  description="Selected brand, campaign, website and AI work by Outside In, from festivals and venues to products and our own ventures, made in Aotearoa."
 >
-  <PageHero
-    eyebrow="Projects"
-    dot="red"
-    title="Ideas, built."
-    lede="Brand, digital and marketing work across tourism, events and sport: identities, campaigns, destination apps and the digital journeys behind them."
-  />
-
-  <section class="wrap product" aria-label="Our product">
-    <FindableFeature />
-    <Note>Findable is Outside In’s own product, so it sits above the selected work and concepts rather than in the grid.</Note>
-  </section>
-
-  <section class="wrap work-index" aria-label="Projects">
-    <div class="work-index__bar">
-      <div class="filters" role="group" aria-label="Filter projects" data-filters hidden>
-        {filters.map((f, i) => (
-          <button type="button" class="filter" data-filter={f.id} aria-pressed={i === 0 ? 'true' : 'false'}>{f.label}</button>
+  <section class="wrap wk-hero" aria-labelledby="wk-title">
+    <div class="wk-hero__top">
+      <p class="label">{workPage.label}</p>
+      <p class="label">{pad(tiles.length)} projects</p>
+    </div>
+    <h1 id="wk-title" class="wk-hero__title">{workPage.title.before} <span class="wk-pill">{workPage.title.pill}</span> {workPage.title.after}</h1>
+    <div class="wk-hero__foot">
+      <p class="wk-hero__lede">{workPage.lede}</p>
+      <div class="wk-chips" role="group" aria-label="Filter projects" data-filters hidden>
+        <button type="button" class="wk-chip" data-filter="all" aria-pressed="true">All</button>
+        {services.map((s) => (
+          <button type="button" class="wk-chip" data-filter={s.id} aria-pressed="false"><span class:list={['wk-dot', `wk-dot--${dotOf[s.id]}`]} aria-hidden="true"></span>{s.name}</button>
         ))}
       </div>
-      {conceptCount > 0 && (
-        <p class="disclosure">Projects marked Concept are self-initiated AI proof-of-concept work, not client commissions. They show how we’d approach a real brief and claim no results.</p>
-      )}
     </div>
-    <p class="visually-hidden" aria-live="polite" data-filter-status></p>
-    <Note>Filters use the same three disciplines as the Services page, so someone looking for AI work finds it in one click.</Note>
-
-    <div class="grid-work" data-work-grid>
-      {projects.map((p, i) => <ProjectCard project={p} headingLevel="h2" priority={i < 2} />)}
-    </div>
-
-    <div class="empty" data-empty hidden>
-      <p class="empty__title">Nothing here yet.</p>
-      <p class="empty__text" data-empty-text>No projects match this filter.</p>
-      <button type="button" class="btn btn--ghost" data-filter-reset>Show all projects</button>
-    </div>
+    {site.indexable === false && tiles.some((t) => t.previewOnly) && (
+      <p class="wk-flag">Preview only: Butter Dog stays off the live site until the rights to the rider photo are confirmed.</p>
+    )}
   </section>
+
+  <div class="wk-marquee" data-marquee>
+    <div class="wk-marquee__track" aria-hidden="true">
+      {[0, 1].map(() => workPage.marquee.map((m) => <><span>{m.word}</span><span class:list={['wk-dot', 'wk-dot--lg', `wk-dot--${m.dot}`]}></span></>))}
+    </div>
+    <button type="button" class="wk-pause" data-motion-pause aria-pressed="false" hidden>
+      <span class="wk-pause__ico" aria-hidden="true"></span><span data-motion-pause-label>Pause motion</span>
+    </button>
+  </div>
+
+  <p class="visually-hidden" aria-live="polite" data-filter-status></p>
+
+  <div class="wrap">
+    <ul role="list" class="wk-grid" data-work-grid>
+      {tiles.map((t, i) => (
+        <li class:list={['wk-tile', `wk-tile--${t.media.kind}`, { 'is-link': t.href }]} style={`--span: ${t.span}; --h: ${t.h}`} data-categories={t.dots.map((d) => dotService[d]).join(' ')} data-tile>
+          <div class="wk-media" style={`background: ${t.bg}`}>
+            {t.media.kind === 'image' && (
+              <Image class:list={['wk-img', { 'wk-img--contain': t.media.fit === 'contain' }]} src={t.media.src} alt={t.media.alt} widths={[640, 1024, 1600]} sizes={sizes(t.span)} loading={i < 2 ? 'eager' : 'lazy'} />
+            )}
+            {t.media.kind === 'video' && (
+              <LoopVideo class="wk-video" src={t.media.src} poster={t.media.poster} label={t.media.label} />
+            )}
+            {t.media.kind === 'pip' && (
+              <>
+                <Image class="wk-img" src={t.media.src} alt={t.media.alt} widths={[640, 1024, 1342]} sizes={sizes(t.span)} loading="lazy" style={`object-position: ${t.media.position ?? '50% 50%'}`} />
+                <div class="wk-pip"><Image src={t.media.pip} alt={t.media.pipAlt} widths={[240, 480]} sizes="12.5rem" loading="lazy" /></div>
+              </>
+            )}
+            {t.media.kind === 'poster' && (
+              <>
+                <div class="wk-zoom">
+                  <Image src={t.media.src} alt={t.media.alt} widths={[640, 1024, 1600]} sizes="(max-width: 900px) 140vw, 50vw" loading="lazy" />
+                  <Image class="wk-poop" src={poopCutout} alt="" widths={[120, 195]} sizes="6rem" loading="lazy" data-poster-poop />
+                </div>
+                <button type="button" class="wk-runs" data-runs hidden>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17c4-1 6-4 9-9"></path><path d="M12 8l1-5 4 3"></path><path d="M14 14c2 0 5 1 7 3"></path></svg>
+                  <span data-runs-label>Release the runs</span>
+                </button>
+              </>
+            )}
+            {t.media.kind === 'wheel' && (
+              <div class="wk-spin"><div class="wk-spin2"><Image src={t.media.src} alt={t.media.alt} widths={[480, 960]} sizes="(max-width: 900px) 80vw, 40vw" loading="lazy" /></div></div>
+            )}
+            {t.badge && (
+              <span class:list={['wk-badge', `wk-badge--${t.badge.tone}`, { 'wk-badge--ig': t.badge.instagram }]}>
+                {t.badge.instagram && <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"></circle></svg>}
+                {t.badge.text}
+              </span>
+            )}
+            {t.hover && <span class="wk-view" aria-hidden="true">{t.hover}</span>}
+          </div>
+          <div class="wk-cap">
+            <span class="wk-n label">{pad(i + 1)}</span>
+            <div>
+              <h2 class="wk-name">
+                {t.href
+                  ? <a class="wk-link" href={t.href} {...(t.external ? { target: '_blank', rel: 'noopener' } : {})}>{t.title}{t.external && <span class="visually-hidden"> on Instagram (opens in a new tab)</span>}</a>
+                  : t.title}
+              </h2>
+              <p class="wk-tags">{t.dots.map((d) => <span class:list={['wk-dot', `wk-dot--${d}`]} aria-hidden="true"></span>)}{t.tags}</p>
+            </div>
+            <span class="wk-end">
+              {t.year && <span class="wk-year">{t.year}</span>}
+              {t.href && (
+                <span class="wk-go" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"></path><path d="M8 7h9v9"></path></svg></span>
+              )}
+            </span>
+          </div>
+        </li>
+      ))}
+
+      <li class="wk-tile wk-tile--cta" style="--span: 12" data-cta>
+        <a class="wk-cta" href={bookingHref} {...(bookingIsExternal ? { target: '_blank', rel: 'noopener' } : {})}>
+          <span class="wk-cta__text">
+            <span class="label">{pad(tiles.length + 1)} · {workPage.cta.label}</span>
+            <span class="wk-cta__title">{workPage.cta.title}</span>
+          </span>
+          <span class="wk-cta__btn">{workPage.cta.button}
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
+            {bookingIsExternal && <span class="visually-hidden"> (opens in a new tab)</span>}
+          </span>
+        </a>
+      </li>
+    </ul>
+    <Note>The CTA sits in the grid as the next tile on purpose: it reads as the space a new client’s project would fill.</Note>
+  </div>
+
+  {more.length > 0 && (
+    <section class="wrap wk-more" aria-labelledby="wk-more-title">
+      <div class="wk-more__head">
+        <h2 id="wk-more-title" class="label">{workPage.moreLabel}</h2>
+        {conceptCount > 0 && <p class="wk-more__note">Projects marked Concept are self-initiated AI proof-of-concept work, not client commissions. They show how we’d approach a real brief and claim no results.</p>}
+      </div>
+      <ol role="list" class="wk-list" data-work-list>
+        {more.map((p) => (
+          <li data-categories={p.data.categories.join(' ')} data-row>
+            <a class="wk-row" href={`/projects/${p.id}/`}>
+              <span class="wk-row__title">{p.data.title}</span>
+              <span class="wk-row__type">{p.data.status === 'concept' ? 'Concept · ' : ''}{p.data.type}</span>
+              <span class="wk-row__dots" aria-hidden="true">{p.data.categories.map((c) => <span class:list={['wk-dot', `wk-dot--${dotOf[c]}`]}></span>)}</span>
+              <span class="wk-row__arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </section>
+  )}
+
+  <div class="wrap wk-empty" data-empty hidden>
+    <p class="wk-empty__title">Nothing here yet.</p>
+    <button type="button" class="btn btn--ghost" data-filter-reset>Show all work</button>
+  </div>
+
+  <section class="wrap wk-product" aria-label="Our product">
+    <FindableFeature />
+    <Note>Findable is Outside In’s own product, so it sits after the work rather than in the grid.</Note>
+  </section>
+
+  {tiles.some((t) => t.media.kind === 'poster') && (
+    <div class="wk-flyer" data-flyer aria-hidden="true">
+      <div class="wk-flyer__bob">
+        <Image class="wk-flyer__wl" src={wingLeft} alt="" loading="lazy" />
+        <Image class="wk-flyer__wr" src={wingRight} alt="" loading="lazy" />
+        <Image class="wk-flyer__body" src={poopBody} alt="" widths={[120, 195]} sizes="8rem" loading="lazy" />
+      </div>
+    </div>
+  )}
 </Base>
 
 <script>
-  const wrap = document.querySelector<HTMLElement>('[data-filters]');
-  const cards = [...document.querySelectorAll<HTMLElement>('[data-work-grid] .tile')];
-  const empty = document.querySelector<HTMLElement>('[data-empty]')!;
-  const emptyText = document.querySelector<HTMLElement>('[data-empty-text]')!;
-  const status = document.querySelector<HTMLElement>('[data-filter-status]')!;
-  if (wrap) {
-    wrap.hidden = false;
-    const buttons = [...wrap.querySelectorAll<HTMLButtonElement>('[data-filter]')];
-    const apply = (id: string) => {
-      let shown = 0;
-      cards.forEach((c) => {
-        const cats = (c.dataset.categories ?? '').split(' ');
-        const isClient = c.dataset.status === 'client';
-        const match = id === 'all' || (id === 'client' ? isClient : cats.includes(id));
-        c.hidden = !match;
-        if (match) { shown++; c.classList.add('is-in'); }
-      });
-      buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.filter === id)));
-      empty.hidden = shown > 0;
-      emptyText.textContent = id === 'client'
-        ? 'Client projects appear here once they’re approved for publication. In the meantime, the concepts show how we work.'
-        : 'No projects match this filter yet.';
-      const label = buttons.find((b) => b.dataset.filter === id)?.textContent ?? '';
-      status.textContent = `${shown} project${shown === 1 ? '' : 's'} shown${id === 'all' ? '' : ` for ${label}`}.`;
-      const url = new URL(location.href);
-      if (id === 'all') url.searchParams.delete('filter'); else url.searchParams.set('filter', id);
-      history.replaceState(null, '', url);
-    };
-    buttons.forEach((b) => b.addEventListener('click', () => apply(b.dataset.filter!)));
-    document.querySelector('[data-filter-reset]')?.addEventListener('click', () => apply('all'));
-    const initial = new URL(location.href).searchParams.get('filter');
-    if (initial && buttons.some((b) => b.dataset.filter === initial)) apply(initial);
-  }
+  import '../../scripts/work';
 </script>
 
 <style>
-  .product { padding-bottom: clamp(4rem, 8vw, 7rem); }
-  .work-index { padding-bottom: clamp(6rem, 12vw, 12rem); }
-  .work-index__bar { display: grid; gap: 1.25rem; padding-bottom: 1.5rem; margin-bottom: clamp(2.5rem, 5vw, 4rem); border-bottom: 1px solid var(--line); }
-  .filters { display: flex; flex-wrap: wrap; gap: 0.25rem 1.75rem; }
-  .filters[hidden] { display: none; }
-  .filter {
-    min-height: 44px; padding: 0; border: 0; background: none; color: var(--muted);
-    font-size: var(--step-0); font-weight: 500; position: relative;
+  /* Hero */
+  .wk-hero { padding-block: clamp(3rem, 6vw, 5.5rem) clamp(2.5rem, 4.5vw, 4rem); }
+  .wk-hero__top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 0.5rem 1.5rem; margin-bottom: 1.75rem; }
+  .wk-hero__top .label { font-size: 0.9rem; letter-spacing: 0.14em; }
+  .wk-hero__title { font-size: clamp(2.5rem, 0.9rem + 6.6vw, 7.5rem); max-width: 10.4em; }
+  .wk-pill { display: inline-block; padding: 0.05em 0.18em 0; border-radius: var(--pill); background: var(--red); color: var(--ink); line-height: 0.95; }
+  .wk-hero__foot { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 2rem; margin-top: clamp(2.25rem, 4vw, 3.5rem); }
+  .wk-hero__lede { font-size: clamp(1.1rem, 0.95rem + 0.5vw, 1.3rem); line-height: 1.5; max-width: 35ch; color: var(--muted); }
+  .wk-chips { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .wk-chips[hidden] { display: none; }
+  .wk-chip {
+    display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px; padding: 0 1.25rem;
+    border: 1.5px solid var(--fg); border-radius: var(--pill); background: var(--bg); color: var(--fg);
+    font-size: 0.95rem; font-weight: 500; cursor: pointer; transition: background 0.2s, color 0.2s;
   }
-  .filter::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0.45rem; height: 1.5px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform 0.3s var(--ease-out); }
-  .filter:hover { color: var(--fg); }
-  .filter[aria-pressed='true'] { color: var(--fg); }
-  .filter[aria-pressed='true']::after, .filter:hover::after { transform: scaleX(1); }
-  .disclosure { color: var(--muted); font-size: var(--step--1); max-width: 70ch; }
-  .grid-work { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(3.5rem, 7vw, 6rem) clamp(1.5rem, 3vw, 3rem); }
-  .grid-work > :global(.tile[hidden]) { display: none; }
-  .empty { display: grid; gap: 1rem; justify-items: start; padding: 3rem 0; }
-  .empty[hidden] { display: none; }
-  .empty__title { font-family: var(--font-display); font-size: var(--step-2); font-weight: 800; text-transform: uppercase; }
-  .empty__text { color: var(--muted); max-width: 52ch; }
-  @media (max-width: 760px) { .grid-work { grid-template-columns: 1fr; } }
+  .wk-chip:has(.wk-dot) { padding-left: 0.9rem; }
+  .wk-chip:hover, .wk-chip[aria-pressed='true'] { background: var(--fg); color: var(--bg); }
+  .wk-chip[aria-pressed='true'] { font-weight: 600; }
+  .wk-flag { margin-top: 1.5rem; padding: 0.75rem 1rem; border-radius: 12px; background: var(--lilac); color: var(--ink); font-size: var(--step--1); font-weight: 600; }
+
+  /* Discipline dots: pink, green and purple only ever mean Design, Marketing and AI. */
+  .wk-dot { flex: none; display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--c); }
+  .wk-dot--lg { width: 14px; height: 14px; }
+  .wk-dot--red { --c: var(--red); }
+  .wk-dot--pink { --c: var(--pink); }
+  .wk-dot--purple { --c: var(--purple); }
+  .wk-dot--green { --c: var(--green); box-shadow: inset 0 0 0 1px var(--ink); }
+
+  /* Marquee: still until the script starts it; stops with Pause motion. */
+  .wk-marquee { position: relative; overflow: hidden; border-block: 1.5px solid var(--fg); padding-block: 1.35rem; margin-bottom: clamp(3.5rem, 6vw, 5.5rem); }
+  .wk-marquee__track { display: flex; align-items: center; gap: 2.5rem; width: max-content; font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: clamp(1.75rem, 1.3rem + 1.4vw, 2.5rem); line-height: 1; letter-spacing: -0.01em; }
+  :global(.motion-live) .wk-marquee__track { animation: wk-slide 38s linear infinite; }
+  :global(.motion-paused) .wk-marquee__track { animation-play-state: paused; }
+  @keyframes wk-slide { to { transform: translateX(-50%); } }
+  .wk-pause {
+    position: absolute; right: var(--gutter); top: 50%; transform: translateY(-50%);
+    display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px; padding: 0 1rem;
+    border: 1.5px solid var(--fg); border-radius: var(--pill); background: var(--bg); color: var(--fg); font-size: 0.85rem; font-weight: 600; cursor: pointer;
+  }
+  .wk-pause[hidden] { display: none; }
+  .wk-pause:hover { background: var(--fg); color: var(--bg); }
+  .wk-pause__ico { width: 10px; height: 11px; border-inline: 3px solid currentColor; }
+  .wk-pause[aria-pressed='true'] .wk-pause__ico { border: 0; width: 0; height: 0; border-left: 10px solid currentColor; border-block: 6px solid transparent; }
+
+  /* The grid: 12 columns, tiles span 4, 6, 8 or 12. */
+  .wk-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: clamp(3.5rem, 6vw, 5.5rem) 1.75rem; padding: 0; margin: 0 0 clamp(5rem, 9vw, 8.75rem); }
+  .wk-tile { position: relative; grid-column: span var(--span); display: flex; flex-direction: column; gap: 1.1rem; min-width: 0; }
+  .wk-tile[hidden] { display: none; }
+  .wk-grid.is-filtered .wk-tile:not(.wk-tile--cta) { grid-column: span 6; --h: 580; }
+  .wk-media {
+    position: relative; overflow: hidden; border-radius: 28px;
+    height: clamp(380px, calc(var(--h) * 100vw / 1440), calc(var(--h) * 1px));
+  }
+  .wk-media > :global(*) { transition: transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .wk-media :global(.wk-img) { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .wk-media :global(.wk-img--contain) { position: absolute; inset: 4%; width: 92%; height: 92%; object-fit: contain; }
+  .wk-media :global(.wk-video) { height: 100%; }
+  .wk-tile:hover .wk-media > :global(.wk-img) { transform: scale(1.04); }
+  /* The film zooms inside its frame, so its pause button stays above the tile link. */
+  .wk-media :global(.wk-video video) { transition: transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .wk-tile:hover .wk-media :global(.wk-video video) { transform: scale(1.04); }
+
+  .wk-pip { position: absolute; left: 24px; bottom: 24px; width: 200px; height: 240px; border-radius: 18px; overflow: hidden; border: 4px solid var(--white); box-shadow: 0 14px 34px rgb(23 19 31 / 0.28); }
+  .wk-pip :global(img) { width: 100%; height: 100%; object-fit: cover; }
+
+  .wk-zoom { position: absolute; top: 0; left: 50%; height: 100%; aspect-ratio: 1600 / 1180; transform: translateX(-50%); }
+  .wk-tile:hover .wk-zoom { transform: translateX(-50%) scale(1.04); }
+  .wk-zoom > :global(img:first-child) { width: 100%; height: 100%; }
+  .wk-zoom :global(.wk-poop) { position: absolute; left: 44.43%; top: 20.91%; width: 10.06%; height: auto; transform-origin: 50% 90%; }
+  @media (prefers-reduced-motion: no-preference) {
+    :global(.motion-live) .wk-tile:hover .wk-zoom :global(.wk-poop) { animation: wk-jiggle 0.45s ease-in-out infinite; }
+  }
+  @keyframes wk-jiggle { 0%, 100% { transform: none; } 25% { transform: rotate(-5deg) translateY(-3px); } 75% { transform: rotate(5deg) translateY(-3px); } }
+  .wk-runs {
+    position: absolute; left: 24px; bottom: 24px; z-index: 2;
+    display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px; padding: 0 1.1rem;
+    border: 1.5px solid var(--ink); border-radius: var(--pill); background: var(--white); color: var(--ink); font-size: 0.9rem; font-weight: 600; cursor: pointer;
+  }
+  .wk-runs[hidden] { display: none; }
+  .wk-runs:hover { background: var(--ink); color: var(--white); }
+
+  .wk-tile--wheel .wk-media { display: flex; align-items: center; justify-content: center; }
+  .wk-spin { height: 82%; aspect-ratio: 1; mix-blend-mode: multiply; }
+  .wk-spin2, .wk-spin2 :global(img) { width: 100%; height: 100%; display: block; }
+  :global(.motion-live) .wk-spin { animation: wk-spin 14s linear infinite; }
+  :global(.motion-live) .wk-spin2 { animation: wk-spin 3s linear infinite paused; }
+  :global(.motion-live) .wk-tile:hover .wk-spin2 { animation-play-state: running; }
+  :global(.motion-paused) :is(.wk-spin, .wk-spin2) { animation-play-state: paused !important; }
+  @keyframes wk-spin { to { transform: rotate(360deg); } }
+
+  .wk-badge { position: absolute; top: 24px; left: 24px; z-index: 2; display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0.9rem; border-radius: var(--pill); background: var(--white); color: var(--ink); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; pointer-events: none; }
+  .wk-badge--green { background: var(--green); }
+  .wk-badge--ink { background: var(--ink); color: var(--white); }
+  .wk-badge--ig { text-transform: none; letter-spacing: 0.02em; }
+  .wk-view {
+    position: absolute; left: 50%; top: 50%; z-index: 2; pointer-events: none;
+    padding: 1.1rem 1.75rem 0.95rem; border-radius: var(--pill); background: var(--white); color: var(--ink);
+    font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: 1.1rem; line-height: 1;
+    opacity: 0; transform: translate(-50%, -50%) scale(0.8); transition: opacity 0.3s, transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .wk-tile:hover .wk-view { opacity: 1; transform: translate(-50%, -50%); }
+
+  .wk-cap { display: grid; grid-template-columns: 3.5rem minmax(0, 1fr) auto; gap: 1rem; align-items: start; }
+  .wk-n { padding-top: 0.5rem; font-size: 0.9rem; letter-spacing: 0.08em; }
+  .wk-name { font-size: clamp(1.6rem, 1.2rem + 1vw, 2.25rem); line-height: 0.95; letter-spacing: -0.01em; text-wrap: balance; }
+  .wk-link { color: inherit; text-decoration: none; }
+  /* The title link covers the whole tile; buttons on the tile sit above it. */
+  .wk-link::after { content: ''; position: absolute; inset: 0; z-index: 1; border-radius: 28px; }
+  .wk-link:focus-visible { outline: none; }
+  .wk-link:focus-visible::after { outline: 3px solid var(--link); outline-offset: 4px; }
+  .wk-tile :global(.lvid__btn) { z-index: 3; }
+  .wk-tags { margin-top: 0.6rem; font-size: 1.05rem; color: var(--muted); }
+  .wk-tags .wk-dot { margin-right: 0.5rem; vertical-align: 0.05em; }
+  .wk-end { display: flex; align-items: center; gap: 1rem; }
+  .wk-year { padding-top: 0.5rem; font-weight: 600; color: var(--muted); }
+  .wk-go { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border: 1.5px solid var(--fg); border-radius: 50%; transition: background 0.2s, color 0.2s; }
+  .wk-tile:hover .wk-go { background: var(--fg); color: var(--bg); }
+
+  /* The next-project card, in the grid. Purple flood with grain; ink text. */
+  .wk-cta {
+    position: relative; overflow: hidden; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 2.5rem;
+    min-height: clamp(300px, 26vw, 380px); padding: clamp(2rem, 4.5vw, 3.5rem) clamp(1.5rem, 4.5vw, 4rem);
+    border-radius: 28px; background: var(--purple); color: var(--ink); text-decoration: none;
+  }
+  .wk-cta::before { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0.3; mix-blend-mode: multiply; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  .wk-cta__text { position: relative; display: grid; gap: 1.5rem; max-width: 54rem; }
+  .wk-cta__text .label { font-size: 0.9rem; letter-spacing: 0.14em; }
+  .wk-cta__title { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: clamp(2.4rem, 1rem + 5vw, 5.5rem); line-height: 0.9; letter-spacing: -0.02em; }
+  .wk-cta__btn { position: relative; display: inline-flex; align-items: center; gap: 0.75rem; padding: 1.1rem 1.9rem; border-radius: var(--pill); background: var(--ink); color: var(--white); font-size: 1.1rem; font-weight: 600; transition: transform 0.3s var(--ease-out-back); }
+  .wk-cta:hover .wk-cta__btn { transform: translateX(4px); }
+  .wk-cta:focus-visible { outline-offset: 4px; }
+
+  /* More work: an index of every other published project. */
+  .wk-more { padding-bottom: clamp(5rem, 9vw, 8.75rem); }
+  .wk-more__head { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 1rem 1.75rem; padding-top: 2rem; border-top: 1.5px solid var(--fg); margin-bottom: 1rem; }
+  .wk-more__head .label { font-size: 0.9rem; letter-spacing: 0.14em; }
+  .wk-more__note { color: var(--muted); max-width: 60ch; }
+  .wk-list { padding: 0; margin: 0; }
+  .wk-list li[hidden] { display: none; }
+  .wk-row { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 6fr) auto auto; align-items: center; gap: 0.5rem 1.75rem; padding: 1.4rem 0.75rem; margin-inline: -0.75rem; border-bottom: 1px solid var(--line); border-radius: 4px; color: var(--fg); text-decoration: none; transition: background 0.2s; }
+  .wk-row:hover { background: var(--fill); color: var(--fill-fg); }
+  .wk-row__title { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: clamp(1.3rem, 1rem + 0.9vw, 1.9rem); line-height: 1; letter-spacing: -0.02em; }
+  .wk-row__type { color: inherit; opacity: 0.85; }
+  .wk-row__dots { display: flex; gap: 0.4rem; }
+  .wk-row__arrow { font-size: 1.25rem; transition: transform 0.3s var(--ease-out-back); }
+  .wk-row:hover .wk-row__arrow { transform: translateX(4px); }
+
+  .wk-empty { display: grid; gap: 1rem; justify-items: start; padding-bottom: 4rem; }
+  .wk-empty[hidden] { display: none; }
+  .wk-empty__title { font-family: var(--font-display); font-size: var(--step-2); font-weight: 800; text-transform: uppercase; }
+  .wk-product { padding-bottom: clamp(5rem, 9vw, 8.75rem); }
+
+  /* The flying Wings for Life character (a fixed copy with flapping wings). */
+  .wk-flyer { position: fixed; left: 0; top: 0; z-index: 90; width: 120px; pointer-events: none; opacity: 0; will-change: transform; }
+  .wk-flyer__bob { position: relative; filter: drop-shadow(0 18px 22px rgb(23 19 31 / 0.25)); animation: wk-bob 1.8s ease-in-out infinite alternate; }
+  .wk-flyer :global(.wk-flyer__body) { position: relative; display: block; width: 100%; height: auto; }
+  .wk-flyer :global(.wk-flyer__wl) { position: absolute; left: 0; top: 24.04%; width: 17.95%; height: auto; transform-origin: 92% 62%; animation: wk-wl 0.42s ease-in-out infinite alternate; }
+  .wk-flyer :global(.wk-flyer__wr) { position: absolute; left: 81.54%; top: 24.68%; width: 18.46%; height: auto; transform-origin: 8% 62%; animation: wk-wr 0.42s ease-in-out infinite alternate; }
+  @keyframes wk-bob { from { transform: translateY(-6px); } to { transform: translateY(6px); } }
+  @keyframes wk-wl { from { transform: rotate(28deg); } to { transform: rotate(-38deg); } }
+  @keyframes wk-wr { from { transform: rotate(-28deg); } to { transform: rotate(38deg); } }
+
+  @media (max-width: 900px) {
+    .wk-grid { grid-template-columns: 1fr; }
+    .wk-tile, .wk-grid.is-filtered .wk-tile:not(.wk-tile--cta) { grid-column: auto; }
+    .wk-media { height: 420px; }
+    .wk-pip { display: none; }
+    .wk-more__head { grid-template-columns: 1fr; }
+    .wk-row { grid-template-columns: minmax(0, 1fr) auto; }
+    .wk-row__type { grid-column: 1; grid-row: 2; }
+    .wk-row__dots { grid-column: 2; grid-row: 1; }
+    .wk-row__arrow { display: none; }
+    .wk-pause { position: static; transform: none; margin: 1rem var(--gutter) 0; }
+  }
+  @media (max-width: 420px) {
+    .wk-media { height: 340px; }
+    .wk-cap { grid-template-columns: 2.25rem minmax(0, 1fr) auto; gap: 0.75rem; }
+  }
 </style>

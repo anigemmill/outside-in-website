@@ -50,7 +50,7 @@ const socials = Object.entries(site.social).filter(([k, url]) => Boolean(url) &&
   </div>
   {socials.length > 0 && (
     <ul role="list" class="col soc__links">
-      {socials.map(([k, url]) => <li><a class="text-link" href={url} target="_blank" rel="noopener">{labels[k]}<span class="visually-hidden"> (opens in a new tab)</span></a></li>)}
+      {socials.map(([k, url]) => <li><a class="text-link" href={url} target="_blank" rel="noopener">Follow us on {labels[k]} <span aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a></li>)}
     </ul>
   )}
   <div class="col"><Note>Social work is seen in a feed, so it's shown as one: a slow carousel you can stop, drag or step through.</Note></div>

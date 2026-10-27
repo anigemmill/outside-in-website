@@ -56,7 +56,7 @@ export const site = {
   /** Social links. Leave a value empty to hide it; nothing shows until a URL is set.
       (Behance is a content source only and isn't linked anywhere, at Ani's request.) */
   social: {
-    instagram: '',
+    instagram: 'https://www.instagram.com/theoutsidein.nz/',
     linkedin: '',
   } as Record<string, string>,
 

@@ -136,7 +136,7 @@ Sign in links point at the Vercel address until `app.theoutsidein.nz` is live, t
 2. Add theoutsidein.nz as the primary domain and point DNS to Netlify.
 3. Turn on Forms email notifications to anigemmill@theoutsidein.nz.
 4. Test the form and the Cal.com link live.
-5. Optional: add Instagram and LinkedIn links in `site.ts`, review the privacy notice, and add Ani's bio to `about.ts` (the People section appears automatically once filled).
+5. Optional: add the LinkedIn link in `site.ts` (Instagram is linked: @theoutsidein.nz), review the privacy notice, and add Ani's bio to `about.ts` (the People section appears automatically once filled).
 
 ## Quality bar
 

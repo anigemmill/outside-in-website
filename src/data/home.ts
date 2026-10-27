@@ -9,7 +9,7 @@
 export const home = {
   hero: {
     // The hero is the animated logo. This is the one line beneath it.
-    descriptor: 'Creative, marketing and AI studio · Aotearoa New Zealand',
+    descriptor: 'We help brands stand out, connect with the right audiences, and grow through thoughtful strategy, creative design, and digital innovation.',
   },
 
   /** 2 · Scroll-filled statement. The spec leaves this for Ani to write; until

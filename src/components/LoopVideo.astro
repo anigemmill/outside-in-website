@@ -8,6 +8,9 @@
  * The Work page's "Pause motion" button also pauses every LoopVideo, through
  * the `oi:motion` event on document.
  *
+ * `bare` drops the button, for small films that sit together (the Empty Plate
+ * Club reels): only use it where the page's Pause motion button controls them.
+ *
  * If a .webm with the same name sits beside the .mp4 in public/, it's offered
  * too, for browsers without H.264.
  */
@@ -15,8 +18,8 @@ import fs from 'node:fs';
 import { getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 
-interface Props { src: string; poster: ImageMetadata; label: string; class?: string; fit?: 'cover' | 'contain' }
-const { src, poster, label, class: className, fit = 'cover' } = Astro.props;
+interface Props { src: string; poster: ImageMetadata; label: string; class?: string; fit?: 'cover' | 'contain'; bare?: boolean }
+const { src, poster, label, class: className, fit = 'cover', bare = false } = Astro.props;
 const webm = src.replace(/\.mp4$/, '.webm');
 const hasWebm = webm !== src && fs.existsSync(`public${webm}`);
 const posterImg = await getImage({ src: poster, width: Math.min(poster.width, 900), format: 'jpg' });
@@ -26,9 +29,11 @@ const posterImg = await getImage({ src: poster, width: Math.min(poster.width, 90
     <source src={src} type="video/mp4" />
     {hasWebm && <source src={webm} type="video/webm" />}
   </video>
-  <button type="button" class="lvid__btn" data-loop-btn aria-pressed="false" hidden>
-    <span class="lvid__ico" aria-hidden="true"></span><span data-loop-btn-label>Pause film</span>
-  </button>
+  {!bare && (
+    <button type="button" class="lvid__btn" data-loop-btn aria-pressed="false" hidden>
+      <span class="lvid__ico" aria-hidden="true"></span><span data-loop-btn-label>Pause film</span>
+    </button>
+  )}
 </div>
 
 <script>
@@ -38,10 +43,10 @@ const posterImg = await getImage({ src: poster, width: Math.min(poster.width, 90
 
   document.querySelectorAll<HTMLElement>('[data-loop-video]').forEach((wrap) => {
     const video = wrap.querySelector('video')!;
-    const btn = wrap.querySelector<HTMLButtonElement>('[data-loop-btn]')!;
-    const btnLabel = btn.querySelector<HTMLElement>('[data-loop-btn-label]')!;
+    const btn = wrap.querySelector<HTMLButtonElement>('[data-loop-btn]');
+    const btnLabel = btn?.querySelector<HTMLElement>('[data-loop-btn-label]');
     video.controls = false;
-    btn.hidden = false;
+    if (btn) btn.hidden = false;
     // Paused by the viewer (this button), as opposed to scrolled out of view.
     let userPaused = reduce;
     let inView = false;
@@ -53,12 +58,12 @@ const posterImg = await getImage({ src: poster, width: Math.min(poster.width, 90
         video.play().catch(() => {});
       } else if (!play && !video.paused) video.pause();
       const playing = !userPaused && !globalPause;
-      btn.setAttribute('aria-pressed', String(!playing));
-      btnLabel.textContent = playing ? 'Pause film' : 'Play film';
+      btn?.setAttribute('aria-pressed', String(!playing));
+      if (btnLabel) btnLabel.textContent = playing ? 'Pause film' : 'Play film';
     };
     players.push(sync);
 
-    btn.addEventListener('click', (e) => {
+    btn?.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
       if (globalPause) { globalPause = false; userPaused = false; }

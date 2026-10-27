@@ -72,6 +72,28 @@ const work = defineCollection({
         link: z.object({ href: z.string().url(), label: z.string() }).optional(),
         /** Slug of the case study to suggest next (defaults to the next in order). */
         next: z.string().optional(),
+        /** Page headline when it differs from the project title. */
+        headline: z.string().optional(),
+        /** Label beside the badge (defaults to "Case study"). */
+        eyebrow: z.string().optional(),
+        /** Replaces the four default facts under the intro. */
+        facts: z.array(z.object({ label: z.string(), value: z.string(), href: z.string().url().optional() })).max(4).optional(),
+        /** Four labelled photos above the showcase (tall one left, three right). */
+        photos: z.array(z.object({ src: image(), alt: z.string(), label: z.string(), position: z.string().optional() })).length(4).optional(),
+        /**
+         * Free-form case-study sections, in order (used by Ride Retreat: Brand & Website).
+         * When set, they replace the standard body rows.
+         */
+        blocks: z.array(z.discriminatedUnion('type', [
+          z.object({ type: z.literal('row'), label: z.string(), statement: z.string(), paragraphs: z.array(z.string()).default([]) }),
+          z.object({ type: z.literal('band'), label: z.string(), line: z.string(), text: z.string(), image: z.object({ src: image(), alt: z.string() }).optional(), captions: z.array(z.string()).default([]), after: z.string().optional() }),
+          z.object({ type: z.literal('identity'), label: z.string(), statement: z.string(), text: z.string(), palette: z.object({ src: image(), alt: z.string() }), headlineFont: z.string(), bodyFont: z.string(), sample: z.string(), sampleSub: z.string(), colour: z.string(), colourNames: z.string() }),
+          z.object({ type: z.literal('website'), label: z.string(), statement: z.string(), text: z.string(), pages: z.object({ src: image(), alt: z.string() }), scroll: z.object({ src: image(), alt: z.string() }), lead: z.string(), stats: z.array(z.object({ n: z.string(), text: z.string() })), after: z.string(), meta: z.array(z.object({ label: z.string(), text: z.string() })) }),
+          /** todos are placeholders for figures still to come: previews only, never live. */
+          z.object({ type: z.literal('outcome'), label: z.string(), statement: z.string(), text: z.string(), todos: z.array(z.string()).default([]) }),
+        ])).default([]),
+        /** A related case study, shown as a dark card instead of the next-project card. */
+        related: z.object({ slug: z.string(), text: z.string() }).optional(),
         seoDescription: z.string().optional(),
       })
       .refine((d) => d.status === 'client' || d.results.length === 0, {

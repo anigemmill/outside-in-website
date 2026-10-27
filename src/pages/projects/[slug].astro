@@ -6,6 +6,7 @@ import Base from '../../layouts/Base.astro';
 import Note from '../../components/Note.astro';
 import TriageDemo from '../../components/TriageDemo.astro';
 import LoopVideo from '../../components/LoopVideo.astro';
+import CaseBlocks from '../../components/case/CaseBlocks.astro';
 import { serviceById } from '../../data/services';
 import { site } from '../../config/site';
 
@@ -13,11 +14,15 @@ export async function getStaticPaths() {
   const all = await getWork();
   return all.map((project, i) => ({
     params: { slug: project.id },
-    props: { project, next: all.find((p) => p.id === project.data.next) ?? all[(i + 1) % all.length] },
+    props: {
+      project,
+      next: all.find((p) => p.id === project.data.next) ?? all[(i + 1) % all.length],
+      related: all.find((p) => p.id === project.data.related?.slug),
+    },
   }));
 }
 
-const { project, next } = Astro.props;
+const { project, next, related } = Astro.props;
 const d = project.data;
 const { Content } = await render(project);
 const isConcept = d.status === 'concept';
@@ -29,7 +34,9 @@ const showResults = !isConcept && d.results.length > 0 && (d.resultsConfirmed ||
 // The next-project card takes the colour of that project's first discipline.
 const nextColour = { 'design-creative': 'pink', 'marketing-growth': 'green', 'ai-systems': 'purple' }[next.data.categories[0]];
 const showResultTodo = !isConcept && d.results.length === 0 && Boolean(d.resultTodo) && !site.indexable;
-const longTitle = d.title.length > 16;
+const headline = d.headline ?? d.title;
+const longTitle = headline.length > 16;
+const hasBlocks = d.blocks.length > 0;
 const imgOpts = (svg: boolean) => (svg ? {} : { widths: [800, 1280, 1920], sizes: '(max-width: 1440px) 100vw, 1440px' });
 
 const schema = site.url
@@ -57,11 +64,14 @@ const schema = site.url
         {isConcept
           ? <span class="case__badge case__badge--ink">Concept</span>
           : d.badge && <span class="case__badge">{d.badge}</span>}
-        <span class="label">{isConcept ? 'Concept project' : 'Case study'}</span>
+        <span class="label">{isConcept ? 'Concept project' : d.eyebrow ?? 'Case study'}</span>
       </div>
-      <h1 class:list={['case__title', { 'case__title--long': longTitle }]}>{d.title}</h1>
+      <h1 class:list={['case__title', { 'case__title--long': longTitle }]}>{headline}</h1>
       <p class="case__intro">{d.intro ?? d.summary}</p>
       <dl class="case__facts">
+        {d.facts ? d.facts.map((f) => (
+          <div><dt class="label">{f.label}</dt><dd>{f.href ? <a href={f.href} target="_blank" rel="noopener">{f.value}<span class="visually-hidden"> (opens in a new tab)</span></a> : f.value}</dd></div>
+        )) : <>
         {isConcept
           ? <div><dt class="label">Status</dt><dd>Concept, not commissioned work</dd></div>
           : <div><dt class="label">Client</dt><dd>{d.client}{d.year ? `, ${d.year}` : ''}</dd></div>}
@@ -70,8 +80,20 @@ const schema = site.url
           ? <div><dt class="label">Built with</dt><dd>{d.builtWith}</dd></div>
           : <div><dt class="label">Services</dt><dd>{d.categories.map((c, i) => <>{i > 0 && ', '}<a href={`/projects/?filter=${c}`}>{serviceById[c].name}</a></>)}</dd></div>}
         <div><dt class="label">{d.where ? 'Where' : 'Sector'}</dt><dd>{d.where ?? d.sector}</dd></div>
+        </>}
       </dl>
     </header>
+
+    {d.photos && (
+      <div class="wrap case__photos">
+        {d.photos.map((ph, i) => (
+          <figure class:list={['case__photo', `case__photo--${i + 1}`]}>
+            <Image src={ph.src} alt={ph.alt} widths={i === 0 ? [600, 1200] : i === 1 ? [800, 1600] : [480, 960]} sizes={i === 1 ? '(max-width: 900px) 100vw, 55vw' : '(max-width: 900px) 100vw, 40vw'} loading="eager" style={`object-position: ${ph.position ?? '50% 50%'}`} />
+            <figcaption>{ph.label}</figcaption>
+          </figure>
+        ))}
+      </div>
+    )}
 
     <div class="wrap">
       {d.showcase ? (
@@ -87,6 +109,9 @@ const schema = site.url
       )}
     </div>
 
+    {hasBlocks && <CaseBlocks blocks={d.blocks} link={d.link} preview={!site.indexable} />}
+
+    {!hasBlocks && <>
     <div class="wrap case__body">
       {d.idea && (
         <section class="row row--open" aria-labelledby="idea">
@@ -266,7 +291,25 @@ const schema = site.url
         </section>
       )}
     </div>
+    </>}
 
+    {related && d.related ? (
+    <aside class="wrap case__next-wrap" aria-label="Related project">
+      <div class="case__rel">
+        <div class="case__rel-text">
+          <span class="label case__rel-label"><span class="case__rel-dot" aria-hidden="true"></span>Related project</span>
+          <h2 class="case__rel-title"><a class="case__rel-link" href={`/projects/${related.id}/`}>{related.data.title}</a></h2>
+          <p class="case__rel-copy">{d.related.text}</p>
+          <span class="case__rel-btn" aria-hidden="true">View project <span>→</span></span>
+        </div>
+        <div class="case__rel-media">
+          {related.data.showcase
+            ? <LoopVideo class="case__rel-film" src={related.data.showcase.video} poster={related.data.showcase.poster} label={related.data.showcase.label} />
+            : <Image src={related.data.cover} alt="" widths={[640, 1024]} sizes="(max-width: 900px) 100vw, 40vw" loading="lazy" />}
+        </div>
+      </div>
+    </aside>
+    ) : (
     <nav class="wrap case__next-wrap" aria-label="Next case study">
       <a class:list={['case__next', `case__next--${nextColour}`]} href={`/projects/${next.id}/`}>
         <span class="case__next-text">
@@ -277,6 +320,7 @@ const schema = site.url
         <span class="case__next-media"><Image src={next.data.cover} alt="" {...(next.data.cover.format === 'svg' ? {} : { widths: [640, 1024], sizes: '(max-width: 900px) 100vw, 55vw' })} loading="lazy" /></span>
       </a>
     </nav>
+    )}
   </article>
 </Base>
 
@@ -395,6 +439,38 @@ const schema = site.url
   .case__highlight { color: var(--link); }
 
   /* Next case study: a colour card in the next project's discipline colour. */
+  /* Four labelled photos: one tall on the left, three on the right. */
+  .case__photos { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 3.5fr) minmax(0, 3.5fr); grid-template-rows: clamp(220px, 37vw, 536px) clamp(180px, 26vw, 376px); gap: 1.75rem; margin-bottom: 1.75rem; }
+  .case__photo { position: relative; margin: 0; border-radius: var(--radius-xl); overflow: hidden; background: #1d3a12; }
+  .case__photo--1 { grid-row: 1 / 3; }
+  .case__photo--2 { grid-column: 2 / 4; }
+  .case__photo :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .case__photo figcaption { position: absolute; left: 1.5rem; bottom: 1.5rem; padding: 0.55rem 0.95rem 0.45rem; border-radius: var(--pill); background: var(--white); color: var(--ink); font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: 1rem; letter-spacing: 0.02em; line-height: 1; }
+  @media (max-width: 900px) {
+    .case__photos { grid-template-columns: 1fr 1fr; grid-template-rows: auto; gap: 1rem; }
+    .case__photo--1, .case__photo--2 { grid-column: 1 / -1; grid-row: auto; }
+    .case__photo { height: 260px; }
+    .case__photo--1 { height: 560px; }
+  }
+
+  /* Related project: a dark forest card; the title link covers it, the film's button sits above. */
+  .case__rel { position: relative; display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: center; border-radius: var(--radius-xl); overflow: hidden; background: #0e1e07; color: var(--white); }
+  .case__rel-text { display: grid; gap: 1.35rem; justify-items: start; padding: clamp(2rem, 4.5vw, 4rem); }
+  .case__rel-label { display: inline-flex; align-items: center; gap: 0.6rem; font-size: 0.9rem; letter-spacing: 0.14em; }
+  .case__rel-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--purple); }
+  .case__rel-title { font-size: clamp(2.4rem, 1rem + 3.6vw, 4.5rem); line-height: 0.92; text-wrap: balance; }
+  .case__rel-link { color: inherit; text-decoration: none; }
+  .case__rel-link::after { content: ''; position: absolute; inset: 0; z-index: 1; }
+  .case__rel-link:focus-visible { outline: none; }
+  .case__rel-link:focus-visible::after { outline: 3px solid var(--green); outline-offset: -6px; border-radius: var(--radius-xl); }
+  .case__rel-copy { font-size: 1.25rem; line-height: 1.55; color: #dfe8d4; max-width: 35ch; }
+  .case__rel-btn { display: inline-flex; gap: 0.75rem; padding: 1rem 1.6rem; border-radius: var(--pill); background: var(--green); color: var(--ink); font-weight: 600; transition: transform 0.3s var(--ease-out-back); }
+  .case__rel:hover .case__rel-btn { transform: translateX(4px); }
+  .case__rel-media { align-self: stretch; height: clamp(360px, 36vw, 520px); overflow: hidden; }
+  .case__rel-media :global(.case__rel-film), .case__rel-media :global(img) { height: 100%; width: 100%; object-fit: cover; }
+  .case__rel-media :global(.lvid__btn) { z-index: 2; }
+  @media (max-width: 900px) { .case__rel { grid-template-columns: 1fr; } }
+
   .case__next-wrap { padding-block: clamp(3rem, 6vw, 5rem) clamp(5rem, 9vw, 7.5rem); }
   .case__next { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: center; min-height: clamp(380px, 36vw, 520px); border-radius: var(--radius-xl); overflow: hidden; color: var(--ink); text-decoration: none; background: var(--pink); }
   .case__next--green { background: var(--green); }

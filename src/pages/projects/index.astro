@@ -14,7 +14,7 @@ import LoopVideo from '../../components/LoopVideo.astro';
 import FindableFeature from '../../components/FindableFeature.astro';
 import { services } from '../../data/services';
 import { getWork } from '../../data/work';
-import { workPage, tiles as allTiles, dotService } from '../../data/workPage';
+import { workPage, tiles as allTiles, dotService, marketing } from '../../data/workPage';
 import { site, bookingHref, bookingIsExternal } from '../../config/site';
 import poopCutout from '../../assets/work-page/poop-cutout.png';
 import poopBody from '../../assets/work-page/poop-body.png';
@@ -31,6 +31,14 @@ const tiles = allTiles
   .filter((t) => !(t.previewOnly && site.indexable));
 
 const projects = await getWork();
+
+// Campaign figures that are the Te Puia results follow that project's confirmation;
+// rows still waiting on a result or permission show on previews only.
+const tePuiaConfirmed = Boolean(projects.find((p) => p.id === 'te-puia-digital-marketing')?.data.resultsConfirmed);
+const showHeld = tePuiaConfirmed || !site.indexable;
+const campaignStats = marketing.stats.filter((st) => !st.held || showHeld);
+const campaignRows = marketing.rows.filter((r) => !r.previewOnly || !site.indexable).map((r) => ({ ...r, result: r.held && !showHeld ? undefined : r.result }));
+const flagged = !site.indexable && (!tePuiaConfirmed || marketing.rows.some((r) => r.previewOnly));
 const tileSlugs = new Set(tiles.map((t) => t.slug).filter(Boolean));
 const more = projects.filter((p) => !tileSlugs.has(p.id));
 const conceptCount = more.filter((p) => p.data.status === 'concept').length;
@@ -102,6 +110,15 @@ const sizes = (span: number) => `(max-width: 900px) 100vw, ${Math.round((span / 
                 </button>
               </>
             )}
+            {t.media.kind === 'reels' && (
+              <div class="wk-fan">
+                {t.media.reels.map((r, k) => (
+                  <div class:list={['wk-reel', `wk-reel--${['l', 'r', 'c'][k]}`]}>
+                    <LoopVideo src={r.src} poster={r.poster} label={r.label} bare />
+                  </div>
+                ))}
+              </div>
+            )}
             {t.media.kind === 'wheel' && (
               <div class="wk-spin"><div class="wk-spin2"><Image src={t.media.src} alt={t.media.alt} widths={[480, 960]} sizes="(max-width: 900px) 80vw, 40vw" loading="lazy" /></div></div>
             )}
@@ -148,6 +165,41 @@ const sizes = (span: number) => `(max-width: 900px) 100vw, ${Math.round((span / 
     </ul>
     <Note>The CTA sits in the grid as the next tile on purpose: it reads as the space a new client’s project would fill.</Note>
   </div>
+
+  <section class="wk-mkt" aria-labelledby="wk-mkt-title">
+    <div class="wrap">
+      <div class="wk-mkt__head">
+        <div>
+          <p class="label wk-mkt__label"><span class="wk-dot wk-dot--lg wk-dot--green" aria-hidden="true"></span>{marketing.label}</p>
+          <h2 id="wk-mkt-title" class="wk-mkt__title">{marketing.title}</h2>
+        </div>
+        <p class="wk-mkt__lede">{marketing.lede}</p>
+      </div>
+      {flagged && (
+        <p class="wk-flag">Preview only: the Te Puia figures (the first three stats and row 01’s result) stay off the live site until the measurement periods and attribution are confirmed, and the Ebbett row until it has a result and Ebbett is happy to be named.</p>
+      )}
+      {campaignStats.length > 1 && (
+        <ul role="list" class="wk-mkt__stats">
+          {campaignStats.map((st) => <li><span class="wk-mkt__n">{st.n}</span><span>{st.text}</span></li>)}
+        </ul>
+      )}
+      <ol role="list" class="wk-mkt__rows">
+        {campaignRows.map((r, i) => (
+          <li class="wk-crow">
+            <span class="wk-n label">{pad(i + 1)}</span>
+            <div>
+              <p class="label wk-crow__kicker">{r.ai && <span class="wk-dot wk-dot--purple" aria-hidden="true"></span>}{r.kicker}</p>
+              <h3 class="wk-crow__title">{r.title}</h3>
+            </div>
+            <p class="wk-crow__tags">{r.tags}</p>
+            {r.result ? <p class="wk-crow__result">{r.result}</p> : <span></span>}
+          </li>
+        ))}
+      </ol>
+      <p class="wk-mkt__also"><b>Also:</b> {marketing.also}</p>
+      <Note>The campaigns sit apart from the tiles because most marketing work is measured, not looked at: the numbers do the showing.</Note>
+    </div>
+  </section>
 
   {more.length > 0 && (
     <section class="wrap wk-more" aria-labelledby="wk-more-title">
@@ -342,6 +394,46 @@ const sizes = (span: number) => `(max-width: 900px) 100vw, ${Math.round((span / 
   .wk-row__dots { display: flex; gap: 0.4rem; }
   .wk-row__arrow { font-size: 1.25rem; transition: transform 0.3s var(--ease-out-back); }
   .wk-row:hover .wk-row__arrow { transform: translateX(4px); }
+
+  /* Empty Plate Club: three reels fanned like phones. */
+  .wk-tile--reels .wk-media { display: flex; align-items: center; justify-content: center; }
+  .wk-fan { position: relative; width: 264px; height: 470px; transform: scale(var(--fan, 1)); }
+  .wk-reel { position: absolute; overflow: hidden; border: 5px solid var(--white); border-radius: 26px; background: #2b2420; box-shadow: 0 18px 40px rgb(23 19 31 / 0.22); transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .wk-reel :global(.lvid), .wk-reel :global(video) { width: 100%; height: 100%; }
+  .wk-reel--l { left: -118px; top: 48px; width: 210px; height: 373px; transform: rotate(-8deg); }
+  .wk-reel--r { left: 172px; top: 48px; width: 210px; height: 373px; transform: rotate(8deg); }
+  .wk-reel--c { inset: 0; z-index: 1; border-width: 6px; border-radius: 30px; box-shadow: 0 24px 50px rgb(23 19 31 / 0.3); }
+  .wk-tile:hover .wk-reel--l { transform: rotate(-12deg) translate(-18px, 6px); }
+  .wk-tile:hover .wk-reel--r { transform: rotate(12deg) translate(18px, 6px); }
+  .wk-tile:hover .wk-reel--c { transform: translateY(-8px); }
+  @media (max-width: 1100px) { .wk-fan { --fan: 0.8; } }
+  @media (max-width: 900px) { .wk-fan { --fan: 0.72; } }
+  @media (max-width: 420px) { .wk-fan { --fan: 0.6; } }
+
+  /* Marketing & campaigns */
+  .wk-mkt { border-top: 1.5px solid var(--fg); padding-block: clamp(5rem, 9vw, 7.5rem) clamp(5rem, 9vw, 8.75rem); }
+  .wk-mkt__head { display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); align-items: end; gap: 2rem 1.75rem; }
+  .wk-mkt__label { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1.5rem; font-size: 0.9rem; letter-spacing: 0.14em; }
+  .wk-mkt__title { font-size: clamp(2.6rem, 1rem + 5.6vw, 6.5rem); }
+  .wk-mkt__lede { font-size: 1.2rem; line-height: 1.55; color: var(--muted); }
+  .wk-mkt .wk-flag { margin-top: 2rem; }
+  .wk-mkt__stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 1.25rem; padding: 0; margin-top: clamp(3rem, 5vw, 4.5rem); }
+  .wk-mkt__stats li { display: flex; flex-direction: column; justify-content: space-between; gap: 1.25rem; min-height: 15rem; padding: 2rem; border-radius: 28px; background: var(--green); color: var(--ink); font-size: 1.1rem; line-height: 1.4; font-weight: 500; }
+  .wk-mkt__n { font-family: var(--font-display); font-weight: 800; font-size: clamp(3.4rem, 2.4rem + 2.4vw, 4.75rem); line-height: 0.9; letter-spacing: -0.02em; }
+  .wk-mkt__rows { padding: 0; margin: clamp(4rem, 7vw, 6rem) 0 0; border-top: 1.5px solid var(--fg); }
+  .wk-crow { display: grid; grid-template-columns: 4rem minmax(0, 4fr) minmax(0, 3fr) minmax(0, 3fr); gap: 1.5rem; align-items: start; padding: 1.9rem 0.75rem; border-bottom: 1px solid var(--line); transition: background 0.25s; }
+  .wk-crow:hover { background: color-mix(in srgb, var(--green) 25%, var(--bg)); }
+  .wk-crow__kicker { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; color: var(--muted); }
+  .wk-crow__title { font-size: clamp(1.4rem, 1rem + 1vw, 2rem); line-height: 0.95; letter-spacing: -0.01em; }
+  .wk-crow__tags { color: var(--muted); line-height: 1.5; padding-top: 0.25rem; }
+  .wk-crow__result { font-size: 1.05rem; line-height: 1.45; font-weight: 600; padding-top: 0.25rem; }
+  .wk-mkt__also { margin-top: 2.5rem; color: var(--muted); line-height: 1.6; max-width: 70ch; }
+  .wk-mkt__also b { color: var(--fg); font-weight: 600; }
+  @media (max-width: 900px) {
+    .wk-mkt__head { grid-template-columns: 1fr; }
+    .wk-crow { grid-template-columns: 2.5rem minmax(0, 1fr); }
+    .wk-crow > :nth-child(n + 3) { grid-column: 2; }
+  }
 
   .wk-empty { display: grid; gap: 1rem; justify-items: start; padding-bottom: 4rem; }
   .wk-empty[hidden] { display: none; }

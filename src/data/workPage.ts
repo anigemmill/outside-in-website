@@ -17,11 +17,13 @@ import flavours from '../assets/work-page/flavours-programme.webp';
 import butterHero from '../assets/work-page/butter-dog-hero.jpg';
 import butterTees from '../assets/work-page/butter-dog-tees.webp';
 import wings from '../assets/work-page/wings-for-life-poster-clean.webp';
-import epc from '../assets/work-page/empty-plate-club-poster.webp';
 import reido from '../assets/work-page/run-for-reido-tee.webp';
 import rwt from '../assets/work-page/rotorua-walking-tours-emboss.webp';
 import nsc from '../assets/work-page/negative-split-tri-spoke-round.webp';
 import rrPoster from '../assets/work-page/ride-retreat-app-welcome.jpg';
+import epcPizza from '../assets/work-page/epc-pizza-oven-poster.jpg';
+import epcPotato from '../assets/work-page/epc-potato-stacks-poster.jpg';
+import epcSalad from '../assets/work-page/epc-roast-salad-poster.jpg';
 
 export const workPage = {
   label: 'Selected work · 2024–2026',
@@ -61,7 +63,9 @@ export interface WorkTile {
     | { kind: 'video'; src: string; poster: ImageMetadata; label: string }
     | { kind: 'pip'; src: ImageMetadata; alt: string; pip: ImageMetadata; pipAlt: string; position?: string }
     | { kind: 'poster'; src: ImageMetadata; alt: string }
-    | { kind: 'wheel'; src: ImageMetadata; alt: string };
+    | { kind: 'wheel'; src: ImageMetadata; alt: string }
+    /** Three phone reels fanned out: left, right, then the centre (front) one. */
+    | { kind: 'reels'; reels: Array<{ src: string; poster: ImageMetadata; label: string }> };
 }
 
 export const tiles: WorkTile[] = [
@@ -79,8 +83,8 @@ export const tiles: WorkTile[] = [
   },
   {
     // The rider photo shows a Red Bull athlete: preview only until the rights are confirmed.
-    key: 'butter-dog', title: 'Butter Dog', tags: 'Logo · Merch', dots: ['pink'],
-    span: 8, h: 600, bg: '#2C3A16', previewOnly: true,
+    key: 'butter-dog', title: 'Butter Dog Supply Co.', tags: 'Brand · Apparel · Shopify store', dots: ['pink', 'green'],
+    span: 8, h: 600, bg: '#2C3A16', previewOnly: true, badge: { text: 'Our venture', tone: 'green' },
     media: { kind: 'pip', src: butterHero, alt: 'Downhill rider dropping off a rock in a sunlit forest', position: '60% 45%', pip: butterTees, pipAlt: 'Butter Dog t-shirts in navy and cream' },
   },
   {
@@ -93,7 +97,14 @@ export const tiles: WorkTile[] = [
     key: 'epc', title: 'Empty Plate Club', slug: 'empty-plate-club', href: 'https://www.instagram.com/emptyplateclub_/', external: true,
     tags: 'Brand · Illustration · Social content', dots: ['pink', 'green'],
     span: 6, h: 580, bg: '#F0B3E0', badge: { text: '@emptyplateclub_', tone: 'white', instagram: true }, hover: 'See on Instagram',
-    media: { kind: 'image', src: epc, alt: 'Empty Plate Club poster with a walking plate illustration' },
+    media: {
+      kind: 'reels',
+      reels: [
+        { src: '/media/empty-plate-club-roast-salad.mp4', poster: epcSalad, label: 'Empty Plate Club reel: roasted zucchini, fennel and tomato salad' },
+        { src: '/media/empty-plate-club-potato-stacks.mp4', poster: epcPotato, label: 'Empty Plate Club reel: potato and kumara stacks' },
+        { src: '/media/empty-plate-club-pizza-oven.mp4', poster: epcPizza, label: 'Empty Plate Club reel: setting up a portable pizza oven' },
+      ],
+    },
   },
   {
     key: 'reido', title: 'Run for Reido', slug: 'run-for-reido', href: '/projects/run-for-reido/',
@@ -111,3 +122,36 @@ export const tiles: WorkTile[] = [
     media: { kind: 'wheel', src: nsc, alt: 'Negative Split Carbon tri-spoke wheel with tonal typographic graphics, spinning' },
   },
 ];
+
+/**
+ * MARKETING & CAMPAIGNS (after the next-project card), from Ani's design of 27 Oct 2026.
+ * - held: 'te-puia' figures are the Te Puia results, so they follow that project's
+ *   `resultsConfirmed` flag: previews only (flagged) until it is true.
+ * - previewOnly: a row still waiting on a result or on permission to name the client.
+ */
+export interface CampaignStat { n: string; text: string; held?: 'te-puia' }
+export interface CampaignRow { kicker: string; title: string; tags: string; result?: string; held?: 'te-puia'; previewOnly?: boolean; ai?: boolean }
+
+export const marketing = {
+  label: 'Marketing & campaigns',
+  title: 'Campaigns that move the numbers.',
+  lede: 'Six years running paid, organic and owned campaigns for tourism, culture, sport, events and retail brands. Planned from real data, reported in plain English.',
+  stats: [
+    { n: '+30%', text: 'website visitors, to nearly 600,000', held: 'te-puia' },
+    { n: '+22.2%', text: 'online revenue, year on year', held: 'te-puia' },
+    { n: '+54%', text: 'Instagram audience growth', held: 'te-puia' },
+    { n: '$50k+', text: 'event profit, 50+ staff and volunteers' },
+  ] as CampaignStat[],
+  rows: [
+    { kicker: 'Leading NZ tourism attraction · 3 brands', title: 'Always-on marketing for three tourism brands', tags: 'Meta ads · SEO · Email · Social across four accounts · Film & photo · Print', result: '+20% e-commerce purchases, +18.1% new users, branded search up 168–427%', held: 'te-puia' },
+    { kicker: 'Leading NZ tourism attraction', title: 'China market launch', tags: 'China-facing website · Live booking API · WeChat · RED (Xiaohongshu)', result: 'A direct digital sales channel into the Chinese market' },
+    { kicker: 'Tourism operator × national tourism body', title: 'AI discoverability pilot', tags: 'AI search (GEO) · Site audits · Voice AI · Multi-agent workflows', result: 'Wrote a destination-wide tourism AI strategy', ai: true },
+    { kicker: 'Tourism Bay of Plenty', title: 'Destination campaigns and a tourism app', tags: 'Meta ads · App launch · Promo video · Visitor kiosks · Our Tauranga Region', result: 'Built and launched the app, then drove awareness with paid social' },
+    { kicker: 'Grassroots Trust Velodrome', title: 'Rebrand and UCI Track World Cups', tags: 'Rebrand rollout · Social · Email · Google Ads · Crisis comms', result: 'Avantidrome to Grassroots Trust Velodrome, across web, print and uniforms' },
+    // Result still to come, and Ebbett hasn't confirmed it's happy to be named.
+    { kicker: 'Ebbett Group', title: 'Search campaigns for four car brands', tags: 'Google Ads · Škoda · Lexus · Toyota · Audi', result: '[Add a result: leads, cost per lead or test drives]', previewOnly: true },
+    { kicker: 'BNZ Corporate Challenge', title: 'Event direction, start to finish', tags: 'Event marketing · Sponsors · Budget · Operations', result: '$50k+ profit, with 50+ staff and volunteers' },
+    { kicker: 'Nduro Events', title: 'Athlete experience for Whaka 100 and more', tags: 'Participant comms · Briefings · Sponsors · Feedback', result: '7,000+ athletes, including national and international elites' },
+  ] as CampaignRow[],
+  also: 'e-commerce and social for ilabb · email in Mailchimp, Klaviyo and Campaign Monitor · sites on Shopify, WordPress, Squarespace, Rocketspark and Wix',
+};

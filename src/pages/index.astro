@@ -82,8 +82,8 @@ import { site } from '../config/site';
   }
   .hero__mark { width: min(56vw, 640px); cursor: ew-resize; touch-action: pan-y; }
   :global(.hero__logo) { width: 100%; color: inherit; }
-  .hero__line { font-size: var(--step-0); font-weight: 500; color: var(--ink); text-align: center; letter-spacing: 0.01em; }
-  @media (max-width: 640px) { .hero__mark { width: 78vw; } .hero__line { max-width: 22ch; } }
+  .hero__line { font-size: var(--step-0); font-weight: 500; color: var(--ink); text-align: center; letter-spacing: 0.01em; max-width: 44ch; padding-inline: var(--gutter); text-wrap: balance; }
+  @media (max-width: 640px) { .hero__mark { width: 78vw; } .hero__line { max-width: 32ch; } }
 
   /* 01 Logo glide. src/scripts/home.ts measures the route and sets --g-*. The logo
      sits above the header while it travels, then hands off to the header logo. */

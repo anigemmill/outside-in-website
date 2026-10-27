@@ -24,7 +24,7 @@ const words = text.split(/\s+/).filter(Boolean);
 <style>
   .fill { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); gap: 1.5rem var(--gutter); align-items: start; }
   .fill__label { padding-top: 0.6em; color: var(--muted); }
-  .fill__text { font-weight: 500; font-size: clamp(1.75rem, 1.1rem + 2.6vw, 3.6rem); line-height: 1.12; letter-spacing: -0.02em; max-width: 24ch; }
+  .fill__text { /* 24px minimum: still large text, so the unfilled grey words keep 3:1 contrast. */ font-weight: 500; font-size: clamp(1.5rem, 1rem + 1.6vw, 2.4rem); line-height: 1.2; letter-spacing: -0.015em; max-width: 34ch; }
   /* Live (script, motion): unfilled words are grey (#8C8696, about 3.4:1, fine at
      this size); the leading edge is ink-soft; filled words are ink. */
   .fill:global(.is-live) .fill__w { color: var(--fill-off, var(--ink-grey)); transition: color 0.18s linear; }

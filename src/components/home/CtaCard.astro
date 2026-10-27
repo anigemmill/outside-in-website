@@ -51,6 +51,8 @@ import Note from '../Note.astro';
   .cta:hover .cta__sq, .cta:focus-visible .cta__sq { transform: translate(calc(var(--dx) * 24px), calc(var(--dy) * 24px)); }
 
   /* Arrival (script + motion): from the section corners, a quarter turn, then lock. */
+  /* The corner squares hang half outside the card: never let them widen a phone screen. */
+  .cta-sec { overflow-x: clip; }
   .cta-sec.is-live { overflow: clip; }
   .cta-sec.is-live:not(.is-in) .cta__sq { opacity: 0; }
   .cta-sec.is-in .cta__sq { animation: cta-sq-in 0.7s cubic-bezier(0.34, 1.25, 0.64, 1) backwards; }

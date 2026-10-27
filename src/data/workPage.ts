@@ -13,7 +13,7 @@
  */
 import type { ImageMetadata } from 'astro';
 import type { ServiceId } from './services';
-import flavours from '../assets/work-page/flavours-programme.webp';
+import flavours from '../assets/work-page/flavours-sunseeker-can.webp';
 import butterHero from '../assets/work-page/butter-dog-hero.jpg';
 import butterTees from '../assets/work-page/butter-dog-tees.webp';
 import wings from '../assets/work-page/wings-for-life-poster-clean.webp';
@@ -73,7 +73,7 @@ export const tiles: WorkTile[] = [
     key: 'flavours', title: 'Flavours of Plenty Festival', slug: 'flavours-of-plenty', href: '/projects/flavours-of-plenty/',
     tags: 'Campaign · Illustration system · Print · Out-of-home · Packaging', dots: ['pink', 'green'],
     span: 8, h: 680, bg: '#FF99DC', year: '2025', badge: { text: 'Featured', tone: 'white' }, hover: 'View case study',
-    media: { kind: 'image', src: flavours, alt: 'Flavours of Plenty Festival programme cover and spread', fit: 'contain' },
+    media: { kind: 'image', src: flavours, alt: 'A hand holding a can of Sunseeker Pale Ale, the Flavours of Plenty festival collaboration', position: '50% 55%' },
   },
   {
     key: 'ride-retreat', title: 'Ride Retreat', slug: 'ride-retreat', href: '/projects/ride-retreat/',

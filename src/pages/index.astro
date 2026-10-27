@@ -15,7 +15,7 @@
 import Base from '../layouts/Base.astro';
 import Logo from '../components/Logo.astro';
 import ScrollFill from '../components/home/ScrollFill.astro';
-import WorkGrid from '../components/home/WorkGrid.astro';
+import HomeWork from '../components/home/HomeWork.astro';
 import Drift from '../components/home/Drift.astro';
 import ServiceRows from '../components/home/ServiceRows.astro';
 import ApproachStages from '../components/home/ApproachStages.astro';
@@ -36,15 +36,14 @@ import { site } from '../config/site';
         </div>
       </div>
     </div>
-    <p class="hero__line scrub" aria-hidden="true">{home.hero.descriptor}</p>
   </section>
 
   <div class="sections">
     <!-- 2. Introduction: the statement fills word by word -->
     <ScrollFill id="intro-label" label={home.intro.label} text={home.intro.statement} />
 
-    <!-- 3. Selected work: full-width grid with the Outside/Inside lens -->
-    <WorkGrid />
+    <!-- 3. Selected work: three tiles from the Work page -->
+    <HomeWork />
 
     <!-- 4. How we work: the drift field (full width) -->
     <Drift />
@@ -68,7 +67,7 @@ import { site } from '../config/site';
 </script>
 
 <style>
-  /* Hero: the mark and one line, cycling through four colour pairs in time with the logo's blink. */
+  /* Hero: the mark alone, cycling through four colour pairs in time with the logo's blink. */
   .hero[data-pair='0'] { --hero-bg: var(--red);    --hero-fg: var(--green); }
   .hero[data-pair='1'] { --hero-bg: var(--pink);   --hero-fg: var(--red); }
   .hero[data-pair='2'] { --hero-bg: var(--purple); --hero-fg: var(--pink); }
@@ -82,8 +81,7 @@ import { site } from '../config/site';
   }
   .hero__mark { width: min(56vw, 640px); cursor: ew-resize; touch-action: pan-y; }
   :global(.hero__logo) { width: 100%; color: inherit; }
-  .hero__line { font-size: var(--step-0); font-weight: 500; color: var(--ink); text-align: center; letter-spacing: 0.01em; max-width: 44ch; padding-inline: var(--gutter); text-wrap: balance; }
-  @media (max-width: 640px) { .hero__mark { width: 78vw; } .hero__line { max-width: 32ch; } }
+  @media (max-width: 640px) { .hero__mark { width: 78vw; } }
 
   /* 01 Logo glide. src/scripts/home.ts measures the route and sets --g-*. The logo
      sits above the header while it travels, then hands off to the header logo. */
@@ -93,7 +91,6 @@ import { site } from '../config/site';
   :global(.glide-live) .hero__glide { position: relative; z-index: 60; animation-name: glide-comp; }
   :global(.glide-live) .hero__glide-move { transform-origin: 0 0; animation-name: glide-move; }
   :global(.glide-live) :global(.hero__logo) { animation-name: glide-logo; }
-  :global(.glide-live) .hero__line { animation-name: glide-line; }
   /* Keeps the logo still on screen while the hero scrolls; hides it at the hand-off. */
   @keyframes glide-comp {
     0% { transform: translateY(0px); opacity: 1; }
@@ -116,7 +113,6 @@ import { site } from '../config/site';
     80% { --glide-ink: 0; }
     100% { --oi-close: 1; --glide-ink: 1; }
   }
-  @keyframes glide-line { 0% { opacity: 1; } 30%, 100% { opacity: 0; } }
 
 
   /* Light grain on the hero's colour field only (never on text or photos). */
@@ -127,4 +123,6 @@ import { site } from '../config/site';
 
   /* Section rhythm (Linear Studio): about 240px between sections on desktop, 120px on phones. */
   .sections { display: grid; gap: var(--gap-section); padding-block: var(--gap-section) clamp(4rem, 8vw, 7rem); }
+  /* One full-width column; a wide child (the social row without JavaScript) must not stretch it. */
+  .sections { grid-template-columns: minmax(0, 1fr); }
 </style>

@@ -8,30 +8,22 @@
  */
 export const home = {
   hero: {
-    // The hero is the animated logo. This is the one line beneath it.
-    descriptor: 'We help brands stand out, connect with the right audiences, and grow through thoughtful strategy, creative design, and digital innovation.',
+    // The hero is the animated logo alone. This names the page for screen readers.
+    descriptor: 'Creative, marketing and AI studio · Aotearoa New Zealand',
   },
 
-  /** 2 · Scroll-filled statement. The spec leaves this for Ani to write; until
-      then it carries the studio line she approved for the v1 homepage. */
+  /** 2 · Introduction: the studio line, filling word by word as you scroll. */
   intro: {
     label: 'Introduction',
-    statement: 'We see your business from the outside, then build what it needs on the inside. One team for brand, marketing and practical AI.',
+    statement: 'We help brands stand out, connect with the right audiences, and grow through thoughtful strategy, creative design, and digital innovation.',
   },
 
-  /** 3 · Work grid. Six tiles in rows of two, one, two, one. Each tile's images
-      are src/assets/home/work/<image>.jpg and <image>-inside.jpg (lens layer). */
+  /** 3 · Selected work. Tiles from the Work page (src/data/workPage.ts), by key,
+      shown exactly as they look there. */
   work: {
     label: 'Selected work',
     title: 'Selected work',
-    tiles: [
-      { slug: 'rotorua-walking-tours', image: 'work-01', inside: '[what the inside image shows]' },
-      { slug: 'ride-retreat-the-journey', image: 'work-02', inside: '[what the inside image shows]' },
-      { slug: 'flavours-of-plenty', image: 'work-03', inside: '[what the inside image shows]' },
-      { slug: 'empty-plate-club', image: 'work-04', inside: '[what the inside image shows]' },
-      { slug: 'run-for-reido', image: 'work-05', inside: '[what the inside image shows]' },
-      { slug: 'nsc-wheel-design', image: 'work-06', inside: '[what the inside image shows]' },
-    ],
+    tiles: ['flavours', 'ride-retreat', 'reido'],
   },
 
   /** 4 · Drift field. One sticky line (the spec leaves it for Ani; this is the

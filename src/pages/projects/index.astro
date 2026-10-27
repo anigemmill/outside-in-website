@@ -10,13 +10,12 @@
 import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import Note from '../../components/Note.astro';
-import LoopVideo from '../../components/LoopVideo.astro';
+import WorkTile from '../../components/WorkTile.astro';
 import FindableFeature from '../../components/FindableFeature.astro';
 import { services } from '../../data/services';
 import { getWork } from '../../data/work';
-import { workPage, tiles as allTiles, dotService, marketing } from '../../data/workPage';
+import { workPage, tiles as allTiles, marketing } from '../../data/workPage';
 import { site, bookingHref, bookingIsExternal } from '../../config/site';
-import poopCutout from '../../assets/work-page/poop-cutout.png';
 import poopBody from '../../assets/work-page/poop-body.png';
 import wingLeft from '../../assets/work-page/poop-wing-left.png';
 import wingRight from '../../assets/work-page/poop-wing-right.png';
@@ -44,7 +43,6 @@ const more = projects.filter((p) => !tileSlugs.has(p.id));
 const conceptCount = more.filter((p) => p.data.status === 'concept').length;
 const pad = (n: number) => String(n).padStart(2, '0');
 const dotOf: Record<string, string> = { 'design-creative': 'pink', 'marketing-growth': 'green', 'ai-systems': 'purple' };
-const sizes = (span: number) => `(max-width: 900px) 100vw, ${Math.round((span / 12) * 100)}vw`;
 ---
 <Base
   title="Work"
@@ -84,70 +82,7 @@ const sizes = (span: number) => `(max-width: 900px) 100vw, ${Math.round((span / 
   <div class="wrap">
     <ul role="list" class="wk-grid" data-work-grid>
       {tiles.map((t, i) => (
-        <li class:list={['wk-tile', `wk-tile--${t.media.kind}`, { 'is-link': t.href }]} style={`--span: ${t.span}; --h: ${t.h}`} data-categories={t.dots.map((d) => dotService[d]).join(' ')} data-tile>
-          <div class="wk-media" style={`background: ${t.bg}`}>
-            {t.media.kind === 'image' && (
-              <Image class:list={['wk-img', { 'wk-img--contain': t.media.fit === 'contain' }]} src={t.media.src} alt={t.media.alt} widths={[640, 1024, 1600]} sizes={sizes(t.span)} loading={i < 2 ? 'eager' : 'lazy'} />
-            )}
-            {t.media.kind === 'video' && (
-              <LoopVideo class="wk-video" src={t.media.src} poster={t.media.poster} label={t.media.label} />
-            )}
-            {t.media.kind === 'pip' && (
-              <>
-                <Image class="wk-img" src={t.media.src} alt={t.media.alt} widths={[640, 1024, 1342]} sizes={sizes(t.span)} loading="lazy" style={`object-position: ${t.media.position ?? '50% 50%'}`} />
-                <div class="wk-pip"><Image src={t.media.pip} alt={t.media.pipAlt} widths={[240, 480]} sizes="12.5rem" loading="lazy" /></div>
-              </>
-            )}
-            {t.media.kind === 'poster' && (
-              <>
-                <div class="wk-zoom">
-                  <Image src={t.media.src} alt={t.media.alt} widths={[640, 1024, 1600]} sizes="(max-width: 900px) 140vw, 50vw" loading="lazy" />
-                  <Image class="wk-poop" src={poopCutout} alt="" widths={[120, 195]} sizes="6rem" loading="lazy" data-poster-poop />
-                </div>
-                <button type="button" class="wk-runs" data-runs hidden>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17c4-1 6-4 9-9"></path><path d="M12 8l1-5 4 3"></path><path d="M14 14c2 0 5 1 7 3"></path></svg>
-                  <span data-runs-label>Release the runs</span>
-                </button>
-              </>
-            )}
-            {t.media.kind === 'reels' && (
-              <div class="wk-fan">
-                {t.media.reels.map((r, k) => (
-                  <div class:list={['wk-reel', `wk-reel--${['l', 'r', 'c'][k]}`]}>
-                    <LoopVideo src={r.src} poster={r.poster} label={r.label} bare />
-                  </div>
-                ))}
-              </div>
-            )}
-            {t.media.kind === 'wheel' && (
-              <div class="wk-spin"><div class="wk-spin2"><Image src={t.media.src} alt={t.media.alt} widths={[480, 960]} sizes="(max-width: 900px) 80vw, 40vw" loading="lazy" /></div></div>
-            )}
-            {t.badge && (
-              <span class:list={['wk-badge', `wk-badge--${t.badge.tone}`, { 'wk-badge--ig': t.badge.instagram }]}>
-                {t.badge.instagram && <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"></circle></svg>}
-                {t.badge.text}
-              </span>
-            )}
-            {t.hover && <span class="wk-view" aria-hidden="true">{t.hover}</span>}
-          </div>
-          <div class="wk-cap">
-            <span class="wk-n label">{pad(i + 1)}</span>
-            <div>
-              <h2 class="wk-name">
-                {t.href
-                  ? <a class="wk-link" href={t.href} {...(t.external ? { target: '_blank', rel: 'noopener' } : {})}>{t.title}{t.external && <span class="visually-hidden"> on Instagram (opens in a new tab)</span>}</a>
-                  : t.title}
-              </h2>
-              <p class="wk-tags">{t.dots.map((d) => <span class:list={['wk-dot', `wk-dot--${d}`]} aria-hidden="true"></span>)}{t.tags}</p>
-            </div>
-            <span class="wk-end">
-              {t.year && <span class="wk-year">{t.year}</span>}
-              {t.href && (
-                <span class="wk-go" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"></path><path d="M8 7h9v9"></path></svg></span>
-              )}
-            </span>
-          </div>
-        </li>
+        <WorkTile tile={t} n={i + 1} eager={i < 2} />
       ))}
 
       <li class="wk-tile wk-tile--cta" style="--span: 12" data-cta>
@@ -268,14 +203,6 @@ const sizes = (span: number) => `(max-width: 900px) 100vw, ${Math.round((span / 
   .wk-chip[aria-pressed='true'] { font-weight: 600; }
   .wk-flag { margin-top: 1.5rem; padding: 0.75rem 1rem; border-radius: 12px; background: var(--lilac); color: var(--ink); font-size: var(--step--1); font-weight: 600; }
 
-  /* Discipline dots: pink, green and purple only ever mean Design, Marketing and AI. */
-  .wk-dot { flex: none; display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--c); }
-  .wk-dot--lg { width: 14px; height: 14px; }
-  .wk-dot--red { --c: var(--red); }
-  .wk-dot--pink { --c: var(--pink); }
-  .wk-dot--purple { --c: var(--purple); }
-  .wk-dot--green { --c: var(--green); box-shadow: inset 0 0 0 1px var(--ink); }
-
   /* Marquee: still until the script starts it; stops with Pause motion. */
   .wk-marquee { position: relative; overflow: hidden; border-block: 1.5px solid var(--fg); padding-block: 1.35rem; margin-bottom: clamp(3.5rem, 6vw, 5.5rem); }
   .wk-marquee__track { display: flex; align-items: center; gap: 2.5rem; width: max-content; font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: clamp(1.75rem, 1.3rem + 1.4vw, 2.5rem); line-height: 1; letter-spacing: -0.01em; }
@@ -294,77 +221,10 @@ const sizes = (span: number) => `(max-width: 900px) 100vw, ${Math.round((span / 
 
   /* The grid: 12 columns, tiles span 4, 6, 8 or 12. */
   .wk-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: clamp(3.5rem, 6vw, 5.5rem) 1.75rem; padding: 0; margin: 0 0 clamp(5rem, 9vw, 8.75rem); }
-  .wk-tile { position: relative; grid-column: span var(--span); display: flex; flex-direction: column; gap: 1.1rem; min-width: 0; }
-  .wk-tile[hidden] { display: none; }
-  .wk-grid.is-filtered .wk-tile:not(.wk-tile--cta) { grid-column: span 6; --h: 580; }
-  .wk-media {
-    position: relative; overflow: hidden; border-radius: 28px;
-    height: clamp(380px, calc(var(--h) * 100vw / 1440), calc(var(--h) * 1px));
-  }
-  .wk-media > :global(*) { transition: transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1); }
-  .wk-media :global(.wk-img) { display: block; width: 100%; height: 100%; object-fit: cover; }
-  .wk-media :global(.wk-img--contain) { position: absolute; inset: 4%; width: 92%; height: 92%; object-fit: contain; }
-  .wk-media :global(.wk-video) { height: 100%; }
-  .wk-tile:hover .wk-media > :global(.wk-img) { transform: scale(1.04); }
-  /* The film zooms inside its frame, so its pause button stays above the tile link. */
-  .wk-media :global(.wk-video video) { transition: transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1); }
-  .wk-tile:hover .wk-media :global(.wk-video video) { transform: scale(1.04); }
-
-  .wk-pip { position: absolute; left: 24px; bottom: 24px; width: 200px; height: 240px; border-radius: 18px; overflow: hidden; border: 4px solid var(--white); box-shadow: 0 14px 34px rgb(23 19 31 / 0.28); }
-  .wk-pip :global(img) { width: 100%; height: 100%; object-fit: cover; }
-
-  .wk-zoom { position: absolute; top: 0; left: 50%; height: 100%; aspect-ratio: 1600 / 1180; transform: translateX(-50%); }
-  .wk-tile:hover .wk-zoom { transform: translateX(-50%) scale(1.04); }
-  .wk-zoom > :global(img:first-child) { width: 100%; height: 100%; }
-  .wk-zoom :global(.wk-poop) { position: absolute; left: 44.43%; top: 20.91%; width: 10.06%; height: auto; transform-origin: 50% 90%; }
-  @media (prefers-reduced-motion: no-preference) {
-    :global(.motion-live) .wk-tile:hover .wk-zoom :global(.wk-poop) { animation: wk-jiggle 0.45s ease-in-out infinite; }
-  }
-  @keyframes wk-jiggle { 0%, 100% { transform: none; } 25% { transform: rotate(-5deg) translateY(-3px); } 75% { transform: rotate(5deg) translateY(-3px); } }
-  .wk-runs {
-    position: absolute; left: 24px; bottom: 24px; z-index: 2;
-    display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px; padding: 0 1.1rem;
-    border: 1.5px solid var(--ink); border-radius: var(--pill); background: var(--white); color: var(--ink); font-size: 0.9rem; font-weight: 600; cursor: pointer;
-  }
-  .wk-runs[hidden] { display: none; }
-  .wk-runs:hover { background: var(--ink); color: var(--white); }
-
-  .wk-tile--wheel .wk-media { display: flex; align-items: center; justify-content: center; }
-  .wk-spin { height: 82%; aspect-ratio: 1; mix-blend-mode: multiply; }
-  .wk-spin2, .wk-spin2 :global(img) { width: 100%; height: 100%; display: block; }
-  :global(.motion-live) .wk-spin { animation: wk-spin 14s linear infinite; }
-  :global(.motion-live) .wk-spin2 { animation: wk-spin 3s linear infinite paused; }
-  :global(.motion-live) .wk-tile:hover .wk-spin2 { animation-play-state: running; }
-  :global(.motion-paused) :is(.wk-spin, .wk-spin2) { animation-play-state: paused !important; }
-  @keyframes wk-spin { to { transform: rotate(360deg); } }
-
-  .wk-badge { position: absolute; top: 24px; left: 24px; z-index: 2; display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0.9rem; border-radius: var(--pill); background: var(--white); color: var(--ink); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; pointer-events: none; }
-  .wk-badge--green { background: var(--green); }
-  .wk-badge--ink { background: var(--ink); color: var(--white); }
-  .wk-badge--ig { text-transform: none; letter-spacing: 0.02em; }
-  .wk-view {
-    position: absolute; left: 50%; top: 50%; z-index: 2; pointer-events: none;
-    padding: 1.1rem 1.75rem 0.95rem; border-radius: var(--pill); background: var(--white); color: var(--ink);
-    font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: 1.1rem; line-height: 1;
-    opacity: 0; transform: translate(-50%, -50%) scale(0.8); transition: opacity 0.3s, transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
-  }
-  .wk-tile:hover .wk-view { opacity: 1; transform: translate(-50%, -50%); }
-
-  .wk-cap { display: grid; grid-template-columns: 3.5rem minmax(0, 1fr) auto; gap: 1rem; align-items: start; }
-  .wk-n { padding-top: 0.5rem; font-size: 0.9rem; letter-spacing: 0.08em; }
-  .wk-name { font-size: clamp(1.6rem, 1.2rem + 1vw, 2.25rem); line-height: 0.95; letter-spacing: -0.01em; text-wrap: balance; }
-  .wk-link { color: inherit; text-decoration: none; }
-  /* The title link covers the whole tile; buttons on the tile sit above it. */
-  .wk-link::after { content: ''; position: absolute; inset: 0; z-index: 1; border-radius: 28px; }
-  .wk-link:focus-visible { outline: none; }
-  .wk-link:focus-visible::after { outline: 3px solid var(--link); outline-offset: 4px; }
-  .wk-tile :global(.lvid__btn) { z-index: 3; }
-  .wk-tags { margin-top: 0.6rem; font-size: 1.05rem; color: var(--muted); }
-  .wk-tags .wk-dot { margin-right: 0.5rem; vertical-align: 0.05em; }
-  .wk-end { display: flex; align-items: center; gap: 1rem; }
-  .wk-year { padding-top: 0.5rem; font-weight: 600; color: var(--muted); }
-  .wk-go { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border: 1.5px solid var(--fg); border-radius: 50%; transition: background 0.2s, color 0.2s; }
-  .wk-tile:hover .wk-go { background: var(--fg); color: var(--bg); }
+  .wk-grid.is-filtered :global(.wk-tile:not(.wk-tile--cta)) { grid-column: span 6; --h: 580; }
+  .wk-tile--cta { position: relative; grid-column: 1 / -1; min-width: 0; }
+  .wk-tile--cta[hidden] { display: none; }
+  @media (max-width: 900px) { .wk-grid.is-filtered :global(.wk-tile:not(.wk-tile--cta)) { grid-column: auto; } }
 
   /* The next-project card, in the grid. Purple flood with grain; ink text. */
   .wk-cta {
@@ -394,21 +254,6 @@ const sizes = (span: number) => `(max-width: 900px) 100vw, ${Math.round((span / 
   .wk-row__dots { display: flex; gap: 0.4rem; }
   .wk-row__arrow { font-size: 1.25rem; transition: transform 0.3s var(--ease-out-back); }
   .wk-row:hover .wk-row__arrow { transform: translateX(4px); }
-
-  /* Empty Plate Club: three reels fanned like phones. */
-  .wk-tile--reels .wk-media { display: flex; align-items: center; justify-content: center; }
-  .wk-fan { position: relative; width: 264px; height: 470px; transform: scale(var(--fan, 1)); }
-  .wk-reel { position: absolute; overflow: hidden; border: 5px solid var(--white); border-radius: 26px; background: #2b2420; box-shadow: 0 18px 40px rgb(23 19 31 / 0.22); transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1); }
-  .wk-reel :global(.lvid), .wk-reel :global(video) { width: 100%; height: 100%; }
-  .wk-reel--l { left: -118px; top: 48px; width: 210px; height: 373px; transform: rotate(-8deg); }
-  .wk-reel--r { left: 172px; top: 48px; width: 210px; height: 373px; transform: rotate(8deg); }
-  .wk-reel--c { inset: 0; z-index: 1; border-width: 6px; border-radius: 30px; box-shadow: 0 24px 50px rgb(23 19 31 / 0.3); }
-  .wk-tile:hover .wk-reel--l { transform: rotate(-12deg) translate(-18px, 6px); }
-  .wk-tile:hover .wk-reel--r { transform: rotate(12deg) translate(18px, 6px); }
-  .wk-tile:hover .wk-reel--c { transform: translateY(-8px); }
-  @media (max-width: 1100px) { .wk-fan { --fan: 0.8; } }
-  @media (max-width: 900px) { .wk-fan { --fan: 0.72; } }
-  @media (max-width: 420px) { .wk-fan { --fan: 0.6; } }
 
   /* Marketing & campaigns */
   .wk-mkt { border-top: 1.5px solid var(--fg); padding-block: clamp(5rem, 9vw, 7.5rem) clamp(5rem, 9vw, 8.75rem); }
@@ -452,18 +297,11 @@ const sizes = (span: number) => `(max-width: 900px) 100vw, ${Math.round((span / 
 
   @media (max-width: 900px) {
     .wk-grid { grid-template-columns: 1fr; }
-    .wk-tile, .wk-grid.is-filtered .wk-tile:not(.wk-tile--cta) { grid-column: auto; }
-    .wk-media { height: 420px; }
-    .wk-pip { display: none; }
     .wk-more__head { grid-template-columns: 1fr; }
     .wk-row { grid-template-columns: minmax(0, 1fr) auto; }
     .wk-row__type { grid-column: 1; grid-row: 2; }
     .wk-row__dots { grid-column: 2; grid-row: 1; }
     .wk-row__arrow { display: none; }
     .wk-pause { position: static; transform: none; margin: 1rem var(--gutter) 0; }
-  }
-  @media (max-width: 420px) {
-    .wk-media { height: 340px; }
-    .wk-cap { grid-template-columns: 2.25rem minmax(0, 1fr) auto; gap: 0.75rem; }
   }
 </style>

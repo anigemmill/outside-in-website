@@ -97,7 +97,7 @@ const schema = site.url
 
     <div class="wrap">
       {d.showcase ? (
-        <figure class="case__phones">
+        <figure class="case__phones" style={d.showcase.bg ? `background: ${d.showcase.bg}` : undefined}>
           {d.showcase.sides[0] && <Image class="case__side" src={d.showcase.sides[0].src} alt={d.showcase.sides[0].alt} widths={[320, 640]} sizes="20rem" loading="eager" />}
           <LoopVideo class="case__film" src={d.showcase.video} poster={d.showcase.poster} label={d.showcase.label} />
           {d.showcase.sides[1] && <Image class="case__side" src={d.showcase.sides[1].src} alt={d.showcase.sides[1].alt} widths={[320, 640]} sizes="20rem" loading="eager" />}
@@ -183,9 +183,9 @@ const schema = site.url
 
     <div class="wrap case__body case__body--after">
       {d.features && (
-        <section class="case__features" aria-labelledby="features">
+        <section class="case__features" aria-labelledby="features" style={d.showcase?.bg ? `--screen-bg: ${d.showcase.bg}` : undefined}>
           <div class="row row--bare">
-            <h2 id="features" class="label row__label">The guest app</h2>
+            <h2 id="features" class="label row__label">{d.features.label ?? 'The guest app'}</h2>
             <p class="row__content case__statement">{d.features.title}</p>
           </div>
           <div class="case__trio">
@@ -393,7 +393,7 @@ const schema = site.url
   .case__features { padding-bottom: clamp(5rem, 9vw, 8.75rem); }
   .case__trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.75rem; }
   .case__trio figure { margin: 0; display: grid; gap: 1.4rem; align-content: start; }
-  .case__screen { display: flex; align-items: center; justify-content: center; height: clamp(440px, 44vw, 640px); border-radius: 28px; background: #0e1e07; overflow: hidden; }
+  .case__screen { display: flex; align-items: center; justify-content: center; height: clamp(440px, 44vw, 640px); border-radius: 28px; background: var(--screen-bg, #0e1e07); overflow: hidden; }
   .case__screen :global(img) { height: 100%; width: auto; max-width: none; }
   .case__trio figcaption { display: grid; gap: 0.6rem; }
   .case__step { color: var(--muted); }

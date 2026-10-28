@@ -11,7 +11,7 @@ import WipeHeading from './WipeHeading.astro';
 import Note from '../Note.astro';
 import { services } from '../../data/services';
 import { home } from '../../data/home';
-import { asset } from '../../data/homeAssets';
+import { asset, isLive } from '../../data/homeAssets';
 
 const colour: Record<string, string> = { 'design-creative': 'pink', 'marketing-growth': 'green', 'ai-systems': 'purple' };
 ---
@@ -31,10 +31,12 @@ const colour: Record<string, string> = { 'design-creative': 'pink', 'marketing-g
               <span class="svcr__tags">{home.services.tags[s.id].map((t) => <span class="label svcr__tag">{t}</span>)}</span>
               <span class="svcr__desc">{s.short}</span>
             </span>
-            <span class="svcr__img" aria-hidden="true">
-              <Image src={img.src} alt="" widths={[360, 720]} sizes="18rem" loading="lazy" />
-              <span class="svcr__sq"></span>
-            </span>
+            {isLive(img) && (
+              <span class="svcr__img" aria-hidden="true">
+                <Image src={img.src} alt="" widths={[360, 720]} sizes="18rem" loading="lazy" />
+                <span class="svcr__sq"></span>
+              </span>
+            )}
           </a>
         </li>
       );

@@ -12,27 +12,29 @@ import BookingLink from '../BookingLink.astro';
 import Note from '../Note.astro';
 import { stages } from '../../data/approach';
 import { home } from '../../data/home';
-import { asset } from '../../data/homeAssets';
+import { asset, isLive } from '../../data/homeAssets';
 
 const imgs = home.approach.images.map((id) => asset(id));
+// Until the stage images are real, the live site shows the stages on their own.
+const withImages = imgs.every(isLive);
 ---
-<section class="appr col" aria-labelledby="appr-title" data-approach>
+<section class:list={['appr', 'col', { 'appr--text': !withImages }]} aria-labelledby="appr-title" data-approach>
   <div class="appr__head">
     <p class="label appr__label">{home.approach.label}</p>
     <h2 id="appr-title" class="appr__title">{home.approach.title}</h2>
   </div>
   <div class="appr__grid">
-    <div class="appr__media" aria-hidden="true">
+    {withImages && <div class="appr__media" aria-hidden="true">
       <div class="appr__frame">
         {imgs.map((img, i) => (
           <Image src={img.src} alt="" widths={[480, 900]} sizes="(max-width: 760px) 100vw, 40vw" loading="lazy" class:list={['appr__img', { 'is-on': i === 0 }]} data-stage-img />
         ))}
       </div>
-    </div>
+    </div>}
     <ol role="list" class="appr__stages">
       {stages.map((s, i) => (
         <li class:list={['appr__stage', { 'is-on': i === 0 }]} data-stage>
-          <Image src={imgs[i].src} alt={imgs[i].alt} widths={[480, 900]} sizes="100vw" loading="lazy" class="appr__inline" />
+          {withImages && <Image src={imgs[i].src} alt={imgs[i].alt} widths={[480, 900]} sizes="100vw" loading="lazy" class="appr__inline" />}
           <span class="appr__n display">{s.n}</span>
           <div class="appr__copy">
             <h3 class="appr__name">{s.name}</h3>
@@ -53,6 +55,7 @@ const imgs = home.approach.images.map((id) => asset(id));
   .appr__title { font-size: var(--step-4); }
   .appr__grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(2rem, 5vw, 5rem); align-items: start; }
   .appr__media { position: sticky; top: 7rem; }
+  .appr--text .appr__grid { grid-template-columns: minmax(0, 1fr); }
   .appr__frame { position: relative; aspect-ratio: 3 / 4; overflow: hidden; background: var(--surface); }
   .appr :global(.appr__img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.3s linear; }
   .appr :global(.appr__img.is-on) { opacity: 1; }

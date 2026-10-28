@@ -43,7 +43,6 @@ export const home = {
       'marketing-growth': ['Strategy', 'Campaigns', 'Content', 'Search', 'Performance'],
       'ai-systems': ['AI audits', 'Agents', 'Workflow automation', 'Marketing intelligence'],
     } as Record<string, string[]>,
-    images: { 'design-creative': 'service-design', 'marketing-growth': 'service-marketing', 'ai-systems': 'service-ai' } as Record<string, string>,
   },
 
   /** 6 · Approach. Stages come from src/data/approach.ts. There are five stages
@@ -54,15 +53,20 @@ export const home = {
     images: ['stage-01', 'stage-02', 'stage-03', 'stage-04', 'stage-04'],
   },
 
-  /** 7 · Curved social gallery. Only posts Ani has the rights to show. */
+  /** 7 · Social gallery: posts Ani sent (28 Oct 2026). Seven or more show as the
+      curved ring; fewer as a straight row. image is the post (or a reel's cover);
+      video is the reel, in public/media/. previewOnly: still to confirm (client
+      name or permission), so previews only. */
   social: {
     label: 'On social',
     title: 'Made for the feed',
-    posts: Array.from({ length: 10 }, (_, i) => ({
-      image: `social-${String(i + 1).padStart(2, '0')}`,
-      client: '[Client]',
-      campaign: '[Campaign]',
-    })),
+    posts: [
+      { image: 'social-01', client: 'Ride Retreat', campaign: 'This is your sign' },
+      { image: 'social-02', video: '/media/social-nzmaci-kupu.mp4', client: 'NZMACI', campaign: 'Ngā kupu o NZMACI' },
+      { image: 'social-03', client: 'Flavours of Plenty Festival', campaign: 'Submissions open, 2026' },
+      // Who the reel was for isn't confirmed yet: preview only until it is.
+      { image: 'social-04', video: '/media/social-truffle-season.mp4', client: 'Trufflewood, Paengaroa', campaign: 'Peak truffle season', previewOnly: true },
+    ] as Array<{ image: string; video?: string; client: string; campaign: string; previewOnly?: boolean }>,
   },
 
   /** 8 · Call to action card. */

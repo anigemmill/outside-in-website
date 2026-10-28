@@ -83,36 +83,6 @@
     },
     {
       "placeholder": true,
-      "id": "service-design",
-      "file": "services/service-design.jpg",
-      "width": 900,
-      "height": 600,
-      "usedIn": "Service rows (hover image)",
-      "replaceWith": "real photo, 3:2",
-      "altPlaceholder": "Design & Creative: [describe photo]"
-    },
-    {
-      "placeholder": true,
-      "id": "service-marketing",
-      "file": "services/service-marketing.jpg",
-      "width": 900,
-      "height": 600,
-      "usedIn": "Service rows (hover image)",
-      "replaceWith": "real photo, 3:2",
-      "altPlaceholder": "Marketing & Growth: [describe photo]"
-    },
-    {
-      "placeholder": true,
-      "id": "service-ai",
-      "file": "services/service-ai.jpg",
-      "width": 900,
-      "height": 600,
-      "usedIn": "Service rows (hover image)",
-      "replaceWith": "real photo, 3:2",
-      "altPlaceholder": "AI & Systems: [describe photo]"
-    },
-    {
-      "placeholder": true,
       "id": "stage-01",
       "file": "approach/stage-01.jpg",
       "width": 900,
@@ -152,104 +122,44 @@
       "altPlaceholder": "[Stage 4]: [describe image]"
     },
     {
-      "placeholder": true,
+      "placeholder": false,
       "id": "social-01",
       "file": "social/social-01.jpg",
       "width": 1080,
       "height": 1350,
       "usedIn": "13 Curved social gallery",
-      "replaceWith": "real post or reel cover, 4:5",
-      "altPlaceholder": "[Client] reel: [describe]"
+      "replaceWith": "done: real post (Ani, 28 Oct 2026)",
+      "altPlaceholder": "Ride Retreat post: a rider and his bike in a fern-filled redwood forest, with the words “This is your sign!!! So… see you soon?”"
     },
     {
-      "placeholder": true,
+      "placeholder": false,
       "id": "social-02",
       "file": "social/social-02.jpg",
       "width": 1080,
       "height": 1350,
       "usedIn": "13 Curved social gallery",
-      "replaceWith": "real post or reel cover, 4:5",
-      "altPlaceholder": "[Client] carousel: [describe]"
+      "replaceWith": "done: real post (Ani, 28 Oct 2026)",
+      "altPlaceholder": "NZMACI reel “Ngā kupu o NZMACI, Words of NZMACI”: cards with te reo Māori words for tools and crafts, such as raranga, weaving"
     },
     {
-      "placeholder": true,
+      "placeholder": false,
       "id": "social-03",
       "file": "social/social-03.jpg",
       "width": 1080,
       "height": 1350,
       "usedIn": "13 Curved social gallery",
-      "replaceWith": "real post or reel cover, 4:5",
-      "altPlaceholder": "[Client] post: [describe]"
+      "replaceWith": "done: real post (Ani, 28 Oct 2026)",
+      "altPlaceholder": "Flavours of Plenty Festival post: illustrated food tiles, 16 April to 3 May 2026, “Submissions now open”"
     },
     {
-      "placeholder": true,
+      "placeholder": false,
       "id": "social-04",
       "file": "social/social-04.jpg",
       "width": 1080,
       "height": 1350,
       "usedIn": "13 Curved social gallery",
-      "replaceWith": "real post or reel cover, 4:5",
-      "altPlaceholder": "[Client] reel: [describe]"
-    },
-    {
-      "placeholder": true,
-      "id": "social-05",
-      "file": "social/social-05.jpg",
-      "width": 1080,
-      "height": 1350,
-      "usedIn": "13 Curved social gallery",
-      "replaceWith": "real post or reel cover, 4:5",
-      "altPlaceholder": "[Client] post: [describe]"
-    },
-    {
-      "placeholder": true,
-      "id": "social-06",
-      "file": "social/social-06.jpg",
-      "width": 1080,
-      "height": 1350,
-      "usedIn": "13 Curved social gallery",
-      "replaceWith": "real post or reel cover, 4:5",
-      "altPlaceholder": "[Client] carousel: [describe]"
-    },
-    {
-      "placeholder": true,
-      "id": "social-07",
-      "file": "social/social-07.jpg",
-      "width": 1080,
-      "height": 1350,
-      "usedIn": "13 Curved social gallery",
-      "replaceWith": "real post or reel cover, 4:5",
-      "altPlaceholder": "[Client] reel: [describe]"
-    },
-    {
-      "placeholder": true,
-      "id": "social-08",
-      "file": "social/social-08.jpg",
-      "width": 1080,
-      "height": 1350,
-      "usedIn": "13 Curved social gallery",
-      "replaceWith": "real post or reel cover, 4:5",
-      "altPlaceholder": "[Client] post: [describe]"
-    },
-    {
-      "placeholder": true,
-      "id": "social-09",
-      "file": "social/social-09.jpg",
-      "width": 1080,
-      "height": 1350,
-      "usedIn": "13 Curved social gallery",
-      "replaceWith": "real post or reel cover, 4:5",
-      "altPlaceholder": "[Client] carousel: [describe]"
-    },
-    {
-      "placeholder": true,
-      "id": "social-10",
-      "file": "social/social-10.jpg",
-      "width": 1080,
-      "height": 1350,
-      "usedIn": "13 Curved social gallery",
-      "replaceWith": "real post or reel cover, 4:5",
-      "altPlaceholder": "[Client] reel: [describe]"
+      "replaceWith": "done: real post (Ani, 28 Oct 2026)",
+      "altPlaceholder": "Reel cover: a handful of fresh black truffles at Trufflewood in Paengaroa"
     }
   ]
 }

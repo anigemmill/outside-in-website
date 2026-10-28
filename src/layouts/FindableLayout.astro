@@ -1,0 +1,120 @@
+---
+/**
+ * Layout for the Findable product pages under /findable/. Findable has its own
+ * brand (src/styles/findable.css), header and footer; the site's SEO rules
+ * (canonical, Open Graph, preview noindex) are the same as Base.astro.
+ * "Sign in" goes to the Findable app, which is hosted separately.
+ */
+import '../styles/global.css';
+import '../styles/findable.css';
+import { site } from '../config/site';
+
+interface Props { title: string; description: string; current?: 'how' | 'pricing' | 'about' | 'check' | 'home'; noindex?: boolean }
+const { title, description, current, noindex = false } = Astro.props;
+
+const pageTitle = title === 'Findable' ? 'Findable | AI visibility and accuracy for tourism' : `${title} | Findable`;
+const canonical = new URL(Astro.url.pathname, site.url + '/').href;
+const robots = noindex || !site.indexable ? 'noindex, nofollow' : 'index, follow';
+const signIn = `${site.findableAppUrl}/login`;
+const nav = [
+  { href: '/findable/how-it-works/', label: 'How it works', key: 'how' },
+  { href: '/findable/pricing/', label: 'Pricing', key: 'pricing' },
+  { href: '/findable/about/', label: 'About', key: 'about' },
+];
+---
+<!doctype html>
+<html lang="en-NZ" data-view="outside">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#e7e4fc" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Findable" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(site.seo.ogImage, site.url + '/').href} />
+    <meta property="og:locale" content="en_NZ" />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script is:inline>document.documentElement.classList.add('js');</script>
+  </head>
+  <body class="findable">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="f-by">
+      <div class="f-wrap f-by__in">
+        <span>Findable is a product by Outside In</span>
+        <a href="/">Visit Outside In <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+    <header class="f-wrap f-head">
+      <a href="/findable/" class="f-d f-logo" aria-label="Findable home">Findable<span aria-hidden="true">.</span></a>
+      <nav aria-label="Findable" class="f-nav">
+        {nav.map((n) => (
+          <a href={n.href} aria-current={current === n.key ? 'page' : undefined}>{n.label}</a>
+        ))}
+        <a href={signIn}>Sign in</a>
+        {current !== 'check' && <a href="/findable/check/" class="f-btn f-btn-p">Free visibility check</a>}
+      </nav>
+    </header>
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <footer class="f-foot">
+      <div class="f-wrap f-foot__in">
+        <div class="f-foot__grid">
+          <div class="f-foot__brand">
+            <span class="f-d f-foot__logo">Findable<span aria-hidden="true">.</span></span>
+            <span class="f-foot__muted">Be the answer.</span>
+            <a class="f-foot__by" href="/">A product by Outside In</a>
+          </div>
+          <nav aria-label="Product" class="f-foot__col">
+            <span class="f-lbl f-foot__muted">Product</span>
+            <a href="/findable/how-it-works/">How it works</a>
+            <a href="/findable/pricing/">Pricing</a>
+            <a href="/findable/check/">Free check</a>
+          </nav>
+          <nav aria-label="Company" class="f-foot__col">
+            <span class="f-lbl f-foot__muted">Company</span>
+            <a href="/findable/about/">About</a>
+            <a href="/findable/about/#contact">Contact</a>
+            <a href={signIn}>Sign in</a>
+            <a href="/">Outside In</a>
+          </nav>
+        </div>
+        <div class="f-foot__base">
+          <span>© {new Date().getFullYear()} Findable · Made in Aotearoa New Zealand</span>
+          <a href="/privacy/">Privacy</a>
+        </div>
+      </div>
+    </footer>
+    <style is:global>
+      .f-by { background: var(--f-ink); color: var(--f-paper); font-size: 13px; }
+      .f-by__in { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 4px 16px; padding-block: 6px; }
+      .findable .f-by a { color: var(--f-lime); font-weight: 600; padding-block: 6px; }
+      .findable .f-by a:hover { color: #fff; }
+      .findable main:focus { outline: none; }
+      .f-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding-block: 24px; }
+      .findable .f-logo { font-size: 28px; text-decoration: none; color: var(--f-ink); }
+      .f-logo span { color: var(--f-forest); }
+      .f-nav { display: flex; flex-wrap: wrap; gap: 8px 28px; align-items: center; }
+      .f-nav a:not(.f-btn) { text-decoration: none; font-weight: 600; font-size: 15px; padding-block: 12px; }
+      .f-nav a[aria-current='page'] { text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 2px; }
+      .f-foot { background: var(--f-ink); color: var(--f-paper); }
+      .f-foot__in { padding-block: 72px 40px; display: flex; flex-direction: column; gap: 48px; }
+      .f-foot__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 32px; }
+      .f-foot__brand, .f-foot__col { display: flex; flex-direction: column; gap: 12px; }
+      .f-foot__logo { font-size: 32px; }
+      .f-foot__logo span { color: var(--f-lime); }
+      .f-foot__muted { color: #a6a7ad; font-size: 15px; }
+      .findable .f-foot a { color: var(--f-paper); font-size: 15px; }
+      .findable .f-foot a:hover { color: var(--f-lime); }
+      .f-foot__base { border-top: 1px solid #2e2f36; padding-top: 24px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font-size: 13px; color: #a6a7ad; }
+      .findable .f-foot__base a { font-size: 13px; color: #a6a7ad; }
+    </style>
+  </body>
+</html>

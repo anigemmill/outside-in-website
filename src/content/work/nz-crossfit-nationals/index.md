@@ -1,23 +1,23 @@
 ---
-# DRAFT: hidden from the site until `draft` is removed. To publish:
-#   1. Replace cover.svg with the real cover image (cover.jpg/png) and update `cover`.
-#   2. Add gallery images to this folder and list them under `gallery`.
-#   3. Confirm client, sector and summary, and write 2-3 sentences below.
-#   4. Confirm you have permission to show this work, then delete `draft: true`.
-# Source: https://www.behance.net/gallery/226278935/NZ-CrossFit-Nationals-Merch
-title: NZ CrossFit Nationals Merch
-summary: Merchandise design for the NZ CrossFit Nationals.  # CONFIRM / expand
+# Selected work, from Ani's portfolio brief (22 Oct 2026). Cover is a placeholder until the real image arrives.
+title: "CrossFit Nationals"
+summary: "A bold, championship-style merchandise concept for a national sporting event."
 status: client
-client: NZ CrossFit Nationals  # CONFIRM exact client name
-sector: Sport & events  # CONFIRM
-type: Merchandise design
-categories: ['design-creative']
+client: "CrossFit Nationals"
+sector: "Sport"
+type: "Merchandise Concept & Graphic Design"
+categories: ["design-creative"]
 cover: ./cover.svg
-coverAlt: Cover image for NZ CrossFit Nationals Merch.  # UPDATE to describe the real image
+coverAlt: "Placeholder cover for CrossFit Nationals; project image to come."
 featured: false
-order: 2
-draft: true
+order: 10
+approach: "Created a high-impact emblem using a black, white and red palette, championship-style typography and New Zealand-inspired visual details."
+developed:
+  - "Merchandise concept"
+  - "Graphic design"
+  - "Event identity application"
+  - "Apparel visual direction"
+highlight: "A strong, competition-focused graphic concept designed to translate the energy of a national sporting event into merchandise."
 gallery: []
 ---
-
-<!-- TODO: 2-3 sentences. Who was it for, what did they need, what did you make? -->
+Developed a bold merchandise concept for CrossFit Nationals, combining athletic identity with a strong graphic direction inspired by strength, movement and competition.

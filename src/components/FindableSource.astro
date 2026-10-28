@@ -1,0 +1,11 @@
+---
+/** A statistic's source line on the Findable pages: who, when, and a link. */
+interface Props { s: { cite: string; url: string }; class?: string }
+const { s, class: cls } = Astro.props;
+---
+<p class:list={['f-src', cls]}>Source: <a href={s.url} rel="noopener" target="_blank">{s.cite}<span class="f-sr"> (opens in a new tab)</span></a></p>
+
+<style>
+  .f-src { margin: 0; font-size: 13px; line-height: 1.45; }
+  .f-src a { color: inherit; }
+</style>

@@ -9,6 +9,7 @@ cover: ./cover.svg
 coverAlt: Pink artwork of a red sun setting behind a purple sea with white wave stripes and a tiny beach hut, cut by a shifted horizontal band.
 featured: false
 order: 5
+draft: true
 challenge: >-
   A coastal accommodation business is full every summer weekend and quiet every
   winter week. Discounting has trained guests to wait for a deal, and most

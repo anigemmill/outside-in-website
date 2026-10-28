@@ -32,6 +32,15 @@ export const site = {
   bookingUrl: env.PUBLIC_BOOKING_URL || 'https://cal.com/ani-gemmill-yg4gmo',
 
   /**
+   * Findable, Outside In's tourism growth platform. The public page is /findable/;
+   * the application itself is hosted separately (Vercel).
+   * DEMO: the app subdomain (app.theoutsidein.nz) isn't connected yet, so "Sign in"
+   * points at the app's current Vercel address. Switch to https://app.theoutsidein.nz
+   * (or set PUBLIC_FINDABLE_APP_URL) once that domain is verified. `npm run check` flags it.
+   */
+  findableAppUrl: (env.PUBLIC_FINDABLE_APP_URL || 'https://tourism-ai-growth-platform.vercel.app').replace(/\/$/, ''),
+
+  /**
    * Optional third-party form endpoint (e.g. Formspree: https://formspree.io/f/xxxx).
    * Leave empty when hosting on Netlify: the form then uses Netlify Forms.
    * A form endpoint is public by design; never put a private API key here.
@@ -41,12 +50,14 @@ export const site = {
   /** How quickly you reply to enquiries. Shown on the contact page. Set it to a promise you can keep. */
   replyWithin: 'two working days',
 
-  /** Social links. Leave a value empty to hide it. PLACEHOLDER until supplied. */
+  /** Where the studio is, as the footer shows it next to the live NZ time. */
+  place: 'Rotorua, Aotearoa',
+
+  /** Social links. Leave a value empty to hide it; nothing shows until a URL is set.
+      (Behance is a content source only and isn't linked anywhere, at Ani's request.) */
   social: {
-    instagram: '',
+    instagram: 'https://www.instagram.com/theoutsidein.nz/',
     linkedin: '',
-    facebook: '',
-    behance: 'https://www.behance.net/anigemmill99',
   } as Record<string, string>,
 
   seo: {
@@ -58,7 +69,8 @@ export const site = {
 };
 
 export const nav = [
-  { label: 'Work', href: '/work/' },
+  { label: 'Work', href: '/projects/' },
+  { label: 'Findable', href: '/findable/' },
   { label: 'Services', href: '/services/' },
   { label: 'Approach', href: '/approach/' },
   { label: 'About', href: '/about/' },

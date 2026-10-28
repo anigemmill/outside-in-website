@@ -7,7 +7,7 @@ type: AI workflow automation
 categories: [ai-systems]
 cover: ./cover.svg
 coverAlt: Abstract artwork on black of many thin white lines flowing into a single box and leaving as four coloured routes, cut by a shifted horizontal band.
-featured: true
+featured: false
 order: 3
 demo: triage
 challenge: >-

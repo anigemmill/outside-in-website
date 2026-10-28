@@ -15,7 +15,7 @@ const next = [
 <Base title="Contact" description="Start a conversation with Outside In. Send an enquiry or book a discovery call about design, marketing or AI for your business.">
   <PageHero
     eyebrow="Contact"
-    dot="green"
+    dot="red"
     title="Bring us the problem. We’ll bring the outside view."
     lede="Tell us what’s going on, or book a discovery call. Either way, you’ll get a straight answer."
   />
@@ -64,9 +64,9 @@ const next = [
   .contact__block { display: grid; gap: 0.25rem; justify-items: start; padding-block: 1.75rem; border-top: 1px solid var(--line); }
   .contact__block:first-child { padding-top: 0; border-top: 0; }
   .contact__block .contact__h { margin-bottom: 0.5rem; }
-  .contact__block--call { padding: 1.75rem; border-radius: var(--radius); background: var(--green); color: var(--ink); gap: 0.9rem; margin-bottom: 1.75rem; --fg: var(--ink); --bg: var(--green); --fill: var(--white); }
-  .contact__block--call .contact__h { margin-bottom: 0; font-family: var(--font-display); font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; }
-  .contact__email { font-family: var(--font-display); font-weight: 600; font-size: var(--step-1); overflow-wrap: anywhere; color: var(--fg); text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .contact__block--call { padding: 1.75rem; border-radius: var(--radius); background: var(--red); color: var(--ink); gap: 0.9rem; margin-bottom: 1.75rem; --fg: var(--ink); --bg: var(--green); --fill: var(--white); }
+  .contact__block--call .contact__h { margin-bottom: 0; font-family: var(--font-display); font-size: var(--step-2); font-weight: 800; text-transform: uppercase; line-height: 0.95; }
+  .contact__email { font-weight: 600; font-size: var(--step-1); overflow-wrap: anywhere; color: var(--fg); text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
   .contact__email:hover { color: var(--link); }
   .next-steps { display: grid; gap: 1rem; padding: 0; }
   .next-steps li { display: grid; grid-template-columns: 2rem 1fr; gap: 0.5rem; }

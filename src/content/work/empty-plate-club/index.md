@@ -1,23 +1,25 @@
 ---
-# DRAFT: hidden from the site until `draft` is removed. To publish:
-#   1. Replace cover.svg with the real cover image (cover.jpg/png) and update `cover`.
-#   2. Add gallery images to this folder and list them under `gallery`.
-#   3. Confirm client, sector and summary, and write 2-3 sentences below.
-#   4. Confirm you have permission to show this work, then delete `draft: true`.
-# Source: https://www.behance.net/gallery/225715303/Empty-Plate-Club-branding
-title: Empty Plate Club branding
-summary: Branding for Empty Plate Club.  # CONFIRM / expand
+# Selected work, from Ani's portfolio brief (22 Oct 2026). Images supplied by Ani, 22 Oct 2026.
+title: "Empty Plate Club"
+summary: "A playful, illustrated brand for a food-focused Instagram concept."
 status: client
-client: Empty Plate Club  # CONFIRM exact client name
-sector: Hospitality  # CONFIRM
-type: Branding
-categories: ['design-creative']
-cover: ./cover.svg
-coverAlt: Cover image for Empty Plate Club branding.  # UPDATE to describe the real image
+client: "Empty Plate Club"
+sector: "Food"
+type: "Brand Identity, Logo Design & Video Content"
+categories: ["design-creative"]
+cover: ./cover.jpg
+coverAlt: "The Empty Plate Club logo, a plate on walking legs in red on pink, as a framed print."
 featured: false
-order: 4
-draft: true
-gallery: []
+order: 9
+approach: "Created a distinctive illustrated logo and visual direction designed to express the personality of the concept and stand out in a busy social media environment."
+developed:
+  - "Logo design"
+  - "Brand identity"
+  - "Visual direction"
+  - "Video content"
+highlight: "A characterful food brand built around playful illustration and social-first creative."
+gallery:
+  - src: ./gallery-01.jpg
+    alt: "Two framed Empty Plate Club prints: snacks, baking and drinks illustrations, and the walking plate on a red and pink checkerboard."
 ---
-
-<!-- TODO: 2-3 sentences. Who was it for, what did they need, what did you make? -->
+Developed a playful, vibrant brand identity for Empty Plate Club, a food-focused Instagram concept sharing creative recipes and meal ideas.

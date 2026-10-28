@@ -1,14 +1,16 @@
 ---
 import Logo from './Logo.astro';
+import ViewToggle from './ViewToggle.astro';
 import { nav, site, bookingHref, bookingIsExternal } from '../config/site';
 
 const path = Astro.url.pathname;
 const isCurrent = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
 ---
 <header class="site-header" data-header>
+  <div class="site-header__bg scrub" aria-hidden="true" data-header-bg></div>
   <div class="site-header__inner wrap">
-    <a class="brand" href="/" aria-label={`${site.name}, home`}>
-      <Logo id="oi-head" animate="load" class="brand__mark" decorative />
+    <a class="brand" href="/" aria-label={`${site.name}, home`} data-brand>
+      <Logo id="oi-head" animate={path === '/' ? 'none' : 'load'} class="brand__mark" decorative />
     </a>
 
     <nav class="site-nav" aria-label="Main">
@@ -19,6 +21,7 @@ const isCurrent = (href: string) => (href === '/' ? path === '/' : path.startsWi
       </ul>
     </nav>
 
+    <ViewToggle id="view-toggle-header" class="site-header__view" />
     <a class="btn btn--accent btn--sm hide-sm" href="/contact/">Let’s talk</a>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-open>
       <span class="menu-btn__label">Menu</span>
@@ -43,21 +46,35 @@ const isCurrent = (href: string) => (href === '/' ? path === '/' : path.startsWi
 </header>
 
 <style>
-  .site-header {
-    position: sticky; top: 0; z-index: 50;
+  .site-header { position: sticky; top: 0; z-index: 50; }
+  .site-header__bg {
+    position: absolute; inset: 0; z-index: -1;
     background: color-mix(in srgb, var(--bg) 92%, transparent);
     backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
     transition: background-color 0.4s var(--ease-out);
   }
-  /* Homepage: the header floats over the logo hero and stays clear until you scroll. */
+  /* Homepage: the header floats over the logo hero and stays clear until the hero
+     logo has glided into the logo slot (see src/scripts/home.ts). */
   :global(.is-home) .site-header { position: fixed; left: 0; right: 0; }
-  :global(.is-home) .site-header:not(.is-past-hero) { background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; --fg: var(--ink); --bg: var(--white); }
+  :global(.is-home) .site-header:not(.is-past-hero) { --fg: var(--ink); --bg: var(--white); --muted: var(--ink); }
+  :global(.is-home) .site-header:not(.is-past-hero) .site-header__bg { opacity: 0; }
+  /* While the glide runs, the background fades in over the last 20% of it. */
+  :global(.is-home.glide-live) .site-header__bg { animation-name: header-bg-in; --tl: --hero; --range: cover var(--g-r0, 50%) cover var(--g-r1, 80%); }
+  @keyframes header-bg-in { 0%, 80% { opacity: 0; } 100% { opacity: 1; } }
   .site-header__inner { display: flex; align-items: center; gap: clamp(1.25rem, 3vw, 2.5rem); min-height: 5rem; }
 
-  .brand { display: inline-flex; margin-right: auto; color: var(--ink); padding-block: 0.5rem; transition: opacity 0.4s var(--ease-out), visibility 0.4s; }
-  :root[data-view='inside'] .brand { color: var(--white); }
+  .brand { display: inline-flex; margin-right: auto; color: var(--brand-color); padding-block: 0.5rem; transition: opacity 0.4s var(--ease-out), visibility 0.4s; }
   :global(.is-home) .site-header:not(.is-past-hero) .brand { opacity: 0; visibility: hidden; }
-  :global(.brand__mark) { width: 3.2rem; view-transition-name: oi-logo; }
+  /* The hand-off from the gliding hero logo is instant, so there's no visible jump.
+     The hero logo arrives with its slices closed; the header logo's slices then
+     open into the real mark. */
+  :global(.is-home.glide-live) .brand { transition: none; }
+  :global(.is-home.glide-live) .site-header:not(.is-past-hero) :global(.brand__mark) { --oi-close: 1; }
+  /* Reduced motion: no glide, so the header logo is there from the start. */
+  @media (prefers-reduced-motion: reduce) {
+    :global(.is-home) .site-header:not(.is-past-hero) .brand { opacity: 1; visibility: visible; }
+  }
+  :global(.brand__mark) { height: 42px; width: calc(42px * 887 / 522); view-transition-name: oi-logo; }
 
   .site-nav ul { display: flex; gap: clamp(1.25rem, 2.4vw, 2.25rem); }
   .site-nav a { position: relative; display: inline-block; padding-block: 0.6rem; text-decoration: none; font-weight: 500; color: var(--fg); }
@@ -83,14 +100,18 @@ const isCurrent = (href: string) => (href === '/' ? path === '/' : path.startsWi
   .mobile-menu[hidden] { display: none; }
   .mobile-menu ul { display: grid; gap: 0.4rem; }
   .mobile-menu li { animation: menu-in 0.5s var(--ease-out) both; animation-delay: calc(var(--i) * 45ms); }
-  .mobile-menu nav a { display: block; font-family: var(--font-display); font-weight: 600; font-size: clamp(2.2rem, 10vw, 3.2rem); letter-spacing: -0.03em; line-height: 1.15; text-decoration: none; color: var(--fg); }
+  .mobile-menu nav a { display: block; font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: clamp(2.2rem, 10vw, 3.2rem); letter-spacing: -0.02em; line-height: 1.05; text-decoration: none; color: var(--fg); }
   .mobile-menu nav a[aria-current='page'] { color: var(--link); }
   .mobile-menu__foot { display: grid; gap: 1rem; justify-items: start; }
   @keyframes menu-in { from { opacity: 0; transform: translateY(8px); } }
 
+  /* The Outside/Inside switch lives in the header (v3), on every screen size. */
+  :global(.site-header__view) { flex: none; }
+  @media (max-width: 400px) { :global(.site-header__view) { gap: 0.35rem; } }
+
   @media (max-width: 960px) {
     .site-nav { display: none; }
     .menu-btn { display: inline-flex; align-items: center; }
-    :global(.brand__mark) { width: 2.8rem; }
+    :global(.brand__mark) { height: 24px; width: calc(24px * 887 / 522); }
   }
 </style>

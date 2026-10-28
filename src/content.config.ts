@@ -12,6 +12,12 @@ import { glob } from 'astro/loaders';
  *                     Client projects only need a summary, cover and gallery; the longer
  *                     write-up fields (challenge, approach, developed, map) are optional.
  * draft: true        → kept in the repo but not published anywhere on the site.
+ *
+ * Selected work (status 'client') comes from Ani's portfolio brief. It covers studio work,
+ * in-house roles, collaborations and her own ventures, so pages say "Selected work", not
+ * "Client work". Body = overview; approach, role, developed (deliverables), highlight and
+ * scale are shown as rows. results need resultsConfirmed: true to appear on the live site;
+ * until then they show only on previews, flagged for confirmation.
  */
 const work = defineCollection({
   loader: glob({ pattern: '**/index.md', base: './src/content/work' }),
@@ -38,8 +44,56 @@ const work = defineCollection({
         map: z.object({ outside: z.array(z.string()), inside: z.array(z.string()) }).optional(),
         objectives: z.array(z.string()).default([]),
         results: z.array(z.string()).default([]),
+        resultsConfirmed: z.boolean().default(false),
+        resultsNote: z.string().optional(),
+        role: z.string().optional(),
+        highlight: z.string().optional(),
+        scale: z.string().optional(),
         gallery: z.array(z.object({ src: image(), alt: z.string(), caption: z.string().optional() })).default([]),
         demo: z.enum(['triage']).optional(),
+        // Case-study extras (Ani's case-study template, 26 Oct 2026). All optional.
+        /** Pill above the title, e.g. "Our venture". */
+        badge: z.string().optional(),
+        /** Big opening paragraph under the title (falls back to summary). */
+        intro: z.string().optional(),
+        /** Short statement shown in display type as "The idea", above the body. */
+        idea: z.string().optional(),
+        whatWeDid: z.string().optional(),
+        builtWith: z.string().optional(),
+        where: z.string().optional(),
+        /** Dark band with phone screens either side of a looping film. */
+        showcase: z.object({ video: z.string(), poster: image(), label: z.string(), sides: z.array(z.object({ src: image(), alt: z.string() })).max(2) }).optional(),
+        /** Feature facts (not results), shown as purple tiles. */
+        stats: z.array(z.object({ n: z.string(), text: z.string() })).default([]),
+        brand: z.object({ line: z.string(), text: z.string(), pillars: z.array(z.object({ name: z.string(), text: z.string() })) }).optional(),
+        features: z.object({ title: z.string(), items: z.array(z.object({ src: image(), alt: z.string(), step: z.string(), title: z.string(), text: z.string() })) }).optional(),
+        /** A result still to be supplied: shown on previews only, never live. */
+        resultTodo: z.string().optional(),
+        link: z.object({ href: z.string().url(), label: z.string() }).optional(),
+        /** Slug of the case study to suggest next (defaults to the next in order). */
+        next: z.string().optional(),
+        /** Page headline when it differs from the project title. */
+        headline: z.string().optional(),
+        /** Label beside the badge (defaults to "Case study"). */
+        eyebrow: z.string().optional(),
+        /** Replaces the four default facts under the intro. */
+        facts: z.array(z.object({ label: z.string(), value: z.string(), href: z.string().url().optional() })).max(4).optional(),
+        /** Four labelled photos above the showcase (tall one left, three right). */
+        photos: z.array(z.object({ src: image(), alt: z.string(), label: z.string(), position: z.string().optional() })).length(4).optional(),
+        /**
+         * Free-form case-study sections, in order (used by Ride Retreat: Brand & Website).
+         * When set, they replace the standard body rows.
+         */
+        blocks: z.array(z.discriminatedUnion('type', [
+          z.object({ type: z.literal('row'), label: z.string(), statement: z.string(), paragraphs: z.array(z.string()).default([]) }),
+          z.object({ type: z.literal('band'), label: z.string(), line: z.string(), text: z.string(), image: z.object({ src: image(), alt: z.string() }).optional(), captions: z.array(z.string()).default([]), after: z.string().optional() }),
+          z.object({ type: z.literal('identity'), label: z.string(), statement: z.string(), text: z.string(), palette: z.object({ src: image(), alt: z.string() }), headlineFont: z.string(), bodyFont: z.string(), sample: z.string(), sampleSub: z.string(), colour: z.string(), colourNames: z.string() }),
+          z.object({ type: z.literal('website'), label: z.string(), statement: z.string(), text: z.string(), pages: z.object({ src: image(), alt: z.string() }), scroll: z.object({ src: image(), alt: z.string() }), lead: z.string(), stats: z.array(z.object({ n: z.string(), text: z.string() })), after: z.string(), meta: z.array(z.object({ label: z.string(), text: z.string() })) }),
+          /** todos are placeholders for figures still to come: previews only, never live. */
+          z.object({ type: z.literal('outcome'), label: z.string(), statement: z.string(), text: z.string(), todos: z.array(z.string()).default([]) }),
+        ])).default([]),
+        /** A related case study, shown as a dark card instead of the next-project card. */
+        related: z.object({ slug: z.string(), text: z.string() }).optional(),
         seoDescription: z.string().optional(),
       })
       .refine((d) => d.status === 'client' || d.results.length === 0, {

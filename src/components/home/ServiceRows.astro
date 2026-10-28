@@ -2,16 +2,13 @@
 /**
  * Services as numbered rows (homepage v3, section 5). Three rows divided by
  * hairlines: number and title in League Spartan, capability tags, a short
- * description. Hover or focus tints the row and slides the discipline image in at
- * the right, with a small square in the discipline colour on its corner. Phones:
- * stacked rows, no image. Reduced motion: instant.
+ * description. Hover or focus tints the row (no pop-up image: Ani, 28 Oct 2026).
+ * Phones: stacked rows. Reduced motion: instant.
  */
-import { Image } from 'astro:assets';
 import WipeHeading from './WipeHeading.astro';
 import Note from '../Note.astro';
 import { services } from '../../data/services';
 import { home } from '../../data/home';
-import { asset } from '../../data/homeAssets';
 
 const colour: Record<string, string> = { 'design-creative': 'pink', 'marketing-growth': 'green', 'ai-systems': 'purple' };
 ---
@@ -22,7 +19,6 @@ const colour: Record<string, string> = { 'design-creative': 'pink', 'marketing-g
   </div>
   <ol role="list" class="svcr__list">
     {services.map((s) => {
-      const img = asset(home.services.images[s.id]);
       return (
         <li class="svcr__row" style={`--c: var(--${colour[s.id]})`}>
           <a class="svcr__link" href={`/services/#${s.id}`}>
@@ -30,10 +26,6 @@ const colour: Record<string, string> = { 'design-creative': 'pink', 'marketing-g
             <span class="svcr__body">
               <span class="svcr__tags">{home.services.tags[s.id].map((t) => <span class="label svcr__tag">{t}</span>)}</span>
               <span class="svcr__desc">{s.short}</span>
-            </span>
-            <span class="svcr__img" aria-hidden="true">
-              <Image src={img.src} alt="" widths={[360, 720]} sizes="18rem" loading="lazy" />
-              <span class="svcr__sq"></span>
             </span>
           </a>
         </li>
@@ -59,19 +51,10 @@ const colour: Record<string, string> = { 'design-creative': 'pink', 'marketing-g
   .svcr__tags { display: flex; flex-wrap: wrap; gap: 0.4rem 1.1rem; }
   .svcr__tag { color: var(--muted); }
   .svcr__desc { font-size: var(--step-1); line-height: 1.4; }
-  .svcr__img { display: none; }
 
   @media (hover: hover) and (pointer: fine) and (min-width: 761px) {
-    .svcr__img {
-      display: block; position: absolute; right: clamp(0.5rem, 1.5vw, 1rem); top: 50%; width: min(26%, 18rem); aspect-ratio: 3 / 2;
-      opacity: 0; transform: translate(24px, -50%); transition: opacity 0.2s var(--ease-out), transform 0.2s var(--ease-out); pointer-events: none;
-    }
-    .svcr__img :global(img) { width: 100%; height: 100%; object-fit: cover; }
-    .svcr__sq { position: absolute; top: -10px; right: -10px; width: 20px; height: 20px; background: var(--c); }
     .svcr__link:hover, .svcr__link:focus-visible { background: #f7f6f9; }
-    .svcr__link:hover .svcr__img, .svcr__link:focus-visible .svcr__img { opacity: 1; transform: translate(0, -50%); }
-    .svcr__link:hover .svcr__body, .svcr__link:focus-visible .svcr__body { max-width: min(40rem, 68%); }
   }
   :root[data-view='inside'] .svcr__link:hover, :root[data-view='inside'] .svcr__link:focus-visible { background: color-mix(in srgb, var(--white) 6%, transparent); }
-  @media (prefers-reduced-motion: reduce) { .svcr__link, .svcr__img { transition: none !important; } }
+  @media (prefers-reduced-motion: reduce) { .svcr__link { transition: none !important; } }
 </style>

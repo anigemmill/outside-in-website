@@ -3,233 +3,83 @@
   "assets": [
     {
       "placeholder": false,
-      "id": "work-01",
-      "file": "work/work-01.jpg",
-      "width": 1600,
-      "height": 1130,
-      "usedIn": "12 Work grid (half-width tile, outside layer for lens 03)",
-      "replaceWith": "done: real project image (Ani, 22 Oct 2026)",
-      "altPlaceholder": "The Rotorua Walking Tours logo, an illustrated row of Rotorua landmarks and footprints, embossed on pink paper."
-    },
-    {
-      "placeholder": true,
-      "id": "work-01-inside",
-      "file": "work/work-01-inside.jpg",
-      "width": 1600,
-      "height": 1130,
-      "usedIn": "03 Lens inside layer for this tile",
-      "replaceWith": "real sketch / wireframe / notes, same crop as the outside image",
-      "altPlaceholder": "[Project 1] behind the scenes"
-    },
-    {
-      "placeholder": false,
-      "id": "work-02",
-      "file": "work/work-02.jpg",
-      "width": 1600,
-      "height": 1130,
-      "usedIn": "12 Work grid (half-width tile, outside layer for lens 03)",
-      "replaceWith": "done: real project image (Ani, 22 Oct 2026)",
-      "altPlaceholder": "The Journey app welcome screen for Ride Retreat on a phone, on deep green."
-    },
-    {
-      "placeholder": true,
-      "id": "work-02-inside",
-      "file": "work/work-02-inside.jpg",
-      "width": 1600,
-      "height": 1130,
-      "usedIn": "03 Lens inside layer for this tile",
-      "replaceWith": "real sketch / wireframe / notes, same crop as the outside image",
-      "altPlaceholder": "[Project 2] behind the scenes"
-    },
-    {
-      "placeholder": false,
-      "id": "work-03",
-      "file": "work/work-03.jpg",
-      "width": 2400,
-      "height": 760,
-      "usedIn": "12 Work grid (full-width tile, outside layer for lens 03)",
-      "replaceWith": "done: real project image (Ani, 22 Oct 2026)",
-      "altPlaceholder": "The Flavours of Plenty Festival banner: the wordmark beside illustrated food characters on pink."
-    },
-    {
-      "placeholder": true,
-      "id": "work-03-inside",
-      "file": "work/work-03-inside.jpg",
-      "width": 2400,
-      "height": 760,
-      "usedIn": "03 Lens inside layer for this tile",
-      "replaceWith": "real sketch / wireframe / notes, same crop as the outside image",
-      "altPlaceholder": "[Project 3] behind the scenes"
-    },
-    {
-      "placeholder": false,
-      "id": "work-04",
-      "file": "work/work-04.jpg",
-      "width": 1600,
-      "height": 1130,
-      "usedIn": "12 Work grid (half-width tile, outside layer for lens 03)",
-      "replaceWith": "done: real project image (Ani, 22 Oct 2026)",
-      "altPlaceholder": "Two framed Empty Plate Club prints in pink and red, one with the walking-plate logo on a checkerboard."
-    },
-    {
-      "placeholder": true,
-      "id": "work-04-inside",
-      "file": "work/work-04-inside.jpg",
-      "width": 1600,
-      "height": 1130,
-      "usedIn": "03 Lens inside layer for this tile",
-      "replaceWith": "real sketch / wireframe / notes, same crop as the outside image",
-      "altPlaceholder": "[Project 4] behind the scenes"
-    },
-    {
-      "placeholder": false,
-      "id": "work-05",
-      "file": "work/work-05.jpg",
-      "width": 1600,
-      "height": 1130,
-      "usedIn": "12 Work grid (half-width tile, outside layer for lens 03)",
-      "replaceWith": "done: real project image (Ani, 22 Oct 2026)",
-      "altPlaceholder": "The Run for Reido 2025 illustrated wordmark in navy on a cream tee."
-    },
-    {
-      "placeholder": true,
-      "id": "work-05-inside",
-      "file": "work/work-05-inside.jpg",
-      "width": 1600,
-      "height": 1130,
-      "usedIn": "03 Lens inside layer for this tile",
-      "replaceWith": "real sketch / wireframe / notes, same crop as the outside image",
-      "altPlaceholder": "[Project 5] behind the scenes"
-    },
-    {
-      "placeholder": false,
-      "id": "work-06",
-      "file": "work/work-06.jpg",
-      "width": 2400,
-      "height": 760,
-      "usedIn": "12 Work grid (full-width tile, outside layer for lens 03)",
-      "replaceWith": "done: real project image (Ani, 22 Oct 2026)",
-      "altPlaceholder": "Three Negative Split Carbon wheels side by side, with tonal black NSC graphics."
-    },
-    {
-      "placeholder": true,
-      "id": "work-06-inside",
-      "file": "work/work-06-inside.jpg",
-      "width": 2400,
-      "height": 760,
-      "usedIn": "03 Lens inside layer for this tile",
-      "replaceWith": "real sketch / wireframe / notes, same crop as the outside image",
-      "altPlaceholder": "[Project 6] behind the scenes"
-    },
-    {
-      "placeholder": true,
       "id": "drift-01",
       "file": "drift/drift-01.jpg",
       "width": 1200,
       "height": 900,
       "usedIn": "05 Drift field",
-      "replaceWith": "real process photo, 4:3",
-      "altPlaceholder": "[Describe the process photo]"
+      "replaceWith": "done: real project image (27 Oct 2026)",
+      "altPlaceholder": "Flavours of Plenty Festival artwork on a digital screen above an airport baggage carousel"
     },
     {
-      "placeholder": true,
+      "placeholder": false,
       "id": "drift-02",
       "file": "drift/drift-02.jpg",
       "width": 900,
       "height": 1200,
       "usedIn": "05 Drift field",
-      "replaceWith": "real process photo, 3:4",
-      "altPlaceholder": "[Describe the process photo]"
+      "replaceWith": "done: real project image (27 Oct 2026)",
+      "altPlaceholder": "A Flavours of Plenty Festival billboard on the side of a building under a blue sky"
     },
     {
-      "placeholder": true,
+      "placeholder": false,
       "id": "drift-03",
       "file": "drift/drift-03.jpg",
       "width": 1200,
       "height": 900,
       "usedIn": "05 Drift field",
-      "replaceWith": "real process photo, 4:3",
-      "altPlaceholder": "[Describe the process photo]"
+      "replaceWith": "done: real project image (27 Oct 2026)",
+      "altPlaceholder": "The Explore Bay of Plenty app on a phone, held up from a kayak"
     },
     {
-      "placeholder": true,
+      "placeholder": false,
       "id": "drift-04",
       "file": "drift/drift-04.jpg",
       "width": 900,
       "height": 1200,
       "usedIn": "05 Drift field",
-      "replaceWith": "real process photo, 3:4",
-      "altPlaceholder": "[Describe the process photo]"
+      "replaceWith": "done: real project image (27 Oct 2026)",
+      "altPlaceholder": "Ride Retreat: a rider wheelies through ferns and redwoods on a Rotorua trail"
     },
     {
-      "placeholder": true,
+      "placeholder": false,
       "id": "drift-05",
       "file": "drift/drift-05.jpg",
       "width": 1200,
       "height": 900,
       "usedIn": "05 Drift field",
-      "replaceWith": "real process photo, 4:3",
-      "altPlaceholder": "[Describe the process photo]"
+      "replaceWith": "done: real project image (27 Oct 2026)",
+      "altPlaceholder": "A pair of Negative Split Carbon wheels with tonal black graphics"
     },
     {
-      "placeholder": true,
+      "placeholder": false,
       "id": "drift-06",
       "file": "drift/drift-06.jpg",
       "width": 900,
       "height": 1200,
       "usedIn": "05 Drift field",
-      "replaceWith": "real process photo, 3:4",
-      "altPlaceholder": "[Describe the process photo]"
+      "replaceWith": "done: real project image (27 Oct 2026)",
+      "altPlaceholder": "The Flavours of Plenty Festival programme, rolled open on a black background"
     },
     {
-      "placeholder": true,
+      "placeholder": false,
       "id": "drift-07",
       "file": "drift/drift-07.jpg",
       "width": 1200,
       "height": 900,
       "usedIn": "05 Drift field",
-      "replaceWith": "real process photo, 4:3",
-      "altPlaceholder": "[Describe the process photo]"
+      "replaceWith": "done: real project image (27 Oct 2026)",
+      "altPlaceholder": "Two framed Empty Plate Club prints: snack illustrations on pink, and a pink checkerboard"
     },
     {
-      "placeholder": true,
+      "placeholder": false,
       "id": "drift-08",
       "file": "drift/drift-08.jpg",
       "width": 900,
       "height": 1200,
       "usedIn": "05 Drift field",
-      "replaceWith": "real process photo, 3:4",
-      "altPlaceholder": "[Describe the process photo]"
-    },
-    {
-      "placeholder": true,
-      "id": "service-design",
-      "file": "services/service-design.jpg",
-      "width": 900,
-      "height": 600,
-      "usedIn": "Service rows (hover image)",
-      "replaceWith": "real photo, 3:2",
-      "altPlaceholder": "Design & Creative: [describe photo]"
-    },
-    {
-      "placeholder": true,
-      "id": "service-marketing",
-      "file": "services/service-marketing.jpg",
-      "width": 900,
-      "height": 600,
-      "usedIn": "Service rows (hover image)",
-      "replaceWith": "real photo, 3:2",
-      "altPlaceholder": "Marketing & Growth: [describe photo]"
-    },
-    {
-      "placeholder": true,
-      "id": "service-ai",
-      "file": "services/service-ai.jpg",
-      "width": 900,
-      "height": 600,
-      "usedIn": "Service rows (hover image)",
-      "replaceWith": "real photo, 3:2",
-      "altPlaceholder": "AI & Systems: [describe photo]"
+      "replaceWith": "done: real project image (27 Oct 2026)",
+      "altPlaceholder": "Rotorua Walking Tours web pages, shown as a stack of screens"
     },
     {
       "placeholder": true,
@@ -272,104 +122,44 @@
       "altPlaceholder": "[Stage 4]: [describe image]"
     },
     {
-      "placeholder": true,
+      "placeholder": false,
       "id": "social-01",
       "file": "social/social-01.jpg",
       "width": 1080,
       "height": 1350,
       "usedIn": "13 Curved social gallery",
-      "replaceWith": "real post or reel cover, 4:5",
-      "altPlaceholder": "[Client] reel: [describe]"
+      "replaceWith": "done: real post (Ani, 28 Oct 2026)",
+      "altPlaceholder": "Ride Retreat post: a rider and his bike in a fern-filled redwood forest, with the words “This is your sign!!! So… see you soon?”"
     },
     {
-      "placeholder": true,
+      "placeholder": false,
       "id": "social-02",
       "file": "social/social-02.jpg",
       "width": 1080,
       "height": 1350,
       "usedIn": "13 Curved social gallery",
-      "replaceWith": "real post or reel cover, 4:5",
-      "altPlaceholder": "[Client] carousel: [describe]"
+      "replaceWith": "done: real post (Ani, 28 Oct 2026)",
+      "altPlaceholder": "NZMACI reel “Ngā kupu o NZMACI, Words of NZMACI”: cards with te reo Māori words for tools and crafts, such as raranga, weaving"
     },
     {
-      "placeholder": true,
+      "placeholder": false,
       "id": "social-03",
       "file": "social/social-03.jpg",
       "width": 1080,
       "height": 1350,
       "usedIn": "13 Curved social gallery",
-      "replaceWith": "real post or reel cover, 4:5",
-      "altPlaceholder": "[Client] post: [describe]"
+      "replaceWith": "done: real post (Ani, 28 Oct 2026)",
+      "altPlaceholder": "Flavours of Plenty Festival post: illustrated food tiles, 16 April to 3 May 2026, “Submissions now open”"
     },
     {
-      "placeholder": true,
+      "placeholder": false,
       "id": "social-04",
       "file": "social/social-04.jpg",
       "width": 1080,
       "height": 1350,
       "usedIn": "13 Curved social gallery",
-      "replaceWith": "real post or reel cover, 4:5",
-      "altPlaceholder": "[Client] reel: [describe]"
-    },
-    {
-      "placeholder": true,
-      "id": "social-05",
-      "file": "social/social-05.jpg",
-      "width": 1080,
-      "height": 1350,
-      "usedIn": "13 Curved social gallery",
-      "replaceWith": "real post or reel cover, 4:5",
-      "altPlaceholder": "[Client] post: [describe]"
-    },
-    {
-      "placeholder": true,
-      "id": "social-06",
-      "file": "social/social-06.jpg",
-      "width": 1080,
-      "height": 1350,
-      "usedIn": "13 Curved social gallery",
-      "replaceWith": "real post or reel cover, 4:5",
-      "altPlaceholder": "[Client] carousel: [describe]"
-    },
-    {
-      "placeholder": true,
-      "id": "social-07",
-      "file": "social/social-07.jpg",
-      "width": 1080,
-      "height": 1350,
-      "usedIn": "13 Curved social gallery",
-      "replaceWith": "real post or reel cover, 4:5",
-      "altPlaceholder": "[Client] reel: [describe]"
-    },
-    {
-      "placeholder": true,
-      "id": "social-08",
-      "file": "social/social-08.jpg",
-      "width": 1080,
-      "height": 1350,
-      "usedIn": "13 Curved social gallery",
-      "replaceWith": "real post or reel cover, 4:5",
-      "altPlaceholder": "[Client] post: [describe]"
-    },
-    {
-      "placeholder": true,
-      "id": "social-09",
-      "file": "social/social-09.jpg",
-      "width": 1080,
-      "height": 1350,
-      "usedIn": "13 Curved social gallery",
-      "replaceWith": "real post or reel cover, 4:5",
-      "altPlaceholder": "[Client] carousel: [describe]"
-    },
-    {
-      "placeholder": true,
-      "id": "social-10",
-      "file": "social/social-10.jpg",
-      "width": 1080,
-      "height": 1350,
-      "usedIn": "13 Curved social gallery",
-      "replaceWith": "real post or reel cover, 4:5",
-      "altPlaceholder": "[Client] reel: [describe]"
+      "replaceWith": "done: real post (Ani, 28 Oct 2026)",
+      "altPlaceholder": "Reel cover: a handful of fresh black truffles at Trufflewood in Paengaroa"
     }
   ]
 }

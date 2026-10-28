@@ -20,13 +20,14 @@ const concepts = readdirSync('src/content/work').filter((d) => {
   return /status:\s*concept/.test(md) && !/^draft:\s*true/m.test(md);
 });
 if (concepts.length) items.push(`${concepts.length} portfolio projects are concepts (${concepts.join(', ')}). Fine to launch with; replace or add client work when approved.`);
-// Homepage v3 placeholder images (src/assets/home/manifest.json). Fails a production deploy (below).
+// Homepage v3 placeholder images (src/assets/home/manifest.json). They show on previews only;
+// on the live site the parts that use them step aside (see isLive in src/data/homeAssets.ts).
 const manifestPath = 'src/assets/home/manifest.json';
 const stillPlaceholder = existsSync(manifestPath)
   ? JSON.parse(readFileSync(manifestPath, 'utf8')).assets.filter((a) => a.placeholder)
   : [];
 if (stillPlaceholder.length) {
-  items.push(`${stillPlaceholder.length} homepage images are still placeholders:\n` +
+  items.push(`${stillPlaceholder.length} homepage images are still placeholders (previews only; hidden on the live site until replaced):\n` +
     stillPlaceholder.map((a) => `     - src/assets/home/${a.file} (${a.usedIn}): ${a.replaceWith}`).join('\n'));
 }
 // Homepage copy still in [square brackets].
@@ -40,8 +41,3 @@ console.log('\nOutside In: pre-launch checklist\n');
 items.forEach((i) => console.log(' • ' + i));
 console.log('');
 
-// Never ship placeholder images to the live site.
-if (process.env.CONTEXT === 'production' && stillPlaceholder.length) {
-  console.error(`✗ ${stillPlaceholder.length} placeholder images remain. Replace them (and set "placeholder": false) before a production deploy.\n`);
-  process.exit(1);
-}

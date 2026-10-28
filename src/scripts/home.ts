@@ -4,7 +4,7 @@
  * Every section works without this script (finished state, plain links). The
  * script switches each effect on by adding a class, and does nothing for people
  * who prefer reduced motion beyond the few controls that must still work (the
- * tile Outside/Inside switches, the gallery buttons and arrow keys).
+ * gallery buttons and arrow keys).
  *
  * Scroll-linked motion uses CSS scroll-driven animations where supported
  * (html.sda). Elsewhere (html.nosda) the paused CSS animations are scrubbed
@@ -180,94 +180,6 @@ function setupFill() {
   });
 }
 
-/* ---------- 12 Work grid + 03 Lens ---------- */
-function setupWork() {
-  const sec = q('[data-work]');
-  if (!sec) return;
-  const tiles = qa('[data-tile]', sec);
-  // The switch works in every mode, and is the only behaviour with reduced motion.
-  tiles.forEach((tile) => {
-    const btn = q<HTMLButtonElement>('[data-tile-switch]', tile)!;
-    btn.addEventListener('click', () => {
-      const on = !tile.classList.contains('is-inside');
-      tile.classList.toggle('is-inside', on);
-      btn.setAttribute('aria-pressed', String(on));
-    });
-  });
-  if (reduce) return;
-  sec.classList.add('is-live');
-
-  // Rise: once, when a tile's row reaches 90% of the screen.
-  const rise = new IntersectionObserver((entries) => entries.forEach((en) => {
-    if (!en.isIntersecting) return;
-    en.target.classList.add('is-up');
-    rise.unobserve(en.target);
-  }), { rootMargin: '0px 0px -10% 0px' });
-  tiles.forEach((t) => {
-    // A tile already on screen at load starts in place.
-    if (t.getBoundingClientRect().top < vh() * 0.9) t.classList.add('is-up');
-    else rise.observe(t);
-  });
-
-  // Drift fallback where CSS scroll-driven animations aren't available.
-  if (!CSS.supports('animation-timeline: view()')) {
-    sec.classList.add('no-sda');
-    const medias = qa('[data-tile-media]', sec);
-    onFrame.push(() => medias.forEach((m) => {
-      const r = m.getBoundingClientRect();
-      const p = clamp((vh() - r.top) / (vh() + r.height));
-      m.style.setProperty('--d', (-5 + 10 * p).toFixed(2));
-    }));
-  }
-
-  if (fine) {
-    sec.classList.add('lens-fine');
-    let inView = true;
-    new IntersectionObserver(([en]) => {
-      inView = en.isIntersecting;
-      if (!inView) tiles.forEach((t) => t.classList.remove('is-lens'));
-    }).observe(sec);
-    tiles.forEach((tile) => {
-      const media = q('[data-tile-media]', tile)!;
-      const inside = q('[data-tile-inside]', tile)!;
-      let x = 0, y = 0, tx = 0, ty = 0, last = 0, raf = 0, hovering = false;
-      const loop = (t: number) => {
-        const dt = last ? t - last : 16;
-        last = t;
-        const k = 1 - Math.exp(-dt / 80); // about 80ms lag behind the pointer
-        x += (tx - x) * k;
-        y += (ty - y) * k;
-        inside.style.setProperty('--lx', `${x.toFixed(1)}px`);
-        inside.style.setProperty('--ly', `${y.toFixed(1)}px`);
-        if (hovering && inView && (Math.abs(tx - x) > 0.3 || Math.abs(ty - y) > 0.3)) raf = requestAnimationFrame(loop);
-        else raf = 0;
-      };
-      const kick = () => { if (!raf) { last = 0; raf = requestAnimationFrame(loop); } };
-      // The inside image drifts with the outside one, so measure against the frame.
-      const at = (e: PointerEvent) => { const r = media.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
-      media.addEventListener('pointerenter', (e) => {
-        [x, y] = at(e); tx = x; ty = y;
-        hovering = true;
-        inside.style.setProperty('--lx', `${x}px`);
-        inside.style.setProperty('--ly', `${y}px`);
-        tile.classList.add('is-lens');
-      });
-      media.addEventListener('pointermove', (e) => { [tx, ty] = at(e); kick(); });
-      media.addEventListener('pointerleave', () => { hovering = false; tile.classList.remove('is-lens'); });
-    });
-  } else {
-    // Touch: the slice band reveals the inside image as the tile crosses the
-    // screen (its centre moving from 85% to 25% of the viewport).
-    sec.classList.add('lens-touch');
-    const medias = qa('[data-tile-media]', sec);
-    onFrame.push(() => medias.forEach((m) => {
-      const r = m.getBoundingClientRect();
-      const t = clamp((0.85 * vh() - (r.top + r.height / 2)) / (0.6 * vh()));
-      q('[data-tile-inside]', m)!.style.setProperty('--t', t.toFixed(3));
-    }));
-  }
-}
-
 /* ---------- 05 Drift field ---------- */
 function setupDrift() {
   const sec = q('[data-drift]');
@@ -418,7 +330,6 @@ function setupCta() {
 setupGlide();
 setupWipes();
 setupFill();
-setupWork();
 setupDrift();
 setupApproach();
 setupSocial();

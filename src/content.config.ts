@@ -62,11 +62,11 @@ const work = defineCollection({
         builtWith: z.string().optional(),
         where: z.string().optional(),
         /** Dark band with phone screens either side of a looping film. */
-        showcase: z.object({ video: z.string(), poster: image(), label: z.string(), sides: z.array(z.object({ src: image(), alt: z.string() })).max(2) }).optional(),
+        showcase: z.object({ video: z.string(), poster: image(), label: z.string(), /** Band colour (defaults to Ride Retreat forest). */ bg: z.string().optional(), sides: z.array(z.object({ src: image(), alt: z.string() })).max(2) }).optional(),
         /** Feature facts (not results), shown as purple tiles. */
         stats: z.array(z.object({ n: z.string(), text: z.string() })).default([]),
         brand: z.object({ line: z.string(), text: z.string(), pillars: z.array(z.object({ name: z.string(), text: z.string() })) }).optional(),
-        features: z.object({ title: z.string(), items: z.array(z.object({ src: image(), alt: z.string(), step: z.string(), title: z.string(), text: z.string() })) }).optional(),
+        features: z.object({ /** Row label (defaults to "The guest app"). */ label: z.string().optional(), title: z.string(), items: z.array(z.object({ src: image(), alt: z.string(), step: z.string(), title: z.string(), text: z.string() })) }).optional(),
         /** A result still to be supplied: shown on previews only, never live. */
         resultTodo: z.string().optional(),
         link: z.object({ href: z.string().url(), label: z.string() }).optional(),

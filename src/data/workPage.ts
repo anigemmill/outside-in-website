@@ -21,6 +21,7 @@ import reido from '../assets/work-page/run-for-reido-tee.webp';
 import rwt from '../assets/work-page/rotorua-walking-tours-emboss.webp';
 import nsc from '../assets/work-page/negative-split-tri-spoke-round.webp';
 import rrPoster from '../assets/work-page/ride-retreat-app-welcome.jpg';
+import ebop from '../assets/work-page/explore-bay-of-plenty-app.jpg';
 import epcPizza from '../assets/work-page/epc-pizza-oven-poster.jpg';
 import epcPotato from '../assets/work-page/epc-potato-stacks-poster.jpg';
 import epcSalad from '../assets/work-page/epc-roast-salad-poster.jpg';
@@ -82,10 +83,10 @@ export const tiles: WorkTile[] = [
     media: { kind: 'video', src: '/media/ride-retreat-app-launch.mp4', poster: rrPoster, label: 'Ride Retreat guest app launch film' },
   },
   {
-    // The rider photo shows a Red Bull athlete: preview only until the rights are confirmed.
-    key: 'butter-dog', title: 'Butter Dog Supply Co.', tags: 'Brand · Apparel · Shopify store', dots: ['pink', 'green'],
-    span: 8, h: 600, bg: '#2C3A16', previewOnly: true, badge: { text: 'Our venture', tone: 'green' },
-    media: { kind: 'pip', src: butterHero, alt: 'Downhill rider dropping off a rock in a sunlit forest', position: '60% 45%', pip: butterTees, pipAlt: 'Butter Dog t-shirts in navy and cream' },
+    key: 'ebop', title: 'Explore Bay of Plenty', slug: 'explore-bay-of-plenty', href: '/projects/explore-bay-of-plenty/',
+    tags: 'Destination app · Launch · Digital marketing', dots: ['green', 'pink'],
+    span: 8, h: 600, bg: '#F5F6E8', badge: { text: 'Development & launch lead', tone: 'white' }, hover: 'View case study',
+    media: { kind: 'image', src: ebop, alt: 'The Explore Bay of Plenty app on three phones: local deals, walking and cycle trails, and activities', position: '50% 40%' },
   },
   {
     key: 'wings', title: 'Wings for Life World Run', slug: 'wings-for-life-team-logo',
@@ -120,6 +121,12 @@ export const tiles: WorkTile[] = [
     key: 'nsc', title: 'Negative Split Carbon', slug: 'nsc-wheel-design', href: '/projects/nsc-wheel-design/',
     tags: 'Product graphics · Brand typography', dots: ['pink'], span: 6, h: 560, bg: '#E4E4E1', hover: 'View case study',
     media: { kind: 'wheel', src: nsc, alt: 'Negative Split Carbon tri-spoke wheel with tonal typographic graphics, spinning' },
+  },
+  {
+    // The rider photo shows a Red Bull athlete: preview only until the rights are confirmed.
+    key: 'butter-dog', title: 'Butter Dog Supply Co.', tags: 'Brand · Apparel · Shopify store', dots: ['pink', 'green'],
+    span: 12, h: 600, bg: '#2C3A16', previewOnly: true, badge: { text: 'Our venture', tone: 'green' },
+    media: { kind: 'pip', src: butterHero, alt: 'Downhill rider dropping off a rock in a sunlit forest', position: '60% 45%', pip: butterTees, pipAlt: 'Butter Dog t-shirts in navy and cream' },
   },
 ];
 

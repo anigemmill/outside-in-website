@@ -33,12 +33,10 @@ export const site = {
 
   /**
    * Findable, Outside In's tourism growth platform. The public page is /findable/;
-   * the application itself is hosted separately (Vercel).
-   * DEMO: the app subdomain (app.theoutsidein.nz) isn't connected yet, so "Sign in"
-   * points at the app's current Vercel address. Switch to https://app.theoutsidein.nz
-   * (or set PUBLIC_FINDABLE_APP_URL) once that domain is verified. `npm run check` flags it.
+   * the application itself is hosted separately (Vercel) at app.theoutsidein.nz.
+   * "Sign in" links go to `${findableAppUrl}/login`.
    */
-  findableAppUrl: (env.PUBLIC_FINDABLE_APP_URL || 'https://tourism-ai-growth-platform.vercel.app').replace(/\/$/, ''),
+  findableAppUrl: (env.PUBLIC_FINDABLE_APP_URL || 'https://app.theoutsidein.nz').replace(/\/$/, ''),
 
   /**
    * Optional third-party form endpoint (e.g. Formspree: https://formspree.io/f/xxxx).

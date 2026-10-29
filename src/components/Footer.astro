@@ -1,111 +1,51 @@
 ---
 /**
- * Site footer (homepage v3 spec, section 9). Ink with pink text: links on the
- * left; the place, the live NZ time and the email on the right; then a huge
- * "OUTSIDE IN · OUTSIDE IN" wordmark that slides sideways as you scroll into the
- * footer. The slide is scroll-linked (it never moves on its own, so it needs no
- * pause button) and static with reduced motion. The Outside/Inside switch lives
- * in the header, and Behance isn't linked anywhere.
+ * Maroon footer. With `cta` it opens with the "Got an idea? Let's make it real."
+ * band, as on Home and Services; pass your own content in the `cta` slot to
+ * replace that band (About). Without either, it's the slim footer row only.
  */
-import { nav, site } from '../config/site';
+import BookCall from './BookCall.astro';
+import { site, nav } from '../config/site';
 
-const labels: Record<string, string> = { instagram: 'Instagram', linkedin: 'LinkedIn' };
-const socials = Object.entries(site.social).filter(([k, url]) => Boolean(url) && k in labels);
+interface Props { cta?: boolean }
+const { cta = false } = Astro.props;
+const hasSlot = Astro.slots.has('cta');
 const year = new Date().getFullYear();
+const links = [...nav, ...(site.social.instagram ? [{ label: 'Instagram', href: site.social.instagram, external: true }] : []), ...(site.social.linkedin ? [{ label: 'LinkedIn', href: site.social.linkedin, external: true }] : [])] as { label: string; href: string; external?: boolean }[];
 ---
-<footer class="site-footer" data-footer>
-  <div class="wrap site-footer__top">
-    <nav aria-label="Footer">
-      <ul role="list" class="site-footer__links">
-        {nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
-        {socials.map(([k, url]) => <li><a href={url} target="_blank" rel="noopener">{labels[k]}<span class="visually-hidden"> (opens in a new tab)</span></a></li>)}
+<footer class:list={['foot', 'on-maroon', { 'foot--cta': cta || hasSlot }]}>
+  <div class="wrap foot__in">
+    {hasSlot ? <div class="foot__cta"><slot name="cta" /></div> : cta && (
+      <div class="foot__cta">
+        <h2 class="foot__title">Got an idea?<br /><em class="em">Let’s make it real.</em></h2>
+        <div class="foot__actions">
+          <BookCall />
+          <a class="foot__email" href={`mailto:${site.email}`}>{site.email}</a>
+        </div>
+      </div>
+    )}
+    <div class="foot__row">
+      <ul role="list" class="foot__links">
+        {links.map((l) => (
+          <li><a href={l.href} {...(l.external ? { target: '_blank', rel: 'noopener' } : {})}>{l.label}{l.external && <span aria-hidden="true"> ↗</span>}{l.external && <span class="visually-hidden"> (opens in a new tab)</span>}</a></li>
+        ))}
       </ul>
-    </nav>
-    <div class="site-footer__where">
-      <p class="label">{site.place}<span data-clock-wrap hidden> · <time data-clock></time></span></p>
-      <a class="site-footer__email" href={`mailto:${site.email}`}>{site.email}</a>
+      <p>{site.place} · © {year} {site.name} · <a href="/privacy/">Privacy</a></p>
     </div>
-  </div>
-
-  <div class="site-footer__mark" aria-hidden="true">
-    <!-- Decorative: drawn with CSS content so it isn't read out or measured as text. -->
-    <p class="site-footer__word display" data-footer-word data-text="Outside In · Outside In · Outside In"></p>
-  </div>
-
-  <div class="wrap site-footer__base">
-    <p>© {year} {site.name}</p>
-    <p><a href="/privacy/">Privacy</a></p>
   </div>
 </footer>
 
-<script>
-  // Live NZ time, updated once a minute.
-  const wrap = document.querySelector<HTMLElement>('[data-clock-wrap]');
-  const clock = document.querySelector<HTMLTimeElement>('[data-clock]');
-  if (wrap && clock) {
-    const fmt = new Intl.DateTimeFormat('en-NZ', { timeZone: 'Pacific/Auckland', hour: 'numeric', minute: '2-digit' });
-    const tick = () => {
-      const now = new Date();
-      clock.textContent = fmt.format(now).toUpperCase();
-      clock.dateTime = now.toISOString();
-    };
-    tick();
-    wrap.hidden = false;
-    window.setTimeout(() => { tick(); window.setInterval(tick, 60_000); }, (60 - new Date().getSeconds()) * 1000);
-  }
-
-  // Wordmark slide: CSS scroll-driven where supported, otherwise this small fallback.
-  const footer = document.querySelector<HTMLElement>('[data-footer]');
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (footer && !reduce && !CSS.supports('animation-timeline: view()')) {
-    let queued = false;
-    const update = () => {
-      queued = false;
-      const r = footer.getBoundingClientRect();
-      const p = Math.min(1, Math.max(0, (window.innerHeight - r.top) / Math.max(1, r.height)));
-      footer.style.setProperty('--fp', p.toFixed(4));
-    };
-    footer.classList.add('is-scrubbed');
-    window.addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(update); } }, { passive: true });
-    update();
-  }
-</script>
-
 <style>
-  .site-footer {
-    background: var(--ink); color: var(--pink); overflow: clip;
-    padding-block: clamp(4rem, 8vw, 7rem) 2rem;
-    --fg: var(--pink); --bg: var(--ink); --muted: var(--lilac); --line: rgba(255, 153, 220, 0.2);
-  }
-  :root[data-view='inside'] .site-footer { background: #0e0b14; }
-  .site-footer a { text-decoration: none; color: inherit; }
-  .site-footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
-
-  .site-footer__top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: start; gap: 2.5rem var(--gutter); }
-  .site-footer__links { display: flex; flex-wrap: wrap; gap: 0.25rem 1.75rem; }
-  .site-footer__links a { display: inline-block; padding-block: 0.45rem; font-weight: 500; }
-  .site-footer__where { display: grid; gap: 0.6rem; justify-items: end; text-align: right; }
-  .site-footer__email { overflow-wrap: anywhere; }
-
-  /* The wordmark: one line, far wider than the screen. */
-  .site-footer__mark { margin-block: clamp(3rem, 7vw, 6rem) clamp(1.5rem, 3vw, 2.5rem); }
-  .site-footer__word {
-    font-size: clamp(5rem, 2rem + 16vw, 17rem); line-height: 0.82; white-space: nowrap; color: var(--pink);
-    width: max-content; transform: translateX(var(--wx, 0));
-  }
-  .site-footer__word::before { content: attr(data-text); }
-  @media (prefers-reduced-motion: no-preference) {
-    @supports (animation-timeline: view()) {
-      .site-footer__word { animation: footer-word linear both; animation-timeline: view(); animation-range: entry 0% exit 0%; }
-    }
-    .site-footer.is-scrubbed .site-footer__word { --wx: calc(var(--fp, 0) * -40vw); }
-  }
-  @keyframes footer-word { from { transform: translateX(0); } to { transform: translateX(-40vw); } }
-
-  .site-footer__base { display: flex; justify-content: space-between; gap: 1rem; padding-top: 1.5rem; border-top: 1px solid var(--line); font-size: var(--step--1); color: var(--lilac); }
-  .site-footer__base a { color: var(--lilac); }
-
-  @media (max-width: 640px) {
-    .site-footer__where { justify-items: start; text-align: left; }
-  }
+  .foot { padding: 28px var(--gutter); }
+  .foot--cta { padding-top: clamp(64px, 8vw, 128px); padding-bottom: 40px; }
+  .foot__in { display: flex; flex-direction: column; gap: clamp(64px, 7vw, 96px); }
+  .foot__cta { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 40px; }
+  .foot__title { font-weight: 500; font-size: clamp(48px, 7vw, 104px); line-height: 0.92; letter-spacing: -0.05em; }
+  .foot__title .em { letter-spacing: -0.02em; }
+  .foot__actions { display: flex; flex-direction: column; gap: 16px; align-items: flex-start; }
+  .foot__email { font-size: 15px; color: var(--cream); overflow-wrap: anywhere; min-height: 44px; display: inline-flex; align-items: center; }
+  .foot__row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px 20px; font-size: 13px; color: var(--cream); }
+  .foot--cta .foot__row { border-top: 1px solid var(--pink); padding-top: 24px; }
+  .foot__links { display: flex; flex-wrap: wrap; gap: 0 24px; }
+  .foot__links a, .foot__row p a { display: inline-flex; align-items: center; min-height: 44px; }
 </style>

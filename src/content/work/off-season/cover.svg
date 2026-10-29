@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000">
-<defs><clipPath id="t"><rect width="1600" height="420"/></clipPath><clipPath id="b"><rect y="490" width="1600" height="1000"/></clipPath><clipPath id="m"><rect y="420" width="1600" height="70"/></clipPath>
-<g id="art"><circle cx="800" cy="560" r="300" fill="#eb4213"/><rect y="560" width="1600" height="440" fill="#826dee"/><rect x="-200" y="600" width="2000" height="10" fill="#ffffff" fill-opacity="0.25"/><rect x="-140" y="644" width="1880" height="12" fill="#ffffff" fill-opacity="0.32"/><rect x="-80" y="688" width="1760" height="14" fill="#ffffff" fill-opacity="0.39"/><rect x="-20" y="732" width="1640" height="16" fill="#ffffff" fill-opacity="0.46"/><rect x="40" y="776" width="1520" height="18" fill="#ffffff" fill-opacity="0.53"/><rect x="100" y="820" width="1400" height="20" fill="#ffffff" fill-opacity="0.60"/><rect x="160" y="864" width="1280" height="22" fill="#ffffff" fill-opacity="0.67"/><rect x="220" y="908" width="1160" height="24" fill="#ffffff" fill-opacity="0.74"/><rect x="280" y="952" width="1040" height="26" fill="#ffffff" fill-opacity="0.81"/><rect x="300" y="520" width="12" height="40" fill="#17131f"/><path d="M290 520 L322 520 L306 490Z" fill="#17131f"/></g></defs>
-<rect width="1600" height="1000" fill="#ff99dc"/>
-<use href="#art" clip-path="url(#t)"/><use href="#art" clip-path="url(#b)"/>
-<rect y="420" width="1600" height="70" fill="#ff99dc"/>
-<g transform="translate(80 0)"><use href="#art" clip-path="url(#m)"/></g>
-</svg>

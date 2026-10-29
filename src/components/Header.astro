@@ -1,117 +1,65 @@
 ---
+/**
+ * Site navigation, in three looks from the mockups:
+ *  - hero:  inside the homepage hero (no mark; the hero logo is the mark).
+ *  - dark:  maroon band with a pink mark (Work and the case studies).
+ *  - light: paper band with an orange mark (Services, About, Contact and the rest).
+ * The links wrap on narrow screens instead of collapsing into a menu, as designed.
+ */
 import Logo from './Logo.astro';
-import ViewToggle from './ViewToggle.astro';
-import { nav, site, bookingHref, bookingIsExternal } from '../config/site';
+import { nav } from '../config/site';
 
+interface Props { look?: 'hero' | 'dark' | 'light' }
+const { look = 'light' } = Astro.props;
 const path = Astro.url.pathname;
-const isCurrent = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+const isCurrent = (href: string) => href !== '/' && path.startsWith(href);
+const contact = nav.find((n) => n.href === '/contact/')!;
+const links = nav.filter((n) => n !== contact);
+const onContact = isCurrent(contact.href);
+// In the hero the page's own <header> is the banner, so this is a plain wrapper.
+const Tag = look === 'hero' ? 'div' : 'header';
 ---
-<header class="site-header" data-header>
-  <div class="site-header__bg scrub" aria-hidden="true" data-header-bg></div>
-  <div class="site-header__inner wrap">
-    <a class="brand" href="/" aria-label={`${site.name}, home`} data-brand>
-      <Logo id="oi-head" animate={path === '/' ? 'none' : 'load'} class="brand__mark" decorative />
-    </a>
-
-    <nav class="site-nav" aria-label="Main">
-      <ul role="list">
-        {nav.filter((n) => n.href !== '/contact/').map((item) => (
-          <li><a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a></li>
-        ))}
-      </ul>
-    </nav>
-
-    <ViewToggle id="view-toggle-header" class="site-header__view" />
-    <a class="btn btn--accent btn--sm hide-sm" href="/contact/">Let’s talk</a>
-    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-open>
-      <span class="menu-btn__label">Menu</span>
-    </button>
-  </div>
-
-  <div class="mobile-menu" id="mobile-menu" data-menu hidden>
-    <nav aria-label="Mobile">
-      <ul role="list">
-        {nav.map((item, i) => (
-          <li style={`--i:${i}`}><a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a></li>
-        ))}
-      </ul>
-    </nav>
-    <div class="mobile-menu__foot">
-      <a class="btn btn--accent" href={bookingHref} {...(bookingIsExternal ? { target: '_blank', rel: 'noopener' } : {})}>
-        Book a discovery call <span class="btn__arrow" aria-hidden="true">→</span>
+<Tag class:list={['nav', `nav--${look}`]}>
+  <nav aria-label="Main" class="nav__in">
+    {look !== 'hero' && (
+      <a href="/" class="nav__mark" aria-label="Outside In home">
+        <Logo id="nav-mark" variant="nav" decorative />
       </a>
-      <a class="text-link" href={`mailto:${site.email}`}>{site.email}</a>
+    )}
+    <div class="nav__links">
+      {links.map((l) => (
+        <a class="nav__link" href={l.href} aria-current={isCurrent(l.href) ? 'page' : undefined}>{l.label}</a>
+      ))}
+      <a class:list={['pill', look === 'dark' ? 'pill--pink' : 'pill--maroon', 'nav__cta']} href={contact.href} aria-current={onContact ? 'page' : undefined}>
+        Let’s talk{!onContact && <span class="arrow" aria-hidden="true"> →</span>}
+      </a>
     </div>
-  </div>
-</header>
+  </nav>
+</Tag>
 
 <style>
-  .site-header { position: sticky; top: 0; z-index: 50; }
-  .site-header__bg {
-    position: absolute; inset: 0; z-index: -1;
-    background: color-mix(in srgb, var(--bg) 92%, transparent);
-    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-    transition: background-color 0.4s var(--ease-out);
-  }
-  /* Homepage: the header floats over the logo hero and stays clear until the hero
-     logo has glided into the logo slot (see src/scripts/home.ts). */
-  :global(.is-home) .site-header { position: fixed; left: 0; right: 0; }
-  :global(.is-home) .site-header:not(.is-past-hero) { --fg: var(--ink); --bg: var(--white); --muted: var(--ink); }
-  :global(.is-home) .site-header:not(.is-past-hero) .site-header__bg { opacity: 0; }
-  /* While the glide runs, the background fades in over the last 20% of it. */
-  :global(.is-home.glide-live) .site-header__bg { animation-name: header-bg-in; --tl: --hero; --range: cover var(--g-r0, 50%) cover var(--g-r1, 80%); }
-  @keyframes header-bg-in { 0%, 80% { opacity: 0; } 100% { opacity: 1; } }
-  .site-header__inner { display: flex; align-items: center; gap: clamp(1.25rem, 3vw, 2.5rem); min-height: 5rem; }
+  .nav__in { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; }
+  .nav--dark, .nav--light { padding: 16px var(--gutter); }
+  .nav--dark { background: var(--maroon); color: var(--pink); }
+  .nav--light { background: var(--paper); color: var(--brown); border-bottom: 1px solid var(--line); }
+  .nav__mark { display: inline-flex; align-items: center; min-height: 44px; }
+  .nav__mark :global(.oi) { height: 36px; width: auto; }
+  .nav--dark .nav__mark { color: var(--pink); }
+  .nav--light .nav__mark { color: var(--orange); }
+  .nav__links { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 28px; font-size: 13px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
+  .nav__link { text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; }
+  .nav__link[aria-current='page'] { text-decoration: underline; text-underline-offset: 6px; }
+  .nav--dark .nav__link[aria-current='page'] { color: var(--cream); }
+  .nav--light .nav__link[aria-current='page'] { color: var(--maroon); }
+  .nav__cta { letter-spacing: 0.02em; text-transform: none; }
 
-  .brand { display: inline-flex; margin-right: auto; color: var(--brand-color); padding-block: 0.5rem; transition: opacity 0.4s var(--ease-out), visibility 0.4s; }
-  :global(.is-home) .site-header:not(.is-past-hero) .brand { opacity: 0; visibility: hidden; }
-  /* The hand-off from the gliding hero logo is instant, so there's no visible jump.
-     The hero logo arrives with its slices closed; the header logo's slices then
-     open into the real mark. */
-  :global(.is-home.glide-live) .brand { transition: none; }
-  :global(.is-home.glide-live) .site-header:not(.is-past-hero) :global(.brand__mark) { --oi-close: 1; }
-  /* Reduced motion: no glide, so the header logo is there from the start. */
-  @media (prefers-reduced-motion: reduce) {
-    :global(.is-home) .site-header:not(.is-past-hero) .brand { opacity: 1; visibility: visible; }
-  }
-  :global(.brand__mark) { height: 42px; width: calc(42px * 887 / 522); view-transition-name: oi-logo; }
+  /* Inside the homepage hero. The hero background cycles through four colours,
+     so the links sit on a cream pill to stay readable on every one of them. */
+  .nav--hero .nav__in { justify-content: flex-end; }
+  .nav--hero .nav__links { background: var(--cream); color: var(--brown); border-radius: 999px; padding: 4px 4px 4px 24px; gap: 4px 24px; }
 
-  .site-nav ul { display: flex; gap: clamp(1.25rem, 2.4vw, 2.25rem); }
-  .site-nav a { position: relative; display: inline-block; padding-block: 0.6rem; text-decoration: none; font-weight: 500; color: var(--fg); }
-  .site-nav a::after {
-    content: ''; position: absolute; left: 0; bottom: 0.3rem; height: 1.5px; width: 100%;
-    background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform 0.35s var(--ease-out);
-  }
-  .site-nav a:hover::after, .site-nav a[aria-current='page']::after { transform: scaleX(1); }
-
-  :global(.btn--sm) { min-height: 2.75rem; padding: 0.55rem 1.2rem; font-size: 0.95rem; }
-
-  .menu-btn {
-    display: none; min-height: 44px; padding: 0 0.25rem; background: none; border: 0;
-    font-weight: 600; color: var(--fg);
-  }
-  .menu-btn[aria-expanded='true'] .menu-btn__label { text-decoration: underline; text-underline-offset: 4px; }
-
-  .mobile-menu {
-    position: fixed; inset: 5rem 0 0 0; z-index: 49;
-    background: var(--bg); padding: 2rem var(--gutter) 2.5rem;
-    display: flex; flex-direction: column; justify-content: space-between; gap: 2rem; overflow-y: auto;
-  }
-  .mobile-menu[hidden] { display: none; }
-  .mobile-menu ul { display: grid; gap: 0.4rem; }
-  .mobile-menu li { animation: menu-in 0.5s var(--ease-out) both; animation-delay: calc(var(--i) * 45ms); }
-  .mobile-menu nav a { display: block; font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: clamp(2.2rem, 10vw, 3.2rem); letter-spacing: -0.02em; line-height: 1.05; text-decoration: none; color: var(--fg); }
-  .mobile-menu nav a[aria-current='page'] { color: var(--link); }
-  .mobile-menu__foot { display: grid; gap: 1rem; justify-items: start; }
-  @keyframes menu-in { from { opacity: 0; transform: translateY(8px); } }
-
-  /* The Outside/Inside switch lives in the header (v3), on every screen size. */
-  :global(.site-header__view) { flex: none; }
-  @media (max-width: 400px) { :global(.site-header__view) { gap: 0.35rem; } }
-
-  @media (max-width: 960px) {
-    .site-nav { display: none; }
-    .menu-btn { display: inline-flex; align-items: center; }
-    :global(.brand__mark) { height: 24px; width: calc(24px * 887 / 522); }
+  @media (max-width: 520px) {
+    .nav__links { gap: 0 18px; font-size: 12px; }
+    .nav--hero .nav__links { border-radius: 24px; padding: 4px 4px 4px 18px; }
   }
 </style>

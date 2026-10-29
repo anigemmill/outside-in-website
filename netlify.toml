@@ -21,15 +21,58 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# /work was renamed to /projects. Old links keep working.
+# The portfolio moved back to /work (Terracotta Rose redesign, Oct 2026).
+# Old /projects links keep working. Renamed case studies go to their new
+# slugs; projects that are no longer published go to the Work page.
 [[redirects]]
-  from = "/work"
-  to = "/projects/"
+  from = "/projects/nsc-wheel-design/"
+  to = "/work/negative-split/"
   status = 301
 
 [[redirects]]
-  from = "/work/*"
-  to = "/projects/:splat"
+  from = "/projects/wings-for-life-team-logo/"
+  to = "/work/wings-for-life/"
+  status = 301
+
+[[redirects]]
+  from = "/projects/flavours-of-plenty/"
+  to = "/work/flavours-of-plenty/"
+  status = 301
+
+[[redirects]]
+  from = "/projects/ride-retreat/"
+  to = "/work/ride-retreat/"
+  status = 301
+
+[[redirects]]
+  from = "/projects/empty-plate-club/"
+  to = "/work/empty-plate-club/"
+  status = 301
+
+[[redirects]]
+  from = "/projects/rotorua-walking-tours/"
+  to = "/work/rotorua-walking-tours/"
+  status = 301
+
+[[redirects]]
+  from = "/projects/run-for-reido/"
+  to = "/work/run-for-reido/"
+  status = 301
+
+[[redirects]]
+  from = "/projects/*"
+  to = "/work/"
+  status = 301
+
+[[redirects]]
+  from = "/projects"
+  to = "/work/"
+  status = 301
+
+# The Approach page was folded into Services.
+[[redirects]]
+  from = "/approach/*"
+  to = "/services/"
   status = 301
 
 # Send www and the default Netlify address to the main domain.

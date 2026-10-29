@@ -1,0 +1,283 @@
+---
+/**
+ * Work page (mockup: design/source/work.html). Cards come from src/data/work-grid.json.
+ *
+ * The grid is a three-column masonry with no row gaps. Without JavaScript the
+ * cards sit in the desktop "All" columns from the JSON (desktopColumn). The
+ * script below re-packs them for two columns (under 1100px), one column (phones)
+ * and the filtered views, where the orange CTA card is hidden and each card goes
+ * into whichever column is shortest.
+ */
+import { Picture } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Logo from '../../components/Logo.astro';
+import BookCall from '../../components/BookCall.astro';
+import { workGrid, filters } from '../../data/work';
+import { img, video, poster } from '../../lib/media';
+
+const strip = [
+  'assets/flavours-of-plenty/billboard.jpg',
+  'assets/negative-split/disc-wheel.jpg',
+  'assets/ride-retreat/rider-4x5.jpg',
+  'assets/empty-plate-club/poster.jpg',
+  'assets/run-for-reido/tee-4x5.jpg',
+  'assets/rotorua-walking-tours/logo-emboss.jpg',
+  'assets/flavours-of-plenty/sunseeker-can.jpg',
+  'assets/wings-for-life/poster-mockup.jpg',
+];
+
+const counts = Object.fromEntries(filters.map((f) => [f, f === 'All' ? workGrid.length : workGrid.filter((c) => c.filters.includes(f)).length]));
+const cards = await Promise.all(workGrid.map(async (c, i) => ({
+  ...c,
+  i,
+  poster: c.cover.video ? await poster(c.cover.src, 900) : undefined,
+})));
+const columns = [0, 1, 2].map((col) => cards.filter((c) => c.desktopColumn === col));
+
+const rows = [
+  { n: '01.', name: 'Brand & Design', serif: false, href: '/services/#design-creative' },
+  { n: '02.', name: 'Campaigns & Content', serif: true, href: '/services/#marketing-growth' },
+  { n: '03.', name: 'Search & AI Visibility', serif: false, href: '/services/#marketing-growth' },
+  { n: '04.', name: 'AI Systems & Automation', serif: true, href: '/services/#ai-systems' },
+];
+---
+<Base title="Work" nav="dark" description="Selected work from Outside In: brand, campaigns, websites and AI systems, including Flavours of Plenty, Ride Retreat and Findable.">
+  <section class="hero on-maroon" aria-labelledby="work-title">
+    <div class="hero__top">
+      <div class="strip-wrap" aria-hidden="true">
+        <div class="strip">
+          {[...strip, ...strip].map((s) => (
+            <Picture class="strip__img" src={img(s)} formats={['avif', 'webp']} widths={[280, 560]} sizes="280px" alt="" />
+          ))}
+        </div>
+      </div>
+      <div class="hero__copy">
+        <h1 id="work-title" class="hero__title">Recent<br /><em class="em">projects</em></h1>
+        <p class="hero__sub">Brand, campaigns, websites and AI systems for businesses that want to be seen.</p>
+        <p class="label">{workGrid.length} projects · Aotearoa</p>
+      </div>
+    </div>
+    <div class="hero__word" aria-hidden="true">
+      <p>Portfolio</p>
+      <span class="sticker"><Logo id="work-sticker" variant="sticker" decorative /></span>
+    </div>
+  </section>
+
+  <section class="band grid-band" aria-label="Projects">
+    <div class="filters" role="group" aria-label="Filter projects" data-filters hidden>
+      <span class="label label--strong filters__label" aria-hidden="true">Filter</span>
+      {filters.map((f) => (
+        <button type="button" class="chip" aria-pressed={f === 'All' ? 'true' : 'false'} data-filter={f}>
+          {f} <span class="chip__count">{counts[f]}<span class="visually-hidden"> projects</span></span>
+        </button>
+      ))}
+    </div>
+    <p class="visually-hidden" role="status" aria-live="polite" data-filter-status></p>
+
+    <div class="masonry" data-masonry>
+      {columns.map((col, k) => (
+        <div class="masonry__col" data-col>
+          {col.map((c) => (
+            <a href={c.href} class="proj" data-card data-i={c.i} data-h={c.imageHeight} data-col-desktop={c.desktopColumn} data-filters={c.filters.join('|')}>
+              <span class:list={['proj__media', { 'proj__media--square': c.cover.square }]} style={`--h:${c.imageHeight}px;background:${c.cover.background ?? 'var(--line)'}`}>
+                {c.cover.video
+                  ? <video class="proj__img" src={video(c.cover.video)} poster={c.poster} autoplay muted loop playsinline preload="metadata" aria-label={c.cover.alt}></video>
+                  : <Picture class="proj__img" src={img(c.cover.src)} formats={['avif', 'webp']} widths={[420, 640, 900]} sizes="(min-width: 1100px) 400px, (min-width: 700px) 50vw, 100vw" alt={c.cover.alt} style={`object-fit:${c.cover.fit}`} />}
+                <span class="proj__client">{c.client}</span>
+              </span>
+              <span class="proj__head"><span class="proj__title">{c.title}</span><span class="pill pill--brown proj__view" aria-hidden="true">View project</span></span>
+              <span class="proj__desc">{c.summary}</span>
+              <span class="proj__tags">{c.tags.map((t) => <span class="tag tag--pink">{t}</span>)}</span>
+            </a>
+          ))}
+          {k === 2 && (
+            <a href="/contact/" class="proj proj--cta on-orange" data-cta>
+              <span class="tag tag--cream proj__cta-label">[ 09 ] Your project</span>
+              <span class="proj__cta-title">Your work could sit <em class="em">right here.</em></span>
+              <span class="pill pill--maroon pill--lg">Let’s talk <span class="arrow" aria-hidden="true">→</span></span>
+            </a>
+          )}
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <nav class="svc-rows" aria-label="Services">
+    {rows.map((r) => (
+      <a class="svc-row" href={r.href}>
+        <span class="svc-row__n">{r.n}</span>
+        <span class:list={['svc-row__name', { 'svc-row__name--serif': r.serif }]}>{r.name}</span>
+        <span class="svc-row__arrow" aria-hidden="true">→</span>
+      </a>
+    ))}
+  </nav>
+
+  <section class="next on-blue" aria-labelledby="next-title">
+    <Picture class="next__photo next__photo--l" src={img('assets/flavours-of-plenty/magazine-ad.jpg')} formats={['webp']} widths={[360]} sizes="180px" alt="" />
+    <Picture class="next__photo next__photo--r" src={img('assets/negative-split/tri-spoke.jpg')} formats={['webp']} widths={[360]} sizes="180px" alt="" />
+    <div class="next__in">
+      <Picture class="next__photo next__photo--c" src={img('assets/studio/behind-the-scenes-drone.jpg')} formats={['webp']} widths={[400]} sizes="200px" alt="Ani flying a drone on a shoot" />
+      <h2 id="next-title" class="next__title">Your project next? <em class="em">Let’s make it real.</em></h2>
+      <BookCall class="pill pill--maroon pill--lg" />
+    </div>
+  </section>
+</Base>
+
+<script>
+  const grid = document.querySelector<HTMLElement>('[data-masonry]');
+  const filterBar = document.querySelector<HTMLElement>('[data-filters]');
+  const status = document.querySelector<HTMLElement>('[data-filter-status]');
+  if (grid && filterBar) {
+    const cols = [...grid.querySelectorAll<HTMLElement>('[data-col]')];
+    const cards = [...grid.querySelectorAll<HTMLElement>('[data-card]')].sort((a, b) => +a.dataset.i! - +b.dataset.i!);
+    const cta = grid.querySelector<HTMLElement>('[data-cta]');
+    const buttons = [...filterBar.querySelectorAll<HTMLButtonElement>('[data-filter]')];
+    let filter = 'All';
+    filterBar.hidden = false;
+
+    const columnCount = () => (innerWidth >= 1100 ? 3 : innerWidth >= 700 ? 2 : 1);
+    // The card's text block is about 230px tall; the image height comes from the JSON.
+    const estimate = (c: HTMLElement) => +c.dataset.h! + 230;
+
+    function layout() {
+      const n = columnCount();
+      const shown = cards.filter((c) => filter === 'All' || c.dataset.filters!.split('|').includes(filter));
+      cards.forEach((c) => { c.hidden = !shown.includes(c); });
+      cols.forEach((col, k) => { col.hidden = k >= n; });
+      const heights = Array(n).fill(0);
+      for (const c of shown) {
+        let k = heights.indexOf(Math.min(...heights));
+        if (filter === 'All' && n === 3) k = +c.dataset.colDesktop!;
+        cols[k].append(c);
+        heights[k] += estimate(c);
+      }
+      // Reset any stretching from the last layout.
+      cards.forEach((c) => { (c.querySelector('.proj__media') as HTMLElement).style.height = ''; });
+      if (cta) {
+        cta.hidden = filter !== 'All';
+        cta.style.height = '';
+        if (filter === 'All') {
+          const k = n === 3 ? 2 : heights.indexOf(Math.min(...heights));
+          cols[k].append(cta);
+          // All columns end level: the CTA card fills its column, and any other column
+          // that comes up short lets its last image grow by the difference.
+          if (n > 1) requestAnimationFrame(() => level(n, k));
+        }
+      }
+    }
+
+    function level(n: number, k: number) {
+      const visible = cols.slice(0, n);
+      const bottom = (c: HTMLElement) => c.getBoundingClientRect().height;
+      const ctaH = cta!.getBoundingClientRect().height;
+      const ownWithoutCta = bottom(visible[k]) - ctaH;
+      const target = Math.max(ownWithoutCta + 360, ...visible.filter((_, j) => j !== k).map(bottom));
+      visible.forEach((col, j) => {
+        if (j === k) return;
+        const deficit = target - bottom(col);
+        const last = [...col.querySelectorAll<HTMLElement>('[data-card]')].filter((c) => !c.hidden).pop();
+        if (deficit > 0.5 && last) {
+          const media = last.querySelector<HTMLElement>('.proj__media')!;
+          media.style.height = `${media.getBoundingClientRect().height + deficit}px`;
+        }
+      });
+      cta!.style.height = `${target - ownWithoutCta}px`;
+    }
+
+    buttons.forEach((b) => b.addEventListener('click', () => {
+      filter = b.dataset.filter!;
+      buttons.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      layout();
+      const count = cards.filter((c) => !c.hidden).length;
+      if (status) status.textContent = `Showing ${count} ${filter === 'All' ? '' : filter + ' '}project${count === 1 ? '' : 's'}.`;
+    }));
+
+    let last = columnCount();
+    addEventListener('resize', () => { if (columnCount() !== last || filter === 'All') { last = columnCount(); layout(); } });
+    // Images load lazily, so re-level the CTA once they have.
+    addEventListener('load', layout);
+    layout();
+  }
+</script>
+
+<style>
+  /* Hero */
+  .hero { padding-top: 40px; overflow: clip; }
+  .hero__top { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 32px; padding-right: var(--gutter); }
+  .strip-wrap { flex: 3 1 640px; min-width: 0; overflow: hidden; }
+  .strip { display: flex; gap: 16px; width: max-content; animation: strip 40s linear infinite; }
+  @keyframes strip { to { transform: translateX(calc(-50% - 8px)); } }
+  .strip :global(.strip__img) { width: 280px; height: 340px; border-radius: 12px; object-fit: cover; flex-shrink: 0; }
+  .hero__copy { flex: 1 1 260px; display: flex; flex-direction: column; gap: 14px; padding-left: var(--gutter); }
+  @media (min-width: 960px) { .hero__copy { padding-left: 0; } }
+  .hero__title { font-weight: 600; font-size: 60px; line-height: 0.92; letter-spacing: -0.04em; color: var(--cream); }
+  .hero__title .em { color: var(--pink); }
+  .hero__sub { font-size: 15px; line-height: 1.55; color: var(--cream); }
+  .hero__word { position: relative; margin-top: 24px; }
+  .hero__word p { font-weight: 700; font-size: clamp(150px, 22vw, 340px); line-height: 0.8; text-transform: uppercase; text-align: center; letter-spacing: -0.06em; color: var(--pink); white-space: nowrap; transform: translateY(8%); }
+  .sticker { position: absolute; left: 20%; top: 26%; width: clamp(80px, 9vw, 130px); aspect-ratio: 1; border-radius: 50%; background: var(--orange); color: var(--cream); display: flex; align-items: center; justify-content: center; }
+  .sticker :global(.oi) { width: 62%; }
+  @media (max-width: 700px) { .hero__word p { text-align: left; } }
+
+  /* Filters */
+  .grid-band { padding-top: clamp(48px, 6vw, 88px); padding-bottom: clamp(48px, 6vw, 88px); }
+  .filters { max-width: 1280px; margin: 0 auto 48px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .filters[hidden] { display: none; }
+  .filters__label { margin-right: 12px; }
+  .chip[aria-pressed='true'] { background: var(--maroon); color: var(--pink); }
+  .chip__count { opacity: 0.75; font-size: 12px; }
+
+  /* Masonry: columns of cards, no row gaps between columns */
+  .masonry { max-width: 1280px; margin: 0 auto; display: flex; gap: 0 40px; align-items: flex-start; }
+  .masonry__col { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 56px; }
+  .masonry__col[hidden] { display: none; }
+  /* No JavaScript: three columns on desktop; on smaller screens they stack. */
+  @media (max-width: 1099px) { .masonry:not(:has([data-col][hidden])) { flex-wrap: wrap; } .masonry:not(:has([data-col][hidden])) .masonry__col { flex-basis: 340px; } }
+  @media (max-width: 699px) { .masonry { flex-direction: column; gap: 56px; } .masonry__col { width: 100%; } }
+
+  .proj { text-decoration: none; display: flex; flex-direction: column; gap: 16px; }
+  .proj:hover { opacity: 1; }
+  .proj[hidden] { display: none; }
+  .proj__media { position: relative; display: block; overflow: hidden; height: var(--h); border-radius: 12px; }
+  .proj__media--square { height: auto; aspect-ratio: 1 / 1; }
+  .proj__media :global(picture) { display: contents; }
+  .proj__media :global(.proj__img) { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform 0.5s var(--ease-out); }
+  .proj:hover :global(.proj__img), .proj:focus-visible :global(.proj__img) { transform: scale(1.02); }
+  @media (max-width: 699px) { .proj__media { height: min(var(--h), 120vw); } }
+  .proj__client { position: absolute; left: 14px; top: 14px; background: var(--cream); color: var(--brown); border-radius: 999px; padding: 6px 12px; font-size: 12px; font-weight: 600; }
+  .proj__head { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+  .proj__title { font-weight: 600; font-size: clamp(28px, 2.6vw, 34px); letter-spacing: -0.03em; line-height: 1.05; }
+  .proj__view { flex-shrink: 0; }
+  .proj__desc { font-size: 15px; line-height: 1.55; max-width: 480px; }
+  .proj__tags { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  .proj--cta { box-sizing: border-box; min-height: 360px; border-radius: 12px; padding: 32px; justify-content: space-between; }
+  .proj--cta[hidden] { display: none; }
+  .proj--cta > * { align-self: flex-start; }
+  .proj__cta-label { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
+  .proj__cta-title { font-weight: 600; font-size: clamp(40px, 4vw, 52px); line-height: 0.92; letter-spacing: -0.045em; }
+  .proj__cta-title .em { letter-spacing: -0.02em; }
+
+  /* Numbered service rows: fill orange on hover */
+  .svc-rows { border-top: 1.5px solid var(--brown); }
+  .svc-row { text-decoration: none; display: flex; align-items: center; gap: 24px; padding: 22px var(--gutter); border-bottom: 1.5px solid var(--brown); transition: background-color 0.2s, color 0.2s; }
+  .svc-row:hover, .svc-row:focus-visible { background: var(--orange); color: var(--cream); opacity: 1; }
+  .svc-row:focus-visible { outline-offset: -6px; outline-color: var(--cream); }
+  /* 19px bold so the number stays readable on the orange hover (large-text contrast). */
+  .svc-row__n { font-size: 19px; font-weight: 700; width: 40px; flex-shrink: 0; }
+  .svc-row__name { flex-grow: 1; font-weight: 600; font-size: clamp(26px, 3.4vw, 50px); text-transform: uppercase; letter-spacing: -0.02em; line-height: 1.05; }
+  .svc-row__name--serif { font-family: var(--serif); font-style: italic; font-weight: 400; text-transform: none; font-size: clamp(30px, 3.8vw, 56px); letter-spacing: 0; }
+  .svc-row__arrow { font-size: 36px; transition: transform 0.35s var(--ease-back); }
+  .svc-row:hover .svc-row__arrow { transform: translateX(10px); }
+
+  /* Blue CTA with three tilted photos */
+  .next { position: relative; min-height: 600px; padding: 80px var(--gutter); display: flex; align-items: flex-end; justify-content: center; overflow: hidden; }
+  .next :global(.next__photo) { width: 180px; height: 220px; border-radius: 10px; object-fit: cover; }
+  .next :global(.next__photo--l) { position: absolute; left: var(--gutter); top: 72px; transform: rotate(-4deg); }
+  .next :global(.next__photo--r) { position: absolute; right: var(--gutter); top: 56px; background: #DADAD7; transform: rotate(3deg); }
+  .next :global(.next__photo--c) { width: 200px; height: 240px; }
+  .next__in { position: relative; display: flex; flex-direction: column; align-items: center; gap: 28px; text-align: center; max-width: 720px; }
+  .next__title { font-weight: 600; font-size: clamp(32px, 3.4vw, 48px); line-height: 1.05; letter-spacing: -0.03em; }
+  .next__title .em { color: var(--maroon); }
+  @media (max-width: 860px) { .next :global(.next__photo--l), .next :global(.next__photo--r) { display: none; } .next { min-height: 0; } }
+</style>

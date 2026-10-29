@@ -1,6 +1,7 @@
 // Generates static brand files from the logo geometry:
-//   public/brand/outside-in-logo.svg        (black, for light backgrounds)
-//   public/brand/outside-in-logo-white.svg  (white, for dark backgrounds)
+//   public/brand/outside-in-logo.svg         (maroon, the default)
+//   public/brand/outside-in-logo-{cream,orange,brown}.svg
+// Colours are the Terracotta Rose palette (see CLAUDE.md).
 //   public/favicon.svg, public/favicon-32.png, public/apple-touch-icon.png
 //   public/og.png                            (1200x630 social share image)
 // Run with: npm run og
@@ -30,31 +31,26 @@ const mark = (fill, p = 'm') => `
 const logo = (fill) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="110 128 887 522" width="887" height="522" role="img" aria-label="Outside In">${mark(fill)}</svg>\n`;
 
 mkdirSync('public/brand', { recursive: true });
-writeFileSync('public/brand/outside-in-logo.svg', logo('#121110'));
-writeFileSync('public/brand/outside-in-logo-white.svg', logo('#ffffff'));
-writeFileSync('public/brand/outside-in-logo-ink.svg', logo('#17131f'));
-writeFileSync('public/brand/outside-in-logo-green.svg', logo('#d8f382'));
+writeFileSync('public/brand/outside-in-logo.svg', logo('#6D0101'));
+writeFileSync('public/brand/outside-in-logo-cream.svg', logo('#FBF7F2'));
+writeFileSync('public/brand/outside-in-logo-orange.svg', logo('#E0421E'));
+writeFileSync('public/brand/outside-in-logo-brown.svg', logo('#3B1E19'));
 
 // Favicon: the O alone reads better at 16px. Square crop around the ring.
 const favicon = (bg, fg) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="60 77 620 620">
   <rect x="60" y="77" width="620" height="620" rx="96" fill="${bg}"/>${mark(fg, 'f')}</svg>`;
 writeFileSync('public/favicon.svg', `<svg xmlns="http://www.w3.org/2000/svg" viewBox="60 77 620 620">
-  <style>.bg{fill:#eb4213}.fg{fill:#d8f382}</style>
+  <style>.bg{fill:#E0421E}.fg{fill:#FBF7F2}</style>
   <rect class="bg" x="60" y="77" width="620" height="620" rx="96"/>
-  ${mark('#d8f382', 'f')}
+  ${mark('#FBF7F2', 'f')}
 </svg>\n`);
-await sharp(Buffer.from(favicon('#eb4213', '#d8f382'))).resize(32, 32).png().toFile('public/favicon-32.png');
-await sharp(Buffer.from(favicon('#eb4213', '#d8f382').replace('rx="96"', 'rx="0"'))).resize(180, 180).png().toFile('public/apple-touch-icon.png');
+await sharp(Buffer.from(favicon('#E0421E', '#FBF7F2'))).resize(32, 32).png().toFile('public/favicon-32.png');
+await sharp(Buffer.from(favicon('#E0421E', '#FBF7F2').replace('rx="96"', 'rx="0"'))).resize(180, 180).png().toFile('public/apple-touch-icon.png');
 
-// Social image: red ground, the green mark large, a pink slice running through it.
+// Social image: orange ground, the cream mark large and centred.
 const og = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-  <rect width="1200" height="630" fill="#eb4213"/>
-  <!-- Pink band aligned exactly to the logo's slice: y 376-433 in logo space, scaled by 760/887 -->
-  <rect x="0" y="${95 + (376 - 128) * 760 / 887}" width="1200" height="${(433 - 376) * 760 / 887}" fill="#ff99dc"/>
-  <svg x="140" y="95" width="760" height="447" viewBox="110 128 887 522">${mark('#d8f382', 'o')}</svg>
-  <rect x="1010" y="70" width="120" height="14" fill="#ff99dc"/>
-  <rect x="1040" y="96" width="90" height="14" fill="#826dee"/>
-  <rect x="1070" y="122" width="60" height="14" fill="#d8f382"/>
+  <rect width="1200" height="630" fill="#E0421E"/>
+  <svg x="220" y="95" width="760" height="447" viewBox="110 128 887 522">${mark('#FBF7F2', 'o')}</svg>
 </svg>`;
 await sharp(Buffer.from(og)).png().toFile('public/og.png');
 console.log('Brand files written.');

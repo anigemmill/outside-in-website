@@ -1,132 +1,114 @@
 ---
 /**
- * The Outside In mark, rebuilt as live SVG from the supplied artwork.
+ * The Outside In mark as live SVG.
  *
- * Construction (measured from the original file, in its own pixel space):
- *  - O: a ring, centre (369.5, 387), outer radius 259.5, inner radius 193.5.
- *  - I: a bar 76 wide, x 842, from y 128 to 650.
- *  - The slice: one horizontal band cut through each letter and shifted right.
- *    O band y 376 to 433, shifted 73. I band y 377 to 437, shifted 77.
- *    On the O, the slice pushes inward on the left and outward on the right.
+ * Geometry (unchanged from the supplied artwork, viewBox 110 128 887 522):
+ *  - O: ring centred at 369.5,387, outer radius 259.5, inner radius 193.5.
+ *  - I: bar 76 wide at x 842, from y 128 to 650.
+ *  - One horizontal slice through each letter, shifted right:
+ *    O band y 376 to 433, shift 73. I band y 377 to 437, shift 77.
  *
- * The resting state is always the exact logo. Animation only moves the two
- * slice groups horizontally (from 0 to their real offset), so the geometry is
- * never distorted. Colour comes from `currentColor`, so the mark is monochrome
- * by default and inherits black or white from its context.
+ * Each slice sits in an outer group translated to its real offset (so with no
+ * CSS at all, or with reduced motion, it renders as the exact logo) and an
+ * inner group that the animations move. Colour comes from currentColor;
+ * `sliceFill` paints the slices separately (the About page mark).
  *
- * Props:
- *  - id: unique prefix (needed when the logo appears more than once on a page)
- *  - animate: 'load' plays the slice-in on first paint; 'none' is static
- *  - interactive: lets the hero version follow the pointer
+ * Variants:
+ *  - static:  no motion.
+ *  - hero:    entrance (halves drop and rise, slices fly in from the left with
+ *             a slight overshoot), then the slices blink left and back every 1.5s.
+ *  - nav:     the slices shift left while the parent link is hovered or focused.
+ *  - sticker: a slower blink (every 2s), for the Work page sticker.
+ *  - shift:   holds the slices shifted left, then back, every 4s (About).
  */
 interface Props {
-  id?: string;
-  animate?: 'load' | 'none';
-  interactive?: boolean;
-  class?: string;
-  title?: string;
+  id: string;
+  variant?: 'static' | 'hero' | 'nav' | 'sticker' | 'shift';
+  /** Accessible name. Omit (or pass decorative) when the mark is decorative. */
+  label?: string;
   decorative?: boolean;
+  sliceFill?: string;
+  class?: string;
 }
-const {
-  id = 'oi',
-  animate = 'none',
-  interactive = false,
-  class: className = '',
-  title = 'Outside In',
-  decorative = false,
-} = Astro.props;
+const { id, variant = 'static', label = 'Outside In', decorative = false, sliceFill, class: className } = Astro.props;
 
 const cx = 369.5, cy = 387, R = 259.5, r = 193.5;
 const ring = `M${cx - R},${cy}a${R},${R} 0 1,0 ${2 * R},0a${R},${R} 0 1,0 ${-2 * R},0Z` +
              `M${cx - r},${cy}a${r},${r} 0 1,0 ${2 * r},0a${r},${r} 0 1,0 ${-2 * r},0Z`;
 ---
 <svg
-  class:list={['oi-logo', className, { 'oi-logo--load': animate === 'load', 'oi-logo--interactive': interactive }]}
+  class:list={['oi', `oi--${variant}`, className]}
   viewBox="110 128 887 522"
   xmlns="http://www.w3.org/2000/svg"
-  role={decorative ? undefined : 'img'}
-  aria-hidden={decorative ? 'true' : undefined}
-  aria-labelledby={decorative ? undefined : `${id}-title`}
-  data-logo={interactive ? 'interactive' : undefined}
   fill="currentColor"
+  role={decorative ? undefined : 'img'}
+  aria-label={decorative ? undefined : label}
+  aria-hidden={decorative ? 'true' : undefined}
+  focusable="false"
 >
-  {!decorative && <title id={`${id}-title`}>{title}</title>}
   <defs>
-    <clipPath id={`${id}-o-top`}><rect x="0" y="0" width="1200" height="376" /></clipPath>
-    <clipPath id={`${id}-o-bot`}><rect x="0" y="433" width="1200" height="400" /></clipPath>
-    <clipPath id={`${id}-o-band`}><rect x="0" y="376" width="1200" height="57" /></clipPath>
+    <clipPath id={`${id}-top`}><rect x="0" y="0" width="1200" height="376" /></clipPath>
+    <clipPath id={`${id}-bot`}><rect x="0" y="433" width="1200" height="400" /></clipPath>
+    <clipPath id={`${id}-band`}><rect x="0" y="376" width="1200" height="57" /></clipPath>
   </defs>
-
-  <!-- Top halves of the O and the I -->
-  <g class="oi-part oi-part--top">
-    <path d={ring} fill-rule="evenodd" clip-path={`url(#${id}-o-top)`} />
+  <g class="oi-top">
+    <path d={ring} fill-rule="evenodd" clip-path={`url(#${id}-top)`} />
     <rect x="842" y="128" width="76" height="249" />
   </g>
-  <!-- Bottom halves -->
-  <g class="oi-part oi-part--bot">
-    <path d={ring} fill-rule="evenodd" clip-path={`url(#${id}-o-bot)`} />
+  <g class="oi-bot">
+    <path d={ring} fill-rule="evenodd" clip-path={`url(#${id}-bot)`} />
     <rect x="842" y="437" width="76" height="213" />
   </g>
-  <!-- The slices: shifted right by their real offsets -->
-  <g class="oi-slice oi-slice--o" style="--oi-shift: 73px">
-    <path d={ring} fill-rule="evenodd" clip-path={`url(#${id}-o-band)`} />
+  <g class="oi-slice oi-slice--o" transform="translate(73,0)" style="--s: 73px">
+    <g class="oi-move"><path d={ring} fill-rule="evenodd" clip-path={`url(#${id}-band)`} fill={sliceFill} /></g>
   </g>
-  <g class="oi-slice oi-slice--i" style="--oi-shift: 77px">
-    <rect x="842" y="377" width="77" height="60" />
+  <g class="oi-slice oi-slice--i" transform="translate(77,0)" style="--s: 77px">
+    <g class="oi-move"><rect x="842" y="377" width="77" height="60" fill={sliceFill} /></g>
   </g>
 </svg>
 
 <style is:global>
-  @property --oi-close { syntax: '<number>'; inherits: true; initial-value: 0; }
-  .oi-logo { display: block; height: auto; overflow: visible; }
-  .oi-slice {
-    /* --oi-k: pointer position (hero). --oi-close: 1 closes the slices (hero glide). */
-    transform: translateX(calc(var(--oi-shift) * var(--oi-k, 1) * (1 - var(--oi-close, 0))));
-    transition: transform 0.55s var(--ease-out-back, cubic-bezier(0.34, 1.4, 0.64, 1));
-  }
+  .oi { display: block; width: 100%; height: auto; overflow: visible; }
 
-  /* Intro: halves arrive from above and below, then the slices fly in from
-     outside the frame (the left) and lock into their real offsets. */
-  .oi-logo--load .oi-part--top { animation: oi-drop 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both; }
-  .oi-logo--load .oi-part--bot { animation: oi-rise 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both; }
-  .oi-logo--load .oi-slice--o { animation: oi-fly-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.6s both; }
-  .oi-logo--load .oi-slice--i { animation: oi-fly-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.72s both; }
+  /* Hero: entrance, then the idle blink. */
+  .oi--hero .oi-top { animation: oi-drop 0.75s var(--ease-out) 0.05s both; }
+  .oi--hero .oi-bot { animation: oi-rise 0.75s var(--ease-out) 0.15s both; }
+  .oi--hero .oi-slice--o { animation: oi-fly 0.9s var(--ease-out) 0.6s both; }
+  .oi--hero .oi-slice--i { animation: oi-fly 0.9s var(--ease-out) 0.72s both; }
+  .oi--hero .oi-move { animation: oi-blink 1.5s var(--ease-back) 1.5s infinite; }
   @keyframes oi-drop { from { transform: translateY(-140px); opacity: 0; } to { transform: none; opacity: 1; } }
   @keyframes oi-rise { from { transform: translateY(140px); opacity: 0; } to { transform: none; opacity: 1; } }
-  @keyframes oi-fly-in {
-    0%   { transform: translateX(-520px); opacity: 0; }
-    15%  { opacity: 1; }
-    70%  { transform: translateX(calc(var(--oi-shift) + 18px)); }
-    85%  { transform: translateX(calc(var(--oi-shift) - 6px)); }
-    100% { transform: translateX(var(--oi-shift)); opacity: 1; }
+  @keyframes oi-fly {
+    0% { transform: translateX(-520px); opacity: 0; }
+    15% { opacity: 1; }
+    70% { transform: translateX(calc(var(--s) + 18px)); }
+    85% { transform: translateX(calc(var(--s) - 6px)); }
+    100% { transform: translateX(var(--s)); opacity: 1; }
   }
-
-  /* Blink: the slice snaps back to whole, then shifts out again.
-     Used on hover (logo links) and as the hero's idle pulse. */
-  a:hover > .oi-logo .oi-slice,
-  a:focus-visible > .oi-logo .oi-slice,
-  .oi-logo--pulse .oi-slice { animation: oi-blink 0.8s var(--ease-out-back, cubic-bezier(0.34, 1.4, 0.64, 1)) both; }
-  a:hover > .oi-logo .oi-slice--i,
-  a:focus-visible > .oi-logo .oi-slice--i,
-  .oi-logo--pulse .oi-slice--i { animation-delay: 0.04s; }
-  /* The hero's idle pulse is a quick snap, so the colour change feels like a cut. */
-  .oi-logo--pulse .oi-slice { animation-duration: 0.3s; }
   @keyframes oi-blink {
-    0%   { transform: translateX(var(--oi-shift)); }
-    40%  { transform: translateX(0); }
-    100% { transform: translateX(var(--oi-shift)); }
+    0% { transform: translateX(0); }
+    8% { transform: translateX(calc(var(--s) * -1)); }
+    20%, 100% { transform: translateX(0); }
   }
 
-  /* Pointer-driven version (hero): JS sets --oi-k between 0 and about 1.8. */
-  .oi-logo--interactive .oi-slice { transition-duration: 0.35s; }
+  /* Nav mark: the slice shifts left on hover. */
+  .oi--nav .oi-move { transition: transform 0.35s var(--ease-back); }
+  a:hover > .oi--nav .oi-move,
+  a:focus-visible > .oi--nav .oi-move { transform: translateX(calc(var(--s) * -1)); }
+
+  /* Work page sticker */
+  .oi--sticker .oi-move { animation: oi-blink 2s var(--ease-back) 1s infinite; }
+
+  /* About: hold shifted, then return */
+  .oi--shift .oi-move { animation: oi-shift 4s var(--ease-back) 1s infinite; }
+  @keyframes oi-shift {
+    0%, 30% { transform: translateX(0); }
+    45%, 85% { transform: translateX(calc(var(--s) * -1)); }
+    100% { transform: translateX(0); }
+  }
 
   @media (prefers-reduced-motion: reduce) {
-    .oi-part, .oi-slice,
-    .oi-logo--load .oi-part, .oi-logo--load .oi-slice,
-    .oi-logo--pulse .oi-slice,
-    a:hover > .oi-logo .oi-slice,
-    a:focus-visible > .oi-logo .oi-slice { animation: none !important; transition: none !important; }
-    .oi-slice { transform: translateX(var(--oi-shift)) !important; }
-    .oi-part { transform: none !important; opacity: 1 !important; }
+    .oi .oi-top, .oi .oi-bot, .oi .oi-slice, .oi .oi-move { animation: none !important; transition: none !important; }
+    .oi .oi-move { transform: none !important; }
   }
 </style>

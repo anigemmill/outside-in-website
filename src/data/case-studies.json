@@ -1,0 +1,412 @@
+[
+  {
+    "slug": "flavours-of-plenty",
+    "title": "Flavours of Plenty",
+    "tagline": "A festival you can taste.",
+    "client": "Flavours of Plenty Festival",
+    "year": "2025",
+    "services": "Campaign · Illustration · Out-of-home · Print",
+    "where": "Coastal Bay of Plenty",
+    "hero": {
+      "src": "assets/flavours-of-plenty/airport-screen.jpg",
+      "alt": "Flavours of Plenty festival artwork on a digital screen at the airport baggage claim",
+      "fit": "cover",
+      "background": "#3B1E19"
+    },
+    "intro": "Flavours of Plenty is the Coastal Bay of Plenty’s food and drink festival, where the region’s stories come to life over eighteen days of events.",
+    "brief": "A campaign look for the 2025 festival that could run everywhere at once: digital billboards, the airport, the printed programme, magazines and the festival’s own products.",
+    "idea": "A cast of characters, each one a flavour of the region: a lemon in sunglasses, a dripping chocolate bar, a kiwifruit couple, an oyster, a bee and its honey. On festival pink they work at any size, from a sticker to an airport screen.",
+    "gallery": [
+      {
+        "src": "assets/flavours-of-plenty/billboard.jpg",
+        "alt": "The festival billboard on a blue corrugated wall under a bright sky",
+        "fit": "cover",
+        "background": "#3B1E19",
+        "minHeight": 760,
+        "video": null,
+        "fullWidth": false
+      },
+      {
+        "src": "assets/flavours-of-plenty/programme-in-hand.jpg",
+        "alt": "A hand holding the pink festival programme in the street",
+        "fit": "cover",
+        "background": "#3B1E19",
+        "minHeight": 460,
+        "video": null,
+        "fullWidth": false
+      },
+      {
+        "src": "assets/flavours-of-plenty/sunseeker-can.jpg",
+        "alt": "A hand holding a can of Sunseeker Pale Ale in front of the sea",
+        "fit": "cover",
+        "background": "#3B1E19",
+        "minHeight": 460,
+        "video": null,
+        "fullWidth": false
+      },
+      {
+        "src": "assets/flavours-of-plenty/magazine-ad.jpg",
+        "alt": "The festival magazine ad held up by the harbour",
+        "fit": "cover",
+        "background": "#3B1E19",
+        "minHeight": 460,
+        "video": null,
+        "fullWidth": false
+      },
+      {
+        "src": "assets/flavours-of-plenty/stickers.jpg",
+        "alt": "Plates of Pleeeeenty Challenge stickers",
+        "fit": "cover",
+        "background": "#FFFFFF",
+        "minHeight": 460,
+        "video": null,
+        "fullWidth": false
+      },
+      {
+        "src": "assets/flavours-of-plenty/programme-spread.jpg",
+        "alt": "The festival programme cover and an events spread",
+        "fit": "cover",
+        "background": "#FFFFFF",
+        "minHeight": 460,
+        "video": null,
+        "fullWidth": false
+      }
+    ],
+    "whatWeMade": [
+      "Character illustration system",
+      "Digital billboards and airport screen",
+      "Festival programme",
+      "Magazine advertising",
+      "Sunseeker Pale Ale can label",
+      "Plates of Pleeeeenty Challenge stickers"
+    ],
+    "result": null,
+    "note": null,
+    "next": "ride-retreat"
+  },
+  {
+    "slug": "run-for-reido",
+    "title": "Run for Reido",
+    "tagline": "Letters that run.",
+    "client": "Run for Reido",
+    "year": "2025",
+    "services": "Event tee · Hand lettering",
+    "where": "TO ADD",
+    "hero": {
+      "src": "assets/run-for-reido/tee-3x2.jpg",
+      "alt": "Cream tee with blue Run for Reido lettering in a cowboy hat and boots",
+      "fit": "contain",
+      "background": "#E8E8E6"
+    },
+    "intro": "A tee for Run for Reido 2025, lettered by hand.",
+    "brief": "TO ADD: what the event is, and what the tee needed to do.",
+    "idea": "The name does the running: hand-drawn blue letters in a star-print cowboy hat and boots, stacked into one shape that reads from across a start line.",
+    "gallery": [
+      {
+        "src": "assets/run-for-reido/tee-4x5.jpg",
+        "alt": "The Run for Reido tee, front view",
+        "fit": "contain",
+        "background": "#E8E8E6",
+        "minHeight": 460,
+        "video": null,
+        "fullWidth": false
+      },
+      {
+        "placeholder": "Add: the tee being worn on the day"
+      }
+    ],
+    "whatWeMade": [
+      "Hand-lettered event tee",
+      "Print-ready artwork"
+    ],
+    "result": null,
+    "note": null,
+    "next": "rotorua-walking-tours"
+  },
+  {
+    "slug": "negative-split",
+    "title": "Negative Split",
+    "tagline": "Lettering at speed.",
+    "client": "Negative Split Carbon",
+    "year": "TO ADD",
+    "services": "Product graphics · Typography",
+    "where": "Disc, tri-spoke and rim wheels",
+    "hero": {
+      "src": "assets/negative-split/disc-wheel.jpg",
+      "alt": "Matte black NS disc wheel with oversized gloss lettering",
+      "fit": "contain",
+      "background": "#DADAD7"
+    },
+    "intro": "Negative Split Carbon makes carbon wheels for road, tri, gravel and MTB, founded and tested in New Zealand, with a mission to make carbon more accessible.",
+    "brief": "Wheel graphics for the range: the disc, the tri-spoke and the deep-section rims.",
+    "idea": "Wheels are seen at speed and from the side of the road, so the NS letters go huge and cropped, wrapping the rim and disc. Gloss on matte black means the graphics catch the light without shouting.",
+    "gallery": [
+      {
+        "src": "assets/negative-split/tri-spoke.jpg",
+        "alt": "NS tri-spoke wheel with tonal lettering",
+        "fit": "contain",
+        "background": "#DADAD7",
+        "minHeight": 460,
+        "video": null,
+        "fullWidth": false
+      },
+      {
+        "src": "assets/negative-split/deep-rims.jpg",
+        "alt": "A pair of deep-section NS rims",
+        "fit": "contain",
+        "background": "#DADAD7",
+        "minHeight": 460,
+        "video": null,
+        "fullWidth": false
+      },
+      {
+        "src": "assets/negative-split/shallow-rims.jpg",
+        "alt": "A pair of shallow-section NS rims with tonal lettering",
+        "fit": "contain",
+        "background": "#DADAD7",
+        "minHeight": 460,
+        "video": null,
+        "fullWidth": false
+      }
+    ],
+    "whatWeMade": [
+      "NS Disc wheel graphics",
+      "NS Tri-Spoke wheel graphics",
+      "Deep-section rim graphics"
+    ],
+    "result": null,
+    "note": null,
+    "next": "empty-plate-club"
+  },
+  {
+    "slug": "empty-plate-club",
+    "title": "Empty Plate Club",
+    "tagline": "Finish your plate.",
+    "client": "Our own",
+    "year": "TO ADD",
+    "services": "Identity · Illustration · Social",
+    "where": "Instagram @emptyplateclub_",
+    "hero": {
+      "src": "assets/empty-plate-club/poster.jpg",
+      "alt": "Pink Empty Plate Club poster with a walking plate illustration",
+      "fit": "cover",
+      "background": "#E5D3C6"
+    },
+    "intro": "Empty Plate Club is our own foodie Instagram: home cooking, recipes, snacks and baking, straight from the kitchen.",
+    "brief": "A name, a character and a look that could hold a feed of very different dishes together, from pasta to pears.",
+    "idea": "A plate on legs, walking itself home: the whole point of the club in one drawing. Hand-lettered in pink and red, then carried into the profile picture, the pinned post and the highlight covers, so the account feels like a brand rather than a camera roll.",
+    "gallery": [
+      {
+        "src": "assets/empty-plate-club/instagram-grid.jpg",
+        "alt": "The Empty Plate Club Instagram grid: a pink pinned logo post above home-cooked dishes",
+        "fit": "cover",
+        "background": "#FFFFFF",
+        "minHeight": 1100,
+        "video": null,
+        "fullWidth": false
+      },
+      {
+        "src": "assets/empty-plate-club/instagram-profile.jpg",
+        "alt": "The Empty Plate Club Instagram profile with pink highlight covers for Brands, Recipes, Snacks and Baking",
+        "fit": "contain",
+        "background": "#FFFFFF",
+        "minHeight": 460,
+        "video": null,
+        "fullWidth": false
+      },
+      {
+        "src": "assets/empty-plate-club/poster-pair.jpg",
+        "alt": "Two Empty Plate Club posters: food doodles on pink, and the walking plate on a red and pink check",
+        "fit": "cover",
+        "background": "#E5D3C6",
+        "minHeight": 460,
+        "video": null,
+        "fullWidth": false
+      }
+    ],
+    "whatWeMade": [
+      "Hand-lettered wordmark",
+      "Walking-plate character",
+      "Profile picture and pinned post",
+      "Highlight covers: Brands, Recipes, Snacks, Baking",
+      "Poster series"
+    ],
+    "result": "90 posts in, one pink system keeps a feed of very different dishes looking like it belongs together.",
+    "note": null,
+    "next": "run-for-reido"
+  },
+  {
+    "slug": "ride-retreat",
+    "title": "Ride Retreat",
+    "tagline": "Ride. Recover. Explore.",
+    "client": "Our own venture",
+    "year": "TO ADD",
+    "services": "Brand · Website · AI guest app",
+    "where": "Rotorua",
+    "hero": {
+      "src": "assets/ride-retreat/rider-3x2.jpg",
+      "alt": "A mountain biker lifts his front wheel through tree ferns and redwoods",
+      "fit": "cover",
+      "background": "#26311A"
+    },
+    "intro": "Ride Retreat is our own premium mountain bike retreat in Rotorua: four days on 200km+ of world-class singletrack, guided by Red Bull pro Brook Macdonald, with a private chef and recovery built into every day.",
+    "brief": "Build a premium brand from nothing, a website that sells the stay, and a way to look after every guest from the moment they book to the ride home.",
+    "idea": "Three redwoods and a rider on one wheel sit on top of the wordmark: the whole retreat in one mark, in forest greens and warm yellows. The guest app is a digital concierge for the whole journey, from booking and gear lists to the day-by-day itinerary and the recap afterwards, so the human side of the retreat gets its time back.",
+    "gallery": [
+      {
+        "src": "assets/ride-retreat/app-3x2-poster.jpg",
+        "alt": "The Ride Retreat guest app on a phone: welcome screen, itinerary and retreat experiences",
+        "fit": "cover",
+        "background": "#26311A",
+        "minHeight": 720,
+        "video": "assets/ride-retreat/app-3x2.mp4",
+        "fullWidth": true
+      },
+      {
+        "src": "assets/ride-retreat/logo.jpg",
+        "alt": "Ride Retreat logo: three redwoods and a rider on one wheel above the wordmark, cream on green",
+        "fit": "contain",
+        "background": "#6F7F4A",
+        "minHeight": 460,
+        "video": null,
+        "fullWidth": false
+      },
+      {
+        "src": "assets/ride-retreat/palette.jpg",
+        "alt": "Ride Retreat colour palette: Te Poaka, Tuteata, Hot X Buns, Madien Voyage, Eastern Spice and Taniwha",
+        "fit": "contain",
+        "background": "#FDFAE1",
+        "minHeight": 460,
+        "video": null,
+        "fullWidth": false
+      },
+      {
+        "src": "assets/ride-retreat/website-home.jpg",
+        "alt": "Ride Retreat website homepage: the rider photo beside the logo on green, then The Ride, The Table, The Stay and The Recovery icons",
+        "fit": "contain",
+        "background": "#FDFAE1",
+        "minHeight": 700,
+        "video": null,
+        "fullWidth": false
+      },
+      {
+        "src": "assets/ride-retreat/website-the-ride.jpg",
+        "alt": "Ride Retreat website, The Ride page: a rider among redwoods, with 200km, 150 trails and 1 epic experience",
+        "fit": "contain",
+        "background": "#FDFAE1",
+        "minHeight": 700,
+        "video": null,
+        "fullWidth": false
+      },
+      {
+        "src": "assets/ride-retreat/hot-tub.jpg",
+        "alt": "Guests in a cedar hot tub surrounded by tree ferns",
+        "fit": "cover",
+        "background": "#26311A",
+        "minHeight": 460,
+        "video": null,
+        "fullWidth": false
+      },
+      {
+        "src": "assets/ride-retreat/lodge-pool.jpg",
+        "alt": "The retreat lodge pool under a blue sky",
+        "fit": "cover",
+        "background": "#26311A",
+        "minHeight": 460,
+        "video": null,
+        "fullWidth": false
+      },
+      {
+        "src": "assets/ride-retreat/dinner.jpg",
+        "alt": "A plated dinner with a glass of red wine",
+        "fit": "cover",
+        "background": "#26311A",
+        "minHeight": 620,
+        "video": null,
+        "fullWidth": true
+      }
+    ],
+    "whatWeMade": [
+      "Brand identity and logo",
+      "Colour palette",
+      "Icon set: The Ride, The Table, The Stay, The Recovery",
+      "Website design and build",
+      "AI guest app: itinerary, gear list, forms and recap",
+      "Social content"
+    ],
+    "result": "The guest app has become a case study we present to Rotorua tourism operators: what AI can do for a small operator.",
+    "note": null,
+    "next": "negative-split"
+  },
+  {
+    "slug": "rotorua-walking-tours",
+    "title": "Rotorua Walking Tours",
+    "tagline": "The city, on foot.",
+    "client": "Rotorua Walking Tours",
+    "year": "TO ADD",
+    "services": "Logo · Web design · Web build",
+    "where": "Rotorua",
+    "hero": {
+      "src": "assets/rotorua-walking-tours/logo-emboss.jpg",
+      "alt": "Rotorua Walking Tours logo blind-embossed on pink paper",
+      "fit": "cover",
+      "background": "#D9C4C9"
+    },
+    "intro": "Rotorua Walking Tours shows visitors the city on foot. We gave them a logo and a website to match.",
+    "brief": "A logo and a website that would make a small, local tour company feel established and easy to book.",
+    "idea": "A single-line drawing of Rotorua’s landmarks, with a trail of footsteps walking into it. Fine enough to blind-emboss, simple enough to sit at the top of a website.",
+    "gallery": [
+      {
+        "src": "assets/rotorua-walking-tours/website.jpg",
+        "alt": "Rotorua Walking Tours website pages: home, about and a gallery of tour photos",
+        "fit": "cover",
+        "background": "#F2F2F0",
+        "minHeight": 460,
+        "video": null,
+        "fullWidth": false
+      }
+    ],
+    "whatWeMade": [
+      "Logo and line illustration",
+      "Website design",
+      "Website build"
+    ],
+    "result": null,
+    "note": "Website shown as we designed and launched it.",
+    "next": "wings-for-life"
+  },
+  {
+    "slug": "wings-for-life",
+    "title": "Wings for Life",
+    "tagline": "We’ve got the runs.",
+    "client": "A Red Bull athlete",
+    "year": "TO ADD",
+    "services": "Campaign · Illustration",
+    "where": "Instagram",
+    "hero": {
+      "src": "assets/wings-for-life/poster-mockup.jpg",
+      "alt": "Yellow street poster of a winged cartoon running on a cloud, headed We’ve got the runs",
+      "fit": "contain",
+      "background": "#E0E0E0"
+    },
+    "intro": "Creative for a Red Bull athlete’s official Wings for Life World Run campaign, a global run that raises money for spinal cord research.",
+    "brief": "Get followers to stop scrolling and sign up to run.",
+    "idea": "A charity run doesn’t have to be earnest. A winged, grinning character and a headline that makes people laugh first, then join.",
+    "gallery": [
+      {
+        "placeholder": "Add: screenshots of the posts as they ran on Instagram"
+      },
+      {
+        "placeholder": "Add: a second post or story"
+      }
+    ],
+    "whatWeMade": [
+      "Campaign line",
+      "Character illustration",
+      "Instagram posts"
+    ],
+    "result": null,
+    "note": null,
+    "next": "flavours-of-plenty"
+  }
+]

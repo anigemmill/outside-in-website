@@ -1,0 +1,9 @@
+---
+/** "Book a discovery call" pill. Opens Cal.com in a new tab (or the contact form if no booking URL is set). */
+import { bookingHref, bookingIsExternal } from '../config/site';
+interface Props { class?: string; label?: string }
+const { class: className = 'pill pill--pink pill--lg', label = 'Book a discovery call' } = Astro.props;
+---
+<a class={className} href={bookingHref} {...(bookingIsExternal ? { target: '_blank', rel: 'noopener' } : {})}>
+  {label} <span class="arrow" aria-hidden="true">→</span>{bookingIsExternal && <span class="visually-hidden"> (opens in a new tab)</span>}
+</a>

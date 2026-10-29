@@ -1,97 +1,151 @@
 ---
+/** About (mockup: design/source/about.html). No slice effect on the portrait, by Ani's choice. */
+import { getImage } from 'astro:assets';
 import Base from '../layouts/Base.astro';
-import PageHero from '../components/PageHero.astro';
-import Note from '../components/Note.astro';
 import Logo from '../components/Logo.astro';
-import BookingLink from '../components/BookingLink.astro';
-import { about } from '../data/about';
-import { site } from '../config/site';
+import BookCall from '../components/BookCall.astro';
+import { img } from '../lib/media';
+
+const portrait = img('assets/studio/ani-portrait.jpg');
+const portraitSrc = await getImage({ src: portrait, width: 1100, format: 'webp' });
+const portraitSet = await Promise.all([600, 900, 1300].map((w) => getImage({ src: portrait, width: w, format: 'webp' })));
+
+const audiences = [
+  { name: 'Tourism and hospitality', text: 'Visitor experiences, seasonal campaigns and smarter guest communication.' },
+  { name: 'Small and medium businesses', text: 'A joined-up creative, marketing and AI team without the overhead.' },
+  { name: 'Startups and technology', text: 'Brands and websites that explain complex products simply.' },
+  { name: 'Events and entertainment', text: 'Campaigns and content systems that keep pace with the day.' },
+  { name: 'Larger organisations', text: 'Practical AI pilots, marketing intelligence and campaign support.' },
+];
 ---
-<Base
-  title="About"
-  description="Why Outside In brings creativity, marketing and AI together, and what that means for the businesses we work with."
->
-  <PageHero eyebrow="About" dot="red" title="Close enough to care. Far enough to see." lede={about.lede} />
-
-  <figure class="wrap mark-panel">
-    <div class="mark-panel__inner">
-      <Logo id="oi-about" animate="load" decorative class="mark-panel__logo" />
-    </div>
-    <figcaption class="mark-panel__cap">The O and the I are each cut by one slice, shifted right. On the O it pushes in on one side and out on the other. Same shape, new perspective.</figcaption>
-  </figure>
-
-  <section class="wrap row" aria-labelledby="why-title">
-    <h2 id="why-title" class="row__title">{about.why.title}</h2>
-    <div class="row__content prose">
-      {about.why.paragraphs.map((p) => <p>{p}</p>)}
-    </div>
-  </section>
-
-  <section class="wrap row" aria-labelledby="name-title">
-    <h2 id="name-title" class="row__title">The name</h2>
-    <div class="row__content name-cols">
-      {about.name.map((n, i) => (
-        <div data-reveal style={`--reveal-delay:${i * 0.08}s`}>
-          <h3 class="name-cols__h">{n.title}</h3>
-          <p class="muted">{n.text}</p>
+<Base title="About" description="Outside In brings the outside view to your business, then stays to build what it reveals: brand, marketing and practical AI from Rotorua, Aotearoa.">
+  <header class="ab-head">
+    <div class="ab-head__copy on-blue">
+      <div class="ab-head__rule" aria-hidden="true"></div>
+      <div class="ab-head__text">
+        <p class="label ab-kicker">[ About ]</p>
+        <div class="ab-head__main">
+          <h1 class="ab-title">Close enough to care. <em class="em">Far enough to see.</em></h1>
+          <p class="ab-lede">Every business has things it can’t see because it’s too close to them. We bring the outside view, then stay to build what it reveals.</p>
         </div>
-      ))}
+      </div>
+    </div>
+    <figure class="ab-portrait">
+      <img src={portraitSrc.src} srcset={portraitSet.map((i) => `${i.src} ${i.attributes.width}w`).join(', ')} sizes="(min-width: 1040px) 50vw, 100vw" width={portraitSrc.attributes.width} height={portraitSrc.attributes.height} alt="Ani, founder of Outside In, walking past a carved sandstone wall" loading="eager" />
+      <figcaption class="ab-sticker">Kia ora, I’m Ani</figcaption>
+    </figure>
+  </header>
+
+  <section class="band on-maroon mark" aria-labelledby="mark-h">
+    <div class="wrap mark__in">
+      <div class="mark__logo">
+        <Logo id="about-mark" variant="shift" sliceFill="#F9B8CD" label="The Outside In mark: an O and an I, each cut by one slice shifted right" />
+      </div>
+      <div class="mark__copy">
+        <h2 class="label" id="mark-h">The mark</h2>
+        <p class="mark__text">The O and the I are each cut by one slice, shifted right. <em class="em">Same shape, new perspective.</em></p>
+      </div>
     </div>
   </section>
 
-  {about.people.length > 0 && (
-    <section class="wrap row" aria-labelledby="people-title">
-      <h2 id="people-title" class="row__title">Who you’ll work with</h2>
-      <ul role="list" class="row__content people">
-        {about.people.map((p) => (
-          <li><h3 class="name-cols__h">{p.name}</h3><p class="muted">{p.role}</p><p>{p.bio}</p></li>
-        ))}
+  <section class="band why" aria-labelledby="why-h">
+    <div class="wrap why__in">
+      <div class="why__head">
+        <span class="why__n" aria-hidden="true">02/</span>
+        <h2 id="why-h">Why creative, marketing and AI belong together</h2>
+      </div>
+      <div class="why__body">
+        <p>A customer never experiences your brand, your marketing and your systems separately. They see an ad, visit the website, send an enquiry and wait for a reply. If one moment lets them down, the rest suffers.</p>
+        <p>Most businesses buy these from different people — and the gaps between them are where customers drop off. We work across all three on purpose.</p>
+        <p>If AI isn’t the right fix, we’ll tell you. If the problem is the website and not the ads, you’ll hear that too.</p>
+        <p>We’ve launched our own brands too — a retreat, a product, a merch label — so we know what it costs to put something out there.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="name" aria-label="The name">
+    <div class="name__panel name__panel--out on-orange">
+      <span class="tag tag--cream name__label">The name</span>
+      <div class="name__body">
+        <h2 class="name__word">Outside</h2>
+        <p>An outside perspective notices what familiarity hides: the confusing booking step, the message that only makes sense internally, the opportunity everyone walked past.</p>
+      </div>
+    </div>
+    <div class="name__panel name__panel--in">
+      <div class="name__body">
+        <h2 class="name__word name__word--serif">In</h2>
+        <p>Seeing it is only half the job. We bring that view inside the business and build it in: the brand, the marketing and the everyday systems your team relies on.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band on-blue aud" aria-labelledby="aud-h">
+    <div class="wrap aud__in">
+      <h2 id="aud-h">For businesses ready to do something differently.</h2>
+      <ul role="list" class="aud__list">
+        {audiences.map((a) => <li><span class="aud__name">{a.name}</span><span class="aud__text">{a.text}</span></li>)}
       </ul>
-    </section>
-  )}
-
-  <section class="wrap row" aria-labelledby="who-title">
-    <h2 id="who-title" class="row__title">{about.who.title}</h2>
-    <ul role="list" class="row__content who">
-      {about.who.list.map((w) => <li><strong>{w.name}</strong><span class="muted">{w.text}</span></li>)}
-    </ul>
-    <Note>Names the audiences from the brief so each visitor can find themselves on the page, without inventing a client list.</Note>
+    </div>
   </section>
 
-  <section class="wrap about-cta" aria-label="Get in touch">
-    <p>Based in {site.location}. Working with businesses here and further afield.</p>
-    <BookingLink />
-  </section>
+  <Fragment slot="footer-cta">
+    <p class="ab-cta">Based in Aotearoa New Zealand. <em class="em">Working with businesses here and further afield.</em></p>
+    <BookCall />
+  </Fragment>
 </Base>
 
 <style>
-  .mark-panel { margin: 0 auto; padding-bottom: clamp(5rem, 10vw, 9rem); }
-  .mark-panel__inner {
-    display: grid; place-items: center; aspect-ratio: 16 / 8; border-radius: var(--radius);
-    background: var(--red); color: var(--green);
+  .ab-head { display: flex; flex-wrap: wrap; }
+  .ab-head__copy { flex: 1 1 520px; min-height: 680px; padding: clamp(32px, 4vw, 56px); display: flex; gap: 40px; }
+  .ab-head__rule { width: 1px; background: var(--brown); flex-shrink: 0; }
+  .ab-head__text { display: flex; flex-direction: column; justify-content: space-between; gap: 48px; }
+  .ab-kicker { color: var(--maroon); }
+  .ab-head__main { display: flex; flex-direction: column; gap: 28px; }
+  .ab-title { font-weight: 500; font-size: clamp(48px, 5.4vw, 80px); line-height: 0.98; letter-spacing: -0.045em; }
+  .ab-title .em { letter-spacing: -0.02em; color: var(--orange); }
+  .ab-lede { font-size: 18px; line-height: 1.5; max-width: 460px; }
+  .ab-portrait { flex: 1 1 520px; min-height: 680px; margin: 0; position: relative; overflow: hidden; background: #CDB9A8; }
+  .ab-portrait img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 62% 50%; }
+  .ab-sticker { position: absolute; left: 20px; bottom: 20px; background: var(--pink); color: var(--brown); border-radius: 999px; padding: 8px 16px; font-size: 14px; font-weight: 600; transform: rotate(-3deg); }
+  @media (max-width: 700px) {
+    .ab-head__copy { min-height: 0; gap: 20px; padding-inline: var(--gutter); }
+    .ab-portrait { min-height: 520px; }
   }
-  :global(.mark-panel__logo) { width: min(46%, 520px); }
-  .mark-panel__cap { margin-top: 1rem; color: var(--muted); font-size: var(--step--1); max-width: 60ch; }
-  @media (max-width: 640px) { .mark-panel__inner { aspect-ratio: 4 / 3; } :global(.mark-panel__logo) { width: 70%; } }
 
-  .row { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 1.5rem var(--gutter); padding-block: clamp(3rem, 6vw, 5rem); border-top: 1px solid var(--line); }
-  .row__title { font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; line-height: 1.15; max-width: 16ch; }
-  .row__content { min-width: 0; }
-  .row .prose { font-size: var(--step-1); line-height: 1.5; max-width: 56ch; }
-  @media (max-width: 860px) { .row { grid-template-columns: 1fr; } }
+  .mark__in { display: flex; flex-wrap: wrap; align-items: center; gap: 64px; }
+  .mark__logo { flex: 1 1 420px; color: var(--orange); max-width: 520px; }
+  .mark__copy { flex: 1 1 420px; display: flex; flex-direction: column; gap: 20px; }
+  .mark__text { font-size: clamp(26px, 2.6vw, 38px); line-height: 1.2; letter-spacing: -0.02em; color: var(--cream); }
+  .mark__text .em { color: var(--pink); font-style: italic; }
+  @media (max-width: 500px) { .mark__logo, .mark__copy { flex-basis: 100%; } }
 
-  .name-cols { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gutter); }
-  .name-cols > div { display: grid; gap: 0.6rem; align-content: start; }
-  .name-cols__h { font-size: var(--step-3); letter-spacing: -0.02em; }
-  @media (max-width: 640px) { .name-cols { grid-template-columns: 1fr; } }
+  .why__in { display: flex; flex-wrap: wrap; gap: 56px; }
+  .why__head { flex: 1 1 360px; display: flex; flex-direction: column; gap: 12px; }
+  .why__n { font-size: 13px; color: var(--maroon); }
+  .why__head h2 { font-weight: 500; font-size: clamp(38px, 4.2vw, 60px); line-height: 1; letter-spacing: -0.04em; }
+  .why__body { flex: 2 1 560px; display: flex; flex-direction: column; gap: 24px; font-size: 18px; line-height: 1.6; border-left: 2px solid var(--orange); padding-left: 32px; }
+  @media (max-width: 600px) { .why__head, .why__body { flex-basis: 100%; } .why__body { padding-left: 20px; } }
 
-  .people { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--gutter); padding: 0; }
+  .name { display: flex; flex-wrap: wrap; }
+  .name__panel { flex: 1 1 480px; padding: clamp(40px, 5vw, 72px); min-height: 400px; display: flex; flex-direction: column; justify-content: space-between; gap: 32px; }
+  .name__panel--in { background: var(--pink); color: var(--maroon); justify-content: flex-end; }
+  .name__label { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; width: fit-content; }
+  .name__body { display: flex; flex-direction: column; gap: 16px; }
+  .name__body p { font-size: 17px; line-height: 1.55; max-width: 440px; }
+  /* Cream on orange is large-text only, so the Outside copy runs at 24px. */
+  .name__panel--out .name__body p { font-size: 24px; line-height: 1.35; max-width: 560px; }
+  .name__word { font-weight: 500; font-size: 72px; letter-spacing: -0.045em; line-height: 1; }
+  .name__word--serif { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 84px; line-height: 0.9; letter-spacing: 0; }
+  @media (max-width: 600px) { .name__panel { flex-basis: 100%; padding-inline: var(--gutter); } }
 
-  .who { display: grid; padding: 0; }
-  .who li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 0.25rem var(--gutter); padding-block: 1rem; border-bottom: 1px solid var(--line); }
-  .who li:first-child { padding-top: 0; }
-  .who strong { font-weight: 600; }
-  @media (max-width: 640px) { .who li { grid-template-columns: 1fr; } }
+  .aud__in { display: flex; flex-wrap: wrap; gap: 48px; }
+  .aud__in h2 { flex: 1 1 320px; font-weight: 500; font-size: clamp(30px, 3vw, 44px); line-height: 1.05; letter-spacing: -0.03em; }
+  .aud__list { flex: 2 1 600px; }
+  .aud__list li { display: flex; flex-wrap: wrap; gap: 8px 32px; border-top: 1px solid var(--brown); padding: 20px 0; }
+  .aud__list li:last-child { border-bottom: 1px solid var(--brown); }
+  .aud__name { flex: 1 1 240px; font-size: 21px; }
+  .aud__text { flex: 1 1 280px; font-size: 15px; line-height: 1.5; }
+  @media (max-width: 600px) { .aud__in h2, .aud__list { flex-basis: 100%; } }
 
-  .about-cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem; padding-block: 2rem clamp(6rem, 12vw, 12rem); border-top: 1px solid var(--line); font-size: var(--step-1); }
+  .ab-cta { font-size: clamp(30px, 3vw, 44px); line-height: 1.1; letter-spacing: -0.03em; max-width: 640px; }
 </style>

@@ -1,0 +1,195 @@
+[
+  {
+    "title": "Flavours of Plenty",
+    "client": "Flavours of Plenty Festival",
+    "summary": "A festival campaign and illustration system that ran from digital billboards and the airport to the programme, a festival pale ale and stickers.",
+    "tags": [
+      "Campaign",
+      "Illustration",
+      "Out-of-home"
+    ],
+    "filters": [
+      "Campaign",
+      "Brand"
+    ],
+    "cover": {
+      "src": "assets/flavours-of-plenty/billboard.jpg",
+      "alt": "Flavours of Plenty festival billboard on a blue corrugated wall under a bright sky",
+      "fit": "cover",
+      "background": null,
+      "video": null,
+      "square": false
+    },
+    "desktopColumn": 0,
+    "imageHeight": 500,
+    "href": "/work/flavours-of-plenty/"
+  },
+  {
+    "title": "Ride Retreat",
+    "client": "Our own venture",
+    "summary": "A premium MTB retreat in Rotorua: brand, website and an AI guest app that runs the whole stay.",
+    "tags": [
+      "Brand",
+      "Website",
+      "AI app"
+    ],
+    "filters": [
+      "Brand",
+      "Digital",
+      "AI"
+    ],
+    "cover": {
+      "src": "assets/ride-retreat/app-3x2-poster.jpg",
+      "alt": "The Ride Retreat guest app shown on a phone",
+      "fit": "cover",
+      "background": null,
+      "video": "assets/ride-retreat/app-3x2.mp4",
+      "square": false
+    },
+    "desktopColumn": 1,
+    "imageHeight": 400,
+    "href": "/work/ride-retreat/"
+  },
+  {
+    "title": "Findable",
+    "client": "Our product",
+    "summary": "AI visibility and accuracy checks for New Zealand tourism businesses.",
+    "tags": [
+      "Product",
+      "AI"
+    ],
+    "filters": [
+      "AI",
+      "Digital"
+    ],
+    "cover": {
+      "src": "assets/findable/laptop-sky.jpg",
+      "alt": "Hands holding up a laptop showing the Findable dashboard against a blue sky",
+      "fit": "contain",
+      "background": "#7FB3E0",
+      "video": null,
+      "square": false
+    },
+    "desktopColumn": 2,
+    "imageHeight": 400,
+    "href": "/findable/"
+  },
+  {
+    "title": "Empty Plate Club",
+    "client": "Our own",
+    "summary": "A hand-drawn identity and Instagram look for our own foodie account, with a plate that walks itself home.",
+    "tags": [
+      "Illustration",
+      "Identity",
+      "Print"
+    ],
+    "filters": [
+      "Brand"
+    ],
+    "cover": {
+      "src": "assets/empty-plate-club/poster.jpg",
+      "alt": "Pink Empty Plate Club poster with a walking plate illustration",
+      "fit": "cover",
+      "background": null,
+      "video": null,
+      "square": false
+    },
+    "desktopColumn": 0,
+    "imageHeight": 520,
+    "href": "/work/empty-plate-club/"
+  },
+  {
+    "title": "Wings for Life World Run",
+    "client": "For a Red Bull athlete",
+    "summary": "Instagram creative for an athlete’s official Wings for Life World Run campaign. “We’ve got the runs.”",
+    "tags": [
+      "Campaign",
+      "Illustration"
+    ],
+    "filters": [
+      "Campaign"
+    ],
+    "cover": {
+      "src": "assets/wings-for-life/poster-mockup-square.jpg",
+      "alt": "Yellow street poster of a winged cartoon running on a cloud, headed We’ve got the runs",
+      "fit": "cover",
+      "background": "#E0E0E0",
+      "video": null,
+      "square": true
+    },
+    "desktopColumn": 1,
+    "imageHeight": 400,
+    "href": "/work/wings-for-life/"
+  },
+  {
+    "title": "Negative Split",
+    "client": "Negative Split Carbon",
+    "summary": "Wheel graphics for a New Zealand carbon wheel brand: oversized lettering in gloss on matte black.",
+    "tags": [
+      "Product graphics",
+      "Typography"
+    ],
+    "filters": [
+      "Brand"
+    ],
+    "cover": {
+      "src": "assets/negative-split/disc-wheel.jpg",
+      "alt": "Matte black disc wheel with gloss lettering",
+      "fit": "contain",
+      "background": "#DADAD7",
+      "video": null,
+      "square": false
+    },
+    "desktopColumn": 2,
+    "imageHeight": 540,
+    "href": "/work/negative-split/"
+  },
+  {
+    "title": "Rotorua Walking Tours",
+    "client": "Rotorua",
+    "summary": "A line-drawn logo of Rotorua landmarks, blind-embossed on pink stock, plus the website we designed and built.",
+    "tags": [
+      "Logo",
+      "Website"
+    ],
+    "filters": [
+      "Brand",
+      "Digital"
+    ],
+    "cover": {
+      "src": "assets/rotorua-walking-tours/logo-emboss.jpg",
+      "alt": "Rotorua Walking Tours logo blind-embossed on pink paper",
+      "fit": "cover",
+      "background": null,
+      "video": null,
+      "square": false
+    },
+    "desktopColumn": 0,
+    "imageHeight": 360,
+    "href": "/work/rotorua-walking-tours/"
+  },
+  {
+    "title": "Run for Reido",
+    "client": "Event merch",
+    "summary": "An event identity and merch line with a cowboy-lettered tee.",
+    "tags": [
+      "Event identity",
+      "Merch"
+    ],
+    "filters": [
+      "Brand",
+      "Campaign"
+    ],
+    "cover": {
+      "src": "assets/run-for-reido/tee-4x5.jpg",
+      "alt": "Cream tee with blue Run for Reido lettering",
+      "fit": "cover",
+      "background": null,
+      "video": null,
+      "square": false
+    },
+    "desktopColumn": 1,
+    "imageHeight": 560,
+    "href": "/work/run-for-reido/"
+  }
+]

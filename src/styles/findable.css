@@ -3,7 +3,8 @@
    canvas and the Findable design system (lavender ground, forest green,
    lime, ink; Inter Tight display, Inter body, JetBrains Mono labels).
    Everything is scoped under body.findable and prefixed f- so it never
-   collides with the Outside In styles in global.css.
+   collides with the Outside In styles in global.css. Findable pages load
+   only base.css (the shared reset) plus this file.
    ========================================================================= */
 @import '@fontsource-variable/inter';
 @import '@fontsource-variable/inter-tight';

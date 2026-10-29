@@ -67,10 +67,9 @@ export const site = {
 };
 
 export const nav = [
-  { label: 'Work', href: '/projects/' },
+  { label: 'Work', href: '/work/' },
   { label: 'Findable', href: '/findable/' },
   { label: 'Services', href: '/services/' },
-  { label: 'Approach', href: '/approach/' },
   { label: 'About', href: '/about/' },
   { label: 'Contact', href: '/contact/' },
 ];

@@ -1,9 +1,0 @@
----
-/**
- * Headline text with the logo's slice: a band through each line shifts right.
- * The duplicate layer is aria-hidden, so screen readers hear the text once.
- */
-interface Props { text: string; accent?: boolean; class?: string }
-const { text, accent = false, class: className = '' } = Astro.props;
----
-<span class:list={['slice', { 'slice--accent': accent }, className]} data-slice><span class="slice__text">{text}</span><span class="slice__band" aria-hidden="true">{text}</span></span>

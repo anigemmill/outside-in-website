@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
-import displayFont from '@fontsource/league-spartan/files/league-spartan-latin-800-normal.woff2?url';
-import bodyFont from '@fontsource-variable/instrument-sans/files/instrument-sans-latin-wdth-normal.woff2?url';
+import sansFont from '@fontsource-variable/inter-tight/files/inter-tight-latin-wght-normal.woff2?url';
+import serifFont from '@fontsource/instrument-serif/files/instrument-serif-latin-400-italic.woff2?url';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { site, outstandingPlaceholders } from '../config/site';
@@ -13,17 +13,20 @@ interface Props {
   noindex?: boolean;
   /** Extra JSON-LD objects for this page */
   schema?: Record<string, unknown>[];
-  /** Homepage: the header floats over the full-screen hero. */
-  home?: boolean;
+  /** Navigation look: 'dark' (maroon) or 'light' (paper). 'hero': the page supplies its own
+      header (with <Header look="hero" /> inside) in the `hero` slot. */
+  nav?: 'hero' | 'dark' | 'light';
+  /** Footer opens with the "Got an idea?" call to action. */
+  footerCta?: boolean;
 }
 
-const { title, description = site.seo.defaultDescription, image = site.seo.ogImage, noindex = false, schema = [], home = false } = Astro.props;
+const { title, description = site.seo.defaultDescription, image = site.seo.ogImage, noindex = false, schema = [], nav = 'light', footerCta = false } = Astro.props;
 
 const pageTitle = title ? `${title} | ${site.name}` : site.seo.defaultTitle;
 const hasDomain = Boolean(site.url);
 const canonical = hasDomain ? new URL(Astro.url.pathname, site.url + '/').href : undefined;
 const ogImage = hasDomain ? new URL(image, site.url + '/').href : image;
-// Without a confirmed domain the site asks not to be indexed (safe for previews).
+// Previews (and builds without a domain) ask not to be indexed.
 const robots = noindex || !hasDomain || !site.indexable ? 'noindex, nofollow' : 'index, follow';
 
 const orgSchema = hasDomain
@@ -42,7 +45,7 @@ const jsonLd = [orgSchema, ...schema].filter(Boolean);
 const todo = import.meta.env.DEV ? outstandingPlaceholders() : [];
 ---
 <!doctype html>
-<html lang="en-NZ" data-view="outside">
+<html lang="en-NZ">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -50,12 +53,12 @@ const todo = import.meta.env.DEV ? outstandingPlaceholders() : [];
     <meta name="description" content={description} />
     <meta name="robots" content={robots} />
     {canonical && <link rel="canonical" href={canonical} />}
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="theme-color" content="#6D0101" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="preload" href={displayFont} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={bodyFont} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={sansFont} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={serifFont} as="font" type="font/woff2" crossorigin />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />
@@ -66,34 +69,23 @@ const todo = import.meta.env.DEV ? outstandingPlaceholders() : [];
     {canonical && <meta property="og:url" content={canonical} />}
     <meta name="twitter:card" content="summary_large_image" />
     {jsonLd.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
-
-    <script is:inline>
-      // Restore the visitor's chosen view before first paint (no flash).
-      document.documentElement.classList.add('js');
-      try {
-        if (localStorage.getItem('oi-view') === 'inside') document.documentElement.dataset.view = 'inside';
-      } catch (e) {}
-    </script>
   </head>
-  <body class:list={{ 'is-home': home }}>
+  <body>
     <a class="skip-link" href="#main">Skip to content</a>
     {todo.length > 0 && (
       <div class="dev-banner" role="note">
         <strong>Dev only:</strong> still to supply: {todo.join(' · ')}. Edit <code>src/config/site.ts</code> or <code>.env</code>.
       </div>
     )}
-    <Header />
+    {nav === 'hero' ? <slot name="hero" /> : <Header look={nav} />}
     <main id="main" tabindex="-1">
       <slot />
     </main>
-    <Footer />
-
-    <script>
-      import '../scripts/site';
-    </script>
+    {Astro.slots.has('footer-cta')
+      ? <Footer><Fragment slot="cta"><slot name="footer-cta" /></Fragment></Footer>
+      : <Footer cta={footerCta} />}
     <style>
       .dev-banner { background: #fff3a8; color: #121110; font: 12px/1.4 ui-monospace, monospace; padding: 6px 12px; }
-      main:focus { outline: none; }
     </style>
   </body>
 </html>

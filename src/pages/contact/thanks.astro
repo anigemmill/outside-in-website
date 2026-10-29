@@ -3,11 +3,19 @@ import Base from '../../layouts/Base.astro';
 import { site } from '../../config/site';
 ---
 <Base title="Thanks" description="Your enquiry has been sent to Outside In." noindex>
-  <section class="wrap thanks">
-    <p class="eyebrow">Enquiry sent</p>
-    <h1 class="h-xl">Thanks. We’ve got it.</h1>
-    <p class="lede">We’ll reply to the email you gave us within {site.replyWithin}.</p>
-    <div class="btn-row"><a class="btn btn--accent" href="/projects/">Look at our projects while you wait</a><a class="btn btn--ghost" href="/">Back home</a></div>
+  <section class="band thanks">
+    <div class="wrap thanks__in">
+      <p class="label">[ Sent ]</p>
+      <h1 class="thanks__title">Thanks. <em class="em">We’ve got it.</em></h1>
+      <p class="thanks__lede">We’ll reply to the email you gave us within {site.replyWithin}.</p>
+      <div class="thanks__actions"><a class="pill pill--maroon pill--lg" href="/work/">Look at our work while you wait</a><a class="pill pill--outline pill--lg" href="/">Back home</a></div>
+    </div>
   </section>
 </Base>
-<style>.thanks { display: grid; gap: 1.5rem; justify-items: start; padding-block: var(--section); }</style>
+<style>
+  .thanks__in { display: flex; flex-direction: column; gap: 24px; align-items: flex-start; }
+  .thanks__title { font-size: clamp(48px, 7vw, 104px); line-height: 0.95; letter-spacing: -0.05em; }
+  .thanks__title .em { color: var(--orange); letter-spacing: -0.02em; }
+  .thanks__lede { font-size: 19px; }
+  .thanks__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+</style>

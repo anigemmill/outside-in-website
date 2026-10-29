@@ -25,47 +25,33 @@ In `npm run dev` a yellow bar at the top of every page lists anything still to s
 
 ## Where to change things
 
+The design is **Terracotta Rose** (Oct 2026). `CLAUDE.md` has the full design and content rules.
+
 | To change… | Edit |
 | --- | --- |
 | Email, booking link, domain, social links, reply time | `src/config/site.ts` (or `.env`, see below) |
 | Navigation | `nav` in `src/config/site.ts` |
-| Homepage copy | `src/data/home.ts` |
-| Services, combined engagements, partnership | `src/data/services.ts` |
-| About page copy, team members | `src/data/about.ts` |
-| Approach stages | top of `src/pages/approach.astro` |
-| Portfolio projects | `src/content/work/<project>/index.md` |
+| Page copy | the page itself in `src/pages/` (`index.astro`, `services.astro`, `about.astro`, `contact/index.astro`) |
+| Work page cards | `src/data/work-grid.json` |
+| Case studies | `src/data/case-studies.json` (images in `src/assets/work/<project>/`, videos in `public/media/<project>/`) |
 | Privacy notice | `src/pages/privacy.astro` |
 | Default SEO title and description | `seo` in `src/config/site.ts` |
 | Page-specific SEO | the `title` and `description` on `<Base>` at the top of each page in `src/pages/` |
-| Colours, fonts, spacing | the `:root` block at the top of `src/styles/global.css` |
-| Inside-view notes | the `<Note>` elements in each page |
+| Colours, fonts, shared styles | the `:root` block at the top of `src/styles/global.css` |
+| Logo files, favicons, social image | `npm run og` (from `scripts/make-og.mjs`) |
 
-### Add a portfolio project
+### Fill in a case-study gap
 
-1. Copy an existing folder in `src/content/work/`, e.g. `off-season`, and rename it. The folder name becomes the URL: `src/content/work/harbour-hotel/` → `/work/harbour-hotel/`.
-2. Replace `cover.svg` with your image (`cover.jpg`, `cover.png` or `cover.webp` all work; around 2400×1500px is ideal). Astro converts it to modern formats and sizes automatically.
-3. Edit `index.md`. The fields between the `---` lines are required (the build tells you if one is missing):
-   - `status: client` for real work (needs a `client:` name) or `status: concept` for proof-of-concept work.
-   - `categories:` any of `design-creative`, `marketing-growth`, `ai-systems`. These drive the filters.
-   - `featured: true` puts it on the homepage (the first four by `order` are shown).
-   - `results:` **only for client work, and only verified facts.** Concept projects use `objectives:` instead; the build refuses a concept that lists results.
-   - `gallery:` optional extra images, each with `src`, `alt` and an optional `caption`. Put the image files in the same folder.
-   - Any text below the second `---` appears as notes on the project page.
-4. Save. The site rebuilds; the project appears on `/work/`, gets its own page and joins the “Next project” loop.
+Anything Ani hasn't supplied yet is written as `"TO ADD"` in `src/data/case-studies.json`, or as a gallery item with a `placeholder`. Those never appear on the site. Replace the value (or swap the placeholder for `{ "src", "alt", "fit", "background", "minHeight" }` with the image in `src/assets/work/<project>/`) and it shows up. A `result` of `null` hides the result paragraph. `npm run check` lists what's still missing.
 
-To retire a concept, delete its folder.
+### Add a project
 
-### Publish one of the Behance projects
+1. Put its images in `src/assets/work/<slug>/` (about 1800px on the long edge, JPEG).
+2. Add a case study to `src/data/case-studies.json` (copy an existing one; every image needs alt text) and set `next` so the "Next project" loop still runs through every case study.
+3. Add a card to `src/data/work-grid.json`: `filters` (Brand, Campaign, Digital, AI), `desktopColumn` (0–2) and `imageHeight` for the desktop layout, and `href` `/work/<slug>/`.
+4. Only publish copy, results and images Ani has approved and has permission to show.
 
-Eight projects from Behance are already set up as hidden drafts in `src/content/work/` (Flavours of Plenty, NZ CrossFit Nationals, Rotorua Walking Tours, Empty Plate Club, Sunseeker, Run for Reido, Wings for Life team logo, NSC wheel). Each `index.md` has the steps at the top: add the real images, confirm the client and summary, write two or three sentences, confirm you have permission to show it, then delete `draft: true`.
-
-### Turn a concept into client work
-
-Change `status: concept` to `status: client`, add `client: Name`, swap the cover for real imagery, rewrite the copy as past tense, and add `results:` only where you have numbers or outcomes you can stand behind.
-
-### Add yourself or your team
-
-Fill in `people` in `src/data/about.ts`. The People section appears on the About page automatically when the list isn’t empty.
+Older case studies are kept, unpublished, in `archive/work/`.
 
 ---
 
@@ -131,44 +117,25 @@ Bookings use Cal.com: https://cal.com/ani-gemmill-yg4gmo. Every “Book a discov
 
 ## The brand system
 
-**Logo.** `src/components/Logo.astro` rebuilds the supplied mark as live SVG from measured geometry: a ring and a bar, each cut by one horizontal slice shifted right. On screen it is plum (or mint on dark), always one colour. Black, white, plum and mint files for other uses are in `public/brand/`. Regenerate with `npm run og`.
+**Terracotta Rose** (Oct 2026). Full rules, including the contrast workarounds, are in `CLAUDE.md`.
 
-**Logo animation.** Built only from the mark's real parts, so the resting state is always the exact logo:
-1. Intro: the top halves of the O and I drop in, the bottom halves rise, then both slices fly in from outside the frame (the left) and lock into their offsets.
-2. Hover (header and footer logo links): the slices snap back to whole, then shift out again.
-3. Hero only: the slices follow the pointer (or a finger on touch screens), and every six seconds while idle and on screen the slices give a short blink.
-Reduced-motion users see the finished logo with no movement. Timings are in the `<style>` block of `Logo.astro`; the idle interval is in `src/scripts/site.ts`.
-
-**Homepage (v3, "Editorial").** Built to `HOMEPAGE-V3-SPEC.md`: the logo hero, a scroll-filled statement, a full-width work grid with the Outside/Inside lens, the drift field, numbered service rows, a sticky approach image, a curved social gallery and the corner-square call to action. Homepage copy lives in `src/data/home.ts`; homepage images in `src/assets/home/` (see `manifest.json`).
-
-**Header.** Logo on the left, plain text links and one plum “Let’s talk” button on the right. On the homepage the header logo appears once you scroll past the hero logo.
-
-**Inside view switch.** Lives in the header, on every screen size.
-
-**The slice.** The logo’s cut runs through the whole site: headline text, card hovers, rules and the eyebrow markers.
-
-**Colour.** Four colours that swap roles, plus ink and white:
-
-| Colour | Hex | Role |
+| Token | Hex | Use |
 | --- | --- | --- |
-| Red | `#EB4213` | Hero pair 1 (green mark); artwork |
-| Pink | `#FF99DC` | Hero pair 2 (red mark); Design & Creative |
-| Purple | `#826DEE` | Hero pair 3 (pink mark); AI & Systems |
-| Light green | `#D8F382` | Hero pair 4 (purple mark); Marketing & Growth |
-| Ink | `#17131F` | All text, buttons, footer |
-| White | `#FFFFFF` | Page background |
+| Orange | `#E0421E` | Hero, accents, large text only |
+| Cream | `#FBF7F2` | Text on orange or maroon, inputs |
+| Maroon | `#6D0101` | Nav bands, CTA band, footer, primary pills |
+| Pink | `#F9B8CD` | Text on maroon, tags, stickers |
+| Brown | `#3B1E19` | Body text |
+| Brown soft | `#5A3A32` | Secondary text |
+| Blue | `#D7E6F2` | About band, social section, form panel |
+| Paper | `#F4EFE8` | Page background |
+| Line | `#E5D3C6` | Hairlines |
 
-Supporting tokens: Purple Ink `#4F3ACB` (links, 7.5:1 on white), Red Ink `#B8320D` (small red text), Lilac `#E6E0FC` (hover fills), Ink Soft `#4B4556` (secondary text), Ink Deep `#1F1A29` (Inside view).
+**Type.** Inter Tight for everything, Instrument Serif italic for emphasis words. Self-hosted via Fontsource; no requests to Google.
 
-**The colour-cycling hero.** The homepage hero flips to the next pair every 0.4 seconds with a near-instant cut, at the moment the logo's slices snap whole, so the change feels cut-in. The pairs are set in `src/pages/index.astro` (`.hero[data-pair='0']` to `'3'`); the interval is in `src/scripts/site.ts`. It pauses when the hero is off screen, while someone is moving over the mark, and for reduced-motion users.
+**Logo.** `src/components/Logo.astro` rebuilds the mark as live SVG from its measured geometry; the resting state is always the exact logo. Files in maroon, cream, orange and brown are in `public/brand/` (regenerate with `npm run og`).
 
-**Contrast.** Ink reads on all four colours (4.6:1 or more) and is used for every piece of text on colour. The colour pairs themselves are 2 to 3:1, so they are only for the logo and big colour fields, never for text.
-
-**Shapes.** Buttons, tags, filters and stickers are pills (`--pill`); cards and panels use a 16px radius (`--radius`).
-
-**Type.** League Spartan 800 in capitals for headings and wordmarks (a free stand-in for Kilimanjaro Sans), Instrument Sans for all copy and labels. The Findable pages keep Findable's own type (Inter Tight, Inter, JetBrains Mono). All self-hosted; no requests to Google.
-
-**Inside view.** The toggle in the header flips the site into a blueprint layer that explains the thinking behind each section. The visitor’s choice is remembered in their browser only.
+**Motion.** Hero entrance and slice blink, the four-pair hero colour cycle, the spinning social ring, card and row hovers, the Contact headline and case-study titles. Every animation turns off for reduced motion.
 
 ---
 
@@ -176,23 +143,23 @@ Supporting tokens: Purple Ink `#4F3ACB` (links, 7.5:1 on white), Red Ink `#B8320
 
 ```
 src/
-  config/site.ts          business details, links, SEO defaults
-  data/                   editable copy (home, services, about)
-  content/work/           portfolio: one folder per project
-  content.config.ts       portfolio field rules
-  components/             Logo, Header, Footer, ProjectCard, ContactForm, TriageDemo…
-  layouts/Base.astro      <head>, SEO, header/footer shell
-  pages/                  one file per route
-  scripts/site.ts         menu, Inside view, reveals, logo interaction
-  styles/global.css       design tokens and shared styles
-public/                   favicons, logo files, social image
+  config/site.ts          business details, links, nav, SEO defaults
+  data/                   work-grid.json, case-studies.json (+ work.ts types/helpers), findable.ts
+  lib/media.ts            resolves image/video paths from the JSON
+  assets/work/, studio/   portfolio and studio images (optimised at build)
+  components/             Logo, Header, Footer, BookCall, ContactForm, FindableSource
+  layouts/                Base.astro (Outside In), FindableLayout.astro
+  pages/                  one file per route; work/[slug].astro is the case-study template
+  styles/                 global.css (tokens), base.css (shared reset), findable.css
+public/                   favicons, logo files, social image, media/ (videos)
+archive/work/             old case studies, unpublished
 scripts/                  brand-file generator, launch checklist
-netlify.toml              build settings and headers
+netlify.toml              build settings, headers, redirects
 ```
 
 ## Accessibility and performance notes
 
-- Semantic landmarks, one `h1` per page, skip link, visible focus states, keyboard-operable menu (Escape closes, focus is kept inside), filters, toggle and demo.
-- Reduced-motion preference turns off the ticker, reveals, logo animation and page transitions; the logo shows its final state immediately.
-- Tested with axe-core (WCAG 2.1 AA rules) in both views: no violations at handover.
+- Semantic landmarks, one `h1` per page, skip link, visible focus states, 44px minimum targets, keyboard-operable filters and form chips (`aria-pressed`, with a live status message for filter results).
+- Reduced-motion preference turns off every animation and transition; the logo shows its exact resting state.
+- Tested with axe-core (WCAG 2.1 AA) at 320–1440px, including each hero colour frame: no violations at handover (Oct 2026).
 - No tracking, no third-party scripts, fonts self-hosted, images optimised at build, JavaScript kept small and page-specific.

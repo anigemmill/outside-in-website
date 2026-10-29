@@ -1,75 +1,56 @@
 ---
+/** Contact (mockup: design/source/contact.html): orange panel with the booking link, blue form panel. */
 import Base from '../../layouts/Base.astro';
-import PageHero from '../../components/PageHero.astro';
 import ContactForm from '../../components/ContactForm.astro';
-import BookingLink from '../../components/BookingLink.astro';
-import Note from '../../components/Note.astro';
+import BookCall from '../../components/BookCall.astro';
 import { site } from '../../config/site';
 
-const next = [
-  { t: 'We read it properly', d: `A real person reads every enquiry and replies within ${site.replyWithin}.` },
-  { t: 'A short discovery call', d: 'If there’s a fit, we’ll suggest a call to understand the problem, the goal and any constraints.' },
-  { t: 'A written proposal', d: 'You get a clear scope, timeline and cost. No obligation, and no pressure if the timing isn’t right.' },
+const words = [
+  { w: 'Got', d: 0.05 }, { w: 'an', d: 0.12 }, { w: 'idea?', d: 0.19 },
+  { w: 'Let’s', d: 0.32, em: true }, { w: 'make', d: 0.39, em: true }, { w: 'it', d: 0.46, em: true }, { w: 'real.', d: 0.53, em: true },
 ];
 ---
-<Base title="Contact" description="Start a conversation with Outside In. Send an enquiry or book a discovery call about design, marketing or AI for your business.">
-  <PageHero
-    eyebrow="Contact"
-    dot="red"
-    title="Bring us the problem. We’ll bring the outside view."
-    lede="Tell us what’s going on, or book a discovery call. Either way, you’ll get a straight answer."
-  />
-
-  <section class="wrap contact" aria-label="Get in touch">
-    <div class="contact__form" id="enquiry">
-      <h2 class="contact__h">Send an enquiry</h2>
-      <ContactForm />
+<Base title="Contact" description="Got an idea? Tell Outside In a little about it, or book a discovery call. Brand, websites, campaigns, marketing and AI.">
+  <div class="ct">
+    <div class="wrap ct__in">
+      <section class="ct__panel on-orange" aria-labelledby="ct-title">
+        <span class="tag tag--cream ct__label">[ Contact ]</span>
+        <h1 id="ct-title" class="ct__title">
+          {words.map((x, i) => (
+            <>{x.em ? <em class="em word" style={`animation-delay:${x.d}s`}>{x.w}</em> : <span class="word" style={`animation-delay:${x.d}s`}>{x.w}</span>}{i < words.length - 1 && ' '}</>
+          ))}
+        </h1>
+        <div class="ct__reach">
+          <BookCall class="pill pill--maroon ct__book" />
+          <a href={`mailto:${site.email}`} data-contact-email>{site.email}</a>
+          <span>{site.place}</span>
+        </div>
+      </section>
+      <div class="ct__form on-blue" id="enquiry">
+        <ContactForm />
+      </div>
     </div>
-
-    <aside class="contact__side" aria-label="Other ways to reach us">
-      <div class="contact__block contact__block--call">
-        <h2 class="contact__h">Prefer to talk?</h2>
-        <p>{site.bookingUrl ? 'Pick a time that suits you. We’ll come prepared with questions about your business.' : 'Choose “A discovery call” in the form and we’ll send you some times.'}</p>
-        {site.bookingUrl ? <BookingLink /> : <a class="btn btn--accent" href="#enquiry" data-pick-call>Request a call <span class="btn__arrow" aria-hidden="true">→</span></a>}
-      </div>
-
-      <div class="contact__block">
-        <h2 class="contact__h">Email</h2>
-        <a class="contact__email" href={`mailto:${site.email}`} data-contact-email>{site.email}</a>
-      </div>
-
-      <div class="contact__block">
-        <h2 class="contact__h">What happens next</h2>
-        <ol role="list" class="next-steps">
-          {next.map((n, i) => <li><span class="next-steps__n">0{i + 1}</span><div><strong>{n.t}</strong><p class="muted">{n.d}</p></div></li>)}
-        </ol>
-      </div>
-      <Note>Explaining what happens after you hit send lowers the risk of enquiring. People get in touch more when they know the next step.</Note>
-    </aside>
-  </section>
+  </div>
 </Base>
 
-<script>
-  document.querySelector('[data-pick-call]')?.addEventListener('click', () => {
-    const sel = document.querySelector<HTMLSelectElement>('select[name="topic"]');
-    if (sel) { sel.value = 'Discovery call'; setTimeout(() => document.getElementById('cf-name')?.focus(), 300); }
-  });
-</script>
-
 <style>
-  .contact { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: clamp(3rem, 6vw, 6rem); padding-bottom: clamp(6rem, 12vw, 12rem); align-items: start; }
-  .contact__form { scroll-margin-top: 6rem; }
-  .contact__h { font-family: var(--font-body); font-size: var(--step-0); font-weight: 600; letter-spacing: 0; margin-bottom: 1.25rem; }
-  .contact__side { display: grid; gap: 0; }
-  .contact__block { display: grid; gap: 0.25rem; justify-items: start; padding-block: 1.75rem; border-top: 1px solid var(--line); }
-  .contact__block:first-child { padding-top: 0; border-top: 0; }
-  .contact__block .contact__h { margin-bottom: 0.5rem; }
-  .contact__block--call { padding: 1.75rem; border-radius: var(--radius); background: var(--red); color: var(--ink); gap: 0.9rem; margin-bottom: 1.75rem; --fg: var(--ink); --bg: var(--green); --fill: var(--white); }
-  .contact__block--call .contact__h { margin-bottom: 0; font-family: var(--font-display); font-size: var(--step-2); font-weight: 800; text-transform: uppercase; line-height: 0.95; }
-  .contact__email { font-weight: 600; font-size: var(--step-1); overflow-wrap: anywhere; color: var(--fg); text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
-  .contact__email:hover { color: var(--link); }
-  .next-steps { display: grid; gap: 1rem; padding: 0; }
-  .next-steps li { display: grid; grid-template-columns: 2rem 1fr; gap: 0.5rem; }
-  .next-steps__n { color: var(--muted); font-size: var(--step--1); padding-top: 0.15rem; }
-  @media (max-width: 900px) { .contact { grid-template-columns: 1fr; } }
+  .ct { padding: clamp(24px, 3vw, 40px) var(--gutter) clamp(48px, 6vw, 80px); }
+  .ct__in { display: flex; flex-wrap: wrap; gap: 20px; }
+  .ct__panel { flex: 1 1 480px; padding: clamp(32px, 4vw, 56px); min-height: 760px; display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; gap: 48px; }
+  .ct__label { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .ct__title { font-weight: 500; font-size: clamp(56px, 7vw, 108px); line-height: 0.92; letter-spacing: -0.05em; }
+  .ct__title .em { letter-spacing: -0.02em; }
+  .word { display: inline-block; animation: word-up 0.8s var(--ease-out) both; }
+  @keyframes word-up { from { transform: translateY(60%); opacity: 0; } to { transform: none; opacity: 1; } }
+  /* Cream on orange is large-text only, so the details run at 24px. */
+  .ct__reach { display: flex; flex-direction: column; gap: 14px; font-size: 24px; line-height: 1.25; }
+  .ct__reach a:not(.pill) { overflow-wrap: anywhere; min-height: 44px; display: inline-flex; align-items: center; }
+  .ct__reach :global(.ct__book) { min-height: 56px; padding: 0 28px; font-size: 18px; }
+  .ct__form { flex: 1 1 480px; padding: clamp(32px, 4vw, 56px); }
+  @media (max-width: 600px) {
+    .ct__panel { min-height: 0; padding-inline: 20px; }
+    .ct__form { padding-inline: 20px; }
+    .ct__panel, .ct__form { flex-basis: 100%; }
+    .ct__reach { font-size: 20px; font-weight: 700; }
+  }
 </style>

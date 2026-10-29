@@ -1,128 +1,258 @@
 ---
 /**
- * HOMEPAGE v3 ("Editorial"). Build spec: HOMEPAGE-V3-SPEC.md.
- * White and ink everywhere, big type and big images, one strong motion per
- * section. Loud and quiet sections alternate and only one effect animates on
- * screen at a time. Effects are switched on by src/scripts/home.ts; without
- * JavaScript or with reduced motion every section shows its finished state.
- *
- *  1 Hero (01 logo glide) · loud            6 Approach (sticky stage image) · quiet
- *  2 Introduction (11 scroll fill) · quiet  7 Social (13 curved gallery) · loud
- *  3 Selected work (12 grid + 03 lens)      8 Call to action (10 corner squares)
- *  4 How we work (05 drift) · loud          9 Footer (scroll-linked wordmark)
- *  5 Services (numbered rows) · quiet
+ * Homepage (mockup: design/source/home.html in the Oct 2026 handoff).
+ * Hero logo → maroon intro with the drone photo → blue about band → services
+ * → selected work → the spinning social ring → CTA and footer.
  */
+import { Picture } from 'astro:assets';
 import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
 import Logo from '../components/Logo.astro';
-import ScrollFill from '../components/home/ScrollFill.astro';
-import HomeWork from '../components/home/HomeWork.astro';
-import Drift from '../components/home/Drift.astro';
-import ServiceRows from '../components/home/ServiceRows.astro';
-import ApproachStages from '../components/home/ApproachStages.astro';
-import SocialCurve from '../components/home/SocialCurve.astro';
-import CtaCard from '../components/home/CtaCard.astro';
-import { home } from '../data/home';
+import BookCall from '../components/BookCall.astro';
 import { site } from '../config/site';
----
-<Base description={site.seo.defaultDescription} home>
+import { img, video, poster } from '../lib/media';
 
-  <!-- 1. The logo. As the hero scrolls away it glides into the header. -->
-  <section class="hero" data-logo-zone data-hero data-pair="0" aria-labelledby="hero-title">
-    <h1 id="hero-title" class="visually-hidden">Outside In: {home.hero.descriptor}</h1>
-    <div class="hero__mark" data-glide-mark>
-      <div class="hero__glide scrub" data-glide>
-        <div class="hero__glide-move scrub">
-          <Logo id="oi-hero" animate="load" interactive decorative class="hero__logo scrub" />
+const stats = [
+  { n: '3', text: 'Disciplines under one roof' },
+  { n: '5', text: 'Stages, from first look to measured result' },
+  { n: '1', text: 'Point of contact across all of it' },
+];
+
+const services = [
+  { n: '01', name: 'Design & Creative', text: 'Brand, web, campaign and event creative that people remember for the right reasons.', href: '/services/#design-creative' },
+  { n: '02', name: 'Marketing & Growth', text: 'Strategy, campaigns and content tied to a commercial goal you can measure.', href: '/services/#marketing-growth' },
+  { n: '03', name: 'AI & Systems', text: 'Find where AI genuinely pays off, then build it into how your business runs.', href: '/services/#ai-systems' },
+];
+
+const work = [
+  { n: '01 — 2025', title: 'Flavours of Plenty Festival', tags: 'Campaign · Illustration system · Print · Out-of-home · Packaging', href: '/work/flavours-of-plenty/', image: 'assets/flavours-of-plenty/airport-screen.jpg', alt: 'Flavours of Plenty festival artwork on a digital screen at the airport' },
+  { n: '02 — Our venture', title: 'Ride Retreat', tags: 'Brand · Website · AI guest app', href: '/work/ride-retreat/', image: 'assets/ride-retreat/app-3x2-poster.jpg', video: 'assets/ride-retreat/app-3x2.mp4', alt: 'The Ride Retreat guest app on a phone' },
+  { n: '03 — Our product', title: 'Findable', tags: 'AI visibility · Product · Tourism', href: '/findable/', image: 'assets/findable/laptop-sky-wide.jpg', alt: 'Hands holding up a laptop showing the Findable dashboard against a blue sky', bg: '#5EA9DA' },
+];
+const rrPoster = await poster('assets/ride-retreat/app-3x2-poster.jpg', 1200);
+
+/* "Made for the feed": ten tiles in a 3D ring. Four are photos. */
+type Tile = { top: string; text: string; foot?: string; kind: 'big' | 'quote' | 'photo'; bg?: string; fg?: string; image?: string; pill?: string };
+const tiles: Tile[] = [
+  { kind: 'big', bg: 'var(--paper)', fg: 'var(--brown)', top: 'Outside In', text: 'Look outside.', foot: 'Creative · Marketing · AI' },
+  { kind: 'quote', bg: 'var(--orange)', fg: 'var(--cream)', top: 'Design & Creative', text: '“Your brand looks fine. Fine is forgettable.”', foot: 'Outside In' },
+  { kind: 'photo', image: 'assets/flavours-of-plenty/billboard.jpg', top: 'New work', text: 'Flavours of Plenty', pill: 'var(--pink)' },
+  { kind: 'quote', bg: 'var(--blue)', fg: 'var(--brown)', top: 'AI & Systems', text: '“If AI isn’t the right fix, we’ll tell you.”', foot: 'Outside In' },
+  { kind: 'photo', image: 'assets/ride-retreat/rider-4x5.jpg', top: 'Case study', text: 'Ride Retreat', pill: 'var(--blue)' },
+  { kind: 'quote', bg: 'var(--maroon)', fg: 'var(--pink)', top: 'The name', text: '“Close enough to care. Far enough to see.”', foot: 'Outside In' },
+  { kind: 'photo', image: 'assets/findable/laptop-sky.jpg', top: 'Findable', text: 'Be the answer.', pill: 'var(--pink)' },
+  { kind: 'big', bg: 'var(--orange)', fg: 'var(--cream)', top: 'Now booking', text: 'Discovery calls', foot: 'Link in bio' },
+  { kind: 'quote', bg: 'var(--paper)', fg: 'var(--brown)', top: 'Marketing & Growth', text: '“Reporting that ends with a recommendation.”', foot: 'Outside In' },
+  { kind: 'photo', image: 'assets/studio/ani-portrait.jpg', top: 'Kia ora', text: 'I’m Ani', pill: 'var(--pink)' },
+];
+---
+<Base nav="hero" footerCta>
+  <header slot="hero" class="hero" data-hero>
+    <Header look="hero" />
+    <div class="hero__mark">
+      <h1><Logo id="hero-mark" variant="hero" label="Outside In" /></h1>
+    </div>
+    <div class="hero__base">
+      <span class="tag tag--cream">Creative · Marketing · AI studio</span>
+      <span class="tag tag--cream">Rotorua, Aotearoa</span>
+      <a class="tag tag--cream hero__scroll" href="#intro">Scroll <span aria-hidden="true">↓</span></a>
+    </div>
+  </header>
+
+  <section id="intro" class="band on-maroon intro">
+    <div class="wrap intro__in">
+      <div class="intro__copy">
+        <p class="intro__lead">We find what you’re too close to see — <em class="em">then build it.</em></p>
+        <p class="intro__sub">Brand, campaigns and AI systems for businesses in Aotearoa and beyond.</p>
+        <a class="rule-link" href="/work/">See selected work →</a>
+      </div>
+      <Picture class="intro__img" src={img('assets/studio/behind-the-scenes-drone.jpg')} formats={['avif', 'webp']} widths={[520, 800, 1100, 1400]} sizes="(min-width: 1000px) 50vw, 100vw" alt="Ani holding a drone controller on a shoot, the live aerial view of the treetops on its screen" />
+    </div>
+  </section>
+
+  <section class="band on-blue about" aria-labelledby="about-label">
+    <div class="wrap about__in">
+      <p class="label" id="about-label">[ About ]</p>
+      <div class="about__body">
+        <p class="about__lead">A customer never experiences your brand, your marketing and your systems separately. So we don’t build them separately. One studio for creative, growth and practical AI.</p>
+        <ul role="list" class="stats">
+          {stats.map((s) => <li><span class="stats__n">{s.n}</span><span class="stats__t">{s.text}</span></li>)}
+        </ul>
+        <a class="rule-link" href="/about/">More about us →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="band services" aria-labelledby="services-title">
+    <div class="wrap services__in">
+      <div class="services__head">
+        <h2 id="services-title">Look from the outside, decide what matters, build it — then measure and refine.</h2>
+        <p class="label">[ Services ]</p>
+      </div>
+      <div class="svc-grid">
+        {services.map((s) => (
+          <a class="svc" href={s.href}>
+            <span class="svc__top"><span class="svc__n">[ {s.n} ]</span><span class="svc__name">{s.name}</span></span>
+            <span class="svc__text">{s.text}</span>
+          </a>
+        ))}
+        <div class="svc svc--cta on-maroon">
+          <span class="serif svc__ask">Not sure where to start?</span>
+          <BookCall class="pill pill--pink" />
         </div>
       </div>
     </div>
   </section>
 
-  <div class="sections">
-    <!-- 2. Introduction: the statement fills word by word -->
-    <ScrollFill id="intro-label" label={home.intro.label} text={home.intro.statement} />
+  <section class="band selected" aria-labelledby="selected-label">
+    <div class="wrap">
+      <div class="selected__head">
+        <h2 class="label" id="selected-label">[ Selected work ]</h2>
+        <a href="/work/" class="selected__all">All work →</a>
+      </div>
+      <ul role="list" class="wk-list">
+        {work.map((w) => (
+          <li>
+            <a class="wk" href={w.href}>
+              <span class="wk__copy">
+                <span class="wk__n">{w.n}</span>
+                <span class="wk__title">{w.title}</span>
+                <span class="wk__tags">{w.tags}</span>
+              </span>
+              <span class="wk__media" style={w.bg ? `background:${w.bg}` : undefined}>
+                {w.video
+                  ? <video class="wk__img" src={video(w.video)} poster={rrPoster} autoplay muted loop playsinline preload="metadata" aria-label={w.alt}></video>
+                  : <Picture class="wk__img" src={img(w.image)} formats={['avif', 'webp']} widths={[560, 900, 1300]} sizes="(min-width: 1000px) 50vw, 100vw" alt={w.alt} />}
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
 
-    <!-- 3. Selected work: three tiles from the Work page -->
-    <HomeWork />
-
-    <!-- 4. How we work: the drift field (full width) -->
-    <Drift />
-
-    <!-- 5. Services: numbered rows -->
-    <ServiceRows />
-
-    <!-- 6. Approach: sticky stage image -->
-    <ApproachStages />
-
-    <!-- 7. Social: curved gallery -->
-    <SocialCurve />
-
-    <!-- 8. Call to action -->
-    <CtaCard />
-  </div>
+  <section class="social on-blue" aria-labelledby="social-title">
+    <p class="label social__kicker">On social</p>
+    <h2 id="social-title" class="social__title">Made for the <em class="em">feed</em></h2>
+    <div class="ring-wrap" aria-hidden="true">
+      <div class="ring" style={`--n:${tiles.length}`}>
+        {tiles.map((t, i) => (
+          <div class:list={['tile', `tile--${t.kind}`, { 'tile--orange': t.bg === 'var(--orange)' }]} style={`--i:${i};${t.bg ? `background:${t.bg};color:${t.fg};` : ''}`}>
+            {t.image && <Picture class="tile__img" src={img(t.image)} formats={['webp']} widths={[480]} sizes="240px" alt="" loading="eager" />}
+            <span class="tile__top"><span>{t.top}</span><span>@theoutsidein.nz</span></span>
+            <span class="tile__text" style={t.pill ? `background:${t.pill}` : undefined}>{t.text}</span>
+            <span class="tile__foot">{t.foot}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+    {site.social.instagram && <a class="pill pill--outline pill--lg social__follow" href={site.social.instagram} target="_blank" rel="noopener">Follow on Instagram <span aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>}
+  </section>
 </Base>
 
-<script>
-  import '../scripts/home';
-</script>
-
 <style>
-  /* Hero: the mark alone, cycling through four colour pairs in time with the logo's blink. */
-  .hero[data-pair='0'] { --hero-bg: var(--red);    --hero-fg: var(--green); }
-  .hero[data-pair='1'] { --hero-bg: var(--pink);   --hero-fg: var(--red); }
-  .hero[data-pair='2'] { --hero-bg: var(--purple); --hero-fg: var(--pink); }
-  .hero[data-pair='3'] { --hero-bg: var(--green);  --hero-fg: var(--purple); }
+  /* Hero: colour pairs (background, then logo) hold for 1.5s each, a full
+     cycle every 6s, as step changes (well under 3 changes a second). */
   .hero {
-    position: relative; isolation: isolate;
-    background: var(--hero-bg); color: var(--hero-fg);
-    transition: background-color 0.06s linear, color 0.06s linear;
-    min-height: 100svh; display: grid; place-items: center; align-content: center; gap: clamp(2rem, 4vw, 3.5rem);
-    padding: 7rem var(--gutter) 5rem;
+    height: clamp(560px, 100svh, 860px);
+    padding: 24px var(--gutter) 32px;
+    display: flex; flex-direction: column;
+    background: var(--orange); color: var(--cream);
+    animation: oi-pairs 6s step-end infinite;
   }
-  .hero__mark { width: min(56vw, 640px); cursor: ew-resize; touch-action: pan-y; }
-  :global(.hero__logo) { width: 100%; color: inherit; }
-  @media (max-width: 640px) { .hero__mark { width: 78vw; } }
+  @keyframes oi-pairs {
+    0% { background-color: #E0421E; color: #FBF7F2; }
+    25% { background-color: #FBF7F2; color: #E0421E; }
+    50% { background-color: #6D0101; color: #F9B8CD; }
+    75% { background-color: #D7E6F2; color: #E0421E; }
+    100% { background-color: #E0421E; color: #FBF7F2; }
+  }
+  .hero__mark { flex-grow: 1; display: flex; align-items: center; justify-content: center; }
+  .hero__mark h1 { width: min(56vw, 600px); }
+  @media (max-width: 600px) { .hero__mark h1 { width: 78vw; } }
+  .hero__base { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 16px; }
+  .hero__base .tag { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .hero__scroll { text-decoration: none; min-height: 44px; }
 
-  /* 01 Logo glide. src/scripts/home.ts measures the route and sets --g-*. The logo
-     sits above the header while it travels, then hands off to the header logo. */
-  :global(.is-home) { timeline-scope: --hero; }
-  .hero { view-timeline: --hero block; }
-  :global(.glide-live) .hero { --tl: --hero; --range: cover var(--g-r0, 50%) cover var(--g-r1, 80%); }
-  :global(.glide-live) .hero__glide { position: relative; z-index: 60; animation-name: glide-comp; }
-  :global(.glide-live) .hero__glide-move { transform-origin: 0 0; animation-name: glide-move; }
-  :global(.glide-live) :global(.hero__logo) { animation-name: glide-logo; }
-  /* Keeps the logo still on screen while the hero scrolls; hides it at the hand-off. */
-  @keyframes glide-comp {
-    0% { transform: translateY(0px); opacity: 1; }
-    99.9% { opacity: 1; }
-    100% { transform: translateY(var(--g-comp, 0px)); opacity: 0; }
-  }
-  /* Straight line to the header slot, eased in-out, shrinking to the header size. */
-  @keyframes glide-move {
-    0% { transform: translate(0px, 0px) scale(1); animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1); }
-    100% { transform: translate(var(--g-dx, 0px), var(--g-dy, 0px)) scale(var(--g-s, 1)); }
-  }
-  /* Slices close over 0–70%; colour shifts to the header logo's colour over 80–100%.
-     The colour is mixed through --glide-ink rather than animated directly, so the
-     hero's colour cycle keeps control of the logo colour until the glide starts. */
-  @property --glide-ink { syntax: '<number>'; inherits: true; initial-value: 0; }
-  :global(.glide-live) :global(.hero__logo) { color: color-mix(in srgb, var(--brand-color) calc(var(--glide-ink) * 100%), var(--hero-fg)); }
-  @keyframes glide-logo {
-    0% { --oi-close: 0; --glide-ink: 0; }
-    70% { --oi-close: 1; }
-    80% { --glide-ink: 0; }
-    100% { --oi-close: 1; --glide-ink: 1; }
-  }
+  /* Intro */
+  .intro__in { display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-end; }
+  .intro__copy { flex: 1 1 420px; display: flex; flex-direction: column; gap: 28px; }
+  .intro__lead { font-size: clamp(36px, 4.2vw, 60px); line-height: 1.02; letter-spacing: -0.04em; font-weight: 500; }
+  .intro__sub { font-size: 17px; line-height: 1.5; color: var(--cream); max-width: 440px; }
+  .intro :global(picture) { flex: 1 1 520px; min-width: 0; }
+  .intro :global(.intro__img) { width: 100%; height: 460px; object-fit: cover; object-position: 50% 52%; }
 
+  /* About band */
+  .about__in { display: flex; flex-wrap: wrap; gap: 48px; }
+  .about__in > .label { flex: 1 1 240px; }
+  .about__body { flex: 2 1 560px; display: flex; flex-direction: column; gap: 56px; }
+  .about__lead { font-size: clamp(24px, 2.4vw, 34px); line-height: 1.25; letter-spacing: -0.015em; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 32px; }
+  .stats li { display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--brown); padding-top: 16px; }
+  .stats__n { font-size: 52px; color: var(--orange); letter-spacing: -0.03em; line-height: 1; }
+  .stats__t { font-size: 14px; line-height: 1.4; }
 
-  /* Light grain on the hero's colour field only (never on text or photos). */
-  .hero::before {
-    content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0.14; mix-blend-mode: multiply;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.7 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  /* Services */
+  .services__in { display: flex; flex-direction: column; gap: 48px; }
+  .services__head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 24px; }
+  .services__head h2 { max-width: 760px; font-weight: 400; font-size: clamp(30px, 3.2vw, 46px); line-height: 1.1; letter-spacing: -0.025em; }
+  .svc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
+  .svc { text-decoration: none; border: 1px solid var(--line); min-height: 280px; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; transition: background-color 0.25s; }
+  a.svc:hover { background-color: var(--cream); opacity: 1; }
+  .svc__top { display: flex; flex-direction: column; gap: 8px; }
+  .svc__n { font-size: 13px; color: var(--maroon); }
+  .svc__name { font-size: 28px; color: var(--orange); letter-spacing: -0.02em; line-height: 1.1; }
+  .svc__text { font-size: 15px; line-height: 1.5; }
+  .svc--cta { border-color: var(--maroon); }
+  .svc__ask { font-size: 30px; line-height: 1.05; }
+
+  /* Selected work */
+  .selected { padding-top: 0; }
+  .selected__head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 16px; padding-bottom: 24px; }
+  .selected__all { font-size: 14px; min-height: 44px; display: inline-flex; align-items: center; }
+  .wk-list > li { border-top: 1px solid var(--brown); }
+  .wk-list > li:last-child { border-bottom: 1px solid var(--brown); }
+  .wk { text-decoration: none; padding: 28px 0; display: flex; flex-wrap: wrap; gap: 32px; }
+  .wk:hover { opacity: 1; }
+  .wk__copy { flex: 1 1 420px; display: flex; flex-direction: column; gap: 12px; }
+  .wk__n, .wk__tags { font-size: 13px; color: var(--brown-soft); }
+  .wk__tags { font-size: 14px; }
+  .wk__title { font-size: clamp(34px, 4vw, 56px); letter-spacing: -0.035em; line-height: 1; }
+  .wk__media { flex: 1 1 520px; min-width: 0; height: 320px; overflow: hidden; display: block; }
+  .wk__media :global(picture) { display: contents; }
+  .wk__media :global(.wk__img) { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s var(--ease-back); }
+  .wk:hover :global(.wk__img), .wk:focus-visible :global(.wk__img) { transform: translateX(16px); }
+
+  /* Social ring: ten tiles turning once every 48s; hover pauses it. */
+  .social { padding: clamp(56px, 7vw, 96px) 0; text-align: center; overflow: clip; }
+  .social__kicker { letter-spacing: 0.14em; margin-bottom: 10px; }
+  .social__title { font-weight: 500; font-size: clamp(44px, 5vw, 72px); letter-spacing: -0.035em; padding-inline: var(--gutter); }
+  .social__title .em { color: var(--orange); }
+  .ring-wrap { perspective: 1500px; height: 440px; display: flex; align-items: center; justify-content: center; margin-top: 16px; }
+  .ring { position: relative; width: 240px; height: 300px; transform-style: preserve-3d; animation: ring 48s linear infinite; transform: translateZ(-560px); }
+  .ring-wrap:hover .ring { animation-play-state: paused; }
+  @keyframes ring { from { transform: translateZ(-560px) rotateY(0deg); } to { transform: translateZ(-560px) rotateY(-360deg); } }
+  .tile {
+    position: absolute; inset: 0; backface-visibility: hidden; overflow: hidden;
+    transform: rotateY(calc(var(--i) * 360deg / var(--n))) translateZ(560px);
+    padding: 16px; display: flex; flex-direction: column; justify-content: space-between; text-align: left;
+    box-shadow: 0 18px 40px rgba(59, 30, 25, 0.18);
   }
-
-  /* Section rhythm (Linear Studio): about 240px between sections on desktop, 120px on phones. */
-  .sections { display: grid; gap: var(--gap-section); padding-block: var(--gap-section) clamp(4rem, 8vw, 7rem); }
-  /* One full-width column; a wide child (the social row without JavaScript) must not stretch it. */
-  .sections { grid-template-columns: minmax(0, 1fr); }
+  .tile--photo { background: var(--brown); color: var(--brown); }
+  .tile :global(.tile__img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .tile__top, .tile__text, .tile__foot { position: relative; }
+  .tile__top { font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; display: flex; justify-content: space-between; gap: 8px; }
+  .tile--photo .tile__top { background: rgba(251, 247, 242, 0.9); padding: 6px 8px; border-radius: 6px; }
+  /* Orange tiles: the tiny labels sit on cream so they stay readable (cream on orange is large-text only). */
+  .tile--orange .tile__top, .tile--orange .tile__foot:not(:empty) { background: var(--cream); color: var(--brown); padding: 6px 8px; border-radius: 6px; width: fit-content; }
+  .tile--orange .tile__top { width: auto; }
+  .tile__foot { font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; min-height: 1em; }
+  .tile--big .tile__text { font-weight: 600; text-transform: uppercase; line-height: 0.92; letter-spacing: -0.03em; font-size: 38px; }
+  .tile--quote .tile__text { font-family: var(--serif); font-size: 30px; line-height: 1.04; }
+  .tile--photo .tile__text { align-self: center; margin-bottom: 18%; border-radius: 999px; padding: 8px 16px; font-size: 16px; font-weight: 600; transform: rotate(-3deg); }
+  .social__follow { margin-top: 0; }
+  @media (max-width: 600px) {
+    .ring-wrap { height: 360px; perspective: 1100px; }
+    .ring { width: 200px; height: 250px; }
+  }
 </style>

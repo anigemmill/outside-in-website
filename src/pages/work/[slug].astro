@@ -1,0 +1,149 @@
+---
+/**
+ * Case study template (mockup: design/source/case-study-template.html).
+ * Data: src/data/case-studies.json. Anything still "TO ADD" or a gallery
+ * placeholder is left out, never shown.
+ */
+import type { GetStaticPaths } from 'astro';
+import { Picture } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import { caseStudies, bySlug, publishedGallery, metaRows, type CaseStudy } from '../../data/work';
+import { img, video, poster, isGap } from '../../lib/media';
+
+export const getStaticPaths = (() => caseStudies.map((c) => ({ params: { slug: c.slug }, props: { c } }))) satisfies GetStaticPaths;
+
+const { c } = Astro.props as { c: CaseStudy };
+const next = bySlug(c.next);
+if (!next) throw new Error(`${c.slug}: next project "${c.next}" not found`);
+
+const meta = metaRows(c);
+const gallery = await Promise.all(publishedGallery(c).map(async (g, i, all) => ({
+  ...g,
+  // Full-width items span both columns, and so does the first item when the count is odd.
+  wide: Boolean(g.fullWidth) || (all.length % 2 === 1 && i === 0),
+  posterUrl: g.video ? await poster(g.src!, 1600) : undefined,
+})));
+const notes = [c.brief, c.idea].some((v) => !isGap(v));
+const description = `${c.title}: ${c.intro}`.slice(0, 300);
+---
+<Base title={c.title} nav="dark" description={description}>
+  <article>
+    <header class="cs-head on-maroon">
+      <div class="wrap cs-head__in">
+        <a class="cs-back" href="/work/">← All work</a>
+        <h1 class="cs-title rise">{c.title}<br /><em class="em">{c.tagline}</em></h1>
+        {meta.length > 0 && (
+          <dl class="cs-meta">
+            {meta.map((m) => <div><dt class="label label--strong">{m.label}</dt><dd>{m.value}</dd></div>)}
+          </dl>
+        )}
+      </div>
+    </header>
+
+    <div class="cs-hero-band">
+      <div class="cs-hero" style={`background:${c.hero.background ?? 'var(--brown)'}`}>
+        <Picture src={img(c.hero.src)} formats={['avif', 'webp']} widths={[640, 1000, 1400, 1800]} sizes="(min-width: 1440px) 1328px, 100vw" alt={c.hero.alt} loading="eager" fetchpriority="high" class="cs-hero__img" style={`object-fit:${c.hero.fit}`} />
+      </div>
+    </div>
+
+    <section class="band cs-intro">
+      <div class="wrap cs-intro__in">
+        <p class="cs-intro__lead">{c.intro}</p>
+        {notes && (
+          <div class="cs-notes">
+            {!isGap(c.brief) && <div><h2 class="label label--strong">The brief</h2><p>{c.brief}</p></div>}
+            {!isGap(c.idea) && <div><h2 class="label label--strong">The idea</h2><p>{c.idea}</p></div>}
+          </div>
+        )}
+      </div>
+    </section>
+
+    {gallery.length > 0 && (
+      <section class="cs-gallery-band" aria-label="Gallery">
+        <div class="wrap cs-gallery">
+          {gallery.map((g) => (
+            <figure class:list={['cs-fig', { 'cs-fig--wide': g.wide }]} style={`background:${g.background ?? 'transparent'};--min:${g.minHeight ?? 460}px`}>
+              {g.video
+                ? <video class="cs-fig__media" src={video(g.video)} poster={g.posterUrl} autoplay muted loop playsinline preload="metadata" aria-label={g.alt} style={`object-fit:${g.fit ?? 'cover'}`}></video>
+                : <Picture class="cs-fig__media" src={img(g.src!)} formats={['avif', 'webp']} widths={g.wide ? [700, 1100, 1600, 2000] : [500, 800, 1100]} sizes={g.wide ? '(min-width: 1440px) 1328px, 100vw' : '(min-width: 900px) 50vw, 100vw'} alt={g.alt!} style={`object-fit:${g.fit ?? 'cover'}`} />}
+            </figure>
+          ))}
+        </div>
+        {c.note && <p class="wrap cs-note">{c.note}</p>}
+      </section>
+    )}
+
+    <section class="band on-maroon cs-result" aria-label={c.result ? 'The result' : 'What we made'}>
+      <div class="wrap cs-result__in">
+        {c.result && (
+          <div class="cs-result__main">
+            <h2 class="label label--strong">The result</h2>
+            <p class="cs-result__text">{c.result}</p>
+          </div>
+        )}
+        <div class="cs-made">
+          <h2 class="label label--strong">What we made</h2>
+          <ul role="list">{c.whatWeMade.map((d) => <li>{d}</li>)}</ul>
+        </div>
+      </div>
+    </section>
+
+    <a href={`/work/${next.slug}/`} class="cs-next on-orange">
+      <span class="cs-next__copy">
+        <span class="tag tag--cream cs-next__label">Next project</span>
+        <span class="cs-next__title">{next.title}</span>
+      </span>
+      <span class="cs-next__arrow" aria-hidden="true">→</span>
+    </a>
+  </article>
+</Base>
+
+<style>
+  .cs-head { padding: clamp(40px, 5vw, 72px) var(--gutter) 0; }
+  .cs-head__in { display: flex; flex-direction: column; gap: 28px; }
+  .cs-back { font-size: 13px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; width: fit-content; min-height: 44px; display: inline-flex; align-items: center; }
+  .cs-title { font-weight: 600; font-size: clamp(56px, 9vw, 150px); line-height: 0.88; letter-spacing: -0.055em; color: var(--cream); overflow-wrap: anywhere; }
+  .cs-title .em { letter-spacing: -0.02em; color: var(--pink); }
+  @media (max-width: 420px) { .cs-title { font-size: 48px; } }
+  .cs-meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; border-top: 1px solid var(--pink); padding: 20px 0 40px; font-size: 15px; }
+  .cs-meta div { display: flex; flex-direction: column; gap: 6px; }
+  .cs-meta dd { margin: 0; color: var(--cream); }
+
+  /* The hero overlaps from the maroon band onto paper. */
+  .cs-hero-band { background: linear-gradient(var(--maroon) 0 50%, var(--paper) 50% 100%); padding: 0 var(--gutter); }
+  .cs-hero { position: relative; max-width: var(--max); margin: 0 auto; height: clamp(360px, 52vw, 720px); border-radius: 14px; overflow: hidden; }
+  .cs-hero :global(picture) { display: contents; }
+  .cs-hero :global(.cs-hero__img) { width: 100%; height: 100%; display: block; }
+  @media (max-width: 600px) { .cs-hero { height: 300px; } }
+
+  .cs-intro__in { display: flex; flex-wrap: wrap; gap: 48px 64px; }
+  .cs-intro__lead { flex: 2 1 520px; font-size: clamp(28px, 3vw, 44px); line-height: 1.12; letter-spacing: -0.03em; font-weight: 500; }
+  .cs-notes { flex: 1 1 300px; display: flex; flex-direction: column; gap: 28px; font-size: 16px; line-height: 1.6; }
+  .cs-notes div { display: flex; flex-direction: column; gap: 8px; }
+  .cs-notes h2 { color: var(--maroon); }
+  @media (max-width: 600px) { .cs-intro__lead { flex-basis: 100%; } }
+
+  .cs-gallery-band { padding: 0 var(--gutter) var(--pad); }
+  .cs-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 20px; }
+  .cs-fig { margin: 0; display: flex; border-radius: 12px; overflow: hidden; min-height: min(var(--min), 120vw); }
+  .cs-fig--wide { grid-column: 1 / -1; }
+  .cs-fig :global(picture) { display: contents; }
+  .cs-fig :global(.cs-fig__media) { width: 100%; height: auto; min-height: min(var(--min), 120vw); display: block; object-position: 50% 0; }
+  .cs-note { margin-top: 20px; font-size: 14px; color: var(--brown-soft); }
+
+  .cs-result__in { display: flex; flex-wrap: wrap; gap: 40px 64px; align-items: flex-end; }
+  .cs-result__main { flex: 2 1 520px; display: flex; flex-direction: column; gap: 16px; }
+  .cs-result__text { font-size: clamp(26px, 2.8vw, 40px); line-height: 1.15; letter-spacing: -0.02em; color: var(--cream); }
+  .cs-made { flex: 1 1 280px; display: flex; flex-direction: column; gap: 12px; }
+  .cs-made ul { font-size: 16px; color: var(--cream); }
+  .cs-made li { border-top: 1px solid rgba(249, 184, 205, 0.4); padding: 10px 0; }
+
+  .cs-next { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; text-decoration: none; padding: clamp(40px, 5vw, 72px) var(--gutter); }
+  .cs-next:hover { opacity: 1; }
+  .cs-next__copy { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+  .cs-next__label { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
+  .cs-next__title { font-weight: 600; font-size: clamp(40px, 6vw, 96px); letter-spacing: -0.05em; line-height: 0.9; }
+  .cs-next__arrow { display: inline-block; font-size: clamp(48px, 6vw, 96px); transition: transform 0.35s var(--ease-back); }
+  .cs-next:hover .cs-next__arrow, .cs-next:focus-visible .cs-next__arrow { transform: translateX(12px); }
+  .cs-next:focus-visible { outline-color: var(--cream); outline-offset: -8px; }
+</style>

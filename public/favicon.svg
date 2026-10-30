@@ -1,7 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="60 77 620 620">
-  <style>.bg{fill:#E0421E}.fg{fill:#FBF7F2}</style>
-  <rect class="bg" x="60" y="77" width="620" height="620" rx="96"/>
-  
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="80 -84.5 947 947">
+  <rect x="80" y="-84.5" width="947" height="947" rx="180" fill="#E0421E"/>
   <defs>
     <clipPath id="ft"><rect x="0" y="0" width="1200" height="376"/></clipPath>
     <clipPath id="fb"><rect x="0" y="433" width="1200" height="400"/></clipPath>
@@ -14,5 +12,4 @@
     <rect x="842" y="128" width="76" height="249"/>
     <rect x="842" y="437" width="76" height="213"/>
     <rect x="919" y="377" width="77" height="60"/>
-  </g>
-</svg>
+  </g></svg>

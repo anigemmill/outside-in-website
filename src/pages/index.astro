@@ -151,14 +151,15 @@ const tiles: Tile[] = [
 </Base>
 
 <style>
-  /* Hero: colour pairs (background, then logo) hold for 1.5s each, a full
-     cycle every 6s, as step changes (well under 3 changes a second). */
+  /* Hero: colour pairs (background, then logo) hold for 0.4s each, a full
+     cycle every 1.6s, as step changes: 2.5 changes a second, under the
+     3-a-second flash limit. Off with reduced motion (global.css). */
   .hero {
     height: clamp(560px, 100svh, 860px);
     padding: 24px var(--gutter) 32px;
     display: flex; flex-direction: column;
     background: var(--orange); color: var(--cream);
-    animation: oi-pairs 6s step-end infinite;
+    animation: oi-pairs 1.6s step-end infinite;
   }
   @keyframes oi-pairs {
     0% { background-color: #E0421E; color: #FBF7F2; }

@@ -75,7 +75,8 @@ const ring = `M${cx - R},${cy}a${R},${R} 0 1,0 ${2 * R},0a${R},${R} 0 1,0 ${-2 *
   .oi--hero .oi-bot { animation: oi-rise 0.75s var(--ease-out) 0.15s both; }
   .oi--hero .oi-slice--o { animation: oi-fly 0.9s var(--ease-out) 0.6s both; }
   .oi--hero .oi-slice--i { animation: oi-fly 0.9s var(--ease-out) 0.72s both; }
-  .oi--hero .oi-move { animation: oi-blink 1.5s var(--ease-back) 1.5s infinite; }
+  /* Blinks with every second colour change of the hero (0.4s pairs). */
+  .oi--hero .oi-move { animation: oi-blink 0.8s var(--ease-back) 1.6s infinite; }
   @keyframes oi-drop { from { transform: translateY(-140px); opacity: 0; } to { transform: none; opacity: 1; } }
   @keyframes oi-rise { from { transform: translateY(140px); opacity: 0; } to { transform: none; opacity: 1; } }
   @keyframes oi-fly {

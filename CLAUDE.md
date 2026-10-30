@@ -26,7 +26,7 @@ The core idea comes from the name and the logo: see a business from the outside,
 - Fonts self-hosted via Fontsource: **Inter Tight** (variable, 400 to 700) for everything, plus **Instrument Serif** italic for emphasis words. Findable's pages keep their own Inter Tight, Inter and JetBrains Mono.
 - Images go through `astro:assets` (AVIF/WebP with srcset). Videos are plain MP4s in `public/media/`.
 - Netlify Forms for the contact form (honeypot spam trap). Config in `netlify.toml`.
-- Node 20.3+. Commands: `npm run dev`, `npm run build`, `npm run preview`, `npm run check` (launch checklist, including case-study gaps), `npm run og` (regenerates logo files, favicons and the social image in the new palette).
+- Node 20.3+. Commands: `npm run dev`, `npm run build`, `npm run preview`, `npm run check` (launch checklist, including case-study gaps), `npm run og` (regenerates logo files, favicons and the social image in the new palette; the favicon is the whole OI mark, cream on orange, since 30 Oct 2026).
 
 ## Where things live
 
@@ -86,7 +86,7 @@ These were the only deviations from the mockups, all for WCAG 2.1 AA.
 **Logo.** Geometry unchanged: viewBox `110 128 887 522`; O centre 369.5,387, R 259.5, r 193.5; O band y 376–433 shifted 73; I bar x 842 w 76, band y 377–437 shifted 77. Its resting state is always the exact logo: each slice sits in a group translated to its real offset, and animation only moves an inner group. Variants in `Logo.astro`: `hero`, `nav`, `sticker`, `shift`, `static`.
 
 **Motion.**
-- Homepage hero: the top halves drop in, the bottom halves rise, the slices fly in from the left with a slight overshoot; then the slices blink left and back every 1.5s. The hero cycles colour pairs (background / logo) as step changes, 1.5s each, 6s a cycle: orange/cream, cream/orange, maroon/pink, blue/orange (well under 3 changes a second). Pointer-follow was not carried over.
+- Homepage hero: the top halves drop in, the bottom halves rise, the slices fly in from the left with a slight overshoot; then the slices blink left and back every 0.8s. The hero cycles colour pairs (background / logo) as step changes, 0.4s each, 1.6s a cycle (sped up at Ani's request, 30 Oct 2026): orange/cream, cream/orange, maroon/pink, blue/orange. That's 2.5 changes a second: keep it under 3 (flash safety). Reduced motion stops it. Pointer-follow was not carried over.
 - Nav mark: the slices shift left on hover. Work sticker: blink every 2s. About mark: shifts left and back every 4s, with pink slices.
 - "Made for the feed": 10 tiles in a 3D ring (`rotateY`, `translateZ(560px)`), one turn every 48s, paused on hover. Four tiles are photos (billboard, rider, Findable, Ani).
 - Work cards scale up slightly on hover; selected-work images nudge right; service rows fill orange; the Contact headline rises in word by word; case-study titles rise in; the Services headline's slice slides into place.

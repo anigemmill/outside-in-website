@@ -36,16 +36,14 @@ writeFileSync('public/brand/outside-in-logo-cream.svg', logo('#FBF7F2'));
 writeFileSync('public/brand/outside-in-logo-orange.svg', logo('#E0421E'));
 writeFileSync('public/brand/outside-in-logo-brown.svg', logo('#3B1E19'));
 
-// Favicon: the O alone reads better at 16px. Square crop around the ring.
-const favicon = (bg, fg) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="60 77 620 620">
-  <rect x="60" y="77" width="620" height="620" rx="96" fill="${bg}"/>${mark(fg, 'f')}</svg>`;
-writeFileSync('public/favicon.svg', `<svg xmlns="http://www.w3.org/2000/svg" viewBox="60 77 620 620">
-  <style>.bg{fill:#E0421E}.fg{fill:#FBF7F2}</style>
-  <rect class="bg" x="60" y="77" width="620" height="620" rx="96"/>
-  ${mark('#FBF7F2', 'f')}
-</svg>\n`);
+// Favicon: the whole OI mark, cream on orange, centred in a rounded square
+// (the old crop showed the O alone and cut off its shifted slice).
+const FAV = '80 -84.5 947 947';
+const favicon = (bg, fg, rx = 180) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${FAV}">
+  <rect x="80" y="-84.5" width="947" height="947" rx="${rx}" fill="${bg}"/>${mark(fg, 'f')}</svg>`;
+writeFileSync('public/favicon.svg', favicon('#E0421E', '#FBF7F2') + '\n');
 await sharp(Buffer.from(favicon('#E0421E', '#FBF7F2'))).resize(32, 32).png().toFile('public/favicon-32.png');
-await sharp(Buffer.from(favicon('#E0421E', '#FBF7F2').replace('rx="96"', 'rx="0"'))).resize(180, 180).png().toFile('public/apple-touch-icon.png');
+await sharp(Buffer.from(favicon('#E0421E', '#FBF7F2', 0))).resize(180, 180).png().toFile('public/apple-touch-icon.png');
 
 // Social image: orange ground, the cream mark large and centred.
 const og = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">

@@ -130,13 +130,15 @@ Findable is Outside In's own tourism product. The app lives in a separate repo a
 **Copy rules (from Ani's Findable working brief, 22 Oct 2026).** Facts, sources and offers live in `src/data/findable.ts`.
 - Lead statistic: 62% of travellers are using AI to help decide where to go and what to do (Tourism New Zealand research as reported by TRAVELinc, 7 Aug 2026). It is not about bookings and not NZ-domestic only. The Booking.com 81% / 92% figures (IT Brief NZ, July 2025) are only for the trust and accuracy point. Every statistic links to its source.
 - GuideGeek (200,000+ unique users, July 2026 research summary) is supporting context only, attributed to its source; not evidence of bookings. Swap in an official Tourism New Zealand source if one appears.
-- Three separate offers: the free one-off check (3 traveller-style questions, one per business, branded report within one working day, confirmed by Ani), the monthly subscription ("Pricing on request" until Ani sets a price; month to month, cancel any time; describe only what the app delivers today) and done-for-you work ("Quote on request").
+- Offers: the free one-off check (3 traveller-style questions, one per business, branded report within one working day, confirmed by Ani), the monthly plans and optional implementation packages. Month to month, cancel any time; describe only what the app delivers today.
+- **Plans (agreed by Ani, 2 Nov 2026):** Starter $99 (1 analysis a month, 5 competitors), Growth $299 (4, 10; recommended), Pro $599 (8, 15), Enterprise custom. NZD per business per month. `plans` and `featureRows` in `src/data/findable.ts` mirror the app's `src/lib/billing/tiers.ts` (Tourism-AI-Growth-Platform), which enforces them: change both together. Multi-location reporting is shown as planned (not built). Competitor comparison and recommendation levels (Basic, Detailed…) are the agreed labels; the app doesn't yet make them different.
+- **Implementation packages** (`packages`): indicative NZD ranges with "Talk to us", never fixed quotes and no checkout. Scope and price are confirmed before work.
 - Findable is not GST-registered, so no GST is added.
 - The sample report is illustrative and labelled as such. There is no score, because there is no defined scoring method yet.
 - Findable is in an ongoing pilot with 10 Rotorua operators; audits are still under way. Don't publish pilot numbers, error rates, "2–3 businesses per answer", testimonials or case studies without documented results.
 - Founder: Ani Gemmill. No photo for now. The founding story is tourism and digital marketing experience plus AI research; don't claim observed visitor behaviour.
 - Contact: anigemmill@theoutsidein.nz, reply within two working days (confirmed).
-- Still open: which AI assistants the check names, and exactly what the subscription includes (currently described with the app's real features).
+- Still open: which AI assistants the check names (the pricing page says "every AI assistant Findable currently checks" and names none), and whether the competitor and recommendation levels will differ in the product.
 
 Sign in links point at the Vercel address until `app.theoutsidein.nz` is live, then switch `findableAppUrl`.
 

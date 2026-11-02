@@ -10,7 +10,6 @@
  */
 import { Picture } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
-import Logo from '../../components/Logo.astro';
 import BookCall from '../../components/BookCall.astro';
 import { workGrid, filters } from '../../data/work';
 import { img, video, poster } from '../../lib/media';
@@ -59,7 +58,6 @@ const rows = [
     </div>
     <div class="hero__word" aria-hidden="true">
       <p>Portfolio</p>
-      <span class="sticker"><Logo id="work-sticker" variant="sticker" decorative /></span>
     </div>
   </section>
 
@@ -215,8 +213,6 @@ const rows = [
   .hero__sub { font-size: 15px; line-height: 1.55; color: var(--cream); }
   .hero__word { position: relative; margin-top: 24px; }
   .hero__word p { font-weight: 700; font-size: clamp(150px, 22vw, 340px); line-height: 0.8; text-transform: uppercase; text-align: center; letter-spacing: -0.06em; color: var(--pink); white-space: nowrap; transform: translateY(8%); }
-  .sticker { position: absolute; left: 20%; top: 26%; width: clamp(80px, 9vw, 130px); aspect-ratio: 1; border-radius: 50%; background: var(--orange); color: var(--cream); display: flex; align-items: center; justify-content: center; }
-  .sticker :global(.oi) { width: 62%; }
   @media (max-width: 700px) { .hero__word p { text-align: left; } }
 
   /* Filters */

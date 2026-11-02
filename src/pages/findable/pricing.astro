@@ -1,46 +1,151 @@
 ---
 /**
- * FINDABLE: Pricing. Three separate things: the free one-off check, the monthly
- * subscription and done-for-you work. Offers live in src/data/findable.ts.
- * No subscription price is published until Ani confirms one; done-for-you is
- * quote on request. Findable isn't GST-registered (confirm wording before launch).
+ * FINDABLE: Pricing. Four monthly plans (Growth recommended), a comparison
+ * table, the free one-off check and optional implementation packages.
+ * Plans, rows and packages live in src/data/findable.ts, which mirrors the
+ * Findable app (src/lib/billing/tiers.ts). Agreed by Ani on 2 Nov 2026.
+ * Packages are indicative ranges, not quotes; there is no checkout.
+ * Findable isn't GST-registered, so no GST is added.
  */
 import FindableLayout from '../../layouts/FindableLayout.astro';
-import { offers } from '../../data/findable';
+import { plans, featureRows, packages, freeCheck, type Cell } from '../../data/findable';
 
 const faqs = [
-  { q: 'Is there a contract?', a: 'No. The subscription is month to month, and you can cancel any time.' },
-  { q: 'How much is the subscription?', a: 'Pricing is on request while we finish the pilot. Get in touch and we’ll talk it through for your business.' },
+  { q: 'What is an analysis?', a: 'One complete check of how AI assistants answer traveller questions about your region and category: whether they mention you, recommend you, cite your website and name competitors instead.' },
+  { q: 'Is there a contract?', a: 'No. Plans are month to month, and you can cancel any time.' },
   { q: 'Is GST included?', a: 'Findable isn’t registered for GST, so no GST is added to our prices.' },
+  { q: 'Do I need a package to start?', a: 'No. Packages are optional. Every plan works on its own, and we’ll confirm the scope and price of any package with you before work begins.' },
   { q: 'Do I have to subscribe after the free check?', a: 'No. The free check is yours to keep and act on, with no obligation.' },
 ];
+
+const cellText = (c: Cell) => (c === true ? 'Included' : c === false ? 'Not included' : c);
 ---
-<FindableLayout title="Pricing" current="pricing" description="Findable pricing: start with a free AI visibility check for your tourism business. Monthly subscription pricing is on request; done-for-you work is quoted on request.">
+<FindableLayout title="Pricing" current="pricing" description="Findable pricing for tourism businesses: Starter $99, Growth $299 and Pro $599 a month, or Enterprise on request. Start with a free AI visibility check. NZD, no GST added.">
 
   <section class="f-wrap f-stack head">
     <span class="f-lbl c-forest">Pricing</span>
-    <h1 class="f-d head__t">Start free. Go further when you’re ready.</h1>
-    <p class="f-lede">Three separate options: a free one-off check, an optional monthly subscription, and done-for-you work if you’d rather we made the changes.</p>
+    <h1 class="f-d head__t">Simple plans. Start free.</h1>
+    <p class="f-lede">Choose how closely you want to track what AI assistants say about your business. Prices are in NZD per business, per month. Month to month, cancel any time.</p>
   </section>
 
-  <ul role="list" class="f-wrap plans">
-    {offers.map((p) => (
-      <li class={`plan plan--${p.id}`}>
-        <div class="plan__top">
-          <h2 class="f-lbl plan__name">{p.name}</h2>
-          <p class="f-d plan__price">{p.price}</p>
-          <p class="plan__note">{p.note}</p>
-          <p class="plan__blurb">{p.blurb}</p>
-        </div>
-        <ul role="list" class="plan__list">
-          {p.items.map((i) => <li><span aria-hidden="true" class="plan__tick">✓</span><span>{i}</span></li>)}
-        </ul>
-        <a href={p.cta.href} class={`f-btn ${p.id === 'check' ? 'f-btn-p' : p.id === 'subscription' ? 'f-btn-w' : 'f-btn-s'} plan__cta`}>{p.cta.label} <span aria-hidden="true">→</span></a>
-      </li>
-    ))}
-  </ul>
+  <section class="f-wrap" id="plans" aria-labelledby="plans-title">
+    <h2 id="plans-title" class="f-sr">Plans</h2>
+    <ul role="list" class="plans">
+      {plans.map((p) => (
+        <li class={`plan${p.recommended ? ' plan--rec' : ''}`} aria-labelledby={`plan-${p.id}`}>
+          <div class="plan__top">
+            <div class="plan__head">
+              <h3 id={`plan-${p.id}`} class="f-lbl plan__name">{p.name}</h3>
+              {p.recommended && <span class="f-tag plan__badge">Recommended</span>}
+            </div>
+            <p class="plan__price"><span class="f-d">{p.price}</span> <span class="plan__per">{p.per}</span></p>
+            <p class="plan__blurb">{p.blurb}</p>
+          </div>
+          <ul role="list" class="plan__list">
+            <li><span aria-hidden="true" class="plan__tick">✓</span><span>{p.analyses}</span></li>
+            <li><span aria-hidden="true" class="plan__tick">✓</span><span>{p.competitors}</span></li>
+            <li><span aria-hidden="true" class="plan__tick">✓</span><span>PDF report downloads</span></li>
+            {p.id !== 'starter' && <li><span aria-hidden="true" class="plan__tick">✓</span><span>Google Analytics 4 and Search Console</span></li>}
+          </ul>
+          <a href={p.cta.href} class={`f-btn ${p.recommended ? 'f-btn-p' : 'f-btn-s'} plan__cta`}>{p.cta.label}<span class="f-sr"> ({p.name} plan)</span> <span aria-hidden="true">→</span></a>
+        </li>
+      ))}
+    </ul>
+    <ul role="list" class="notes">
+      <li>PDF report downloads come with every plan.</li>
+      <li>Google Analytics 4 and Search Console connect from Growth.</li>
+      <li>Every plan uses every AI assistant Findable currently checks.</li>
+    </ul>
+  </section>
 
-  <p class="f-wrap more">Regional tourism organisation or agency? <a href="/findable/about/#contact">Talk to us</a> about checks across several businesses.</p>
+  <section class="f-wrap compare" aria-labelledby="compare-title">
+    <div class="f-stack f-stack-s">
+      <span class="f-lbl c-forest">Compare plans</span>
+      <h2 id="compare-title" class="f-d f-hmd">What each plan includes</h2>
+    </div>
+    <div class="table" role="region" aria-labelledby="compare-title" tabindex="0">
+      <table>
+        <caption class="f-sr">Features by plan: Starter, Growth, Pro and Enterprise</caption>
+        <thead>
+          <tr>
+            <th scope="col">Feature</th>
+            {plans.map((p) => <th scope="col" class={p.recommended ? 'is-rec' : undefined}>{p.name}{p.recommended && <span class="th-rec">Recommended</span>}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Price per month</th>
+            {plans.map((p) => <td class={p.recommended ? 'is-rec' : undefined}><strong>{p.price}</strong></td>)}
+          </tr>
+          <tr>
+            <th scope="row">AI visibility analyses</th>
+            {plans.map((p) => <td class={p.recommended ? 'is-rec' : undefined}>{p.id === 'enterprise' ? 'Agreed with you' : p.analyses.split(' ')[0] + ' a month'}</td>)}
+          </tr>
+          <tr>
+            <th scope="row">Competitors tracked</th>
+            {plans.map((p) => <td class={p.recommended ? 'is-rec' : undefined}>{p.id === 'enterprise' ? 'Agreed with you' : `Up to ${p.competitors.match(/\d+/)?.[0]}`}</td>)}
+          </tr>
+          {featureRows.map((r) => (
+            <tr>
+              <th scope="row">{r.label}{r.note && <span class="row-note">{r.note}</span>}</th>
+              {plans.map((p) => {
+                const c = r.cells[p.id];
+                return (
+                  <td class={p.recommended ? 'is-rec' : undefined}>
+                    {c === true ? <span class="yes" aria-hidden="true">✓</span> : c === false ? <span class="no" aria-hidden="true">–</span> : <span class={c === 'Planned' ? 'planned' : undefined}>{c}</span>}
+                    {typeof c === 'boolean' && <span class="f-sr">{cellText(c)}</span>}
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="table-note">Multi-location and group reporting is planned and not available yet. Ask us if you manage several businesses.</p>
+  </section>
+
+  <section class="f-wrap" aria-labelledby="check-title">
+    <div class="check">
+      <div class="f-stack f-stack-s">
+        <span class="f-lbl">Not sure yet?</span>
+        <h2 id="check-title" class="f-d check__t">Start with a free AI visibility check.</h2>
+        <p>One-off and free, one per business. We ask AI assistants {freeCheck.questions} traveller-style questions about your region and category and send you a branded mini-report. {freeCheck.delivery}</p>
+      </div>
+      <a href="/findable/check/" class="f-btn f-btn-s check__cta">Get my free check <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+  <section class="f-wrap pk" id="packages" aria-labelledby="packages-title">
+    <div class="f-split f-split-end">
+      <div class="f-stack f-stack-s">
+        <span class="f-lbl c-forest">Optional</span>
+        <h2 id="packages-title" class="f-d f-hmd">Implementation packages</h2>
+      </div>
+      <p class="f-body">Want help acting on what Findable finds? These are optional, on top of any plan. Prices are indicative, not fixed quotes: we confirm the scope and price with you before any work begins.</p>
+    </div>
+    <ul role="list" class="pk__list">
+      {packages.map((k) => (
+        <li class="pk__item">
+          <h3 class="pk__name">{k.name}</h3>
+          <p class="pk__price">{k.price} <span>indicative</span></p>
+          <ul role="list" class="pk__inc">{k.items.map((i) => <li>{i}</li>)}</ul>
+        </li>
+      ))}
+    </ul>
+    <a href="/findable/about/#contact" class="f-btn f-btn-g pk__cta">Talk to us about a package <span aria-hidden="true">→</span></a>
+  </section>
+
+  <section class="f-wrap" aria-labelledby="ent-title">
+    <div class="ent">
+      <div class="f-stack f-stack-s">
+        <span class="f-lbl c-lime">Enterprise</span>
+        <h2 id="ent-title" class="f-d check__t">Several businesses, a destination or an agency?</h2>
+        <p>Regional tourism organisations, groups and agencies get analyses, competitors and reporting agreed around them.</p>
+      </div>
+      <a href="/findable/about/#contact" class="f-btn f-btn-p check__cta">Talk to us about Enterprise <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
 
   <section class="f-wrap qa" aria-label="Pricing questions">
     {faqs.map((f) => (
@@ -53,31 +158,68 @@ const faqs = [
 </FindableLayout>
 
 <style>
-  .head { padding-block: clamp(48px, 7vw, 72px) 56px; align-items: center; text-align: center; gap: 20px; }
+  .head { padding-block: clamp(48px, 7vw, 72px) 48px; align-items: center; text-align: center; gap: 20px; }
   .head__t { margin: 0; font-size: clamp(44px, 7vw, 96px); line-height: 0.9; max-width: 14ch; }
-  .head .f-lede { max-width: 620px; }
+  .head .f-lede { max-width: 640px; }
 
-  .plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 16px; align-items: stretch; margin: 0 auto; padding-bottom: 40px; list-style: none; }
-  .plan { border-radius: var(--f-radius); padding: 36px clamp(20px, 3vw, 32px); display: flex; flex-direction: column; gap: 24px; }
-  .plan--check { background: var(--f-lime); }
-  .plan--subscription { background: var(--f-forest); color: var(--f-paper); }
-  .plan--done-for-you { background: var(--f-cream); }
-  .plan__top { display: flex; flex-direction: column; gap: 8px; }
+  .plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 16px; align-items: stretch; margin: 0; padding: 0; list-style: none; }
+  .plan { border-radius: var(--f-radius); padding: 32px clamp(20px, 2.5vw, 28px); display: flex; flex-direction: column; gap: 24px; background: var(--f-cream); border: 1.5px solid var(--f-line); }
+  .plan--rec { background: var(--f-forest); color: var(--f-paper); border-color: var(--f-forest); }
+  .plan__top { display: flex; flex-direction: column; gap: 10px; }
+  .plan__head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
   .plan__name { margin: 0; }
-  .plan--subscription .plan__name { color: var(--f-lime); }
-  .plan__price { margin: 0; font-size: clamp(36px, 4vw, 48px); line-height: 1; }
-  .plan__note { margin: 0; font-size: 14px; font-weight: 600; }
+  .plan--rec .plan__name { color: var(--f-lime); }
+  .plan__badge { background: var(--f-lime); color: var(--f-ink); }
+  .plan__price { margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; }
+  .plan__price .f-d { font-size: clamp(40px, 4vw, 52px); line-height: 1; }
+  .plan__per { font-size: 14px; font-weight: 600; }
   .plan__blurb { margin: 0; font-size: 15px; line-height: 1.5; color: var(--f-ink-2); }
-  .plan--subscription .plan__blurb { color: #dfe6dc; }
+  .plan--rec .plan__blurb { color: #dfe6dc; }
   .plan__list { margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; font-size: 15px; line-height: 1.45; }
   .plan__list li { display: flex; gap: 10px; align-items: start; }
   .plan__tick { font-weight: 700; color: var(--f-forest); }
-  .plan--subscription .plan__tick { color: var(--f-lime); }
+  .plan--rec .plan__tick { color: var(--f-lime); }
   .plan__cta { margin-top: auto; align-self: stretch; }
 
-  .more { margin-block: 0 72px; font-size: 16px; text-align: center; }
+  .notes { margin: 20px 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 24px; font-size: 15px; font-weight: 600; color: var(--f-ink-2); }
+  .notes li::before { content: '✓ '; color: var(--f-forest); }
 
-  .qa { padding-bottom: clamp(72px, 9vw, 112px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 32px; }
+  .compare { padding-block: clamp(72px, 9vw, 112px) 0; display: flex; flex-direction: column; gap: 32px; }
+  /* position: relative keeps the .f-sr labels inside the scroll box (else they widen the page). */
+  .table { position: relative; min-width: 0; max-width: 100%; overflow-x: auto; border: 1.5px solid var(--f-line); border-radius: 20px; background: #fff; }
+  .table:focus-visible { outline: 3px solid var(--f-blue); outline-offset: 3px; }
+  table { width: 100%; min-width: 640px; border-collapse: collapse; font-size: 15px; }
+  th, td { padding: 14px 16px; text-align: center; border-bottom: 1px solid var(--f-line); vertical-align: middle; }
+  thead th { font-weight: 700; font-size: 16px; }
+  tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
+  th[scope='row'], thead th:first-child { text-align: left; font-weight: 600; position: sticky; left: 0; background: #fff; min-width: 180px; }
+  .row-note { display: block; font-size: 13px; font-weight: 400; color: var(--f-ink-3); }
+  .is-rec { background: var(--f-mint); }
+  .th-rec { display: block; font: 500 11px/14px 'JetBrains Mono Variable', monospace; letter-spacing: 0.08em; text-transform: uppercase; color: var(--f-forest); margin-top: 2px; }
+  .yes { font-weight: 700; color: var(--f-forest); font-size: 18px; }
+  .no { color: var(--f-ink-3); }
+  .planned { font-size: 13px; font-weight: 600; color: var(--f-violet-ink); background: var(--f-lav); border-radius: 999px; padding: 2px 10px; }
+  .table-note { margin: 0; font-size: 14px; color: var(--f-ink-3); }
+
+  .check, .ent { margin-top: clamp(72px, 9vw, 112px); border-radius: var(--f-radius); padding: clamp(28px, 4vw, 48px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr)); gap: 24px; align-items: end; }
+  .check { background: var(--f-lime); }
+  .ent { background: var(--f-ink); color: var(--f-paper); }
+  .check p, .ent p { margin: 0; font-size: 17px; line-height: 1.55; max-width: 560px; }
+  .ent p { color: #d8d8d2; }
+  .check__t { margin: 0; font-size: clamp(30px, 3.6vw, 44px); line-height: 1; }
+  .check__cta { justify-self: start; }
+  @media (min-width: 800px) { .check__cta { justify-self: end; } }
+
+  .pk { padding-top: clamp(72px, 9vw, 112px); display: flex; flex-direction: column; gap: 32px; }
+  .pk__list { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr)); gap: 16px; }
+  .pk__item { border: 1.5px solid var(--f-line); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px; background: var(--f-cream); }
+  .pk__name { margin: 0; font-size: 18px; font-weight: 700; }
+  .pk__price { margin: 0; font-size: 20px; font-weight: 700; }
+  .pk__price span { display: block; font-size: 13px; font-weight: 500; color: var(--f-ink-3); }
+  .pk__inc { margin: 0; padding-left: 18px; font-size: 15px; line-height: 1.5; color: var(--f-ink-2); display: flex; flex-direction: column; gap: 4px; }
+  .pk__cta { align-self: start; }
+
+  .qa { padding-block: clamp(72px, 9vw, 112px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 32px; }
   .qa div { display: flex; flex-direction: column; gap: 8px; }
   .qa__q { margin: 0; font-size: 18px; font-weight: 700; }
   .qa p { margin: 0; font-size: 15px; line-height: 1.55; color: var(--f-ink-2); }

@@ -7,7 +7,8 @@
  *
  * Because the pages are public (though unlisted and noindex), the drafting
  * notes are never shown: each [[TYPE: note]] marker becomes a neutral
- * "open item" chip, and the internal notice at the top of each file is dropped.
+ * "open item" chip (LAWYER markers are dropped), and the internal notice at
+ * the top of each file is dropped.
  */
 import { createMarkdownProcessor } from '@astrojs/markdown-remark';
 
@@ -21,7 +22,6 @@ const pages: Record<string, string> = {
 const chip: Record<string, string> = {
   PLACEHOLDER: 'To be confirmed',
   DECISION: 'Decision pending',
-  LAWYER: 'Under legal review',
   REQ: 'Not in place yet',
 };
 
@@ -35,8 +35,15 @@ function markers(md: string): { md: string; count: number } {
     const end = md.indexOf(']]', start);
     if (end < 0) throw new Error('Unclosed [[ marker in legal draft');
     const type = (md.slice(start + 2, end).match(/^[A-Z]+/) ?? ['PLACEHOLDER'])[0];
-    out += md.slice(i, start) + `<span class="lg-open">${chip[type] ?? chip.PLACEHOLDER}</span>`;
-    count++;
+    if (type === 'LAWYER') {
+      // Questions for the lawyer stay in the source drafts but aren't shown
+      // on the website (Ani, 9 Nov 2026). The draft banner already says the
+      // documents haven't been reviewed by a lawyer.
+      out += md.slice(i, start).replace(/[ \t]+$/, '');
+    } else {
+      out += md.slice(i, start) + `<span class="lg-open">${chip[type] ?? chip.PLACEHOLDER}</span>`;
+      count++;
+    }
     i = end + 2;
   }
   return { md: out, count };

@@ -1,0 +1,22 @@
+---
+/**
+ * Findable service providers (subprocessors): DRAFT for review, noindex, unlisted.
+ * The table is taken from section 5 of the Privacy Policy, so the two never disagree.
+ */
+import LegalDraft from '../../../components/findable/LegalDraft.astro';
+import privacy from '../../../content/findable-legal/privacy.md?raw';
+
+const table = privacy.match(/\n(\| Provider \|[\s\S]*?)\n\n/)?.[1] ?? '';
+if (!table) throw new Error('Provider table not found in privacy.md section 5');
+const version = privacy.match(/\*\*Version:\*\* ([^\s·]+)/)?.[1] ?? 'draft';
+const raw = `# Findable service providers
+
+**Version:** ${version}
+
+These are the providers that help us run Findable, what they receive and where they are. We'll update this list before we add a provider. Our [Privacy Policy](03-privacy-policy.md) explains how we handle personal information.
+
+${table}
+`;
+---
+<LegalDraft raw={raw} description="Draft list of the service providers Findable uses, for review. Not in force."
+  related={[{ href: '/findable/privacy/', label: 'Privacy Policy' }, { href: '/findable/terms/', label: 'Terms of Service' }]} />

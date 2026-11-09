@@ -3,7 +3,7 @@
 > **DRAFT 0.2. Not in force. Not published. For legal review.**
 > For business customers. People buying Findable for personal, domestic or household use get the [Consumer Terms of Service](01b-consumer-terms-of-service.md) instead. Pilot businesses also accept the [Pilot Programme Terms](12-pilot-programme-terms.md).
 
-**Version:** 0.3-draft · **Effective:** Not in force · **Applies to:** Starter, Growth and Pro plans, and Enterprise and Pilot unless a signed agreement says otherwise.
+**Version:** 0.4-draft · **Effective:** Not in force · **Applies to:** Starter, Growth and Pro plans, and Enterprise and Pilot unless a signed agreement says otherwise.
 
 ## 1. Who we are and what this is
 
@@ -30,7 +30,7 @@ Findable is a tourism intelligence service. Depending on your plan it provides A
 
 To measure AI visibility we send questions to third-party AI and search providers and record what comes back. Those providers are outside our control. Findable isn't affiliated with or endorsed by OpenAI, Perplexity, Google or any other provider, and their names are used only to describe what is measured.
 
-Your plan sets your analysis allowance, competitor limit and features, as shown at [[PLACEHOLDER: public plans URL]] when you buy or change your plan.
+Your plan sets your analysis allowance, competitor limit and features, as shown at [theoutsidein.nz/findable/pricing/](https://theoutsidein.nz/findable/pricing/) when you buy or change your plan.
 
 We may change which AI engines and data sources are available, because providers change their products, prices and terms. We don't promise that any particular engine stays available. Clause 11 applies if a change materially reduces what you get.
 
@@ -44,7 +44,7 @@ These Terms are for businesses. You confirm that you are in trade and are buying
 
 ## 4. Getting started
 
-You need an account to use Findable. Accounts are created by invitation. [[DECISION: if public sign-up is added, revisit]]
+You need an account to use Findable. Accounts are created by invitation for now. If we add self sign-up, we'll update these Terms first.
 
 **Consent to measure.** Before we run a real analysis for you, you need to confirm which AI and search providers we can use and whether we can run recurring measurement. We also need to set up your profile and question set with you. If you withdraw consent, analyses stop and your reports are hidden until you give it again. [[REQ-11]]
 
@@ -52,21 +52,21 @@ You are responsible for your users, for keeping sign-in details safe, and for wh
 
 ## 5. Fees
 
-Prices are in New Zealand dollars, per business, per month, and are charged in advance [[DECISION: by invoice until Stripe is live, then through Stripe (REQ-5)]]. The [Subscription, Cancellation and Refund Policy](02-subscription-cancellation-refund-policy.md) covers renewals, failed payments, plan changes, cancellation and refunds.
+Prices are in New Zealand dollars, per business, per month or per year depending on the plan, and are charged in advance by invoice. We'll tell you before we move to card payments. The [Subscription, Cancellation and Refund Policy](02-subscription-cancellation-refund-policy.md) covers renewals, failed payments, plan changes, cancellation and refunds.
 
-**GST.** We aren't registered for GST, so no GST is charged. If we register, we'll give you notice under clause 11 before any change to what you pay. [[REQ-26: the app still labels prices "excl. GST"; remove that before publishing]]
+**GST.** We aren't registered for GST, so no GST is charged. If we register, we'll give you notice under clause 11 before any change to what you pay.
 
 ## 6. Your data
 
 **You own your data.** "Your Data" means the information you or your users put into Findable, and data we import from sources you connect. You keep all rights in it. You give us a licence to host, copy, process and display it only as needed to provide and support Findable for you, to keep it secure, and to meet our legal obligations.
 
-**We don't sell Your Data.** We don't use it to train AI models. [[REQ-18]] We share it only as our Privacy Policy and the Data Processing Agreement describe.
+**We don't sell Your Data.** We don't use it to train AI models. We share it only as our Privacy Policy and the Data Processing Agreement describe.
 
 **We keep your business's data separate from other customers'.** We won't show it to another customer. Sharing with a programme cohort, use in anonymised totals and use in a case study each need your separate agreement.
 
 **You're responsible for what you give us.** You confirm you have the right to provide Your Data, and to connect each account you connect. Don't put sensitive personal information into Findable. See the [Acceptable Use Policy](05-acceptable-use-policy.md).
 
-**Staff access.** Our staff can see Your Data, including data imported from connected sources, where needed to run your analyses, prepare and review your reports, give support, keep the service secure, or meet a legal obligation. Staff views of your portal are read-only and logged. [[REQ-12]] [[REQ-27: today every staff role can see every business]]
+**Staff access.** Our staff can see Your Data, including data imported from connected sources, where needed to run your analyses, prepare and review your reports, give support, keep the service secure, or meet a legal obligation. Staff views of your portal are read-only and logged. [[REQ-27]]
 
 **Personal information.** Where Your Data includes personal information, the [Data Processing Agreement](06-data-processing-agreement.md) applies.
 
@@ -76,7 +76,7 @@ Connecting Google Analytics, Search Console or another source is your choice, wh
 
 You confirm you are authorised to connect the account and to share its data with us. Google's or the other provider's terms also apply to that account. Access is read-only and only for the service you connect.
 
-Disconnecting stops new imports and deletes our stored credential. You may also need to remove Findable in your Google account: we'll tell you. Data already imported stays until you ask us to delete it or it's deleted under our retention schedule. [[DECISION: what deletion does to figures in existing reports]] [[REQ-9]] [[REQ-12]]
+Disconnecting stops new imports and deletes our stored credential. You may also need to remove Findable in your Google account: we'll tell you. Data already imported is deleted 30 days after you disconnect, or sooner if you ask. Deleting it also removes those figures from reports we've already made. [[REQ-9]] [[REQ-12]]
 
 ## 8. Reports and recommendations
 
@@ -84,7 +84,7 @@ Findable's outputs are generated in part by third-party AI systems, and may be i
 
 We don't guarantee search rankings, AI citations, traffic, bookings, revenue or visibility.
 
-After your first report is approved by our staff, later reports are shared with you automatically, without a person checking them first. [[DECISION: keep or require review; REQ-16]] You're responsible for reviewing outputs before acting on or publishing them. The [AI, Data and Report Disclaimer](04-ai-data-report-disclaimer.md) gives the detail.
+A member of our staff checks every report before it's shared with you. [[REQ-16]] You're responsible for reviewing outputs before acting on or publishing them. The [AI, Data and Report Disclaimer](04-ai-data-report-disclaimer.md) gives the detail.
 
 We'll still provide Findable with reasonable care and skill. Nothing in this clause lets us avoid responsibility for our own failure to do that.
 
@@ -106,7 +106,7 @@ Each of us will keep the other's non-public business information confidential, u
 
 We may need to change these Terms, plans, prices or features, for example to reflect a provider change, a change in law, or a change in costs.
 
-If a change is material, we'll give you at least [[PLACEHOLDER: 30]] days' notice by email to your primary contact and in the portal, saying what is changing and why. [[REQ-6]]
+If a change is material, we'll give you at least 30 days' notice by email to your primary contact and in the portal, saying what is changing and why.
 
 If you don't want the change, you can cancel before it takes effect, at no cost. If a change materially reduces what you've paid for, we'll refund any fees you've paid in advance for the period after the change takes effect.
 
@@ -128,16 +128,16 @@ We'll tell you first where we reasonably can, keep any suspension to what's need
 
 ## 13. Ending this contract
 
-**You** can cancel your subscription at any time. It ends at the end of the current billing period, as the Subscription Policy explains. [[REQ-5: today only our staff can cancel a subscription; build self-service cancellation, or tell customers to email us, before publishing]]
+**You** can cancel your subscription at any time by emailing anigemmill@theoutsidein.nz. It ends at the end of the current billing period, as the Subscription Policy explains.
 
 **We** can end this contract:
 
-- on [[PLACEHOLDER: 30]] days' notice, for any reason, refunding fees paid in advance for the period after it ends; or
-- with immediate effect, if you've seriously breached these Terms and, where the breach can be fixed, haven't fixed it within [[PLACEHOLDER: 14]] days of our notice.
+- on 30 days' notice, for any reason, refunding fees paid in advance for the period after it ends; or
+- with immediate effect, if you've seriously breached these Terms and, where the breach can be fixed, haven't fixed it within 14 days of our notice.
 
 **You** can end this contract the same way if we seriously breach it and don't fix the breach, and we'll refund fees paid in advance for the period after it ends.
 
-**After it ends** your right to use plan features stops. Your data is handled as the Privacy Policy and Data Processing Agreement describe. Before it ends you can ask us for an export. [[REQ-7]] [[REQ-8]]
+**After it ends** your right to use plan features stops. Your data is handled as the Privacy Policy and Data Processing Agreement describe. Before it ends you can ask us for a copy of your data, and we'll send it. [[REQ-8]]
 
 Clauses that are meant to continue, including 6, 9, 10, 14 and 16, continue.
 
@@ -145,12 +145,7 @@ Clauses that are meant to continue, including 6, 9, 10, 14 and 16, continue.
 
 **What we don't limit.** Nothing in these Terms limits liability for fraud or wilful misconduct, or any liability that can't legally be limited.
 
-**Cap.** Apart from that, and your obligation to pay fees, each party's total liability to the other for all claims under or in connection with this contract, in any 12-month period, whether in contract, tort (including negligence), equity or otherwise, is limited to the greater of:
-
-- the fees you paid or owed for that period; and
-- [[PLACEHOLDER: NZ$ amount]].
-
-[[DECISION: a higher separate cap for data breaches caused by our failure to meet our security obligations; check against insurance]]
+**Cap.** Apart from that, and your obligation to pay fees, each party's total liability to the other for all claims under or in connection with this contract, in any 12-month period, whether in contract, tort (including negligence), equity or otherwise, is limited to the fees you paid or owed for that period. [[LAWYER: founder's choice for now; revisit a fixed minimum amount and a separate data-breach cap once insurance is in place]]
 
 **Indirect loss.** Neither of us is liable for loss that wasn't reasonably foreseeable when the contract was made, or that the other could reasonably have avoided. We aren't liable for a decision you make from a report, or for lost bookings, revenue or profit, unless caused by our breach of these Terms or our negligence, and then subject to the cap. [[LAWYER: UCT review. The cap applies mutually and doesn't exclude liability for fault outright. The Commission's guide flags caps tied to contract value; see 09 §2. Consider what legitimate interest is relied on]]
 
@@ -160,15 +155,15 @@ Clauses that are meant to continue, including 6, 9, 10, 14 and 16, continue.
 
 If something's wrong, tell us first. Our [complaints process](08-service-and-support-policy.md#7-complaints) sets out the steps and times.
 
-If that doesn't resolve it, a senior person from each side will meet, in person or online, within [[PLACEHOLDER: 10]] working days. If it's still unresolved, either of us can propose mediation by a mediator we agree on, sharing the mediator's cost equally.
+If that doesn't resolve it, a senior person from each side will meet, in person or online, within 10 working days. If it's still unresolved, either of us can propose mediation by a mediator we agree on, sharing the mediator's cost equally.
 
 None of this stops you or us seeking urgent court relief, going to the Disputes Tribunal where it has jurisdiction, or complaining to a regulator, including the Commerce Commission or Privacy Commissioner.
 
 ## 16. General
 
 - **Law.** New Zealand law applies, and New Zealand courts have non-exclusive jurisdiction.
-- **Notices.** We'll send notices to your primary contact's email or through the portal. Send ours to anigemmill@theoutsidein.nz [[PLACEHOLDER: confirm a general contact address]]. Keep your primary contact up to date.
-- **Events outside our control.** Neither of us is liable for delay or failure caused by something outside reasonable control, including a provider outage. You can cancel without cost if it lasts more than [[PLACEHOLDER: 30]] days. Payment obligations for periods you've received the service aren't excused.
+- **Notices.** We'll send notices to your primary contact's email or through the portal. Send ours to anigemmill@theoutsidein.nz. Keep your primary contact up to date.
+- **Events outside our control.** Neither of us is liable for delay or failure caused by something outside reasonable control, including a provider outage. You can cancel without cost if it lasts more than 30 days. Payment obligations for periods you've received the service aren't excused.
 - **Transfer.** You can transfer this contract with our agreement, which we won't unreasonably refuse. We can transfer it to a business taking over Findable, and we'll tell you. You can cancel if you object.
 - **Suppliers.** We use subcontractors and providers and remain responsible for what we've agreed to do.
 - **Whole agreement.** These Terms are the whole agreement about Findable. They replace earlier discussions, but this doesn't affect liability for fraud, or anything the Contract and Commercial Law Act 2017 doesn't let us exclude. [[LAWYER: CCLA s 50]]
@@ -179,6 +174,7 @@ None of this stops you or us seeking urgent court relief, going to the Disputes 
 
 | Version | Date | Change |
 |---|---|---|
+| 0.4-draft | 9 Nov 2026 | Founder's answers: pricing page, invoices, 30/14/10/30-day periods, every report reviewed, cancel by email, export on request, Google data deleted 30 days after disconnecting, cap set to fees paid. |
 | 0.3-draft | 9 Nov 2026 | Entity named (The Outside In Limited, NZBN). GST: not registered. Address kept off the page; contact address placeholder. |
 | 0.2-draft | 9 Nov 2026 | Renamed Business Terms; Consumer Terms and Pilot Programme Terms split out. Entity details, notices email, GST conflict, staff access, automatic report sharing and staff-only cancellation flagged. |
 | 0.1-draft | 3 Nov 2026 | First draft for review |

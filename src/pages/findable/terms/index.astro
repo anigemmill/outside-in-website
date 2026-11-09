@@ -1,0 +1,34 @@
+---
+/** Findable Terms of Service chooser: DRAFT for review, noindex, unlisted. */
+import FindableLayout from '../../../layouts/FindableLayout.astro';
+---
+<FindableLayout title="Terms of Service" description="Draft Findable Terms of Service, for review. Not in force." noindex>
+  <section class="f-wrap lg">
+    <div class="lg-banner" role="note" aria-label="Draft notice">
+      <strong>Drafts for review. Not in force.</strong>
+      <p>These terms haven’t been reviewed by a lawyer or accepted by anyone, and nothing here is binding.</p>
+    </div>
+    <span class="f-lbl c-forest">Findable</span>
+    <h1 class="f-d lg-title">Terms of Service</h1>
+    <p class="lg-lede">Which terms apply depends on who you are buying for.</p>
+    <ul role="list" class="lg-pick">
+      <li>
+        <h2><a href="/findable/terms/business/">Business Terms</a></h2>
+        <p>For tourism businesses, organisations and anyone buying Findable for a business they run, including sole traders.</p>
+      </li>
+      <li>
+        <h2><a href="/findable/terms/consumer/">Consumer Terms</a></h2>
+        <p>For people buying Findable for personal, domestic or household use. Your rights under the Consumer Guarantees Act and the Fair Trading Act always apply.</p>
+      </li>
+    </ul>
+    <p class="lg-lede"><a href="/findable/privacy/">Privacy Policy</a></p>
+  </section>
+</FindableLayout>
+
+<style>
+  .lg-lede { font-size: 18px; line-height: 1.5; color: var(--f-ink-2); margin: 0 0 24px; }
+  .lg-pick { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 16px; padding: 0; margin: 0 0 32px; }
+  .lg-pick li { background: var(--f-cream); border-radius: 20px; padding: 24px; }
+  .lg-pick h2 { font-family: 'Inter Tight Variable', 'Inter Variable', sans-serif; font-weight: 700; font-size: 24px; margin: 0 0 8px; }
+  .lg-pick p { margin: 0; line-height: 1.5; color: var(--f-ink-2); }
+</style>

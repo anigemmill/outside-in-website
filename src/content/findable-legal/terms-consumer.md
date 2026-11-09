@@ -7,7 +7,7 @@
 
 ## 1. Who we are
 
-These Terms are a contract between you and The Outside In Limited (NZBN 9429048708357), a New Zealand company of [[PLACEHOLDER: contact address. Not the home address: use a PO Box or other address the company chooses. LAWYER: IPP 3 asks for the agency's address; confirm a PO Box is enough]], trading as The Outside In and Findable ("we"). Contact us at anigemmill@theoutsidein.nz.
+These Terms are a contract between you and The Outside In Limited (NZBN 9429048708357), a New Zealand company, trading as The Outside In and Findable ("we"). Contact us at anigemmill@theoutsidein.nz.
 
 Our [Privacy Policy](03-privacy-policy.md) explains how we handle your personal information.
 

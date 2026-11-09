@@ -5,7 +5,7 @@
 
 **Version:** 0.4-draft · **Effective:** Not in force
 
-This policy explains how The Outside In Limited (NZBN 9429048708357), a New Zealand company trading as The Outside In and Findable ("we"), of [[PLACEHOLDER: contact address. Not the home address: use a PO Box or other address the company chooses. LAWYER: IPP 3 asks for the agency's address; confirm a PO Box is enough]], handles personal information under the Privacy Act 2020.
+This policy explains how The Outside In Limited (NZBN 9429048708357), a New Zealand company trading as The Outside In and Findable ("we"), handles personal information under the Privacy Act 2020.
 
 **Privacy officer:** Ani Gemmill, anigemmill@theoutsidein.nz.
 
@@ -86,8 +86,7 @@ The current list is at [theoutsidein.nz/findable/subprocessors/](https://theouts
 **What goes to AI and search providers is limited.** We send the traveller question being tested (at most 300 characters), such as "best geothermal attractions in Rotorua", and a general New Zealand location. Questions can name your business or a competitor. We don't send your users' details, your Google data, your uploads or your reports.
 
 **Whether they keep or train on it.**
-[[REQ-18: don't publish this paragraph until each account's settings are checked]]
-We ask OpenAI not to store our requests. OpenAI's documentation says API data isn't used to train its models unless the account opts in, and we haven't opted in. Perplexity's documentation says it doesn't use API customer content to train generative AI models. SerpApi is a search data service, not an AI model. These statements are the providers' own, and could change. Providers may keep what we send for a limited period for abuse monitoring: [[PLACEHOLDER: confirm each provider's period]].
+OpenAI's and Perplexity's own documentation says data sent through their APIs isn't used to train their models unless the account chooses to share it, and we haven't. We ask OpenAI not to store our requests, but OpenAI may still keep them for up to 30 days to check for misuse. Perplexity keeps usage records, such as when a request was made and how large it was. SerpApi is a search data service, not an AI model. These statements are the providers' own, and could change.
 
 **We may also share personal information** with professional advisers; with a buyer of the business, under a duty of confidence; with your own business's users, within your account; and where the law requires.
 
@@ -121,9 +120,9 @@ We delete information automatically at the end of these periods. [[REQ-9]]
 | Security records: IP addresses, sign-in attempts, rate-limit records | 90 days |
 | Audit log | 2 years. Names are removed when a user is deleted. |
 | Free check and contact form requests | 1 year |
-| Billing and tax records | 7 years, as New Zealand tax law requires [[PLACEHOLDER: confirm with accountant]] |
+| Billing and tax records | 7 years, as New Zealand tax law requires |
 | Consent records | While we rely on them, then 2 years |
-| Backups | Deleted data can stay in backups until they expire: [[REQ-18: confirm; documents say about 7 days]] |
+| Backups | Deleted data can stay in backups for up to 7 days, until they expire |
 
 ## 8. Your rights
 

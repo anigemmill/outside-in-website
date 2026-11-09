@@ -1,0 +1,53 @@
+---
+/**
+ * A Findable legal draft, shown for review only. Always noindex, never linked
+ * from the nav or footer, and left out of the sitemap (astro.config.mjs).
+ * To make a document live: remove the draft banner, set noindex to false,
+ * add it to the sitemap and footer, and publish only text with no open items.
+ */
+import FindableLayout from '../../layouts/FindableLayout.astro';
+import { renderLegal } from '../../lib/legal';
+
+interface Props { raw: string; description: string; related?: { href: string; label: string }[] }
+const { raw, description, related = [] } = Astro.props;
+const doc = await renderLegal(raw);
+---
+<FindableLayout title={doc.title.replace(/^Findable /, '')} description={description} noindex>
+  <article class="f-wrap lg">
+    <div class="lg-banner" role="note" aria-label="Draft notice">
+      <strong>Draft for review. Not in force.</strong>
+      <p>This document hasn’t been reviewed by a lawyer or accepted by anyone, and nothing on this page is binding. It’s shared so it can be read and checked. Highlighted items ({doc.open}) are still open.</p>
+    </div>
+    <span class="f-lbl c-forest">Findable · version {doc.version}</span>
+    <h1 class="f-d lg-title">{doc.title}</h1>
+    {related.length > 0 && (
+      <nav class="lg-related" aria-label="Related documents">
+        {related.map((r) => <a href={r.href}>{r.label}</a>)}
+      </nav>
+    )}
+    <div class="lg-body" set:html={doc.html} />
+  </article>
+</FindableLayout>
+
+<style is:global>
+  .lg { padding-block: 24px 96px; max-width: 860px; }
+  .lg-banner { background: var(--f-ink); color: var(--f-paper); border-radius: 20px; padding: 20px 24px; margin-bottom: 40px; }
+  .lg-banner strong { color: var(--f-lime); font-size: 17px; }
+  .lg-banner p { margin: 6px 0 0; line-height: 1.5; }
+  .lg-title { margin: 12px 0 24px; font-size: clamp(36px, 5vw, 56px); line-height: 1; }
+  .lg-related { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-bottom: 32px; }
+  .findable .lg-related a { font-weight: 600; padding-block: 12px; }
+  .lg-body { font-size: 17px; line-height: 1.65; color: var(--f-ink-2); }
+  .lg-body h2 { font-family: 'Inter Tight Variable', 'Inter Variable', sans-serif; font-weight: 700; letter-spacing: -0.02em; color: var(--f-ink); font-size: 26px; line-height: 1.2; margin: 48px 0 12px; }
+  .lg-body h3 { color: var(--f-ink); font-size: 19px; font-weight: 700; margin: 32px 0 8px; }
+  .lg-body p, .lg-body ul, .lg-body ol { margin: 0 0 16px; }
+  .lg-body li { margin-bottom: 6px; }
+  .lg-body strong { color: var(--f-ink); }
+  .lg-table { overflow-x: auto; margin: 8px 0 24px; }
+  .lg-body table { border-collapse: collapse; font-size: 15px; line-height: 1.5; }
+  .lg-body th, .lg-body td { text-align: left; vertical-align: top; padding: 10px 14px; border-bottom: 1px solid var(--f-line); min-width: 120px; }
+  .lg-body th { color: var(--f-ink); background: var(--f-paper); }
+  .lg-body code { font: 500 0.9em 'JetBrains Mono Variable', monospace; background: var(--f-paper); padding: 1px 6px; border-radius: 6px; overflow-wrap: anywhere; }
+  .lg-body a { overflow-wrap: anywhere; }
+  .lg-open { display: inline-block; font: 500 12px/18px 'JetBrains Mono Variable', monospace; letter-spacing: 0.04em; text-transform: uppercase; background: var(--f-lime); color: var(--f-ink); border-radius: 999px; padding: 1px 10px; vertical-align: 1px; }
+</style>

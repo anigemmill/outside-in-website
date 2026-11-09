@@ -50,6 +50,7 @@ The core idea comes from the name and the logo: see a business from the outside,
 | Old case studies, kept unpublished | `archive/work/` (see its README) |
 | Findable pages (own brand) | `src/pages/findable/`, `src/layouts/FindableLayout.astro`, `src/styles/findable.css`, `src/scripts/findable-form.ts` |
 | Findable app address (Sign in links) | `findableAppUrl` in `src/config/site.ts` |
+| Findable legal drafts (Privacy, Terms): review only, noindex, unlisted | `src/pages/findable/privacy/`, `src/pages/findable/terms/`, rendered by `src/components/findable/LegalDraft.astro` and `src/lib/legal.ts` from copies in `src/content/findable-legal/` (source: `docs/legal/` in the Findable app repo) |
 
 ## Design: Terracotta Rose (Oct 2026, approved by Ani)
 

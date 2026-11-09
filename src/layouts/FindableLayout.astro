@@ -88,7 +88,12 @@ const nav = [
         </div>
         <div class="f-foot__base">
           <span>© {new Date().getFullYear()} Findable · Made in Aotearoa New Zealand</span>
-          <a href="/privacy/">Privacy</a>
+          <nav aria-label="Legal" class="f-foot__legal">
+            <a href="/findable/privacy/">Privacy Policy</a>
+            <a href="/findable/terms/">Terms of Service</a>
+            <a href="/findable/subprocessors/">Service providers</a>
+            <a href="/privacy/">Website privacy</a>
+          </nav>
         </div>
       </div>
     </footer>
@@ -115,6 +120,8 @@ const nav = [
       .findable .f-foot a:hover { color: var(--f-lime); }
       .f-foot__base { border-top: 1px solid #2e2f36; padding-top: 24px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font-size: 13px; color: #a6a7ad; }
       .findable .f-foot__base a { font-size: 13px; color: #a6a7ad; }
+      .f-foot__legal { display: flex; flex-wrap: wrap; gap: 4px 20px; }
+      .findable .f-foot__legal a { padding-block: 12px; }
     </style>
   </body>
 </html>

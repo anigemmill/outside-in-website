@@ -32,7 +32,7 @@ const stripPreviewOnly = {
 export default defineConfig({
   site,
   trailingSlash: 'always',
-  integrations: [stripPreviewOnly, sitemap({ filter: (page) => !page.includes('/contact/thanks/') && !page.includes('/findable/thanks/') && !page.includes('/findable/privacy/') && !page.includes('/findable/terms/') && !page.endsWith('/fonts/') })],
+  integrations: [stripPreviewOnly, sitemap({ filter: (page) => !page.includes('/contact/thanks/') && !page.includes('/findable/thanks/') && !page.includes('/findable/privacy/') && !page.includes('/findable/terms/') && !page.includes('/findable/subprocessors/') && !page.endsWith('/fonts/') })],
   build: { inlineStylesheets: 'auto' },
   prefetch: { prefetchAll: false, defaultStrategy: 'hover' },
 });

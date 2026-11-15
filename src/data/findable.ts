@@ -107,10 +107,12 @@ export type PlanId = 'starter' | 'growth' | 'pro' | 'enterprise';
 export const plans: {
   id: PlanId; name: string; price: string; per: string; analyses: string; competitors: string;
   blurb: string; recommended?: boolean; cta: { href: string; label: string };
+  /** Self-serve plans: the button goes to Findable sign-in (accounts are invitation-only), with Contact us for new customers. */
+  signIn?: boolean;
 }[] = [
-  { id: 'starter', name: 'Starter', price: '$99', per: 'per month', analyses: '1 AI visibility analysis a month', competitors: 'Up to 5 competitors tracked', blurb: 'See how AI assistants describe and recommend your business, and what to fix first.', cta: { href: '/findable/about/#contact', label: 'Start with Starter' } },
-  { id: 'growth', name: 'Growth', price: '$299', per: 'per month', analyses: '4 AI visibility analyses a month', competitors: 'Up to 10 competitors tracked', blurb: 'About one analysis a week, plus your website, Google Analytics and Search Console in one place.', recommended: true, cta: { href: '/findable/about/#contact', label: 'Choose Growth' } },
-  { id: 'pro', name: 'Pro', price: '$599', per: 'per month', analyses: '8 AI visibility analyses a month', competitors: 'Up to 15 competitors tracked', blurb: 'About two analyses a week, the largest competitor set and priority support.', cta: { href: '/findable/about/#contact', label: 'Choose Pro' } },
+  { id: 'starter', name: 'Starter', price: '$99', per: 'per month', analyses: '1 AI visibility analysis a month', competitors: 'Up to 5 competitors tracked', blurb: 'See how AI assistants describe and recommend your business, and what to fix first.', cta: { href: '/findable/about/#contact', label: 'Start with Starter' }, signIn: true },
+  { id: 'growth', name: 'Growth', price: '$299', per: 'per month', analyses: '4 AI visibility analyses a month', competitors: 'Up to 10 competitors tracked', blurb: 'About one analysis a week, plus your website, Google Analytics and Search Console in one place.', recommended: true, cta: { href: '/findable/about/#contact', label: 'Choose Growth' }, signIn: true },
+  { id: 'pro', name: 'Pro', price: '$599', per: 'per month', analyses: '8 AI visibility analyses a month', competitors: 'Up to 15 competitors tracked', blurb: 'About two analyses a week, the largest competitor set and priority support.', cta: { href: '/findable/about/#contact', label: 'Choose Pro' }, signIn: true },
   { id: 'enterprise', name: 'Enterprise', price: 'Custom', per: 'agreed with you', analyses: 'Analyses agreed with you', competitors: 'Competitors agreed with you', blurb: 'For groups, regional tourism organisations and agencies with several businesses.', cta: { href: '/findable/about/#contact', label: 'Talk to us' } },
 ];
 

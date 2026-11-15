@@ -9,6 +9,7 @@
  */
 import FindableLayout from '../../layouts/FindableLayout.astro';
 import { plans, featureRows, packages, freeCheck, type Cell } from '../../data/findable';
+import { site } from '../../config/site';
 
 const faqs = [
   { q: 'What is an analysis?', a: 'One complete check of how AI assistants answer traveller questions about your region and category: whether they mention you, recommend you, cite your website and name competitors instead.' },
@@ -47,7 +48,14 @@ const cellText = (c: Cell) => (c === true ? 'Included' : c === false ? 'Not incl
             <li><span aria-hidden="true" class="plan__tick">✓</span><span>PDF report downloads</span></li>
             {p.id !== 'starter' && <li><span aria-hidden="true" class="plan__tick">✓</span><span>Google Analytics 4 and Search Console</span></li>}
           </ul>
-          <a href={p.cta.href} class={`f-btn ${p.recommended ? 'f-btn-p' : 'f-btn-s'} plan__cta`}>{p.cta.label}<span class="f-sr"> ({p.name} plan)</span> <span aria-hidden="true">→</span></a>
+          {p.signIn ? (
+            <div class="plan__actions">
+              <a href={`${site.findableAppUrl}/login`} class={`f-btn ${p.recommended ? 'f-btn-p' : 'f-btn-s'} plan__cta`}>{p.cta.label}<span class="f-sr"> ({p.name} plan): sign in to Findable</span> <span aria-hidden="true">→</span></a>
+              <p class="plan__hint">Existing customers: sign in, then choose this plan under Account &amp; team. New to Findable? <a href="/findable/about/#contact">Contact us</a> and we'll set up your account.</p>
+            </div>
+          ) : (
+            <a href={p.cta.href} class={`f-btn ${p.recommended ? 'f-btn-p' : 'f-btn-s'} plan__cta`}>{p.cta.label}<span class="f-sr"> ({p.name} plan)</span> <span aria-hidden="true">→</span></a>
+          )}
         </li>
       ))}
     </ul>
@@ -170,6 +178,10 @@ const cellText = (c: Cell) => (c === true ? 'Included' : c === false ? 'Not incl
   .plan__name { margin: 0; }
   .plan--rec .plan__name { color: var(--f-lime); }
   .plan__badge { background: var(--f-lime); color: var(--f-ink); }
+  .plan__actions { display: flex; flex-direction: column; gap: 10px; margin-top: auto; }
+  .plan__actions .plan__cta { margin-top: 0; }
+  .plan__hint { margin: 0; font-size: 14px; line-height: 1.45; color: inherit; opacity: .85; }
+  .plan__hint a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
   .plan__price { margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; }
   .plan__price .f-d { font-size: clamp(40px, 4vw, 52px); line-height: 1; }
   .plan__per { font-size: 14px; font-weight: 600; }

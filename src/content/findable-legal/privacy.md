@@ -3,7 +3,7 @@
 > **DRAFT 0.4. Not in force. Not published. For legal review.**
 > Checked against `main` at `10432ae` (9 Nov 2026). Google connections are built and merged but switched off for every business: keep section 6 only if they're on when this is published.
 
-**Version:** 0.5-draft · **Effective:** Not in force
+**Version:** 0.6-draft · **Effective:** Not in force
 
 This policy explains how The Outside In Limited (NZBN 9429048708357), a New Zealand company trading as The Outside In and Findable ("we"), handles personal information under the Privacy Act 2020.
 
@@ -116,7 +116,7 @@ These are the longest periods we keep each kind of information. Imported Google 
 | What | Longest we keep it |
 |---|---|
 | Account details | 1 year after the account closes |
-| Customer data, including reports (including Google figures recorded in reports), AI answers and imported data | 90 days after the subscription ends |
+| Customer data, including reports (including Google figures recorded in reports), AI answers and imported data | 30 days after the subscription ends |
 | Website pages collected for an assessment | 90 days. We keep the assessment results. |
 | Security records: IP addresses, sign-in attempts, rate-limit records | 90 days |
 | Audit log | 2 years. Names are removed when a user is deleted. |
@@ -162,6 +162,7 @@ We'll update this policy when our practices change, and tell you by email if a c
 
 | Version | Date | Change |
 |---|---|---|
+| 0.6-draft | 19 Nov 2026 | Customer data kept up to 30 days after the subscription ends (was 90), matching the DPA |
 | 0.5-draft | 19 Nov 2026 | Approved by the lawyer. Lawyer questions removed. Still not in force until published |
 | 0.4-draft | 9 Nov 2026 | Founder's answers: retention periods, every report reviewed, provider locations, Anthropic and Gemini removed (not used in Production), Stripe removed until live, provider list page, contact details for website people not kept, security contact. |
 | 0.3-draft | 9 Nov 2026 | Entity and privacy officer named. Address kept off the page; contact address placeholder. |

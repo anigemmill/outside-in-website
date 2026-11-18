@@ -3,7 +3,7 @@
 > **DRAFT 0.4. Not in force. Not published. For legal review.**
 > Checked against `main` at `10432ae` (9 Nov 2026). Google connections are built and merged but switched off for every business: keep section 6 only if they're on when this is published.
 
-**Version:** 0.6-draft · **Effective:** Not in force
+**Version:** 0.7-draft · **Effective:** Not in force
 
 This policy explains how The Outside In Limited (NZBN 9429048708357), a New Zealand company trading as The Outside In and Findable ("we"), handles personal information under the Privacy Act 2020.
 
@@ -31,11 +31,11 @@ It covers the Findable app, the Findable free check and contact forms on theouts
 | Free check and contact form details: name, email, business, website, region, message | You, through theoutsidein.nz | Run your free check, send your report, reply to you |
 | Billing contact and subscription details | You | Bill you. We don't see or store card numbers. |
 | Messages to us | You | Help you, and keep a record |
-| Website pages | Your business's public website | Website assessment. We keep only the text the assessment needs, without email addresses or phone numbers. [[REQ-24]] |
+| Website pages | Your business's public website | Website assessment. We keep the text of the pages we check and the links on them, including any email addresses and phone numbers the website publishes. |
 | Search queries and page data from Search Console; traffic totals from Google Analytics | Google, if your business connects it | Show your business's performance. See section 6. |
 | AI answers and search results | AI and search providers | Measure how your business appears. These can mention people by name, such as owners, guides or reviewers, and can be wrong about them. |
 
-If you don't give us your name and email you can't have an account. If a business doesn't give consent, we can't run analyses or website assessments for it. [[REQ-24]]
+If you don't give us your name and email you can't have an account. If a business doesn't give consent, we can't run AI analyses or scheduled website checks for it. Our staff can still run a one-off check of a business's public website, for example when the business asks for a free check.
 
 **Please don't put sensitive information into Findable.** That means health, ethnicity, religion, guest records or customer lists. It isn't needed. See the [Acceptable Use Policy](05-acceptable-use-policy.md).
 
@@ -45,10 +45,10 @@ Some personal information reaches us from someone other than the person it's abo
 
 | Who | What we get, and from whom | How we tell them |
 |---|---|---|
-| People invited to Findable | Name, email and role, from the business or our staff | In the invitation email, with a link to this policy [[REQ-15]] |
+| People invited to Findable | Name, email and role, from the business or our staff | In the invitation email, with a link to this policy |
 | A business's contact person | Name, email, phone, from the business, our staff or the business's website | The first time we contact them |
 | The person who gives consent for a business | Name, role, email, from the business | When consent is recorded |
-| People named on a business's website or in AI answers | Whatever the page or answer says | We don't keep their contact details from websites. [[REQ-24]] |
+| People named on a business's website or in AI answers | Whatever the page or answer says | We don't look for information about individuals. Contact details a business publishes on its website can be kept with a website check. |
 
 ## 4. How we use it
 
@@ -64,7 +64,7 @@ We don't sell personal information. We don't use it, or customer data, to train 
 
 **Marketing email.** We don't send any today. If we do, it'll be only with your consent, it'll say who it's from, and every message will have a working unsubscribe that we act on within 5 working days, as the Unsolicited Electronic Messages Act 2007 requires.
 
-**Automated reports.** Findable's analyses and recommendations are about businesses, not individuals. We don't use them to make decisions about a person. A member of our staff checks every report before a business sees it. [[REQ-16]]
+**Automated reports.** Findable's analyses and recommendations are about businesses, not individuals. We don't use them to make decisions about a person. Our staff review a business's first report before it's shared. After that, reports from new analyses can be shared automatically, without a person checking each one first.
 
 ## 5. Who we share it with
 
@@ -90,7 +90,7 @@ OpenAI's and Perplexity's own documentation says data sent through their APIs is
 
 **We may also share personal information** with professional advisers; with a buyer of the business, under a duty of confidence; with your own business's users, within your account; and where the law requires.
 
-**Findable staff** can see customer data, including connected Google data, to run the service and give support. [[REQ-27]] Super Admins can use a read-only "view as client" mode for up to 60 minutes at a time, and each use is logged.
+**Findable staff** can see customer data, including connected Google data, to run the service and give support. Every member of our staff can see every business's data; at the moment, the founder is our only staff member. Super Admins can use a read-only "view as client" mode for up to 60 minutes at a time, and each use is logged.
 
 **Overseas.** When a provider only stores or processes information for us, New Zealand law treats us as holding it and we stay responsible. A provider that uses information for its own purposes receives a disclosure, and we'll only make that disclosure where the Privacy Act allows it.
 
@@ -103,15 +103,15 @@ This section applies only if your business connects Google Analytics or Search C
 - **What we use it for.** Only to show your business's performance in Findable reports and recommendations.
 - **What we don't do.** We don't sell Google data, use it for advertising, use it to train AI models, or send it to AI providers.
 - **Who sees it.** Your users, and Findable staff where needed to run the service or give support.
-- **Disconnecting.** Someone authorised at your business, or Findable staff, can disconnect Google Analytics or Search Console at any time. That deletes the Google credential we hold for your business and stops imports. If the same Google account is also connected to Findable for another business, or for your other Google service, that connection carries on: disconnecting removes your business's access only. When the last Findable connection using a Google account is disconnected, we ask Google to remove Findable's access to that account. You can also remove Findable at any time in your Google account's security settings. [[REQ-12]]
-- **Deleting imported data.** We delete the data we imported from Google 30 days after you disconnect, or sooner if you ask. [[REQ-12]]
+- **Disconnecting.** Someone authorised at your business, or Findable staff, can disconnect Google Analytics or Search Console at any time. That deletes the Google credential we hold for your business and stops imports. If the same Google account is also connected to Findable for another business, or for your other Google service, that connection carries on: disconnecting removes your business's access only. When the last Findable connection using a Google account is disconnected, we ask Google to remove Findable's access to that account. You can also remove Findable at any time in your Google account's security settings.
+- **Deleting imported data.** We delete the data we imported from Google 30 days after you disconnect, or sooner if you ask.
 - **Reports already created.** Findable reports record the figures they showed when they were created, so they stay an accurate record of what was reported. This includes Google figures such as Search Console totals, top searches and Google Analytics traffic comparisons. Deleting imported Google data doesn't change reports that were already created. Those reports are kept for as long as your other Findable data (section 7). If you want a report deleted, ask us.
 
 Findable's use of information received from Google APIs follows the [Google API Services User Data Policy](https://developers.google.com/terms/api-services-user-data-policy), including its Limited Use requirements.
 
 ## 7. How long we keep it
 
-These are the longest periods we keep each kind of information. Imported Google data is deleted automatically (section 6). For everything else, deletion at the end of each period isn't automatic yet: we delete it when you ask us to (section 8), and we're working towards automatic deletion. [[REQ-9]]
+These are the longest periods we keep each kind of information. Imported Google data is deleted automatically (section 6). For everything else, deletion at the end of each period isn't automatic yet: we delete it when you ask us to (section 8), and we're working towards automatic deletion.
 
 | What | Longest we keep it |
 |---|---|
@@ -129,7 +129,7 @@ These are the longest periods we keep each kind of information. Imported Google 
 
 You can ask for the personal information we hold about you, and ask us to correct it. Email the privacy officer. We'll respond as soon as we reasonably can and within 20 working days. We may need to confirm who you are.
 
-You can ask us to delete your account or your free check request. We'll tell you if we need to keep anything, such as billing records or audit logs with your name removed. [[REQ-8]]
+You can ask us to delete your account or your free check request. We'll tell you if we need to keep anything, such as billing records, or audit log entries that record what happened and may still show your name.
 
 If the information is held for a business, such as a Search Console query containing your name, we'll usually refer you to that business, and help it respond.
 
@@ -139,7 +139,7 @@ You can change your password and sign out devices yourself. To change your name 
 
 ## 9. Security
 
-We use technical and organisational measures to protect information, including hashed passwords and session tokens, encrypted Google credentials, encrypted connections, access limited by role, separated customer data, and logging of sensitive actions. [[REQ-25]] No system is perfectly secure. Report a security concern to anigemmill@theoutsidein.nz.
+We use technical and organisational measures to protect information, including hashed passwords and session tokens, encrypted Google credentials, encrypted connections, access limited by role, separated customer data, and logging of sensitive actions. No system is perfectly secure. Report a security concern to anigemmill@theoutsidein.nz.
 
 If a privacy breach is likely to cause serious harm, we'll tell the Privacy Commissioner and the people affected as soon as practicable, as the Privacy Act requires.
 
@@ -162,6 +162,7 @@ We'll update this policy when our practices change, and tell you by email if a c
 
 | Version | Date | Change |
 |---|---|---|
+| 0.7-draft | 19 Nov 2026 | Reworded to describe what Findable does today: website checks, report review, staff access, deletion; open product items removed |
 | 0.6-draft | 19 Nov 2026 | Customer data kept up to 30 days after the subscription ends (was 90), matching the DPA |
 | 0.5-draft | 19 Nov 2026 | Approved by the lawyer. Lawyer questions removed. Still not in force until published |
 | 0.4-draft | 9 Nov 2026 | Founder's answers: retention periods, every report reviewed, provider locations, Anthropic and Gemini removed (not used in Production), Stripe removed until live, provider list page, contact details for website people not kept, security contact. |

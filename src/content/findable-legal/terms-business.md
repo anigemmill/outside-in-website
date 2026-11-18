@@ -3,7 +3,7 @@
 > **DRAFT 0.2. Not in force. Not published. For legal review.**
 > For business customers. People buying Findable for personal, domestic or household use get the [Consumer Terms of Service](01b-consumer-terms-of-service.md) instead. Pilot businesses also accept the [Pilot Programme Terms](12-pilot-programme-terms.md).
 
-**Version:** 0.5-draft · **Effective:** Not in force · **Applies to:** Starter, Growth and Pro plans, and Enterprise and Pilot unless a signed agreement says otherwise.
+**Version:** 0.6-draft · **Effective:** Not in force · **Applies to:** Starter, Growth and Pro plans, and Enterprise and Pilot unless a signed agreement says otherwise.
 
 ## 1. Who we are and what this is
 
@@ -46,7 +46,7 @@ These Terms are for businesses. You confirm that you are in trade and are buying
 
 You need an account to use Findable. Accounts are created by invitation for now. If we add self sign-up, we'll update these Terms first.
 
-**Consent to measure.** Before we run a real analysis for you, you need to confirm which AI and search providers we can use and whether we can run recurring measurement. We also need to set up your profile and question set with you. If you withdraw consent, analyses stop and your reports are hidden until you give it again. [[REQ-11]]
+**Consent to measure.** Before we run a real analysis for you, you need to confirm which AI and search providers we can use and whether we can run recurring measurement. We also need to set up your profile and question set with you. If you withdraw consent, analyses stop and your reports are hidden until you give it again.
 
 You are responsible for your users, for keeping sign-in details safe, and for what is done under your account. Tell us promptly if you think someone has got in without permission. Only your primary contact, or someone we've given billing access, can buy or manage a plan.
 
@@ -66,17 +66,17 @@ Prices are in New Zealand dollars, per business, per month or per year depending
 
 **You're responsible for what you give us.** You confirm you have the right to provide Your Data, and to connect each account you connect. Don't put sensitive personal information into Findable. See the [Acceptable Use Policy](05-acceptable-use-policy.md).
 
-**Staff access.** Our staff can see Your Data, including data imported from connected sources, where needed to run your analyses, prepare and review your reports, give support, keep the service secure, or meet a legal obligation. Staff views of your portal are read-only and logged. [[REQ-27]]
+**Staff access.** Our staff can see Your Data, including data imported from connected sources, where needed to run your analyses, prepare and review your reports, give support, keep the service secure, or meet a legal obligation. Staff views of your portal are read-only and logged. Every member of our staff can see every business's data; at the moment, the founder is our only staff member.
 
 **Personal information.** Where Your Data includes personal information, the [Data Processing Agreement](06-data-processing-agreement.md) applies.
 
 ## 7. Connected accounts
 
-Connecting Google Analytics, Search Console or another source is your choice, where your plan includes it and we've switched it on for your business. You can disconnect at any time, including after your plan changes. [[REQ-12]]
+Connecting Google Analytics, Search Console or another source is your choice, where your plan includes it and we've switched it on for your business. You can disconnect at any time, including after your plan changes.
 
 You confirm you are authorised to connect the account and to share its data with us. Google's or the other provider's terms also apply to that account. Access is read-only and only for the service you connect.
 
-Disconnecting stops new imports and deletes our stored credential. You may also need to remove Findable in your Google account: we'll tell you. Data already imported is deleted 30 days after you disconnect, or sooner if you ask. Deleting it also removes those figures from reports we've already made. [[REQ-9]] [[REQ-12]]
+Disconnecting stops new imports and deletes our stored credential. You may also need to remove Findable in your Google account: we'll tell you. Data already imported is deleted 30 days after you disconnect, or sooner if you ask. Reports we've already made keep the figures they showed, as the Privacy Policy explains.
 
 ## 8. Reports and recommendations
 
@@ -84,7 +84,7 @@ Findable's outputs are generated in part by third-party AI systems, and may be i
 
 We don't guarantee search rankings, AI citations, traffic, bookings, revenue or visibility.
 
-A member of our staff checks every report before it's shared with you. [[REQ-16]] You're responsible for reviewing outputs before acting on or publishing them. The [AI, Data and Report Disclaimer](04-ai-data-report-disclaimer.md) gives the detail.
+We review your first report before it's shared with you. After that, reports from new analyses can be shared automatically, without a person checking each one first. You're responsible for reviewing outputs before acting on or publishing them. The [AI, Data and Report Disclaimer](04-ai-data-report-disclaimer.md) gives the detail.
 
 We'll still provide Findable with reasonable care and skill. Nothing in this clause lets us avoid responsibility for our own failure to do that.
 
@@ -137,7 +137,7 @@ We'll tell you first where we reasonably can, keep any suspension to what's need
 
 **You** can end this contract the same way if we seriously breach it and don't fix the breach, and we'll refund fees paid in advance for the period after it ends.
 
-**After it ends** your right to use plan features stops. Your data is handled as the Privacy Policy and Data Processing Agreement describe. Before it ends you can ask us for a copy of your data, and we'll send it. [[REQ-8]]
+**After it ends** your right to use plan features stops. Your data is handled as the Privacy Policy and Data Processing Agreement describe. Before it ends you can ask us for a copy of your data, and we'll send it.
 
 Clauses that are meant to continue, including 6, 9, 10, 14 and 16, continue.
 
@@ -174,6 +174,7 @@ None of this stops you or us seeking urgent court relief, going to the Disputes 
 
 | Version | Date | Change |
 |---|---|---|
+| 0.6-draft | 19 Nov 2026 | Matched to what Findable does today and to the Privacy Policy (report review, staff access, reports keep Google figures) |
 | 0.5-draft | 19 Nov 2026 | Approved by the lawyer. Lawyer questions removed. Still not in force until published |
 | 0.4-draft | 9 Nov 2026 | Founder's answers: pricing page, invoices, 30/14/10/30-day periods, every report reviewed, cancel by email, export on request, Google data deleted 30 days after disconnecting, cap set to fees paid. |
 | 0.3-draft | 9 Nov 2026 | Entity named (The Outside In Limited, NZBN). GST: not registered. Address kept off the page; contact address placeholder. |

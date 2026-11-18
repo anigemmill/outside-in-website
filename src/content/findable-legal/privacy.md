@@ -3,7 +3,7 @@
 > **DRAFT 0.4. Not in force. Not published. For legal review.**
 > Checked against `main` at `10432ae` (9 Nov 2026). Google connections are built and merged but switched off for every business: keep section 6 only if they're on when this is published.
 
-**Version:** 0.4-draft · **Effective:** Not in force
+**Version:** 0.5-draft · **Effective:** Not in force
 
 This policy explains how The Outside In Limited (NZBN 9429048708357), a New Zealand company trading as The Outside In and Findable ("we"), handles personal information under the Privacy Act 2020.
 
@@ -41,14 +41,14 @@ If you don't give us your name and email you can't have an account. If a busines
 
 ## 3. Information we get from someone else
 
-Some personal information reaches us from someone other than the person it's about. When it does, we'll tell that person, as the Privacy Act requires (information privacy principle 3A), unless an exception applies. [[LAWYER: confirm which IPP 3A exceptions, if any, cover people named on public websites and in AI answers; see 09]]
+Some personal information reaches us from someone other than the person it's about. When it does, we'll tell that person, as the Privacy Act requires (information privacy principle 3A), unless an exception applies.
 
 | Who | What we get, and from whom | How we tell them |
 |---|---|---|
 | People invited to Findable | Name, email and role, from the business or our staff | In the invitation email, with a link to this policy [[REQ-15]] |
 | A business's contact person | Name, email, phone, from the business, our staff or the business's website | The first time we contact them |
 | The person who gives consent for a business | Name, role, email, from the business | When consent is recorded |
-| People named on a business's website or in AI answers | Whatever the page or answer says | We don't keep their contact details from websites. [[REQ-24]] [[LAWYER: whether an exception covers names in AI answers]] |
+| People named on a business's website or in AI answers | Whatever the page or answer says | We don't keep their contact details from websites. [[REQ-24]] |
 
 ## 4. How we use it
 
@@ -92,7 +92,7 @@ OpenAI's and Perplexity's own documentation says data sent through their APIs is
 
 **Findable staff** can see customer data, including connected Google data, to run the service and give support. [[REQ-27]] Super Admins can use a read-only "view as client" mode for up to 60 minutes at a time, and each use is logged.
 
-**Overseas.** When a provider only stores or processes information for us, New Zealand law treats us as holding it and we stay responsible. A provider that uses information for its own purposes receives a disclosure, and we'll only make that disclosure where the Privacy Act allows it. [[LAWYER: confirm the IPP 12 analysis provider by provider, particularly AI providers and Stripe]]
+**Overseas.** When a provider only stores or processes information for us, New Zealand law treats us as holding it and we stay responsible. A provider that uses information for its own purposes receives a disclosure, and we'll only make that disclosure where the Privacy Act allows it.
 
 ## 6. Google data
 
@@ -103,19 +103,20 @@ This section applies only if your business connects Google Analytics or Search C
 - **What we use it for.** Only to show your business's performance in Findable reports and recommendations.
 - **What we don't do.** We don't sell Google data, use it for advertising, use it to train AI models, or send it to AI providers.
 - **Who sees it.** Your users, and Findable staff where needed to run the service or give support.
-- **Disconnecting.** You can disconnect at any time. That deletes our stored credential, stops imports and removes Findable's access in your Google account. [[REQ-12]]
-- **Deleting imported data.** Imported data is deleted 30 days after you disconnect, or sooner if you ask. Deleting it removes the imported rows and the copies in reports and recommendations. [[REQ-12]]
+- **Disconnecting.** Someone authorised at your business, or Findable staff, can disconnect Google Analytics or Search Console at any time. That deletes the Google credential we hold for your business and stops imports. If the same Google account is also connected to Findable for another business, or for your other Google service, that connection carries on: disconnecting removes your business's access only. When the last Findable connection using a Google account is disconnected, we ask Google to remove Findable's access to that account. You can also remove Findable at any time in your Google account's security settings. [[REQ-12]]
+- **Deleting imported data.** We delete the data we imported from Google 30 days after you disconnect, or sooner if you ask. [[REQ-12]]
+- **Reports already created.** Findable reports record the figures they showed when they were created, so they stay an accurate record of what was reported. This includes Google figures such as Search Console totals, top searches and Google Analytics traffic comparisons. Deleting imported Google data doesn't change reports that were already created. Those reports are kept for as long as your other Findable data (section 7). If you want a report deleted, ask us.
 
 Findable's use of information received from Google APIs follows the [Google API Services User Data Policy](https://developers.google.com/terms/api-services-user-data-policy), including its Limited Use requirements.
 
 ## 7. How long we keep it
 
-We delete information automatically at the end of these periods. [[REQ-9]]
+These are the longest periods we keep each kind of information. Imported Google data is deleted automatically (section 6). For everything else, deletion at the end of each period isn't automatic yet: we delete it when you ask us to (section 8), and we're working towards automatic deletion. [[REQ-9]]
 
-| What | How long |
+| What | Longest we keep it |
 |---|---|
 | Account details | 1 year after the account closes |
-| Customer data, including reports, AI answers and imported data | 90 days after the subscription ends |
+| Customer data, including reports (including Google figures recorded in reports), AI answers and imported data | 90 days after the subscription ends |
 | Website pages collected for an assessment | 90 days. We keep the assessment results. |
 | Security records: IP addresses, sign-in attempts, rate-limit records | 90 days |
 | Audit log | 2 years. Names are removed when a user is deleted. |
@@ -161,6 +162,7 @@ We'll update this policy when our practices change, and tell you by email if a c
 
 | Version | Date | Change |
 |---|---|---|
+| 0.5-draft | 19 Nov 2026 | Approved by the lawyer. Lawyer questions removed. Still not in force until published |
 | 0.4-draft | 9 Nov 2026 | Founder's answers: retention periods, every report reviewed, provider locations, Anthropic and Gemini removed (not used in Production), Stripe removed until live, provider list page, contact details for website people not kept, security contact. |
 | 0.3-draft | 9 Nov 2026 | Entity and privacy officer named. Address kept off the page; contact address placeholder. |
 | 0.2-draft | 9 Nov 2026 | Rechecked against `main` at `10432ae`. Entity and privacy contact updated. Covers the free check. New section 3 (IPP 3A). Providers: Netlify, optional Anthropic and Gemini. Google built but off; revocation and copies flagged. Retention suggestions. Cookie notice folded in. |

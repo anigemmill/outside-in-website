@@ -1,9 +1,9 @@
 # Findable Consumer Terms of Service
 
 > **DRAFT 0.1. Not in force. Not published. For legal review.**
-> For people who buy Findable for personal, domestic or household use. Confirmed 9 Nov 2026: Findable will sell to individuals. Business customers get the [Business Terms of Service](01-business-terms-of-service.md). [[LAWYER: how sign-up should tell the two apart, and whether an individual buying for a business they run is a consumer (CGA s 2); see 09 §1]]
+> For people who buy Findable for personal, domestic or household use. Confirmed 9 Nov 2026: Findable will sell to individuals. Business customers get the [Business Terms of Service](01-business-terms-of-service.md).
 
-**Version:** 0.3-draft · **Effective:** Not in force
+**Version:** 0.4-draft · **Effective:** Not in force
 
 ## 1. Who we are
 
@@ -27,7 +27,7 @@ What your plan includes, and its price, is shown at [theoutsidein.nz/findable/pr
 
 Prices are in New Zealand dollars. We aren't registered for GST, so no GST is charged. If we register, the price you pay won't go up without the notice in this clause. You pay in advance, by invoice. We'll tell you before we move to card payments.
 
-**Renewal.** A monthly plan renews each month, and an annual plan each year, until you cancel. We'll email you at least 30 days before an annual plan renews. [[LAWYER: Commerce Commission guidance on subscription renewal]]
+**Renewal.** A monthly plan renews each month, and an annual plan each year, until you cancel. We'll email you at least 30 days before an annual plan renews.
 
 **Price changes.** We'll give you at least 30 days' notice by email of a price increase. You can cancel before it takes effect, at no cost.
 
@@ -51,17 +51,17 @@ We own Findable, its methods and report formats. You can use your reports for yo
 
 ## 8. Changes to these Terms
 
-If we make a change that disadvantages you, we'll give you at least 30 days' notice by email, and you can cancel before it takes effect at no cost, with a refund of anything you've paid for the period after. We won't treat your silence as agreement. [[LAWYER: unfair contract terms, FTA s 26A; see 09 §2]]
+If we make a change that disadvantages you, we'll give you at least 30 days' notice by email, and you can cancel before it takes effect at no cost, with a refund of anything you've paid for the period after. We won't treat your silence as agreement.
 
 ## 9. Suspending or ending your account
 
-We can suspend or end your account if you seriously or repeatedly break these Terms or the Acceptable Use Policy, if payment fails and isn't fixed after we've told you, or if it's needed to protect the service or meet a legal obligation. We'll tell you first where we reasonably can, explain why, and refund anything paid for a period you won't receive. [[LAWYER: UCT fairness]]
+We can suspend or end your account if you seriously or repeatedly break these Terms or the Acceptable Use Policy, if payment fails and isn't fixed after we've told you, or if it's needed to protect the service or meet a legal obligation. We'll tell you first where we reasonably can, explain why, and refund anything paid for a period you won't receive.
 
 When your account ends, your information is handled as the Privacy Policy explains. Ask us for a copy before it ends, and we'll send it. [[REQ-8]]
 
 ## 10. Our responsibility
 
-We're responsible for loss you suffer that's a reasonably foreseeable result of our breaching these Terms or failing to use reasonable care and skill. We aren't responsible for loss that wasn't reasonably foreseeable, or that's caused by a provider's outage we couldn't reasonably have avoided. **This clause doesn't limit your rights under the Consumer Guarantees Act or the Fair Trading Act.** [[LAWYER: whether any cap is appropriate at all in consumer terms; none is drafted]]
+We're responsible for loss you suffer that's a reasonably foreseeable result of our breaching these Terms or failing to use reasonable care and skill. We aren't responsible for loss that wasn't reasonably foreseeable, or that's caused by a provider's outage we couldn't reasonably have avoided. **This clause doesn't limit your rights under the Consumer Guarantees Act or the Fair Trading Act.**
 
 ## 11. Problems and complaints
 
@@ -75,6 +75,7 @@ New Zealand law applies. If a clause is unenforceable, the rest continues.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.4-draft | 19 Nov 2026 | Approved by the lawyer. Lawyer questions removed. Still not in force until published |
 | 0.3-draft | 9 Nov 2026 | Founder's answers: pricing page, invoices, monthly and annual plans, 30-day notices, every report reviewed, cancel by email, refund of the month for an undelivered analysis, copy on request. |
 | 0.2-draft | 9 Nov 2026 | Entity named. Selling to individuals confirmed. GST: not registered. |
 | 0.1-draft | 9 Nov 2026 | First draft, split from the Terms of Service for consumer customers |

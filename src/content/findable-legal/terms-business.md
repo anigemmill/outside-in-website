@@ -3,7 +3,7 @@
 > **DRAFT 0.2. Not in force. Not published. For legal review.**
 > For business customers. People buying Findable for personal, domestic or household use get the [Consumer Terms of Service](01b-consumer-terms-of-service.md) instead. Pilot businesses also accept the [Pilot Programme Terms](12-pilot-programme-terms.md).
 
-**Version:** 0.4-draft · **Effective:** Not in force · **Applies to:** Starter, Growth and Pro plans, and Enterprise and Pilot unless a signed agreement says otherwise.
+**Version:** 0.5-draft · **Effective:** Not in force · **Applies to:** Starter, Growth and Pro plans, and Enterprise and Pilot unless a signed agreement says otherwise.
 
 ## 1. Who we are and what this is
 
@@ -36,9 +36,9 @@ We may change which AI engines and data sources are available, because providers
 
 ## 3. Business use only
 
-These Terms are for businesses. You confirm that you are in trade and are buying Findable for the purposes of your business, not for personal, domestic or household use. If that isn't right, tell us before you accept: the Consumer Terms of Service apply instead, and this clause doesn't. [[LAWYER: whether any Findable customer can be a CGA consumer at all, given CGA s 2 "consumer"; see 09 §1]]
+These Terms are for businesses. You confirm that you are in trade and are buying Findable for the purposes of your business, not for personal, domestic or household use. If that isn't right, tell us before you accept: the Consumer Terms of Service apply instead, and this clause doesn't.
 
-**Consumer Guarantees Act.** You and we are both in trade, and we agree that the Consumer Guarantees Act 1993 doesn't apply to anything supplied under these Terms. We both agree that this is fair and reasonable, given that Findable is a business service supplied to businesses. [[REQ-4]] [[LAWYER: whether this holds for a small operator on standard terms, given s 43(2A); see 09 §1]]
+**Consumer Guarantees Act.** You and we are both in trade, and we agree that the Consumer Guarantees Act 1993 doesn't apply to anything supplied under these Terms. We both agree that this is fair and reasonable, given that Findable is a business service supplied to businesses. [[REQ-4]]
 
 **Your other rights stay.** Nothing in these Terms limits any right you have that can't legally be limited, including under the Fair Trading Act 1986 and the Contract and Commercial Law Act 2017.
 
@@ -92,7 +92,7 @@ We'll still provide Findable with reasonable care and skill. Nothing in this cla
 
 We own Findable: the software, methods, question templates, scoring and report formats.
 
-**Reports.** You can use the reports and recommendations we give you in your own business, and share them with your staff, advisers and contractors. You can publish your own results if you describe them accurately. You can't resell or republish them as a data product. [[LAWYER: ownership of AI output and third-party snippets; see 09 §5]]
+**Reports.** You can use the reports and recommendations we give you in your own business, and share them with your staff, advisers and contractors. You can publish your own results if you describe them accurately. You can't resell or republish them as a data product.
 
 Some outputs contain third-party material, such as provider answers, quoted page text and links. Those third parties keep their rights.
 
@@ -114,7 +114,7 @@ We can make a change sooner, with as much notice as we reasonably can, if it's n
 
 Small changes that don't disadvantage you, such as corrections or added features, can take effect by updating the document.
 
-**We won't treat your silence as agreement to a material change** in a way that takes away your right to cancel. [[LAWYER: confirm mechanism; see REQ-3 re fresh acceptance]]
+**We won't treat your silence as agreement to a material change** in a way that takes away your right to cancel.
 
 ## 12. Suspension
 
@@ -145,9 +145,9 @@ Clauses that are meant to continue, including 6, 9, 10, 14 and 16, continue.
 
 **What we don't limit.** Nothing in these Terms limits liability for fraud or wilful misconduct, or any liability that can't legally be limited.
 
-**Cap.** Apart from that, and your obligation to pay fees, each party's total liability to the other for all claims under or in connection with this contract, in any 12-month period, whether in contract, tort (including negligence), equity or otherwise, is limited to the fees you paid or owed for that period. [[LAWYER: founder's choice for now; revisit a fixed minimum amount and a separate data-breach cap once insurance is in place]]
+**Cap.** Apart from that, and your obligation to pay fees, each party's total liability to the other for all claims under or in connection with this contract, in any 12-month period, whether in contract, tort (including negligence), equity or otherwise, is limited to the fees you paid or owed for that period.
 
-**Indirect loss.** Neither of us is liable for loss that wasn't reasonably foreseeable when the contract was made, or that the other could reasonably have avoided. We aren't liable for a decision you make from a report, or for lost bookings, revenue or profit, unless caused by our breach of these Terms or our negligence, and then subject to the cap. [[LAWYER: UCT review. The cap applies mutually and doesn't exclude liability for fault outright. The Commission's guide flags caps tied to contract value; see 09 §2. Consider what legitimate interest is relied on]]
+**Indirect loss.** Neither of us is liable for loss that wasn't reasonably foreseeable when the contract was made, or that the other could reasonably have avoided. We aren't liable for a decision you make from a report, or for lost bookings, revenue or profit, unless caused by our breach of these Terms or our negligence, and then subject to the cap.
 
 **Third parties.** We're not liable for an outage or error in a third-party service, unless we caused it or failed to take reasonable care in choosing or using it.
 
@@ -166,7 +166,7 @@ None of this stops you or us seeking urgent court relief, going to the Disputes 
 - **Events outside our control.** Neither of us is liable for delay or failure caused by something outside reasonable control, including a provider outage. You can cancel without cost if it lasts more than 30 days. Payment obligations for periods you've received the service aren't excused.
 - **Transfer.** You can transfer this contract with our agreement, which we won't unreasonably refuse. We can transfer it to a business taking over Findable, and we'll tell you. You can cancel if you object.
 - **Suppliers.** We use subcontractors and providers and remain responsible for what we've agreed to do.
-- **Whole agreement.** These Terms are the whole agreement about Findable. They replace earlier discussions, but this doesn't affect liability for fraud, or anything the Contract and Commercial Law Act 2017 doesn't let us exclude. [[LAWYER: CCLA s 50]]
+- **Whole agreement.** These Terms are the whole agreement about Findable. They replace earlier discussions, but this doesn't affect liability for fraud, or anything the Contract and Commercial Law Act 2017 doesn't let us exclude.
 - **Severance.** If a clause is unenforceable, the rest continues.
 - **Waiver.** Not enforcing a right now doesn't give it up.
 
@@ -174,6 +174,7 @@ None of this stops you or us seeking urgent court relief, going to the Disputes 
 
 | Version | Date | Change |
 |---|---|---|
+| 0.5-draft | 19 Nov 2026 | Approved by the lawyer. Lawyer questions removed. Still not in force until published |
 | 0.4-draft | 9 Nov 2026 | Founder's answers: pricing page, invoices, 30/14/10/30-day periods, every report reviewed, cancel by email, export on request, Google data deleted 30 days after disconnecting, cap set to fees paid. |
 | 0.3-draft | 9 Nov 2026 | Entity named (The Outside In Limited, NZBN). GST: not registered. Address kept off the page; contact address placeholder. |
 | 0.2-draft | 9 Nov 2026 | Renamed Business Terms; Consumer Terms and Pilot Programme Terms split out. Entity details, notices email, GST conflict, staff access, automatic report sharing and staff-only cancellation flagged. |

@@ -64,7 +64,7 @@ We don't sell personal information. We don't use it, or customer data, to train 
 
 **Marketing email.** We don't send any today. If we do, it'll be only with your consent, it'll say who it's from, and every message will have a working unsubscribe that we act on within 5 working days, as the Unsolicited Electronic Messages Act 2007 requires.
 
-**Automated reports.** Findable's analyses and recommendations are about businesses, not individuals. We don't use them to make decisions about a person. A member of our staff checks every report before a business sees it. [[REQ-16]]
+**Automated reports.** Findable's analyses and recommendations are about businesses, not individuals. We don't use them to make decisions about a person. A member of our staff reviews a business's first report before the business sees it. After that, later reports can be shared automatically once an earlier report has been reviewed. Staff still check them and can withdraw a report at any time.
 
 ## 5. Who we share it with
 
@@ -103,8 +103,8 @@ This section applies only if your business connects Google Analytics or Search C
 - **What we use it for.** Only to show your business's performance in Findable reports and recommendations.
 - **What we don't do.** We don't sell Google data, use it for advertising, use it to train AI models, or send it to AI providers.
 - **Who sees it.** Your users, and Findable staff where needed to run the service or give support.
-- **Disconnecting.** You can disconnect at any time. That deletes our stored credential, stops imports and removes Findable's access in your Google account. [[REQ-12]]
-- **Deleting imported data.** Imported data is deleted 30 days after you disconnect, or sooner if you ask. Deleting it removes the imported rows and the copies in reports and recommendations. [[REQ-12]]
+- **Disconnecting.** You can disconnect at any time. That deletes our stored credential and stops imports. You may also need to remove Findable in your Google account: we'll tell you.
+- **Deleting imported data.** Imported data is deleted 30 days after you disconnect, or sooner if you ask. Deleting it removes the imported rows. Reports already made keep the figures they showed when they were made.
 
 Findable's use of information received from Google APIs follows the [Google API Services User Data Policy](https://developers.google.com/terms/api-services-user-data-policy), including its Limited Use requirements.
 

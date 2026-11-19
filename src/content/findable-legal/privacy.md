@@ -64,7 +64,7 @@ We don't sell personal information. We don't use it, or customer data, to train 
 
 **Marketing email.** We don't send any today. If we do, it'll be only with your consent, it'll say who it's from, and every message will have a working unsubscribe that we act on within 5 working days, as the Unsolicited Electronic Messages Act 2007 requires.
 
-**Automated reports.** Findable's analyses and recommendations are about businesses, not individuals. We don't use them to make decisions about a person. A member of our staff reviews a business's first report before the business sees it. After that, later reports can be shared automatically once an earlier report has been reviewed. Staff still check them and can withdraw a report at any time.
+**Automated reports.** Findable's analyses and recommendations are about businesses, not individuals. We don't use them to make decisions about a person. Reports are shared with the business automatically as soon as they're ready. Our staff check them and can withdraw a report at any time.
 
 ## 5. Who we share it with
 

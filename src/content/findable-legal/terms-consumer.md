@@ -21,7 +21,7 @@ Findable checks how AI assistants and search engines describe a business, and gi
 
 What your plan includes, and its price, is shown at [theoutsidein.nz/findable/pricing/](https://theoutsidein.nz/findable/pricing/) when you buy it. [[REQ-14]]
 
-**AI answers can be wrong.** Our reports show what AI tools said at the time we asked. Those answers can be incomplete, out of date or inaccurate, and they change. We don't promise any search ranking, AI mention, traffic or bookings. A member of our staff reviews your first report before you see it. Later reports can be shared automatically once an earlier one has been reviewed.
+**AI answers can be wrong.** Our reports show what AI tools said at the time we asked. Those answers can be incomplete, out of date or inaccurate, and they change. We don't promise any search ranking, AI mention, traffic or bookings. Your reports are shared with you automatically as soon as they're ready. Our staff check them and can withdraw a report at any time.
 
 ## 4. Price and paying
 

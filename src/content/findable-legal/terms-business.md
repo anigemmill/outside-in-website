@@ -66,7 +66,7 @@ Prices are in New Zealand dollars, per business, per month or per year depending
 
 **You're responsible for what you give us.** You confirm you have the right to provide Your Data, and to connect each account you connect. Don't put sensitive personal information into Findable. See the [Acceptable Use Policy](05-acceptable-use-policy.md).
 
-**Staff access.** Our staff can see Your Data, including data imported from connected sources, where needed to run your analyses, prepare and review your reports, give support, keep the service secure, or meet a legal obligation. When staff view your portal as you see it, that view is read-only and logged.
+**Staff access.** Our staff can see Your Data, including data imported from connected sources, where needed to run your analyses, prepare and review your reports, give support, keep the service secure, or meet a legal obligation. When staff view your portal as you see it, that view is read-only and logged. The one exception: they can start a report for you from that view, which uses one of your plan's reports for the month and is also logged.
 
 **Personal information.** Where Your Data includes personal information, the [Data Processing Agreement](06-data-processing-agreement.md) applies.
 
@@ -84,7 +84,7 @@ Findable's outputs are generated in part by third-party AI systems, and may be i
 
 We don't guarantee search rankings, AI citations, traffic, bookings, revenue or visibility.
 
-A member of our staff reviews your first report before it's shared with you. After that, later reports can be shared automatically once an earlier report has been reviewed; staff still check them and can withdraw a report at any time. You're responsible for reviewing outputs before acting on or publishing them. The [AI, Data and Report Disclaimer](04-ai-data-report-disclaimer.md) gives the detail.
+Your reports are shared with you automatically as soon as they're ready. Our staff check them and can withdraw a report at any time. You're responsible for reviewing outputs before acting on or publishing them. The [AI, Data and Report Disclaimer](04-ai-data-report-disclaimer.md) gives the detail.
 
 We'll still provide Findable with reasonable care and skill. Nothing in this clause lets us avoid responsibility for our own failure to do that.
 

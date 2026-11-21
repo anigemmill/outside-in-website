@@ -144,6 +144,10 @@ Findable is Outside In's own tourism product. The app lives in a separate repo a
 
 Sign in links point at the Vercel address until `app.theoutsidein.nz` is live, then switch `findableAppUrl`.
 
+## Reeldeal at /reeldeal
+
+Reeldeal (Outside In's AI video studio) is a separate Next.js app in `anigemmill/reeldeal`, on Vercel. `netlify.toml` proxies `/reeldeal` and `/reeldeal/*` to `https://reeldeal.theoutsidein.nz/reeldeal/…` (status 200, so visitors stay on theoutsidein.nz). Reeldeal is built with `basePath: /reeldeal` to match. `robots.txt.ts` lists Reeldeal's sitemap and keeps its app and sign-in pages out of search. Background and steps: `docs/launch-domain.md` in the Reeldeal repo.
+
 ## SEO and launch
 
 - Canonical URLs, Open Graph, sitemap, robots.txt and Organization schema all use theoutsidein.nz.

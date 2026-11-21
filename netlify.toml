@@ -75,6 +75,22 @@
   to = "/services/"
   status = 301
 
+# Reeldeal (AI video studio) lives at /reeldeal. Netlify proxies it to the
+# Reeldeal Vercel project, which runs under the same /reeldeal path, so
+# visitors stay on theoutsidein.nz. Steps and background: docs/launch-domain.md
+# in anigemmill/reeldeal.
+[[redirects]]
+  from = "/reeldeal"
+  to = "https://reeldeal.theoutsidein.nz/reeldeal"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/reeldeal/*"
+  to = "https://reeldeal.theoutsidein.nz/reeldeal/:splat"
+  status = 200
+  force = true
+
 # Send www and the default Netlify address to the main domain.
 [[redirects]]
   from = "https://www.theoutsidein.nz/*"

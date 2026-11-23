@@ -142,7 +142,7 @@ Findable is Outside In's own tourism product. The app lives in a separate repo a
 - Contact: anigemmill@theoutsidein.nz, reply within two working days (confirmed).
 - Still open: which AI assistants the check names (the pricing page says "every AI assistant Findable currently checks" and names none), and whether the competitor and recommendation levels will differ in the product.
 
-Sign in links point at the Vercel address until `app.theoutsidein.nz` is live, then switch `findableAppUrl`.
+Sign in links go to `https://app.theoutsidein.nz` (`findableAppUrl`, overridable with `PUBLIC_FINDABLE_APP_URL`). The app is live there (sign-in page checked 23 Nov 2026).
 
 ## Reeldeal at /reeldeal
 

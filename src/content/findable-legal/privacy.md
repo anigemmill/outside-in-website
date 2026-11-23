@@ -1,9 +1,9 @@
 # Findable Privacy Policy
 
-> **DRAFT 0.4. Not in force. Not published. For legal review.**
-> Checked against `main` at `10432ae` (9 Nov 2026). Google connections are built and merged but switched off for every business: keep section 6 only if they're on when this is published.
+> **DRAFT 0.5. Not in force. Not published. For legal review.**
+> Checked against `main` at `10432ae` (9 Nov 2026), and for the Instagram and Facebook connection at `859ecbe` (22 Nov 2026). Google and Instagram/Facebook connections are built but switched off for every business: keep sections 6 and 7 only if they're on when this is published.
 
-**Version:** 0.4-draft · **Effective:** Not in force
+**Version:** 0.5-draft · **Effective:** Not in force
 
 This policy explains how The Outside In Limited (NZBN 9429048708357), a New Zealand company trading as The Outside In and Findable ("we"), handles personal information under the Privacy Act 2020.
 
@@ -33,6 +33,7 @@ It covers the Findable app, the Findable free check and contact forms on theouts
 | Messages to us | You | Help you, and keep a record |
 | Website pages | Your business's public website | Website assessment. We keep only the text the assessment needs, without email addresses or phone numbers. [[REQ-24]] |
 | Search queries and page data from Search Console; traffic totals from Google Analytics | Google, if your business connects it | Show your business's performance. See section 6. |
+| Followers, your business's posts and their likes, comments, shares and reach; posts others tagged your Instagram account in, with their username | Meta (Facebook and Instagram), if your business connects it | Show your business's social media performance. See section 7. |
 | AI answers and search results | AI and search providers | Measure how your business appears. These can mention people by name, such as owners, guides or reviewers, and can be wrong about them. |
 
 If you don't give us your name and email you can't have an account. If a business doesn't give consent, we can't run analyses or website assessments for it. [[REQ-24]]
@@ -82,17 +83,18 @@ These providers help us run Findable. Most are outside New Zealand.
 | Google | AI answers (Gemini) | The question | US and elsewhere |
 | SerpApi | Google search results, including AI Overviews | The question and an approximate location | United States |
 | Google | Analytics and Search Console, only if your business connects them | Read-only access to the connected account | US and elsewhere |
+| Meta | Facebook and Instagram, only if your business connects them | Read-only access to the connected Facebook Page and its linked Instagram account | US and elsewhere |
 
 The current list is at [theoutsidein.nz/findable/subprocessors/](https://theoutsidein.nz/findable/subprocessors/). We'll update it before we add a provider.
 
-**What goes to AI and search providers is limited.** We send the traveller question being tested (at most 300 characters), such as "best geothermal attractions in Rotorua", and a general New Zealand location. Questions can name your business or a competitor. We don't send your users' details, your Google data, your uploads or your reports.
+**What goes to AI and search providers is limited.** We send the traveller question being tested (at most 300 characters), such as "best geothermal attractions in Rotorua", and a general New Zealand location. Questions can name your business or a competitor. We don't send your users' details, your Google or Meta data, your uploads or your reports.
 
 **Whether they keep or train on it.**
 OpenAI's, Perplexity's and Anthropic's own documentation says data sent through their APIs isn't used to train their models unless the account chooses to share it, and we haven't. Google's terms for the Gemini API say the same for paid use, which is how we use it. [[CONFIRM: the Gemini API key is on a paid (billing-enabled) Google Cloud project. Google may use free-tier requests to improve its products.]] We ask OpenAI not to store our requests, but OpenAI may still keep them for up to 30 days to check for misuse. Perplexity keeps usage records, such as when a request was made and how large it was. SerpApi is a search data service, not an AI model. These statements are the providers' own, and could change.
 
 **We may also share personal information** with professional advisers; with a buyer of the business, under a duty of confidence; with your own business's users, within your account; and where the law requires.
 
-**Findable staff** can see customer data, including connected Google data, to run the service and give support. [[REQ-27]] Super Admins can use a read-only "view as client" mode for up to 60 minutes at a time, and each use is logged.
+**Findable staff** can see customer data, including connected Google and Meta data, to run the service and give support. [[REQ-27]] Super Admins can use a read-only "view as client" mode for up to 60 minutes at a time, and each use is logged.
 
 **Overseas.** When a provider only stores or processes information for us, New Zealand law treats us as holding it and we stay responsible. A provider that uses information for its own purposes receives a disclosure, and we'll only make that disclosure where the Privacy Act allows it. [[LAWYER: confirm the IPP 12 analysis provider by provider, particularly AI providers and Stripe]]
 
@@ -110,7 +112,20 @@ This section applies only if your business connects Google Analytics or Search C
 
 Findable's use of information received from Google APIs follows the [Google API Services User Data Policy](https://developers.google.com/terms/api-services-user-data-policy), including its Limited Use requirements.
 
-## 7. How long we keep it
+## 7. Instagram and Facebook data
+
+This section applies only if your business connects its Facebook Pages and Instagram accounts.
+
+- **Access.** Read-only. Someone authorised at your business connects through Facebook and chooses which of the business's Facebook Pages to connect (up to 10); the Instagram professional account linked to each Page comes with it. If the Pages belong to a Meta business portfolio, Facebook also asks for permission to see the business's assets, which we use only to find the Pages. It's optional.
+- **What we import.** Follower counts each day. Your business's own posts from the last 90 days: the first 500 characters of the caption, when it was posted, its address, and its likes (reactions on Facebook), comments, shares and, for Instagram, reach. If Findable has switched it on, posts other people tagged your Instagram account in, with their username. No information about the people who liked or commented.
+- **Competitors' Instagram.** Your Findable team can follow up to 10 competitors' Instagram Business or Creator accounts. We read their public figures through your connected Instagram account, using Meta's Business Discovery: followers, number of posts, and their recent posts with likes and comments. These are other businesses' public accounts; we don't read anything about the people who follow, like or comment.
+- **What we use it for.** Only to show your business's social media performance in Findable, next to its AI visibility and its competitors, and to measure actions.
+- **What we don't do.** We don't post, comment, message or change anything on Facebook or Instagram. We don't sell Meta data, use it for advertising, use it to train AI models, or send it to AI providers.
+- **Who sees it.** Your users, and Findable staff where needed to run the service or give support.
+- **Disconnecting.** You can disconnect at any time in the Findable portal (Instagram & Facebook). That deletes our stored access straight away and stops imports. To remove Findable from Facebook too, go to Facebook Settings, then Business integrations.
+- **Deleting imported data.** Imported data is deleted 30 days after you disconnect. To have it deleted sooner, choose "Delete imported data now" in the portal after disconnecting, or email anigemmill@theoutsidein.nz. We'll confirm when it's done.
+
+## 8. How long we keep it
 
 We delete information automatically at the end of these periods. [[REQ-9]]
 
@@ -119,6 +134,7 @@ We delete information automatically at the end of these periods. [[REQ-9]]
 | Account details | 1 year after the account closes |
 | Customer data, including reports, AI answers and imported data | 90 days after the subscription ends |
 | Website pages collected for an assessment | 90 days. We keep the assessment results. |
+| Imported Instagram and Facebook data | 30 days after your business disconnects, or sooner on request. Posts older than about 13 months are removed at each import. A Page you stop connecting, or a competitor account you stop following, has its data deleted straight away. |
 | Security records: IP addresses, sign-in attempts, rate-limit records | 90 days |
 | Audit log | 2 years. Names are removed when a user is deleted. |
 | Free check and contact form requests | 1 year |
@@ -126,7 +142,7 @@ We delete information automatically at the end of these periods. [[REQ-9]]
 | Consent records | While we rely on them, then 2 years |
 | Backups | Deleted data can stay in backups for up to 7 days, until they expire |
 
-## 8. Your rights
+## 9. Your rights
 
 You can ask for the personal information we hold about you, and ask us to correct it. Email the privacy officer. We'll respond as soon as we reasonably can and within 20 working days. We may need to confirm who you are.
 
@@ -138,13 +154,13 @@ You can change your password and sign out devices yourself. To change your name 
 
 **Complaints.** Tell our privacy officer first. If you're not happy with the result, you can complain to the [Privacy Commissioner](https://www.privacy.org.nz).
 
-## 9. Security
+## 10. Security
 
-We use technical and organisational measures to protect information, including hashed passwords and session tokens, encrypted Google credentials, encrypted connections, access limited by role, separated customer data, and logging of sensitive actions. [[REQ-25]] No system is perfectly secure. Report a security concern to anigemmill@theoutsidein.nz.
+We use technical and organisational measures to protect information, including hashed passwords and session tokens, encrypted Google and Meta credentials, encrypted connections, access limited by role, separated customer data, and logging of sensitive actions. [[REQ-25]] No system is perfectly secure. Report a security concern to anigemmill@theoutsidein.nz.
 
 If a privacy breach is likely to cause serious harm, we'll tell the Privacy Commissioner and the people affected as soon as practicable, as the Privacy Act requires.
 
-## 10. Cookies
+## 11. Cookies
 
 The Findable app uses only the cookies it needs to work. It has no analytics or advertising trackers.
 
@@ -152,10 +168,11 @@ The Findable app uses only the cookies it needs to work. It has no analytics or 
 |---|---|---|
 | `gos_session` | Keeps you signed in | Up to 14 days, or until you sign out |
 | `findable_google_oauth` | Links a Google connection to your session while you connect | 10 minutes |
+| `findable_meta_oauth` | Links an Instagram and Facebook connection to your session while you connect | 10 minutes |
 
 You can't turn these off and use the app, because you couldn't sign in. You can clear them in your browser. They aren't used for advertising or shared with anyone. If your business connects Google Analytics, we import its traffic totals; that adds nothing to the Findable app or your website. The theoutsidein.nz website uses no advertising or analytics cookies.
 
-## 11. Changes
+## 12. Changes
 
 We'll update this policy when our practices change, and tell you by email if a change is significant.
 
@@ -163,6 +180,8 @@ We'll update this policy when our practices change, and tell you by email if a c
 
 | Version | Date | Change |
 |---|---|---|
+| 0.5-draft | 23 Nov 2026 | Several Pages per business, competitors' public Instagram accounts (Business Discovery), and the business portfolio permission. |
+| 0.5-draft | 22 Nov 2026 | Instagram and Facebook connection (built, off for every business): what's collected, new section 7 with disconnecting and deletion, Meta added to providers, retention and cookies. Later sections renumbered. |
 | 0.4-draft | 9 Nov 2026 | Founder's answers: retention periods, every report reviewed, provider locations, Anthropic and Gemini removed (not used in Production), Stripe removed until live, provider list page, contact details for website people not kept, security contact. |
 | 0.3-draft | 9 Nov 2026 | Entity and privacy officer named. Address kept off the page; contact address placeholder. |
 | 0.2-draft | 9 Nov 2026 | Rechecked against `main` at `10432ae`. Entity and privacy contact updated. Covers the free check. New section 3 (IPP 3A). Providers: Netlify, optional Anthropic and Gemini. Google built but off; revocation and copies flagged. Retention suggestions. Cookie notice folded in. |

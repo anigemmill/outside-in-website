@@ -1,9 +1,9 @@
 # Findable Privacy Policy
 
-> **DRAFT 0.4. Not in force. Not published. For legal review.**
+> **DRAFT 0.5. Not in force. Not published. For legal review.**
 > Checked against `main` at `10432ae` (9 Nov 2026). Google connections are built and merged but switched off for every business: keep section 6 only if they're on when this is published.
 
-**Version:** 0.4-draft · **Effective:** Not in force
+**Version:** 0.5-draft · **Effective:** Not in force
 
 This policy explains how The Outside In Limited (NZBN 9429048708357), a New Zealand company trading as The Outside In and Findable ("we"), handles personal information under the Privacy Act 2020.
 
@@ -31,11 +31,11 @@ It covers the Findable app, the Findable free check and contact forms on theouts
 | Free check and contact form details: name, email, business, website, region, message | You, through theoutsidein.nz | Run your free check, send your report, reply to you |
 | Billing contact and subscription details | You | Bill you. We don't see or store card numbers. |
 | Messages to us | You | Help you, and keep a record |
-| Website pages | Your business's public website | Website assessment. We keep only the text the assessment needs, without email addresses or phone numbers. [[REQ-24]] |
+| Website pages | Your business's public website | Website assessment. We keep only the text the assessment needs, without email addresses or phone numbers. |
 | Search queries and page data from Search Console; traffic totals from Google Analytics | Google, if your business connects it | Show your business's performance. See section 6. |
 | AI answers and search results | AI and search providers | Measure how your business appears. These can mention people by name, such as owners, guides or reviewers, and can be wrong about them. |
 
-If you don't give us your name and email you can't have an account. If a business doesn't give consent, we can't run analyses or website assessments for it. [[REQ-24]]
+If you don't give us your name and email you can't have an account. If a business doesn't give consent, we can't run analyses or website assessments for it.
 
 **Please don't put sensitive information into Findable.** That means health, ethnicity, religion, guest records or customer lists. It isn't needed. See the [Acceptable Use Policy](05-acceptable-use-policy.md).
 
@@ -45,10 +45,10 @@ Some personal information reaches us from someone other than the person it's abo
 
 | Who | What we get, and from whom | How we tell them |
 |---|---|---|
-| People invited to Findable | Name, email and role, from the business or our staff | In the invitation email, with a link to this policy [[REQ-15]] |
+| People invited to Findable | Name, email and role, from the business or our staff | In the invitation email, with a link to this policy |
 | A business's contact person | Name, email, phone, from the business, our staff or the business's website | The first time we contact them |
 | The person who gives consent for a business | Name, role, email, from the business | When consent is recorded |
-| People named on a business's website or in AI answers | Whatever the page or answer says | We don't keep their contact details from websites. [[REQ-24]] [[LAWYER: whether an exception covers names in AI answers]] |
+| People named on a business's website or in AI answers | Whatever the page or answer says | We don't keep their contact details from websites. [[LAWYER: whether an exception covers names in AI answers]] |
 
 ## 4. How we use it
 
@@ -92,7 +92,7 @@ OpenAI's, Perplexity's and Anthropic's own documentation says data sent through 
 
 **We may also share personal information** with professional advisers; with a buyer of the business, under a duty of confidence; with your own business's users, within your account; and where the law requires.
 
-**Findable staff** can see customer data, including connected Google data, to run the service and give support. [[REQ-27]] Super Admins can use a read-only "view as client" mode for up to 60 minutes at a time, and each use is logged.
+**Findable staff** can see customer data, including connected Google data, to run the service and give support. We're a small team, so staff can see every business's data, and they see it only for those reasons. Super Admins can use a read-only "view as client" mode for up to 60 minutes at a time, and each use is logged.
 
 **Overseas.** When a provider only stores or processes information for us, New Zealand law treats us as holding it and we stay responsible. A provider that uses information for its own purposes receives a disclosure, and we'll only make that disclosure where the Privacy Act allows it. [[LAWYER: confirm the IPP 12 analysis provider by provider, particularly AI providers and Stripe]]
 
@@ -112,7 +112,7 @@ Findable's use of information received from Google APIs follows the [Google API 
 
 ## 7. How long we keep it
 
-We delete information automatically at the end of these periods. [[REQ-9]]
+These are the longest we keep each kind of information. Automatic deletion isn't switched on yet: until it is, we delete information when you ask us to (section 8) and when we review our records.
 
 | What | How long |
 |---|---|
@@ -130,7 +130,7 @@ We delete information automatically at the end of these periods. [[REQ-9]]
 
 You can ask for the personal information we hold about you, and ask us to correct it. Email the privacy officer. We'll respond as soon as we reasonably can and within 20 working days. We may need to confirm who you are.
 
-You can ask us to delete your account or your free check request. We'll tell you if we need to keep anything, such as billing records or audit logs with your name removed. [[REQ-8]]
+You can ask us to delete your account or your free check request. We'll tell you if we need to keep anything, such as billing records or audit logs with your name removed.
 
 If the information is held for a business, such as a Search Console query containing your name, we'll usually refer you to that business, and help it respond.
 
@@ -140,7 +140,7 @@ You can change your password and sign out devices yourself. To change your name 
 
 ## 9. Security
 
-We use technical and organisational measures to protect information, including hashed passwords and session tokens, encrypted Google credentials, encrypted connections, access limited by role, separated customer data, and logging of sensitive actions. [[REQ-25]] No system is perfectly secure. Report a security concern to anigemmill@theoutsidein.nz.
+We use technical and organisational measures to protect information, including hashed passwords and session tokens, encrypted Google credentials, encrypted connections, access limited by role, separated customer data, and logging of sensitive actions. Staff can protect their accounts with two-factor sign-in. No system is perfectly secure. Report a security concern to anigemmill@theoutsidein.nz.
 
 If a privacy breach is likely to cause serious harm, we'll tell the Privacy Commissioner and the people affected as soon as practicable, as the Privacy Act requires.
 
@@ -163,6 +163,7 @@ We'll update this policy when our practices change, and tell you by email if a c
 
 | Version | Date | Change |
 |---|---|---|
+| 0.5-draft | 23 Nov 2026 | Matched to the app (23 Nov 2026): reports shared automatically; Claude and Gemini added; Google disconnect and report copies as built; staff can see every business; automatic deletion not yet on (deleted on request); optional two-factor for staff; invitation notice, website-check consent and contact redaction, and deletion on request now built. |
 | 0.4-draft | 9 Nov 2026 | Founder's answers: retention periods, every report reviewed, provider locations, Anthropic and Gemini removed (not used in Production), Stripe removed until live, provider list page, contact details for website people not kept, security contact. |
 | 0.3-draft | 9 Nov 2026 | Entity and privacy officer named. Address kept off the page; contact address placeholder. |
 | 0.2-draft | 9 Nov 2026 | Rechecked against `main` at `10432ae`. Entity and privacy contact updated. Covers the free check. New section 3 (IPP 3A). Providers: Netlify, optional Anthropic and Gemini. Google built but off; revocation and copies flagged. Retention suggestions. Cookie notice folded in. |

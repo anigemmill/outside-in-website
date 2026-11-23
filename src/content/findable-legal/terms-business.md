@@ -3,7 +3,7 @@
 > **DRAFT 0.2. Not in force. Not published. For legal review.**
 > For business customers. People buying Findable for personal, domestic or household use get the [Consumer Terms of Service](01b-consumer-terms-of-service.md) instead. Pilot businesses also accept the [Pilot Programme Terms](12-pilot-programme-terms.md).
 
-**Version:** 0.4-draft · **Effective:** Not in force · **Applies to:** Starter, Growth and Pro plans, and Enterprise and Pilot unless a signed agreement says otherwise.
+**Version:** 0.5-draft · **Effective:** Not in force · **Applies to:** Starter, Growth and Pro plans, and Enterprise and Pilot unless a signed agreement says otherwise.
 
 ## 1. Who we are and what this is
 
@@ -137,7 +137,7 @@ We'll tell you first where we reasonably can, keep any suspension to what's need
 
 **You** can end this contract the same way if we seriously breach it and don't fix the breach, and we'll refund fees paid in advance for the period after it ends.
 
-**After it ends** your right to use plan features stops. Your data is handled as the Privacy Policy and Data Processing Agreement describe. Before it ends you can ask us for a copy of your data, and we'll send it. [[REQ-8]]
+**After it ends** your right to use plan features stops. Your data is handled as the Privacy Policy and Data Processing Agreement describe. Before it ends you can ask us for a copy of your data, and we'll send it.
 
 Clauses that are meant to continue, including 6, 9, 10, 14 and 16, continue.
 
@@ -174,6 +174,7 @@ None of this stops you or us seeking urgent court relief, going to the Disputes 
 
 | Version | Date | Change |
 |---|---|---|
+| 0.5-draft | 23 Nov 2026 | Matched to the app (23 Nov 2026): reports shared automatically; staff access and Google wording as built; deletion on request now built. |
 | 0.4-draft | 9 Nov 2026 | Founder's answers: pricing page, invoices, 30/14/10/30-day periods, every report reviewed, cancel by email, export on request, Google data deleted 30 days after disconnecting, cap set to fees paid. |
 | 0.3-draft | 9 Nov 2026 | Entity named (The Outside In Limited, NZBN). GST: not registered. Address kept off the page; contact address placeholder. |
 | 0.2-draft | 9 Nov 2026 | Renamed Business Terms; Consumer Terms and Pilot Programme Terms split out. Entity details, notices email, GST conflict, staff access, automatic report sharing and staff-only cancellation flagged. |

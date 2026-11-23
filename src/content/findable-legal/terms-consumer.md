@@ -3,7 +3,7 @@
 > **DRAFT 0.1. Not in force. Not published. For legal review.**
 > For people who buy Findable for personal, domestic or household use. Confirmed 9 Nov 2026: Findable will sell to individuals. Business customers get the [Business Terms of Service](01-business-terms-of-service.md). [[LAWYER: how sign-up should tell the two apart, and whether an individual buying for a business they run is a consumer (CGA s 2); see 09 §1]]
 
-**Version:** 0.3-draft · **Effective:** Not in force
+**Version:** 0.4-draft · **Effective:** Not in force
 
 ## 1. Who we are
 
@@ -57,7 +57,7 @@ If we make a change that disadvantages you, we'll give you at least 30 days' not
 
 We can suspend or end your account if you seriously or repeatedly break these Terms or the Acceptable Use Policy, if payment fails and isn't fixed after we've told you, or if it's needed to protect the service or meet a legal obligation. We'll tell you first where we reasonably can, explain why, and refund anything paid for a period you won't receive. [[LAWYER: UCT fairness]]
 
-When your account ends, your information is handled as the Privacy Policy explains. Ask us for a copy before it ends, and we'll send it. [[REQ-8]]
+When your account ends, your information is handled as the Privacy Policy explains. Ask us for a copy before it ends, and we'll send it.
 
 ## 10. Our responsibility
 
@@ -75,6 +75,7 @@ New Zealand law applies. If a clause is unenforceable, the rest continues.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.4-draft | 23 Nov 2026 | Matched to the app (23 Nov 2026): reports shared automatically; copies and deletion on request now built. |
 | 0.3-draft | 9 Nov 2026 | Founder's answers: pricing page, invoices, monthly and annual plans, 30-day notices, every report reviewed, cancel by email, refund of the month for an undelivered analysis, copy on request. |
 | 0.2-draft | 9 Nov 2026 | Entity named. Selling to individuals confirmed. GST: not registered. |
 | 0.1-draft | 9 Nov 2026 | First draft, split from the Terms of Service for consumer customers |

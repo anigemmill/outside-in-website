@@ -78,6 +78,8 @@ These providers help us run Findable. Most are outside New Zealand.
 | Netlify | Website forms for the free check and contact | What you type in the form | United States |
 | OpenAI | AI answers | The question and an approximate New Zealand location | United States |
 | Perplexity | AI answers | The question and an approximate location | United States |
+| Anthropic | AI answers (Claude) | The question and an approximate location | United States |
+| Google | AI answers (Gemini) | The question | US and elsewhere |
 | SerpApi | Google search results, including AI Overviews | The question and an approximate location | United States |
 | Google | Analytics and Search Console, only if your business connects them | Read-only access to the connected account | US and elsewhere |
 
@@ -86,7 +88,7 @@ The current list is at [theoutsidein.nz/findable/subprocessors/](https://theouts
 **What goes to AI and search providers is limited.** We send the traveller question being tested (at most 300 characters), such as "best geothermal attractions in Rotorua", and a general New Zealand location. Questions can name your business or a competitor. We don't send your users' details, your Google data, your uploads or your reports.
 
 **Whether they keep or train on it.**
-OpenAI's and Perplexity's own documentation says data sent through their APIs isn't used to train their models unless the account chooses to share it, and we haven't. We ask OpenAI not to store our requests, but OpenAI may still keep them for up to 30 days to check for misuse. Perplexity keeps usage records, such as when a request was made and how large it was. SerpApi is a search data service, not an AI model. These statements are the providers' own, and could change.
+OpenAI's, Perplexity's and Anthropic's own documentation says data sent through their APIs isn't used to train their models unless the account chooses to share it, and we haven't. Google's terms for the Gemini API say the same for paid use, which is how we use it. [[CONFIRM: the Gemini API key is on a paid (billing-enabled) Google Cloud project. Google may use free-tier requests to improve its products.]] We ask OpenAI not to store our requests, but OpenAI may still keep them for up to 30 days to check for misuse. Perplexity keeps usage records, such as when a request was made and how large it was. SerpApi is a search data service, not an AI model. These statements are the providers' own, and could change.
 
 **We may also share personal information** with professional advisers; with a buyer of the business, under a duty of confidence; with your own business's users, within your account; and where the law requires.
 

@@ -112,11 +112,12 @@ Findable's use of information received from Google APIs follows the [Google API 
 
 ## 7. Instagram and Facebook data
 
-This section applies only if your business connects its Facebook Page and Instagram account.
+This section applies only if your business connects its Facebook Pages and Instagram accounts.
 
-- **Access.** Read-only. Someone authorised at your business connects through Facebook and chooses one Facebook Page; the Instagram professional account linked to that Page comes with it. It's optional.
+- **Access.** Read-only. Someone authorised at your business connects through Facebook and chooses which of the business's Facebook Pages to connect (up to 10); the Instagram professional account linked to each Page comes with it. If the Pages belong to a Meta business portfolio, Facebook also asks for permission to see the business's assets, which we use only to find the Pages. It's optional.
 - **What we import.** Follower counts each day. Your business's own posts from the last 90 days: the first 500 characters of the caption, when it was posted, its address, and its likes (reactions on Facebook), comments, shares and, for Instagram, reach. If Findable has switched it on, posts other people tagged your Instagram account in, with their username. No information about the people who liked or commented.
-- **What we use it for.** Only to show your business's social media performance in Findable, next to its AI visibility, and to measure actions.
+- **Competitors' Instagram.** Your Findable team can follow up to 10 competitors' Instagram Business or Creator accounts. We read their public figures through your connected Instagram account, using Meta's Business Discovery: followers, number of posts, and their recent posts with likes and comments. These are other businesses' public accounts; we don't read anything about the people who follow, like or comment.
+- **What we use it for.** Only to show your business's social media performance in Findable, next to its AI visibility and its competitors, and to measure actions.
 - **What we don't do.** We don't post, comment, message or change anything on Facebook or Instagram. We don't sell Meta data, use it for advertising, use it to train AI models, or send it to AI providers.
 - **Who sees it.** Your users, and Findable staff where needed to run the service or give support.
 - **Disconnecting.** You can disconnect at any time in the Findable portal (Instagram & Facebook). That deletes our stored access straight away and stops imports. To remove Findable from Facebook too, go to Facebook Settings, then Business integrations.
@@ -131,7 +132,7 @@ We delete information automatically at the end of these periods. [[REQ-9]]
 | Account details | 1 year after the account closes |
 | Customer data, including reports, AI answers and imported data | 90 days after the subscription ends |
 | Website pages collected for an assessment | 90 days. We keep the assessment results. |
-| Imported Instagram and Facebook data | 30 days after your business disconnects, or sooner on request. Posts older than about 13 months are removed at each import. |
+| Imported Instagram and Facebook data | 30 days after your business disconnects, or sooner on request. Posts older than about 13 months are removed at each import. A Page you stop connecting, or a competitor account you stop following, has its data deleted straight away. |
 | Security records: IP addresses, sign-in attempts, rate-limit records | 90 days |
 | Audit log | 2 years. Names are removed when a user is deleted. |
 | Free check and contact form requests | 1 year |
@@ -177,6 +178,7 @@ We'll update this policy when our practices change, and tell you by email if a c
 
 | Version | Date | Change |
 |---|---|---|
+| 0.5-draft | 23 Nov 2026 | Several Pages per business, competitors' public Instagram accounts (Business Discovery), and the business portfolio permission. |
 | 0.5-draft | 22 Nov 2026 | Instagram and Facebook connection (built, off for every business): what's collected, new section 7 with disconnecting and deletion, Meta added to providers, retention and cookies. Later sections renumbered. |
 | 0.4-draft | 9 Nov 2026 | Founder's answers: retention periods, every report reviewed, provider locations, Anthropic and Gemini removed (not used in Production), Stripe removed until live, provider list page, contact details for website people not kept, security contact. |
 | 0.3-draft | 9 Nov 2026 | Entity and privacy officer named. Address kept off the page; contact address placeholder. |
